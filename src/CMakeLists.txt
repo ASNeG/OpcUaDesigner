@@ -93,6 +93,21 @@ include(${OPCUASTACK_INSTALL_PREFIX}/usr/share/cmake/OpcUaStack${OPCUASTACK_VERS
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
 #
+# Qt5
+#
+# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+find_package(Qt5Widgets REQUIRED)
+message(STATUS "Qt5")
+message(STATUS "  Qt5Widgets definition: ${Qt5Widgets_DEFINITIONS}")
+message(STATUS "  Qt5Widgets includes: ${Qt5Widgets_INCLUDE_DIRS}")
+message(STATUS "  Qt5Widgets executable compiler flags: ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+message(STATUS "  Qt5Widgets libraries: ${Qt5Widgets_LIBRARIES}")
+
+
+# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+#
 # build subdirectories
 #
 # -----------------------------------------------------------------------------

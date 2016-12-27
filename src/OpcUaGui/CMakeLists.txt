@@ -5,11 +5,18 @@
 # 
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+
+add_definitions(
+    ${Qt5Widgets_DEFINITIONS}
+)
+
 include_directories(
     ${OPCUASTACK_INSTALL_PREFIX}/usr/include/OpcUaStack${OPCUASTACK_VERSION_MAJOR}
     ${PROJECT_SOURCE_DIR}
     ${Boost_INCLUDE_DIR}
     ${OPENSSL_INCLUDE_DIR}
+    ${Qt5Widgets_INCLUDE_DIRS}
 )
 
 file(
@@ -29,7 +36,9 @@ target_link_libraries(
     ${OPCUASTACK_LIBRARY_CORE}
     ${OPCUASTACK_LIBRARY_CLIENT}
     ${Boost_LIBRARIES}
+    ${Qt5Widgets_LIBRARIES}
 )
+
 
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
