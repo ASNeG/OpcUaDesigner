@@ -15,26 +15,19 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#ifndef __OpcUaGui_Application_h__
-#define __OpcUaGui_Application_h__
+#include "OpcUaGui/Application/MainWindow.h"
 
 namespace OpcUaGui
 {
 
-	class Application
+	MainWindow::MainWindow(void)
 	{
-	  public:
-		Application(void);
-		~Application(void);
+	}
 
-	  private:
-	};
+	MainWindow::~MainWindow(void)
+	{
+	}
 
 }
 
-int main(int argc, char**argv)
-{
-	return 0;
-}
 
-#endif
