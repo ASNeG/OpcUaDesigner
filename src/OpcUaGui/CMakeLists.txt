@@ -18,8 +18,8 @@ file(
     ${PROJECT_SOURCE_DIR}/OpcUaGui/*/*.cpp
 )
 
-add_library(
-    OpcUaGui SHARED 
+add_executable(
+    OpcUaGui 
     ${OpcUaGui_SRC}
 )
 
@@ -38,7 +38,7 @@ target_link_libraries(
 # 
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
-install(TARGETS OpcUaGui DESTINATION /usr/lib)
+install(TARGETS OpcUaGui DESTINATION /usr/bin)
 
 install(FILES ${PROJECT_SOURCE_DIR}/OpcUaGui/Config/OpcUaServer.xml DESTINATION /etc/OpcUaStack/OpcUaGui) 
 install(FILES ${PROJECT_SOURCE_DIR}/OpcUaGui/Config/Opc.Ua.NodeSet.xml DESTINATION /etc/OpcUaStack/OpcUaGui)
