@@ -25,13 +25,20 @@ file(
     ${PROJECT_SOURCE_DIR}/OpcUaGui/*/*.cpp
 )
 
+QT5_ADD_RESOURCES(
+    OpcUaGui_RES
+    OpcUaGui/Resources/OpcUaGui.qrc
+)
+
+
 add_executable(
-    OpcUaGui 
+    OpcUaDesigner
+    ${OpcUaGui_RES}
     ${OpcUaGui_SRC}
 )
 
 target_link_libraries(
-    OpcUaGui
+    OpcUaDesigner
     ${pthread}
     ${OPCUASTACK_LIBRARY_CORE}
     ${OPCUASTACK_LIBRARY_CLIENT}
@@ -47,7 +54,7 @@ target_link_libraries(
 # 
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
-install(TARGETS OpcUaGui DESTINATION /usr/bin)
+install(TARGETS OpcUaDesigner DESTINATION /usr/bin)
 
 install(FILES ${PROJECT_SOURCE_DIR}/OpcUaGui/Config/OpcUaServer.xml DESTINATION /etc/OpcUaStack/OpcUaGui) 
 install(FILES ${PROJECT_SOURCE_DIR}/OpcUaGui/Config/Opc.Ua.NodeSet.xml DESTINATION /etc/OpcUaStack/OpcUaGui)

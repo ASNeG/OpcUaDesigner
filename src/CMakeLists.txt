@@ -97,6 +97,7 @@ include(${OPCUASTACK_INSTALL_PREFIX}/usr/share/cmake/OpcUaStack${OPCUASTACK_VERS
 #
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
+set(CMAKE_AUTOMOC ON)
 find_package(Qt5Widgets REQUIRED)
 message(STATUS "Qt5")
 message(STATUS "  Qt5Widgets definition: ${Qt5Widgets_DEFINITIONS}")

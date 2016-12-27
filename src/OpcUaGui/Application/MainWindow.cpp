@@ -17,10 +17,14 @@
 
 #include "OpcUaGui/Application/MainWindow.h"
 
+#include <QApplication>
+#include <QCloseEvent>
+
 namespace OpcUaGui
 {
 
 	MainWindow::MainWindow(void)
+	: QMainWindow()
 	{
 	}
 
@@ -28,6 +32,22 @@ namespace OpcUaGui
 	{
 	}
 
+	void
+	MainWindow::closeEvent(QCloseEvent* event)
+	{
+		event->accept();
+	}
+
+}
+
+
+int main(int argc, char**argv)
+{
+	QApplication app(argc, argv);
+	OpcUaGui::MainWindow mainWindow;
+	mainWindow.show();
+	return app.exec();
+	return 0;
 }
 
 

@@ -18,23 +18,26 @@
 #ifndef __OpcUaGui_MainWindow_h__
 #define __OpcUaGui_MainWindow_h__
 
+#include <QMainWindow>
+
 namespace OpcUaGui
 {
 
 	class MainWindow
+	: public QMainWindow
 	{
+	    Q_OBJECT
+
 	  public:
 		MainWindow(void);
-		~MainWindow(void);
+		virtual ~MainWindow(void);
+
+	  protected:
+		void closeEvent(QCloseEvent* event);
 
 	  private:
 	};
 
-}
-
-int main(int argc, char**argv)
-{
-	return 0;
 }
 
 #endif
