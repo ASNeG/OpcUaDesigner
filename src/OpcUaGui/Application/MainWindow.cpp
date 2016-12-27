@@ -61,16 +61,36 @@ namespace OpcUaGui
 		openProjectAction_->setShortcut(QKeySequence::Open);
 		openProjectAction_->setStatusTip(tr("open an existing project"));
 		connect(newProjectAction_, SIGNAL(triggered()), this, SLOT(openProjectAction()));
+
+		//
+		// application actions
+		//
+		exitApplAction_ = new QAction(tr("E&xit"), this);
+		exitApplAction_->setShortcut(tr("Ctrl+Q"));
+		exitApplAction_->setStatusTip(tr("exit the application"));
+		connect(exitApplAction_, SIGNAL(triggered()), this, SLOT(exitApplAction()));
 	}
 
 	void
 	MainWindow::createMenus(void)
 	{
+		//
+		// project menu
+		//
 		projectMenu_ = menuBar()->addMenu(tr("Project"));
 		projectMenu_->addAction(newProjectAction_);
 		projectMenu_->addAction(openProjectAction_);
+		projectMenu_->addSeparator();
+		projectMenu_->addAction(exitApplAction_);
 	}
 
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// project actions
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 	void
 	MainWindow::newProjectAction(void)
 	{
@@ -80,6 +100,19 @@ namespace OpcUaGui
 	void
 	MainWindow::openProjectAction(void)
 	{
+	}
+
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// application actions
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	void
+	MainWindow::exitApplAction(void)
+	{
+		close();
 	}
 }
 

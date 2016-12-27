@@ -39,17 +39,36 @@ namespace OpcUaGui
 		void closeEvent(QCloseEvent* event);
 
 	  private slots:
+	    //
+	    // project actions
+	    //
 	    void newProjectAction(void);
 	    void openProjectAction(void);
+
+	    //
+	    // application actions
+	    //
+	    void exitApplAction(void);
 
 	  private:
 		void createActions(void);
 		void createMenus(void);
 
+		//
+		// Menu
+		//
+		QMenu* projectMenu_;
+
+		//
+		// project actions
+		//
 		QAction* newProjectAction_;
 		QAction* openProjectAction_;
 
-		QMenu* projectMenu_;
+		//
+		// application actions
+		//
+		QAction* exitApplAction_;
 	};
 
 }
