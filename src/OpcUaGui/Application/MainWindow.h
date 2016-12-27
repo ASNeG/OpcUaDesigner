@@ -20,6 +20,9 @@
 
 #include <QMainWindow>
 
+class QAction;
+class QMenu;
+
 namespace OpcUaGui
 {
 
@@ -35,7 +38,18 @@ namespace OpcUaGui
 	  protected:
 		void closeEvent(QCloseEvent* event);
 
+	  private slots:
+	    void newProjectAction(void);
+	    void openProjectAction(void);
+
 	  private:
+		void createActions(void);
+		void createMenus(void);
+
+		QAction* newProjectAction_;
+		QAction* openProjectAction_;
+
+		QMenu* projectMenu_;
 	};
 
 }

@@ -19,13 +19,19 @@
 
 #include <QApplication>
 #include <QCloseEvent>
+#include <QAction>
+#include <QMenu>
+#include <QMenuBar>
 
 namespace OpcUaGui
 {
 
 	MainWindow::MainWindow(void)
 	: QMainWindow()
+	, newProjectAction_(NULL)
 	{
+		createActions();
+		createMenus();
 	}
 
 	MainWindow::~MainWindow(void)
@@ -38,6 +44,43 @@ namespace OpcUaGui
 		event->accept();
 	}
 
+	void
+	MainWindow::createActions(void)
+	{
+		//
+		// project actions
+		//
+		newProjectAction_ = new QAction(tr("&New"), this);
+		newProjectAction_->setIcon(QIcon(":images/New.png"));
+		newProjectAction_->setShortcut(QKeySequence::New);
+		newProjectAction_->setStatusTip(tr("create a new project"));
+		connect(newProjectAction_, SIGNAL(triggered()), this, SLOT(newProjectAction()));
+
+		openProjectAction_ = new QAction(tr("&Open"), this);
+		openProjectAction_->setIcon(QIcon(":images/Open.png"));
+		openProjectAction_->setShortcut(QKeySequence::Open);
+		openProjectAction_->setStatusTip(tr("open an existing project"));
+		connect(newProjectAction_, SIGNAL(triggered()), this, SLOT(openProjectAction()));
+	}
+
+	void
+	MainWindow::createMenus(void)
+	{
+		projectMenu_ = menuBar()->addMenu(tr("Project"));
+		projectMenu_->addAction(newProjectAction_);
+		projectMenu_->addAction(openProjectAction_);
+	}
+
+	void
+	MainWindow::newProjectAction(void)
+	{
+		;
+	}
+
+	void
+	MainWindow::openProjectAction(void)
+	{
+	}
 }
 
 
