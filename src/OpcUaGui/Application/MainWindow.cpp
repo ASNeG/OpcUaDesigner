@@ -63,7 +63,19 @@ namespace OpcUaGui
 		openProjectAction_->setIcon(QIcon(":images/Open.png"));
 		openProjectAction_->setShortcut(QKeySequence::Open);
 		openProjectAction_->setStatusTip(tr("open an existing project"));
-		connect(newProjectAction_, SIGNAL(triggered()), this, SLOT(openProjectAction()));
+		connect(openProjectAction_, SIGNAL(triggered()), this, SLOT(openProjectAction()));
+
+		saveProjectAction_ = new QAction(tr("&Save"), this);
+		saveProjectAction_->setIcon(QIcon(":images/Save.png"));
+		saveProjectAction_->setShortcut(QKeySequence::Save);
+		saveProjectAction_->setStatusTip(tr("save the project"));
+		connect(saveProjectAction_, SIGNAL(triggered()), this, SLOT(saveProjectAction()));
+
+		saveAsProjectAction_ = new QAction(tr("Save&As"), this);
+		saveAsProjectAction_->setIcon(QIcon(":images/SaveAs.png"));
+		saveAsProjectAction_->setShortcut(QKeySequence::Save);
+		saveAsProjectAction_->setStatusTip(tr("save the project"));
+		connect(saveAsProjectAction_, SIGNAL(triggered()), this, SLOT(saveAsProjectAction()));
 
 		//
 		// application actions
@@ -91,6 +103,8 @@ namespace OpcUaGui
 		projectMenu_ = menuBar()->addMenu(tr("Project"));
 		projectMenu_->addAction(newProjectAction_);
 		projectMenu_->addAction(openProjectAction_);
+		projectMenu_->addAction(saveProjectAction_);
+		projectMenu_->addAction(saveAsProjectAction_);
 		projectMenu_->addSeparator();
 		projectMenu_->addAction(exitApplAction_);
 
@@ -117,6 +131,7 @@ namespace OpcUaGui
 		projectToolBar_ = this->addToolBar(tr("Project"));
 		projectToolBar_->addAction(newProjectAction_);
 		projectToolBar_->addAction(openProjectAction_);
+		projectToolBar_->addAction(saveProjectAction_);
 	}
 
 	// ------------------------------------------------------------------------
@@ -129,13 +144,26 @@ namespace OpcUaGui
 	void
 	MainWindow::newProjectAction(void)
 	{
-		;
+		// FIXME: todo
 	}
 
 	void
 	MainWindow::openProjectAction(void)
 	{
+		// FIXME: todo
 	}
+
+    void
+    MainWindow::saveProjectAction(void)
+    {
+    	// FIXME: todo
+    }
+
+    void
+    MainWindow::saveAsProjectAction(void)
+    {
+    	// FIXME: todo
+    }
 
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------

@@ -44,6 +44,8 @@ namespace OpcUaGui
 	    //
 	    void newProjectAction(void);
 	    void openProjectAction(void);
+	    void saveProjectAction(void);
+	    void saveAsProjectAction(void);
 
 	    //
 	    // application actions
@@ -73,6 +75,8 @@ namespace OpcUaGui
 		//
 		QAction* newProjectAction_;
 		QAction* openProjectAction_;
+		QAction* saveProjectAction_;
+		QAction* saveAsProjectAction_;
 
 		//
 		// application actions
