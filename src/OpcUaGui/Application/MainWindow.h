@@ -49,6 +49,7 @@ namespace OpcUaGui
 	    // application actions
 	    //
 	    void exitApplAction(void);
+	    void aboutApplAction(void);
 
 	  private:
 		void createActions(void);
@@ -58,6 +59,7 @@ namespace OpcUaGui
 		// Menu
 		//
 		QMenu* projectMenu_;
+		QMenu* helpMenu_;
 
 		//
 		// project actions
@@ -69,6 +71,8 @@ namespace OpcUaGui
 		// application actions
 		//
 		QAction* exitApplAction_;
+		QAction* aboutApplAction_;
+		QAction* aboutQtApplAction_;
 	};
 
 }

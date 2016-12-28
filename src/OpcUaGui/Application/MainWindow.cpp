@@ -69,6 +69,14 @@ namespace OpcUaGui
 		exitApplAction_->setShortcut(tr("Ctrl+Q"));
 		exitApplAction_->setStatusTip(tr("exit the application"));
 		connect(exitApplAction_, SIGNAL(triggered()), this, SLOT(exitApplAction()));
+
+		aboutApplAction_ = new QAction(tr("About"), this);
+		aboutApplAction_->setStatusTip(tr("shows the application About box"));
+		connect(aboutApplAction_, SIGNAL(triggered), this, SLOT(aboutApplAction()));
+
+		aboutQtApplAction_ = new QAction(tr("About &Qt"), this);
+		aboutQtApplAction_->setStatusTip(tr("shows the application Qt About box"));
+		connect(aboutQtApplAction_, SIGNAL(triggered), this, SLOT(aboutApplAction()));
 	}
 
 	void
@@ -82,6 +90,14 @@ namespace OpcUaGui
 		projectMenu_->addAction(openProjectAction_);
 		projectMenu_->addSeparator();
 		projectMenu_->addAction(exitApplAction_);
+
+		//
+		// help menu
+		//
+		menuBar()->addSeparator();
+		helpMenu_ = menuBar()->addMenu(tr("&Help"));
+		helpMenu_->addAction(aboutApplAction_);
+		helpMenu_->addAction(aboutQtApplAction_);
 	}
 
 	// ------------------------------------------------------------------------
@@ -113,6 +129,12 @@ namespace OpcUaGui
 	MainWindow::exitApplAction(void)
 	{
 		close();
+	}
+
+	void
+	MainWindow::aboutApplAction(void)
+	{
+		// FIXME: todo
 	}
 }
 
