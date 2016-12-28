@@ -59,6 +59,7 @@ namespace OpcUaGui
 		// Menu
 		//
 		QMenu* projectMenu_;
+		QMenu* modulMenu_;
 		QMenu* helpMenu_;
 
 		//

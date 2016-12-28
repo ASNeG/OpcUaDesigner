@@ -16,6 +16,7 @@
  */
 
 #include "OpcUaGui/Application/MainWindow.h"
+#include <iostream>
 
 #include <QApplication>
 #include <QCloseEvent>
@@ -72,11 +73,11 @@ namespace OpcUaGui
 
 		aboutApplAction_ = new QAction(tr("About"), this);
 		aboutApplAction_->setStatusTip(tr("shows the application About box"));
-		connect(aboutApplAction_, SIGNAL(triggered), this, SLOT(aboutApplAction()));
+		connect(aboutApplAction_, SIGNAL(triggered()), this, SLOT(aboutApplAction()));
 
-		aboutQtApplAction_ = new QAction(tr("About &Qt"), this);
+		aboutQtApplAction_ = new QAction(tr("About Qt"), this);
 		aboutQtApplAction_->setStatusTip(tr("shows the application Qt About box"));
-		connect(aboutQtApplAction_, SIGNAL(triggered), this, SLOT(aboutApplAction()));
+		connect(aboutQtApplAction_, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 	}
 
 	void
@@ -90,6 +91,11 @@ namespace OpcUaGui
 		projectMenu_->addAction(openProjectAction_);
 		projectMenu_->addSeparator();
 		projectMenu_->addAction(exitApplAction_);
+
+		//
+		// modul menu
+		//
+		modulMenu_ = menuBar()->addMenu(tr("Modul"));
 
 		//
 		// help menu
@@ -135,7 +141,9 @@ namespace OpcUaGui
 	MainWindow::aboutApplAction(void)
 	{
 		// FIXME: todo
+		std::cout << "aboutApplAction" << std::endl;
 	}
+
 }
 
 
