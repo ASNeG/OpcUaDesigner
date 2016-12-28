@@ -24,6 +24,8 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QToolBar>
+#include <QStatusBar>
+#include <QLabel>
 
 namespace OpcUaGui
 {
@@ -34,7 +36,8 @@ namespace OpcUaGui
 	{
 		createActions();
 		createMenus();
-		createToolbars();
+		createToolBars();
+		createStatusBar();
 	}
 
 	MainWindow::~MainWindow(void)
@@ -123,7 +126,7 @@ namespace OpcUaGui
 	}
 
 	void
-	MainWindow::createToolbars(void)
+	MainWindow::createToolBars(void)
 	{
 		//
 		// project toolbar
@@ -132,6 +135,12 @@ namespace OpcUaGui
 		projectToolBar_->addAction(newProjectAction_);
 		projectToolBar_->addAction(openProjectAction_);
 		projectToolBar_->addAction(saveProjectAction_);
+	}
+
+	void
+	MainWindow::createStatusBar(void)
+	{
+		statusBar()->addWidget(new QLabel("status bar"));
 	}
 
 	// ------------------------------------------------------------------------

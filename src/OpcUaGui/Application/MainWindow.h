@@ -56,7 +56,8 @@ namespace OpcUaGui
 	  private:
 		void createActions(void);
 		void createMenus(void);
-		void createToolbars(void);
+		void createToolBars(void);
+		void createStatusBar(void);
 
 		//
 		// Menu
