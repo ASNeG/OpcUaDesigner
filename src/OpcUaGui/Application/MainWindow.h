@@ -54,6 +54,7 @@ namespace OpcUaGui
 	  private:
 		void createActions(void);
 		void createMenus(void);
+		void createToolbars(void);
 
 		//
 		// Menu
@@ -61,6 +62,11 @@ namespace OpcUaGui
 		QMenu* projectMenu_;
 		QMenu* modulMenu_;
 		QMenu* helpMenu_;
+
+		//
+		// toolbar
+		//
+		QToolBar* projectToolBar_;
 
 		//
 		// project actions

@@ -23,6 +23,7 @@
 #include <QAction>
 #include <QMenu>
 #include <QMenuBar>
+#include <QToolBar>
 
 namespace OpcUaGui
 {
@@ -33,6 +34,7 @@ namespace OpcUaGui
 	{
 		createActions();
 		createMenus();
+		createToolbars();
 	}
 
 	MainWindow::~MainWindow(void)
@@ -104,6 +106,17 @@ namespace OpcUaGui
 		helpMenu_ = menuBar()->addMenu(tr("&Help"));
 		helpMenu_->addAction(aboutApplAction_);
 		helpMenu_->addAction(aboutQtApplAction_);
+	}
+
+	void
+	MainWindow::createToolbars(void)
+	{
+		//
+		// project toolbar
+		//
+		projectToolBar_ = this->addToolBar(tr("Project"));
+		projectToolBar_->addAction(newProjectAction_);
+		projectToolBar_->addAction(openProjectAction_);
 	}
 
 	// ------------------------------------------------------------------------
