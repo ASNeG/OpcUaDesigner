@@ -18,14 +18,21 @@
 #ifndef __OpcUaGui_ProjectWindow_h__
 #define __OpcUaGui_ProjectWindow_h__
 
+#include <QMainWindow>
+
 namespace OpcUaGui
 {
 
 	class ProjectWindow
+	: public QMainWindow
 	{
+		Q_OBJECT
+
 	  public:
-		ProjectWindow(void);
+		ProjectWindow(QWidget* parent = 0);
 		virtual ~ProjectWindow(void);
+
+	  private:
 	};
 
 }

@@ -20,6 +20,7 @@
 
 #include <QMainWindow>
 
+class ProjectWindow;
 class QAction;
 class QMenu;
 
@@ -85,6 +86,11 @@ namespace OpcUaGui
 		QAction* exitApplAction_;
 		QAction* aboutApplAction_;
 		QAction* aboutQtApplAction_;
+
+		//
+		// project window
+		//
+		ProjectWindow* projectwindow_;
 	};
 
 }

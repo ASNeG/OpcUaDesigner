@@ -17,11 +17,20 @@
 
 #include "OpcUaGui/Application/ProjectWindow.h"
 
+#include <QWidget>
+#include <QTreeWidget>
+
 namespace OpcUaGui
 {
 
-	ProjectWindow::ProjectWindow(void)
+	ProjectWindow::ProjectWindow(QWidget* parent)
+	: QMainWindow(parent)
 	{
+		 setWindowFlags(this->windowFlags() & ~Qt::Window);
+
+		 setCentralWidget(new QTreeWidget());
+		 resize(400, 400);
+		 show();
 	}
 
 	ProjectWindow::~ProjectWindow(void)

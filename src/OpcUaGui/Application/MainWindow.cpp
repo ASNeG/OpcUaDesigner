@@ -16,6 +16,7 @@
  */
 
 #include "OpcUaGui/Application/MainWindow.h"
+#include "OpcUaGui/Application/ProjectWindow.h"
 #include <iostream>
 
 #include <QApplication>
@@ -36,6 +37,7 @@ namespace OpcUaGui
 	: QMainWindow()
 	, newProjectAction_(NULL)
 	{
+		resize(600,400);
 		createActions();
 		createMenus();
 		createToolBars();
@@ -157,8 +159,8 @@ namespace OpcUaGui
 	{
 		QDockWidget* dockWidget = new QDockWidget(tr("Project"));
 		dockWidget->setObjectName("ProjectName");
-		dockWidget->setWidget(new QTreeWidget());
-		dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+		dockWidget->setWidget(new ProjectWindow(dockWidget));
+		dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
 		this->addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
 	}
 
