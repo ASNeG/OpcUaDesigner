@@ -26,6 +26,8 @@
 #include <QToolBar>
 #include <QStatusBar>
 #include <QLabel>
+#include <QDockWidget>
+#include <QTreeWidget>
 
 namespace OpcUaGui
 {
@@ -153,7 +155,11 @@ namespace OpcUaGui
 	void
 	MainWindow::newProjectAction(void)
 	{
-		// FIXME: todo
+		QDockWidget* dockWidget = new QDockWidget(tr("Project"));
+		dockWidget->setObjectName("ProjectName");
+		dockWidget->setWidget(new QTreeWidget());
+		dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+		this->addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
 	}
 
 	void
