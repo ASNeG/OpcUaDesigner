@@ -209,7 +209,8 @@ int main(int argc, char**argv)
 {
 	QApplication app(argc, argv);
 	OpcUaGui::MainWindow mainWindow;
-	mainWindow.show();
+	//mainWindow.show();
+	mainWindow.showMaximized();
 	return app.exec();
 	return 0;
 }

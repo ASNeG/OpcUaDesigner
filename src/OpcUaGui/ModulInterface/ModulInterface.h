@@ -18,14 +18,22 @@
 #ifndef __OpcUaGui_ModulInterface_h__
 #define __OpcUaGui_ModulInterface_h__
 
+#include <QObject>
+
 namespace OpcUaGui
 {
 
 	class ModulInterface
+	: public QObject
 	{
 	  public:
 		ModulInterface(void) {}
 		virtual ~ModulInterface(void) {}
+
+      slots:
+
+      signals:
+
 	};
 
 }
