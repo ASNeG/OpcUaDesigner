@@ -1,0 +1,11 @@
+<RCC>
+
+    <qresource>
+      <file>images/New.png</file>
+      <file>images/Open.png</file>
+      <file>images/Save.png</file>
+      <file>images/SaveAs.png</file>
+    </qresource>
+
+</RCC>
+
