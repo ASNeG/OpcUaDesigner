@@ -113,7 +113,7 @@ message(STATUS "  Qt5Widgets libraries: ${Qt5Widgets_LIBRARIES}")
 #
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
-include(OpcUaGui/CMakeLists.txt) 
+include(OpcUaDesigner/CMakeLists.txt) 
 include(OpcUaNodeSetModul/CMakeLists.txt) 
 
 
