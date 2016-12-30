@@ -18,10 +18,13 @@
 #ifndef __OpcUaGui_Library_h__
 #define __OpcUaGui_Library_h__
 
+#include "OpcUaGui/ModulInterface/ModulInterface.h"
+
 namespace OpcUaGui
 {
 
 	class Library
+	: public ModulInterface
 	{
 	  public:
 		Library(void);
