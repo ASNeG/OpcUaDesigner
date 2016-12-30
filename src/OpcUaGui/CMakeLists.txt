@@ -56,10 +56,10 @@ target_link_libraries(
 # -----------------------------------------------------------------------------
 install(TARGETS OpcUaDesigner DESTINATION /usr/bin)
 
-install(FILES ${PROJECT_SOURCE_DIR}/OpcUaGui/Config/OpcUaServer.xml DESTINATION /etc/OpcUaStack/OpcUaGui) 
-install(FILES ${PROJECT_SOURCE_DIR}/OpcUaGui/Config/Opc.Ua.NodeSet.xml DESTINATION /etc/OpcUaStack/OpcUaGui)
-install(FILES ${PROJECT_SOURCE_DIR}/OpcUaGui/linux/log/README DESTINATION /var/log/OpcUaStack/OpcUaGui)
-install(DIRECTORY DESTINATION /var/log/OpcUaStack/OpcUaGui)
+install(FILES ${PROJECT_SOURCE_DIR}/OpcUaGui/Config/OpcUaServer.xml DESTINATION /etc/OpcUaStack/OpcUaDesigner) 
+install(FILES ${PROJECT_SOURCE_DIR}/OpcUaGui/Config/Opc.Ua.NodeSet.xml DESTINATION /etc/OpcUaStack/OpcUaDesigner)
+install(FILES ${PROJECT_SOURCE_DIR}/OpcUaGui/linux/log/README DESTINATION /var/log/OpcUaStack/OpcUaDesigner)
+install(DIRECTORY DESTINATION /var/log/OpcUaStack/OpcUaDesigner)
 
 if (WIN32)
 else() 
