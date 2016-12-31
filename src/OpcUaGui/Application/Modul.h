@@ -18,6 +18,8 @@
 #ifndef __OpcUaGui_Modul_h__
 #define __OpcUaGui_Modul_h__
 
+#include <set>
+#include <string>
 
 namespace OpcUaStackCore
 {
@@ -27,11 +29,28 @@ namespace OpcUaStackCore
 namespace OpcUaGui
 {
 
+	class ModulConfig
+	{
+	  public:
+		typedef std::set<ModulConfig> Set;
+
+		std::string modulName_;
+		std::string modulLibrary_;
+	};
+
+
 	class Modul
 	{
 	  public:
 		Modul(void);
 		virtual ~Modul(void);
+
+		ModulConfig::Set& modulConfigSet(void);
+
+		bool initModuls(const std::string& modulDirectory);
+
+	  private:
+		ModulConfig::Set modulConfigSet_;
 	};
 
 }

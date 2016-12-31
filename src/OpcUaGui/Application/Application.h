@@ -36,6 +36,9 @@ namespace OpcUaGui
 		virtual ~Application(void);
 
 		std::string errorString(void) const;
+		OpcUaStackCore::Config* config(void);
+		std::string libraryConfigPath(void) const;
+
 		bool parseConfig(const std::string& configFile);
 		bool initLogging(void);
 
@@ -43,6 +46,8 @@ namespace OpcUaGui
 		std::string errorString_;
 		OpcUaStackCore::Config* config_;
 		OpcUaStackCore::FileLogger* fileLogger_;
+
+		std::string libraryConfigPath_;
 	};
 
 }

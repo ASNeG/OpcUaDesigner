@@ -29,6 +29,7 @@ namespace OpcUaGui
 {
 
 	class Application;
+	class Modul;
 
 	class MainWindow
 	: public QMainWindow
@@ -69,6 +70,7 @@ namespace OpcUaGui
 		// application
 		//
 		Application* application_;
+		Modul* modul_;
 
 		//
 		// Menu

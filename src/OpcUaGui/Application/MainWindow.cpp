@@ -18,6 +18,7 @@
 #include "OpcUaGui/Application/MainWindow.h"
 #include "OpcUaGui/Application/ProjectWindow.h"
 #include "OpcUaGui/Application/Application.h"
+#include "OpcUaGui/Application/Modul.h"
 #include <iostream>
 
 #include <QApplication>
@@ -38,9 +39,9 @@ namespace OpcUaGui
 	MainWindow::MainWindow(void)
 	: QMainWindow()
 	, newProjectAction_(NULL)
+	, application_(new Application())
+	, modul_(new Modul())
 	{
-		application_ = new Application();
-
 		createActions();
 		createMenus();
 		createToolBars();
@@ -49,6 +50,7 @@ namespace OpcUaGui
 
 	MainWindow::~MainWindow(void)
 	{
+		delete modul_;
 		delete application_;
 	}
 
@@ -94,6 +96,9 @@ namespace OpcUaGui
 			);
 			return false;
 		}
+
+		// load modul configuration
+		modul_->initModuls(application_->libraryConfigPath());
 
 		return true;
 	}

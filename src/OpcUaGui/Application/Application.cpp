@@ -30,6 +30,7 @@ namespace OpcUaGui
 	Application::Application(void)
 	: errorString_("no error detected")
 	, fileLogger_(new FileLogger())
+	, libraryConfigPath_("")
 	{
 	}
 
@@ -44,6 +45,18 @@ namespace OpcUaGui
 		return errorString_;
 	}
 
+	Config*
+	Application::config(void)
+	{
+		return config_;
+	}
+
+	std::string
+	Application::libraryConfigPath(void) const
+	{
+		return libraryConfigPath_;
+	}
+
 	bool
 	Application::parseConfig(const std::string& configFile)
 	{
@@ -55,14 +68,21 @@ namespace OpcUaGui
 			return false;
 		}
 
+		// read application configuration
+		boost::optional<Config> applConfig = config_->getChild("OpcUaDesigner.Application");
+		if (!applConfig) {
+			errorString_ = "parameter OpcUaDesigner.Application do not exist in configuration file";
+		    return false;
+		}
+
 		return true;
 	}
 
 	bool
 	Application::initLogging(void)
 	{
-		boost::optional<Config> childConfig = config_->getChild("OpcUaDesigner.Logging.FileLogger");
-		if (!childConfig) {
+		boost::optional<Config> logConfig = config_->getChild("OpcUaDesigner.Logging.FileLogger");
+		if (!logConfig) {
 			fileLogger_->logFileName("OpcUaDesigner.log");
 			OpcUaStackCore::Log::logIf(fileLogger_);
 		    return true;
@@ -70,24 +90,24 @@ namespace OpcUaGui
 
 		// read log file name
 		std::string logFileName;
-		childConfig->getConfigParameter("LogFileName", logFileName, "");
+		logConfig->getConfigParameter("LogFileName", logFileName, "");
 		if (logFileName == "") logFileName = "OpcUaServer.log";
 		fileLogger_->logFileName(logFileName);
 
 		// read max log file number
 		uint32_t maxLogFileNumber;
-		childConfig->getConfigParameter("MaxLogFileNumber", maxLogFileNumber, "20");
+		logConfig->getConfigParameter("MaxLogFileNumber", maxLogFileNumber, "20");
 		fileLogger_->maxLogFileNumber(maxLogFileNumber);
 
 		// read max log file size
 		uint32_t maxLogFileSize;
-		childConfig->getConfigParameter("MaxLogFileSize", maxLogFileSize, "5000000");
+		logConfig->getConfigParameter("MaxLogFileSize", maxLogFileSize, "5000000");
 		fileLogger_->maxLogFileSize(maxLogFileSize);
 
 		// read log level
 		LogLevel logLevel;
 		std::string logLevelString;
-		childConfig->getConfigParameter("LogLevel", logLevelString, "Trace");
+		logConfig->getConfigParameter("LogLevel", logLevelString, "Trace");
 		if (logLevelString == "Error") logLevel = Error;
 		else if (logLevelString == "Warning") logLevel = Warning;
 		else if (logLevelString == "Info") logLevel = Info;
