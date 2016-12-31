@@ -18,6 +18,7 @@
 #ifndef __OpcUaGui_Modul_h__
 #define __OpcUaGui_Modul_h__
 
+#include <boost/shared_ptr.hpp>
 #include <set>
 #include <string>
 
@@ -32,7 +33,8 @@ namespace OpcUaGui
 	class ModulConfig
 	{
 	  public:
-		typedef std::set<ModulConfig> Set;
+		typedef boost::shared_ptr<ModulConfig> SPtr;
+		typedef std::set<ModulConfig::SPtr> Set;
 
 		std::string modulName_;
 		std::string modulLibrary_;
@@ -50,6 +52,8 @@ namespace OpcUaGui
 		bool initModuls(const std::string& modulDirectory);
 
 	  private:
+		bool readModulConfig(const std::string& modulDirectory);
+
 		ModulConfig::Set modulConfigSet_;
 	};
 

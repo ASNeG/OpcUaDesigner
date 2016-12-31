@@ -45,6 +45,17 @@ namespace OpcUaGui
 	bool
 	Modul::initModuls(const std::string& modulDirectory)
 	{
+		// read modul configuration from modul directory
+		if (!readModulConfig(modulDirectory)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	bool
+	Modul::readModulConfig(const std::string& modulDirectory)
+	{
 		// read all files in directory
 		try {
 		    boost::filesystem::directory_iterator endIt;
@@ -58,8 +69,6 @@ namespace OpcUaGui
 				.parameter("ModulDirectory", modulDirectory);
 			return false;
 		}
-
-		return true;
 	}
 
 }

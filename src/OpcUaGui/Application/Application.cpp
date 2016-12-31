@@ -81,6 +81,10 @@ namespace OpcUaGui
 			errorString_ = "parameter OpcUaDesigner.Application do not exist in configuration file";
 		    return false;
 		}
+		if (!applConfig->getConfigParameter("ModulDirectory", libraryConfigPath_)) {
+			errorString_ = "parameter OpcUaDesigner.Application.ModulDirectory do not exist in configuration file";
+		    return false;
+		}
 
 		return true;
 	}
