@@ -17,6 +17,7 @@
 
 #include "OpcUaGui/Application/MainWindow.h"
 #include "OpcUaGui/Application/ProjectWindow.h"
+#include "OpcUaGui/Application/Configuration.h"
 #include <iostream>
 
 #include <QApplication>
@@ -29,6 +30,7 @@
 #include <QLabel>
 #include <QDockWidget>
 #include <QTreeWidget>
+#include <QMessageBox>
 
 namespace OpcUaGui
 {
@@ -36,9 +38,9 @@ namespace OpcUaGui
 	MainWindow::MainWindow(void)
 	: QMainWindow()
 	, newProjectAction_(NULL)
-	, argc_(0)
 	{
-		checkCommandLine();
+		configuration_ = new Configuration();
+
 		createActions();
 		createMenus();
 		createToolBars();
@@ -47,26 +49,42 @@ namespace OpcUaGui
 
 	MainWindow::~MainWindow(void)
 	{
+		delete configuration_;
 	}
 
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	//
-	// command line
+	// command line and configuration
 	//
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
-	void
-	MainWindow::checkCommandLine(void)
+	bool
+	MainWindow::startup(int argc, char**argv)
 	{
-		// FIXME: todo
-	}
+		// check number of command line parameters
+		if (argc != 2) {
+			QMessageBox::critical(
+				this,
+				"OpcUaDesigner - command line error",
+				"usage: OpcUaDesigner <ConfigFileName>",
+				QMessageBox::Ok
+			);
+			return false;
+		}
 
-	void
-	MainWindow::commandLine(int argc, char**argv)
-	{
-		argc_ = argc;
-		argv = argv_;
+		// parse configuration file
+		if (!configuration_->parseConfig(argv[1])) {
+			QMessageBox::critical(
+				this,
+				"OpcUaDesigner - configuration file error",
+				configuration_->errorString().c_str(),
+				QMessageBox::Ok
+			);
+			return false;
+		}
+
+		return true;
 	}
 
 	// ------------------------------------------------------------------------
@@ -240,7 +258,9 @@ int main(int argc, char**argv)
 
 	QApplication app(argc, argv);
 	OpcUaGui::MainWindow mainWindow;
-	mainWindow.commandLine(argc, argv);
+	if (!mainWindow.startup(argc, argv)) {
+		return 0;
+	}
 	//mainWindow.show();
 	mainWindow.showMaximized();
 	return app.exec();

@@ -24,8 +24,11 @@ class ProjectWindow;
 class QAction;
 class QMenu;
 
+
 namespace OpcUaGui
 {
+
+	class Configuration;
 
 	class MainWindow
 	: public QMainWindow
@@ -36,7 +39,7 @@ namespace OpcUaGui
 		MainWindow(void);
 		virtual ~MainWindow(void);
 
-		void commandLine(int argc, char**argv);
+		bool startup(int argc, char**argv);
 
 	  protected:
 		void closeEvent(QCloseEvent* event);
@@ -63,11 +66,9 @@ namespace OpcUaGui
 		void createStatusBar(void);
 
 		//
-		// application parameter
+		// application
 		//
-		void checkCommandLine(void);
-		int argc_;
-		char** argv_;
+		OpcUaGui::Configuration* configuration_;
 
 		//
 		// Menu

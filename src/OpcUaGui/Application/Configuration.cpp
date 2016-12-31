@@ -21,6 +21,7 @@ namespace OpcUaGui
 {
 
 	Configuration::Configuration(void)
+	: errorString_("no error detected")
 	{
 	}
 
@@ -28,10 +29,17 @@ namespace OpcUaGui
 	{
 	}
 
+	std::string
+	Configuration::errorString(void) const
+	{
+		return errorString_;
+	}
+
 	bool
 	Configuration::parseConfig(const std::string& configFile)
 	{
-		return true;
+		errorString_ = "not implemented";
+		return false;
 	}
 
 }

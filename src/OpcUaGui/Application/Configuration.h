@@ -29,7 +29,11 @@ namespace OpcUaGui
 		Configuration(void);
 		virtual ~Configuration(void);
 
+		std::string errorString(void) const;
 		bool parseConfig(const std::string& configFile);
+
+	  private:
+		std::string errorString_;
 	};
 
 }
