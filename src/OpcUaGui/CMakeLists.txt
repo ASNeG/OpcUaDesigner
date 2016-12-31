@@ -43,6 +43,7 @@ target_link_libraries(
     ${OPCUASTACK_LIBRARY_CORE}
     ${OPCUASTACK_LIBRARY_CLIENT}
     ${Boost_LIBRARIES}
+    ${CMAKE_DL_LIBS}
     ${Qt5Widgets_LIBRARIES}
 )
 

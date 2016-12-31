@@ -26,17 +26,19 @@ namespace OpcUaGui
 	class ModulInterface
 	: public QObject
 	{
-		Q_OBJECT
+		//Q_OBJECT
 
 	  public:
 		ModulInterface(void) {}
 		virtual ~ModulInterface(void) {}
 
+#if 0
       public slots:
-        void startup(void) {}
-        void shutdown(void) {}
+        void startupLibrary(void) {}
+        void shutdownLibrary(void) {}
 
       signals:
+#endif
 
 	};
 

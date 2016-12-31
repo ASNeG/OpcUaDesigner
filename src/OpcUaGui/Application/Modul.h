@@ -30,14 +30,23 @@ namespace OpcUaStackCore
 namespace OpcUaGui
 {
 
+	class DynamicLibrary;
+
 	class ModulConfig
 	{
 	  public:
 		typedef boost::shared_ptr<ModulConfig> SPtr;
 		typedef std::set<ModulConfig::SPtr> Set;
 
+		ModulConfig(void);
+		~ModulConfig(void);
+
+		// configuration parameter
 		std::string modulName_;
 		std::string modulLibrary_;
+
+		// runtime parameter
+		DynamicLibrary* dynamicLibrary_;
 	};
 
 
@@ -54,6 +63,7 @@ namespace OpcUaGui
 	  private:
 		bool readModulConfig(const std::string& modulDirectory);
 		bool parseModulConfig(const std::string& modulConfigFileName, ModulConfig::SPtr& modulConfig);
+		bool loadModul(void);
 
 		ModulConfig::Set modulConfigSet_;
 	};

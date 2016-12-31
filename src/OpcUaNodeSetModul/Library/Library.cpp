@@ -21,6 +21,7 @@ namespace OpcUaGui
 {
 
 	Library::Library(void)
+	: ModulInterface()
 	{
 	}
 
@@ -28,6 +29,10 @@ namespace OpcUaGui
 	{
 	}
 
+}
+
+extern "C" void  init(OpcUaGui::ModulInterface** modulInterface) {
+    *modulInterface = new OpcUaGui::Library();
 }
 
 

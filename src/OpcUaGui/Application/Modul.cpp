@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "OpcUaGui/Application/Modul.h"
+#include "OpcUaGui/Application/DynamicLibrary.h"
 
 #include "OpcUaStackCore/Base/Log.h"
 #include "OpcUaStackCore/Base/ObjectPool.h"
@@ -31,6 +32,31 @@ using namespace OpcUaStackCore;
 namespace OpcUaGui
 {
 
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// ModulConfig
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	ModulConfig::ModulConfig(void)
+	: dynamicLibrary_(new DynamicLibrary())
+	{
+	}
+
+	ModulConfig::~ModulConfig(void)
+	{
+		delete dynamicLibrary_;
+	}
+
+
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// Modul
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 	Modul::Modul(void)
 	: modulConfigSet_()
 	{
@@ -54,6 +80,11 @@ namespace OpcUaGui
 			return false;
 		}
 
+		// load moduls
+		if (!loadModul()) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -68,7 +99,7 @@ namespace OpcUaGui
 
 		    	// parse modul configuration
 		    	ModulConfig::SPtr modulConfig = constructSPtr<ModulConfig>();
-		    	if (parseModulConfig(modulConfigFileName, modulConfig)) {
+		    	if (!parseModulConfig(modulConfigFileName, modulConfig)) {
 		    		continue;
 		    	}
 		    	modulConfigSet_.insert(modulConfig);
@@ -80,6 +111,8 @@ namespace OpcUaGui
 				.parameter("ModulDirectory", modulDirectory);
 			return false;
 		}
+
+		return true;
 	}
 
 	bool
@@ -113,6 +146,46 @@ namespace OpcUaGui
 				.parameter("ModulConfigFileName", modulConfigFileName)
 				.parameter("Parameter", "OpcUaModul.Library");
 			return false;
+		}
+
+		return true;
+	}
+
+	bool
+	Modul::loadModul(void)
+	{
+		ModulConfig::Set::iterator it;
+		for (it = modulConfigSet_.begin(); it != modulConfigSet_.end(); it++) {
+			ModulConfig::SPtr modulConfig = *it;
+			DynamicLibrary* dynamicLibrary = modulConfig->dynamicLibrary_;
+
+			Log(Info, "open dynamic library")
+				.parameter("ModulName", modulConfig->modulName_)
+				.parameter("ModulLibrary", modulConfig->modulLibrary_);
+
+			// load library
+			if (!dynamicLibrary->open(modulConfig->modulName_)) {
+				Log(Error, "open dynamic library error")
+					.parameter("ModulName", modulConfig->modulName_)
+					.parameter("ModulLibrary", modulConfig->modulLibrary_);
+				continue;
+			}
+
+#if 0
+			// load init function
+			if (!dynamicLibrary_.get("init", (void**)&initFunction_)) {
+				return false;
+			}
+
+			// call in function in library
+			(*initFunction_)(&applicationIf_);
+			if (applicationIf_ == NULL) {
+				Log(Error, "init function library error")
+				    .parameter("ApplicationName", applicationInfo_.applicationName())
+				    .parameter("LibraryName", applicationInfo_.libraryName());
+				return false;
+			}
+#endif
 		}
 
 		return true;
