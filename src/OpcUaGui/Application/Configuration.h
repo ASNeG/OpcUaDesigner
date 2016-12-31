@@ -20,6 +20,11 @@
 
 #include <string>
 
+namespace OpcUaStackCore
+{
+    class Config;
+}
+
 namespace OpcUaGui
 {
 
@@ -34,6 +39,7 @@ namespace OpcUaGui
 
 	  private:
 		std::string errorString_;
+		OpcUaStackCore::Config* config_;
 	};
 
 }

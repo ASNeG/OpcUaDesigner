@@ -17,6 +17,11 @@
 
 #include "OpcUaGui/Application/Configuration.h"
 
+#include "OpcUaStackCore/Base/Config.h"
+#include "OpcUaStackCore/Base/ConfigXml.h"
+
+using namespace OpcUaStackCore;
+
 namespace OpcUaGui
 {
 
@@ -38,8 +43,14 @@ namespace OpcUaGui
 	bool
 	Configuration::parseConfig(const std::string& configFile)
 	{
-		errorString_ = "not implemented";
-		return false;
+		config_ = Config::instance();
+		ConfigXml configXml;
+		if (!configXml.parse(configFile, true)) {
+			errorString_ = configXml.errorMessage();
+			return false;
+		}
+
+		return true;
 	}
 
 }
