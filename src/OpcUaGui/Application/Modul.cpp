@@ -18,8 +18,9 @@
 #include <boost/filesystem.hpp>
 #include <iostream>
 
-#include "OpcUaStackCore/Base/Log.h"
 #include "OpcUaGui/Application/Modul.h"
+
+#include "OpcUaStackCore/Base/Log.h"
 
 using namespace OpcUaStackCore;
 

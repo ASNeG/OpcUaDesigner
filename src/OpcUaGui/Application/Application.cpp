@@ -15,12 +15,15 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
+#include <boost/filesystem.hpp>
+
 #include "OpcUaGui/Application/Application.h"
 
 #include "OpcUaStackCore/Base/Log.h"
 #include "OpcUaStackCore/Base/Config.h"
 #include "OpcUaStackCore/Base/ConfigXml.h"
 #include "OpcUaStackCore/Core/FileLogger.h"
+#include "OpcUaStackCore/Utility/Environment.h"
 
 using namespace OpcUaStackCore;
 
@@ -60,6 +63,10 @@ namespace OpcUaGui
 	bool
 	Application::parseConfig(const std::string& configFile)
 	{
+		// create CONFDIR directory
+		Environment::confDir(boost::filesystem::absolute(configFile).parent_path().string());
+		config_->alias("@CONF_DIR@", Environment::confDir());
+
 		// parse configuration file
 		config_ = Config::instance();
 		ConfigXml configXml;
