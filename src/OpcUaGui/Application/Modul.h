@@ -22,6 +22,8 @@
 #include <set>
 #include <string>
 
+#include "OpcUaGui/ModulInterface/ModulInterface.h"
+
 namespace OpcUaStackCore
 {
     class Config;
@@ -47,6 +49,7 @@ namespace OpcUaGui
 
 		// runtime parameter
 		DynamicLibrary* dynamicLibrary_;
+		OpcUaGui::ModulInterface* modulInterface_;
 	};
 
 

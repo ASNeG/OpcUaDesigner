@@ -171,21 +171,24 @@ namespace OpcUaGui
 				continue;
 			}
 
-#if 0
 			// load init function
-			if (!dynamicLibrary_.get("init", (void**)&initFunction_)) {
-				return false;
+			typedef void InitFunction(OpcUaGui::ModulInterface**);
+			InitFunction* initFunction;
+			if (!dynamicLibrary->get("init", (void**)&initFunction)) {
+				Log(Error, "get init function error")
+					.parameter("ModulName", modulConfig->modulName_)
+					.parameter("ModulLibrary", modulConfig->modulLibrary_);
+				continue;
 			}
 
-			// call in function in library
-			(*initFunction_)(&applicationIf_);
-			if (applicationIf_ == NULL) {
+			// call init function in library
+			(*initFunction)(&modulConfig->modulInterface_);
+			if (modulConfig->modulInterface_ == NULL) {
 				Log(Error, "init function library error")
-				    .parameter("ApplicationName", applicationInfo_.applicationName())
-				    .parameter("LibraryName", applicationInfo_.libraryName());
+					.parameter("ModulName", modulConfig->modulName_)
+					.parameter("ModulLibrary", modulConfig->modulLibrary_);
 				return false;
 			}
-#endif
 		}
 
 		return true;
