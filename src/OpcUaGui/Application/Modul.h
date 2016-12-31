@@ -49,7 +49,7 @@ namespace OpcUaGui
 
 		// runtime parameter
 		DynamicLibrary* dynamicLibrary_;
-		OpcUaGui::ModulInterface* modulInterface_;
+		ModulInterface* modulInterface_;
 	};
 
 

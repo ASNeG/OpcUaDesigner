@@ -35,7 +35,7 @@ namespace OpcUaGui
 	class MYSHAREDLIB_EXPORT ModulInterface
 	: public QObject
 	{
-		//Q_OBJECT
+		Q_OBJECT
 
 	  public:
 		ModulInterface(void) {}

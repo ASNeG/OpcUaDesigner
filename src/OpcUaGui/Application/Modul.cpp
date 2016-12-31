@@ -41,6 +41,7 @@ namespace OpcUaGui
 	// ------------------------------------------------------------------------
 	ModulConfig::ModulConfig(void)
 	: dynamicLibrary_(new DynamicLibrary())
+	, modulInterface_(NULL)
 	{
 	}
 

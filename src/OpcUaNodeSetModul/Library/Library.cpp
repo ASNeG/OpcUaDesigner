@@ -29,7 +29,6 @@ namespace OpcUaNodeSet
 
 	Library::~Library(void)
 	{
-		QMainWindow x;
 	}
 
 }
