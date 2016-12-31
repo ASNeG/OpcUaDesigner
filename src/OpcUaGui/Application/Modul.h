@@ -53,6 +53,7 @@ namespace OpcUaGui
 
 	  private:
 		bool readModulConfig(const std::string& modulDirectory);
+		bool parseModulConfig(const std::string& modulConfigFileName, ModulConfig::SPtr& modulConfig);
 
 		ModulConfig::Set modulConfigSet_;
 	};

@@ -21,6 +21,10 @@
 #include "OpcUaGui/Application/Modul.h"
 
 #include "OpcUaStackCore/Base/Log.h"
+#include "OpcUaStackCore/Base/ObjectPool.h"
+#include "OpcUaStackCore/Base/Config.h"
+#include "OpcUaStackCore/Base/ConfigXml.h"
+#include "OpcUaStackCore/Utility/Environment.h"
 
 using namespace OpcUaStackCore;
 
@@ -60,7 +64,14 @@ namespace OpcUaGui
 		try {
 		    boost::filesystem::directory_iterator endIt;
 		    for (boost::filesystem::directory_iterator it(modulDirectory); it != endIt; it++) {
-			    std::cout << "FILE=" << *it << std::endl;
+		    	std::string modulConfigFileName = (*it).path().string();
+
+		    	// parse modul configuration
+		    	ModulConfig::SPtr modulConfig = constructSPtr<ModulConfig>();
+		    	if (parseModulConfig(modulConfigFileName, modulConfig)) {
+		    		continue;
+		    	}
+		    	modulConfigSet_.insert(modulConfig);
 		    }
 		}
 		catch (...)
@@ -69,6 +80,26 @@ namespace OpcUaGui
 				.parameter("ModulDirectory", modulDirectory);
 			return false;
 		}
+	}
+
+	bool
+	Modul::parseModulConfig(const std::string& modulConfigFileName, ModulConfig::SPtr& modulConfig)
+	{
+		Log(Info, "read modul config file")
+			.parameter("ModulConfigFileName", modulConfigFileName);
+
+		// parse configuration file
+		Config* config = Config::instance();
+		config->alias("@CONF_DIR@", Environment::confDir());
+		ConfigXml configXml;
+		if (!configXml.parse(modulConfigFileName, true)) {
+			Log(Error, "parse modul config file error")
+				.parameter("ModulConfigFileName", modulConfigFileName)
+				.parameter("Reason", configXml.errorMessage());
+			return false;
+		}
+
+		return false;
 	}
 
 }
