@@ -36,8 +36,9 @@ namespace OpcUaGui
 	MainWindow::MainWindow(void)
 	: QMainWindow()
 	, newProjectAction_(NULL)
+	, argc_(0)
 	{
-		resize(600,400);
+		checkCommandLine();
 		createActions();
 		createMenus();
 		createToolBars();
@@ -47,6 +48,34 @@ namespace OpcUaGui
 	MainWindow::~MainWindow(void)
 	{
 	}
+
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// command line
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	void
+	MainWindow::checkCommandLine(void)
+	{
+		// FIXME: todo
+	}
+
+	void
+	MainWindow::commandLine(int argc, char**argv)
+	{
+		argc_ = argc;
+		argv = argv_;
+	}
+
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// application
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	void
 	MainWindow::closeEvent(QCloseEvent* event)
@@ -207,8 +236,11 @@ namespace OpcUaGui
 
 int main(int argc, char**argv)
 {
+	std::cout << "ARGC:" << argc << std::endl;
+
 	QApplication app(argc, argv);
 	OpcUaGui::MainWindow mainWindow;
+	mainWindow.commandLine(argc, argv);
 	//mainWindow.show();
 	mainWindow.showMaximized();
 	return app.exec();

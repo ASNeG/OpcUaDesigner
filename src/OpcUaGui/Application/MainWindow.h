@@ -36,6 +36,8 @@ namespace OpcUaGui
 		MainWindow(void);
 		virtual ~MainWindow(void);
 
+		void commandLine(int argc, char**argv);
+
 	  protected:
 		void closeEvent(QCloseEvent* event);
 
@@ -59,6 +61,13 @@ namespace OpcUaGui
 		void createMenus(void);
 		void createToolBars(void);
 		void createStatusBar(void);
+
+		//
+		// application parameter
+		//
+		void checkCommandLine(void);
+		int argc_;
+		char** argv_;
 
 		//
 		// Menu

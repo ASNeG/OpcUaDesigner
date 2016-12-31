@@ -18,6 +18,8 @@
 #ifndef __OpcUaGui_Configuration_h__
 #define __OpcUaGui_Configuration_h__
 
+#include <string>
+
 namespace OpcUaGui
 {
 
@@ -26,6 +28,8 @@ namespace OpcUaGui
 	  public:
 		Configuration(void);
 		virtual ~Configuration(void);
+
+		bool parseConfig(const std::string& configFile);
 	};
 
 }

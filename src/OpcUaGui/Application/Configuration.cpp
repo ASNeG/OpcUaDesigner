@@ -28,5 +28,11 @@ namespace OpcUaGui
 	{
 	}
 
+	bool
+	Configuration::parseConfig(const std::string& configFile)
+	{
+		return true;
+	}
+
 }
 
