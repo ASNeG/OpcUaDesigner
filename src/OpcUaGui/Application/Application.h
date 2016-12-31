@@ -15,31 +15,34 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#ifndef __OpcUaGui_Configuration_h__
-#define __OpcUaGui_Configuration_h__
+#ifndef __OpcUaGui_Application_h__
+#define __OpcUaGui_Application_h__
 
 #include <string>
 
 namespace OpcUaStackCore
 {
     class Config;
+    class FileLogger;
 }
 
 namespace OpcUaGui
 {
 
-	class Configuration
+	class Application
 	{
 	  public:
-		Configuration(void);
-		virtual ~Configuration(void);
+		Application(void);
+		virtual ~Application(void);
 
 		std::string errorString(void) const;
 		bool parseConfig(const std::string& configFile);
+		bool initLogging(void);
 
 	  private:
 		std::string errorString_;
 		OpcUaStackCore::Config* config_;
+		OpcUaStackCore::FileLogger* fileLogger_;
 	};
 
 }
