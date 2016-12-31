@@ -28,7 +28,7 @@ class QMenu;
 namespace OpcUaGui
 {
 
-	class Configuration;
+	class Application;
 
 	class MainWindow
 	: public QMainWindow
@@ -68,7 +68,7 @@ namespace OpcUaGui
 		//
 		// application
 		//
-		OpcUaGui::Configuration* configuration_;
+		Application* application_;
 
 		//
 		// Menu

@@ -17,7 +17,7 @@
 
 #include "OpcUaGui/Application/MainWindow.h"
 #include "OpcUaGui/Application/ProjectWindow.h"
-#include "OpcUaGui/Application/Configuration.h"
+#include "OpcUaGui/Application/Application.h"
 #include <iostream>
 
 #include <QApplication>
@@ -39,7 +39,7 @@ namespace OpcUaGui
 	: QMainWindow()
 	, newProjectAction_(NULL)
 	{
-		configuration_ = new Configuration();
+		application_ = new Application();
 
 		createActions();
 		createMenus();
@@ -49,7 +49,7 @@ namespace OpcUaGui
 
 	MainWindow::~MainWindow(void)
 	{
-		delete configuration_;
+		delete application_;
 	}
 
 	// ------------------------------------------------------------------------
@@ -74,11 +74,22 @@ namespace OpcUaGui
 		}
 
 		// parse configuration file
-		if (!configuration_->parseConfig(argv[1])) {
+		if (!application_->parseConfig(argv[1])) {
 			QMessageBox::critical(
 				this,
 				"OpcUaDesigner - configuration file error",
-				configuration_->errorString().c_str(),
+				application_->errorString().c_str(),
+				QMessageBox::Ok
+			);
+			return false;
+		}
+
+		// init logging
+		if (!application_->initLogging()) {
+			QMessageBox::critical(
+				this,
+				"OpcUaDesigner - logging error",
+				application_->errorString().c_str(),
 				QMessageBox::Ok
 			);
 			return false;
