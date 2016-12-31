@@ -29,6 +29,10 @@
     </Log4cxxLogger>
     
   </Logging>
+  
+  <Application>
+    <ModulDirectory>@CONF_DIR@/Modul/</ModulDirectory>
+  </Application>
    
 
 </OpcUaDesigner>

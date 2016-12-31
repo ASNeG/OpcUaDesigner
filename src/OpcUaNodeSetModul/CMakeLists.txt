@@ -56,5 +56,5 @@ target_link_libraries(
 # -----------------------------------------------------------------------------
 install(TARGETS OpcUaNodeSetModul DESTINATION /usr/lib)
 
-install(FILES ${PROJECT_SOURCE_DIR}/OpcUaNodeSetModul/Config/OpcUaNodeSet.Modul.xml DESTINATION /etc/OpcUaStack/OpcUaDesigner) 
+install(FILES ${PROJECT_SOURCE_DIR}/OpcUaNodeSetModul/Config/OpcUaNodeSetModul.xml DESTINATION /etc/OpcUaStack/OpcUaDesigner/Modul) 
 
