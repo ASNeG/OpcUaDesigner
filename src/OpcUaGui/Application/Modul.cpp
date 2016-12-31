@@ -99,7 +99,23 @@ namespace OpcUaGui
 			return false;
 		}
 
-		return false;
+		// read modul name
+		if (!config->getConfigParameter("OpcUaModul.Name", modulConfig->modulName_)) {
+			Log(Error, "parameter missing in modul config file")
+				.parameter("ModulConfigFileName", modulConfigFileName)
+				.parameter("Parameter", "OpcUaModul.Name");
+			return false;
+		}
+
+		// read library name
+		if (!config->getConfigParameter("OpcUaModul.Library", modulConfig->modulLibrary_)) {
+			Log(Error, "parameter missing in modul config file")
+				.parameter("ModulConfigFileName", modulConfigFileName)
+				.parameter("Parameter", "OpcUaModul.Library");
+			return false;
+		}
+
+		return true;
 	}
 
 }

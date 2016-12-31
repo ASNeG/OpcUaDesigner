@@ -15,9 +15,9 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
 -->
 
-<OpcUaNodeSetModul>
+<OpcUaModul>
   
   <Name>OpcUaNodeSetModul</name>  
   <Library>OpcUaNodeSetModul</Library>
 
-</OpcUaServer>
+</OpcUaModul>
