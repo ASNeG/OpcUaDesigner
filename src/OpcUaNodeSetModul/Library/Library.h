@@ -15,22 +15,44 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#ifndef __OpcUaGui_Library_h__
-#define __OpcUaGui_Library_h__
+#ifndef __OpcUaNodeSetModul_Library_h__
+#define __OpcUaNodeSetModul_Library_h__
+
+#include <QObject>
 
 #include "OpcUaGui/ModulInterface/ModulInterface.h"
 
-namespace OpcUaGui
+namespace OpcUaNodeSet
 {
 
-	class Library
-	: public ModulInterface
+	class MYSHAREDLIB_EXPORT Library
+	: public OpcUaGui::ModulInterface
 	{
+	  Q_OBJECT
+
 	  public:
 		Library(void);
 		virtual ~Library(void);
 
 	  private:
+	};
+
+
+	class MYSHAREDLIB_EXPORT xxxx
+	: public QObject
+	{
+		Q_OBJECT
+
+	  public:
+		xxxx(void) {}
+		virtual ~xxxx(void) {}
+
+      public slots:
+        void startupLibrary(void) {}
+        void shutdownLibrary(void) {}
+
+      signals:
+
 	};
 
 }

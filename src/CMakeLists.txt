@@ -99,11 +99,25 @@ include(${OPCUASTACK_INSTALL_PREFIX}/usr/share/cmake/OpcUaStack${OPCUASTACK_VERS
 # -----------------------------------------------------------------------------
 set(CMAKE_AUTOMOC ON)
 find_package(Qt5Widgets REQUIRED)
-message(STATUS "Qt5")
+message(STATUS "Qt5 - Widgets")
 message(STATUS "  Qt5Widgets definition: ${Qt5Widgets_DEFINITIONS}")
 message(STATUS "  Qt5Widgets includes: ${Qt5Widgets_INCLUDE_DIRS}")
 message(STATUS "  Qt5Widgets executable compiler flags: ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 message(STATUS "  Qt5Widgets libraries: ${Qt5Widgets_LIBRARIES}")
+
+find_package(Qt5Gui REQUIRED)
+message(STATUS "Qt5 - Gui")
+message(STATUS "  Qt5Gui definition: ${Qt5Gui_DEFINITIONS}")
+message(STATUS "  Qt5Gui includes: ${Qt5Gui_INCLUDE_DIRS}")
+message(STATUS "  Qt5Gui executable compiler flags: ${Qt5Gui_EXECUTABLE_COMPILE_FLAGS}")
+message(STATUS "  Qt5Gui libraries: ${Qt5Gui_LIBRARIES}")
+
+find_package(Qt5Core REQUIRED)
+message(STATUS "Qt5 - Core")
+message(STATUS "  Qt5Core definition: ${Qt5Core_DEFINITIONS}")
+message(STATUS "  Qt5Core includes: ${Qt5Core_INCLUDE_DIRS}")
+message(STATUS "  Qt5Core executable compiler flags: ${Qt5Core_EXECUTABLE_COMPILE_FLAGS}")
+message(STATUS "  Qt5Core libraries: ${Qt5Core_LIBRARIES}")
 
 
 # -----------------------------------------------------------------------------

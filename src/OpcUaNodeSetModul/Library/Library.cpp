@@ -17,22 +17,25 @@
 
 #include "OpcUaNodeSetModul/Library/Library.h"
 
-namespace OpcUaGui
+#include <QMainWindow>
+
+namespace OpcUaNodeSet
 {
 
 	Library::Library(void)
-	: ModulInterface()
+	: OpcUaGui::ModulInterface()
 	{
 	}
 
 	Library::~Library(void)
 	{
+		QMainWindow x;
 	}
 
 }
 
-extern "C" void  init(OpcUaGui::ModulInterface** modulInterface) {
-    *modulInterface = new OpcUaGui::Library();
+extern "C" MYSHAREDLIB_EXPORT void  init(OpcUaGui::ModulInterface** modulInterface) {
+    *modulInterface = new OpcUaNodeSet::Library();
 }
 
 

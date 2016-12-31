@@ -19,11 +19,20 @@
 #define __OpcUaGui_ModulInterface_h__
 
 #include <QObject>
+#include <QtCore/QtGlobal>
+
+#if defined(MYSHAREDLIB_LIBRARY)
+#  define MYSHAREDLIB_EXPORT Q_DECL_EXPORT
+#warning "build shared library"
+#else
+#  define MYSHAREDLIB_EXPORT Q_DECL_IMPORT
+#warning "use shared library"
+#endif
 
 namespace OpcUaGui
 {
 
-	class ModulInterface
+	class MYSHAREDLIB_EXPORT ModulInterface
 	: public QObject
 	{
 		//Q_OBJECT
