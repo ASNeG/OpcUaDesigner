@@ -20,13 +20,12 @@
 
 #include <QObject>
 #include <QtCore/QtGlobal>
+#include <QApplication>
 
 #if defined(MYSHAREDLIB_LIBRARY)
 #  define MYSHAREDLIB_EXPORT Q_DECL_EXPORT
-#warning "build shared library"
 #else
 #  define MYSHAREDLIB_EXPORT Q_DECL_IMPORT
-#warning "use shared library"
 #endif
 
 namespace OpcUaGui
@@ -38,16 +37,22 @@ namespace OpcUaGui
 		Q_OBJECT
 
 	  public:
-		ModulInterface(void) {}
+		ModulInterface(void)
+		: application_(0)
+		{}
 		virtual ~ModulInterface(void) {}
 
-#if 0
+		void application(QApplication* application) { application_ = application; }
+		QApplication* application(void) { return application_; }
+
       public slots:
         void startupLibrary(void) {}
         void shutdownLibrary(void) {}
 
       signals:
-#endif
+
+      private:
+        QApplication* application_;
 
 	};
 
