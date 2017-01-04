@@ -20,6 +20,7 @@
 #include <QWidget>
 #include <QHeaderView>
 #include <QTreeWidget>
+#include <QTreeWidgetItem>
 #include <QVBoxLayout>
 
 namespace OpcUaGui
@@ -30,11 +31,12 @@ namespace OpcUaGui
 	{
 		// create project tree
 		projectTree_ = new QTreeWidget();
-		projectTree_->resize(300,400);
 		projectTree_->header()->close();
 
 		// added root item
-
+		rootItem_ = new QTreeWidgetItem(projectTree_);
+		rootItem_->setText(0, "Project");
+		rootItem_->setIcon(0, QIcon(":images/Project.png"));
 
 		// show project tree
 		QVBoxLayout* layout_ = new QVBoxLayout();

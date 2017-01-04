@@ -21,6 +21,7 @@
 #include <QWidget>
 
 class QTreeWidget;
+class QTreeWidgetItem;
 
 namespace OpcUaGui
 {
@@ -36,6 +37,7 @@ namespace OpcUaGui
 
 	  private:
 		QTreeWidget* projectTree_;
+		QTreeWidgetItem* rootItem_;
 	};
 
 }
