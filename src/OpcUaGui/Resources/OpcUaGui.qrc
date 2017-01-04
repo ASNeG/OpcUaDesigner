@@ -5,6 +5,7 @@
       <file>images/Open.png</file>
       <file>images/Save.png</file>
       <file>images/SaveAs.png</file>
+      <file>images/Project.png</file>
     </qresource>
 
 </RCC>
