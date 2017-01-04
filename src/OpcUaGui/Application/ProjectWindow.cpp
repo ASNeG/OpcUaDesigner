@@ -18,19 +18,28 @@
 #include "OpcUaGui/Application/ProjectWindow.h"
 
 #include <QWidget>
+#include <QHeaderView>
 #include <QTreeWidget>
+#include <QVBoxLayout>
 
 namespace OpcUaGui
 {
 
 	ProjectWindow::ProjectWindow(QWidget* parent)
-	: QMainWindow(parent)
+	: QWidget()
 	{
-		 setWindowFlags(this->windowFlags() & ~Qt::Window);
+		// create project tree
+		projectTree_ = new QTreeWidget();
+		projectTree_->resize(300,400);
+		projectTree_->header()->close();
 
-		 setCentralWidget(new QTreeWidget());
-		 resize(400, 400);
-		 show();
+		// added root item
+
+
+		// show project tree
+		QVBoxLayout* layout_ = new QVBoxLayout();
+		layout_->addWidget(projectTree_);
+		this->setLayout(layout_);
 	}
 
 	ProjectWindow::~ProjectWindow(void)

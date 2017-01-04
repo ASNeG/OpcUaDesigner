@@ -18,13 +18,15 @@
 #ifndef __OpcUaGui_ProjectWindow_h__
 #define __OpcUaGui_ProjectWindow_h__
 
-#include <QMainWindow>
+#include <QWidget>
+
+class QTreeWidget;
 
 namespace OpcUaGui
 {
 
 	class ProjectWindow
-	: public QMainWindow
+	: public QWidget
 	{
 		Q_OBJECT
 
@@ -33,6 +35,7 @@ namespace OpcUaGui
 		virtual ~ProjectWindow(void);
 
 	  private:
+		QTreeWidget* projectTree_;
 	};
 
 }
