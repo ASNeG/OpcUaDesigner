@@ -38,11 +38,14 @@ namespace OpcUaGui
 	{
 	  public:
 		typedef std::vector<std::string> ModulParents;
+		typedef std::vector<std::string> ModulChilds;
 		typedef boost::shared_ptr<ModulConfig> SPtr;
 		typedef std::map<std::string,ModulConfig::SPtr> Map;
 
 		ModulConfig(void);
 		~ModulConfig(void);
+
+		void addChild(const std::string& modulName);
 
 		// configuration parameter
 		std::string modulName_;
@@ -52,6 +55,7 @@ namespace OpcUaGui
 		// runtime parameter
 		DynamicLibrary* dynamicLibrary_;
 		ModulInterface* modulInterface_;
+		ModulChilds modulChilds_;
 	};
 
 
@@ -72,6 +76,7 @@ namespace OpcUaGui
 		bool readModulConfig(const std::string& modulDirectory);
 		bool parseModulConfig(const std::string& modulConfigFileName, ModulConfig::SPtr& modulConfig);
 		bool loadModul(void);
+		bool addModulChilds(void);
 
 		ModulConfig::Map modulConfigMap_;
 		ModulNames modulNames_;

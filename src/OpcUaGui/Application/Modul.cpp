@@ -50,6 +50,16 @@ namespace OpcUaGui
 		delete dynamicLibrary_;
 	}
 
+	void
+	ModulConfig::addChild(const std::string& modulName)
+	{
+		ModulChilds::iterator it;
+		for (it = modulChilds_.begin(); it != modulChilds_.end(); it++) {
+			if (*it == modulName) return;
+		}
+		modulChilds_.push_back(modulName);
+	}
+
 
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
@@ -90,6 +100,11 @@ namespace OpcUaGui
 
 		// load moduls
 		if (!loadModul()) {
+			return false;
+		}
+
+		// added modul child dependencies into modul config
+		if (!addModulChilds()) {
 			return false;
 		}
 
@@ -206,6 +221,34 @@ namespace OpcUaGui
 					.parameter("ModulName", modulConfig->modulName_)
 					.parameter("ModulLibrary", modulConfig->modulLibrary_);
 				return false;
+			}
+		}
+
+		return true;
+	}
+
+	bool
+	Modul::addModulChilds(void)
+	{
+		ModulConfig::Map::iterator it1;
+		for (it1 = modulConfigMap_.begin(); it1 != modulConfigMap_.end(); it1++) {
+			ModulConfig::SPtr modulConfig = it1->second;
+
+			ModulConfig::ModulParents::iterator it2;
+			for (it2 = modulConfig->modulParents_.begin(); it2 != modulConfig->modulParents_.end(); it2++) {
+				std::string modulParent = *it2;
+
+				ModulConfig::Map::iterator it3;
+				it3 = modulConfigMap_.find(modulParent);
+				if (it3 == modulConfigMap_.end()) {
+					Log(Error, "modul library dependency error")
+						.parameter("ModulName", it1->first)
+						.parameter("DependencyModulName", modulParent);
+					return false;
+				}
+				ModulConfig::SPtr modulConfigParent = it3->second;
+
+				modulConfigParent->addChild(it1->first);
 			}
 		}
 
