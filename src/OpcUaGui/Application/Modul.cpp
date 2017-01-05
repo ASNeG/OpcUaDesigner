@@ -90,6 +90,19 @@ namespace OpcUaGui
 		return modulNames_;
 	}
 
+	ModulConfig::SPtr
+	Modul::getModulConfig(const std::string& modulName)
+	{
+		ModulConfig::SPtr modulConfig;
+
+		ModulConfig::Map::iterator it;
+		it = modulConfigMap_.find(modulName);
+		if (it != modulConfigMap_.end()) {
+			modulConfig = it->second;
+		}
+		return modulConfig;
+	}
+
 	bool
 	Modul::initModuls(const std::string& modulDirectory)
 	{

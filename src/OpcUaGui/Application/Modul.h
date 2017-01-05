@@ -69,6 +69,7 @@ namespace OpcUaGui
 
 		ModulConfig::Map& modulConfigMap(void);
 		ModulNames& moduleNames(void);
+		ModulConfig::SPtr getModulConfig(const std::string& modulName);
 
 		bool initModuls(const std::string& modulDirectory);
 
