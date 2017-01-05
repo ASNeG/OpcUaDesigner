@@ -79,29 +79,35 @@ namespace OpcUaGui
         	return;
         }
 
-        // get modul info from tree widget item
+        // get modul configuration
         QVariant v = item->data(0, Qt::UserRole);
         ModulInfo* modulInfo = v.value<ModulInfo*>();
-
-        // create add Menu items
         ModulConfig::SPtr modulConfig = modul_->getModulConfig(modulInfo->modulName_);
         if (modulConfig.get() == NULL) {
         	return;
         }
 
+        // create menu
+        createNewMenu(menu, modulConfig.get());
+
+        // show menu
+        menu.exec(projectTree_->viewport()->mapToGlobal(pos));
+    }
+
+    void
+    ProjectWindow::createNewMenu(QMenu& menu, ModulConfig* modulConfig)
+    {
         if (!modulConfig->modulChilds_.empty()) {
         	ModulConfig::ModulChilds::iterator it1;
         	QMenu* addMenu = new QMenu();
         	menu.addMenu(addMenu);
-        	addMenu->setTitle(tr("Add"));
+        	addMenu->setTitle(tr("New"));
+        	addMenu->setIcon(QIcon(":images/New.png"));
 
         	for (it1 = modulConfig->modulChilds_.begin(); it1 != modulConfig->modulChilds_.end(); it1++) {
         		addMenu->addAction((*it1).c_str());
         	}
         }
-
-        // show menu
-        menu.exec(projectTree_->viewport()->mapToGlobal(pos));
     }
 
 }

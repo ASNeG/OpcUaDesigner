@@ -23,11 +23,13 @@
 
 class QTreeWidget;
 class QTreeWidgetItem;
+class QMenu;
 
 namespace OpcUaGui
 {
 
     class Modul;
+    class ModulConfig;
 
     class ModulInfo
     {
@@ -48,6 +50,7 @@ namespace OpcUaGui
 
       private slots:
         void onCustomContextMenuRequested(const QPoint& pos);
+        void createNewMenu(QMenu& menu, ModulConfig* modulConfig);
 
 	  private:
 		Modul* modul_;
