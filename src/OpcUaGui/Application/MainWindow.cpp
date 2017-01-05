@@ -99,6 +99,7 @@ namespace OpcUaGui
 
 		// load modul configuration
 		modul_->initModuls(application_->libraryConfigPath());
+		addModulMenus();
 
 		return true;
 	}
@@ -185,6 +186,22 @@ namespace OpcUaGui
 	}
 
 	void
+	MainWindow::addModulMenus(void)
+	{
+		ModulConfig::Set::iterator it;
+
+		for (it = modul_->modulConfigSet().begin(); it != modul_->modulConfigSet().end(); it++) {
+			ModulConfig::SPtr modulConfig = *it;
+
+			QAction* action;
+			action = new QAction(tr(modulConfig->modulName_.c_str()), this);
+			//connect(exitApplAction_, SIGNAL(triggered()), this, SLOT(exitApplAction()));
+
+			modulMenu_->addAction(action);
+		}
+	}
+
+	void
 	MainWindow::createToolBars(void)
 	{
 		//
@@ -212,9 +229,14 @@ namespace OpcUaGui
 	void
 	MainWindow::newProjectAction(void)
 	{
+		// create project window
+		projectWindow_ = new ProjectWindow(NULL);
+		projectWindow_->modul(modul_);
+
+		// create dock widget
 		QDockWidget* dockWidget = new QDockWidget(tr("Project"));
 		dockWidget->setObjectName("ProjectName");
-		dockWidget->setWidget(new ProjectWindow(dockWidget));
+		dockWidget->setWidget(projectWindow_);
 		dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
 		this->addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
 	}

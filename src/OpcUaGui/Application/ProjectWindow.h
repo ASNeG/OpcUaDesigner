@@ -26,6 +26,8 @@ class QTreeWidgetItem;
 namespace OpcUaGui
 {
 
+    class Modul;
+
 	class ProjectWindow
 	: public QWidget
 	{
@@ -35,9 +37,12 @@ namespace OpcUaGui
 		ProjectWindow(QWidget* parent = 0);
 		virtual ~ProjectWindow(void);
 
+		void modul(Modul* modul);
+
 	  private:
 		void addContextMenu(const std::string modulType, QTreeWidgetItem* rootItem);
 
+		Modul* modul_;
 		QTreeWidget* projectTree_;
 		QTreeWidgetItem* rootItem_;
 	};

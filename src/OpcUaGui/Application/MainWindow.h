@@ -20,7 +20,6 @@
 
 #include <QMainWindow>
 
-class ProjectWindow;
 class QAction;
 class QMenu;
 
@@ -28,6 +27,7 @@ class QMenu;
 namespace OpcUaGui
 {
 
+	class ProjectWindow;
 	class Application;
 	class Modul;
 
@@ -63,6 +63,7 @@ namespace OpcUaGui
 	  private:
 		void createActions(void);
 		void createMenus(void);
+		void addModulMenus(void);
 		void createToolBars(void);
 		void createStatusBar(void);
 
@@ -102,7 +103,7 @@ namespace OpcUaGui
 		//
 		// project window
 		//
-		ProjectWindow* projectwindow_;
+		ProjectWindow* projectWindow_;
 	};
 
 }

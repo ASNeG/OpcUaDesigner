@@ -16,6 +16,7 @@
  */
 
 #include "OpcUaGui/Application/ProjectWindow.h"
+#include "OpcUaGui/Application/Modul.h"
 
 #include <QWidget>
 #include <QHeaderView>
@@ -50,9 +51,14 @@ namespace OpcUaGui
 	}
 
 	void
+	ProjectWindow::modul(Modul* modul)
+	{
+		modul_ = modul;
+	}
+
+	void
 	ProjectWindow::addContextMenu(const std::string modulType, QTreeWidgetItem* rootItem)
 	{
-		// FIXME: todo
 	}
 
 }
