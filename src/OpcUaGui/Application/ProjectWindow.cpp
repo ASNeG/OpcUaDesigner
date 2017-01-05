@@ -39,7 +39,7 @@ namespace OpcUaGui
 
 		// added root item
 		ModulInfo* modulInfo = new ModulInfo();
-		modulInfo->type_ = "Project";
+		modulInfo->modulName_ = "Project";
 		QVariant v;
 		v.setValue(modulInfo);
 
@@ -71,21 +71,36 @@ namespace OpcUaGui
     void
     ProjectWindow::onCustomContextMenuRequested(const QPoint& pos)
     {
-        QTreeWidgetItem* item = projectTree_->itemAt(pos);
+    	QMenu menu;
 
+    	// get and check tree widget item
+        QTreeWidgetItem* item = projectTree_->itemAt(pos);
         if (item == NULL) {
         	return;
         }
 
-        // add Menu
-        QMenu* addMenu = new QMenu();
-        addMenu->setTitle(tr("Add"));
-        addMenu->addAction("xxxx1");
-        addMenu->addAction("xxxx2");
+        // get modul info from tree widget item
+        QVariant v = item->data(0, Qt::UserRole);
+        ModulInfo* modulInfo = v.value<ModulInfo*>();
+
+        // create add Menu items
+        ModulConfig::SPtr modulConfig = modul_->getModulConfig(modulInfo->modulName_);
+        if (modulConfig.get() == NULL) {
+        	return;
+        }
+
+        if (!modulConfig->modulChilds_.empty()) {
+        	ModulConfig::ModulChilds::iterator it1;
+        	QMenu* addMenu = new QMenu();
+        	menu.addMenu(addMenu);
+        	addMenu->setTitle(tr("Add"));
+
+        	for (it1 = modulConfig->modulChilds_.begin(); it1 != modulConfig->modulChilds_.end(); it1++) {
+        		addMenu->addAction((*it1).c_str());
+        	}
+        }
 
         // show menu
-        QMenu menu;
-        menu.addMenu(addMenu);
         menu.exec(projectTree_->viewport()->mapToGlobal(pos));
     }
 

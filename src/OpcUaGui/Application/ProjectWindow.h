@@ -32,7 +32,7 @@ namespace OpcUaGui
     class ModulInfo
     {
       public:
-    	std::string type_;
+    	std::string modulName_;
     };
 
 	class ProjectWindow
