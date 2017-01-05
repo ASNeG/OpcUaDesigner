@@ -37,6 +37,7 @@ namespace OpcUaGui
 		rootItem_ = new QTreeWidgetItem(projectTree_);
 		rootItem_->setText(0, "Project");
 		rootItem_->setIcon(0, QIcon(":images/Project.png"));
+		addContextMenu("Project", rootItem_);
 
 		// show project tree
 		QVBoxLayout* layout_ = new QVBoxLayout();
@@ -46,6 +47,12 @@ namespace OpcUaGui
 
 	ProjectWindow::~ProjectWindow(void)
 	{
+	}
+
+	void
+	ProjectWindow::addContextMenu(const std::string modulType, QTreeWidgetItem* rootItem)
+	{
+		// FIXME: todo
 	}
 
 }

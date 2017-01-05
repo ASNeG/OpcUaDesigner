@@ -36,6 +36,8 @@ namespace OpcUaGui
 		virtual ~ProjectWindow(void);
 
 	  private:
+		void addContextMenu(const std::string modulType, QTreeWidgetItem* rootItem);
+
 		QTreeWidget* projectTree_;
 		QTreeWidgetItem* rootItem_;
 	};
