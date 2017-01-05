@@ -77,6 +77,7 @@ namespace OpcUaGui
 		bool readModulConfig(const std::string& modulDirectory);
 		bool parseModulConfig(const std::string& modulConfigFileName, ModulConfig::SPtr& modulConfig);
 		bool loadModul(void);
+		void addRootModul(void);
 		bool addModulChilds(void);
 
 		ModulConfig::Map modulConfigMap_;

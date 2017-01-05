@@ -42,6 +42,7 @@ namespace OpcUaGui
 	ModulConfig::ModulConfig(void)
 	: dynamicLibrary_(new DynamicLibrary())
 	, modulInterface_(NULL)
+	, modulChilds_()
 	{
 	}
 
@@ -53,10 +54,13 @@ namespace OpcUaGui
 	void
 	ModulConfig::addChild(const std::string& modulName)
 	{
+		// check if the child modul already exist
 		ModulChilds::iterator it;
 		for (it = modulChilds_.begin(); it != modulChilds_.end(); it++) {
 			if (*it == modulName) return;
 		}
+
+		// add child name to modul child list
 		modulChilds_.push_back(modulName);
 	}
 
@@ -117,6 +121,7 @@ namespace OpcUaGui
 		}
 
 		// added modul child dependencies into modul config
+		addRootModul();
 		if (!addModulChilds()) {
 			return false;
 		}
@@ -240,12 +245,23 @@ namespace OpcUaGui
 		return true;
 	}
 
+	void
+	Modul::addRootModul(void)
+	{
+		ModulConfig::SPtr modulConfig;
+		modulConfig = constructSPtr<ModulConfig>();
+		modulConfig->modulName_ = "Project";
+		modulConfigMap_.insert(std::make_pair("Project", modulConfig));
+	}
+
 	bool
 	Modul::addModulChilds(void)
 	{
 		ModulConfig::Map::iterator it1;
 		for (it1 = modulConfigMap_.begin(); it1 != modulConfigMap_.end(); it1++) {
 			ModulConfig::SPtr modulConfig = it1->second;
+
+			std::cout << "ModulName=" << it1->first << std::endl;
 
 			ModulConfig::ModulParents::iterator it2;
 			for (it2 = modulConfig->modulParents_.begin(); it2 != modulConfig->modulParents_.end(); it2++) {
@@ -254,7 +270,7 @@ namespace OpcUaGui
 				ModulConfig::Map::iterator it3;
 				it3 = modulConfigMap_.find(modulParent);
 				if (it3 == modulConfigMap_.end()) {
-					Log(Error, "modul library dependency error")
+					Log(Error, "library configuration for dependency modul name not exist")
 						.parameter("ModulName", it1->first)
 						.parameter("DependencyModulName", modulParent);
 					return false;

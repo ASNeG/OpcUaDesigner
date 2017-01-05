@@ -19,6 +19,7 @@
 #define __OpcUaGui_ProjectWindow_h__
 
 #include <QWidget>
+#include <QMetaType>
 
 class QTreeWidget;
 class QTreeWidgetItem;
@@ -27,6 +28,12 @@ namespace OpcUaGui
 {
 
     class Modul;
+
+    class ModulInfo
+    {
+      public:
+    	std::string type_;
+    };
 
 	class ProjectWindow
 	: public QWidget
@@ -39,14 +46,17 @@ namespace OpcUaGui
 
 		void modul(Modul* modul);
 
-	  private:
-		void addContextMenu(const std::string modulType, QTreeWidgetItem* rootItem);
+      private slots:
+        void onCustomContextMenuRequested(const QPoint& pos);
 
+	  private:
 		Modul* modul_;
 		QTreeWidget* projectTree_;
 		QTreeWidgetItem* rootItem_;
 	};
 
 }
+
+Q_DECLARE_METATYPE(OpcUaGui::ModulInfo*);
 
 #endif

@@ -23,27 +23,39 @@
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QVBoxLayout>
+#include <QMenu>
 
 namespace OpcUaGui
 {
 
 	ProjectWindow::ProjectWindow(QWidget* parent)
 	: QWidget()
+	, modul_(NULL)
 	{
 		// create project tree
 		projectTree_ = new QTreeWidget();
 		projectTree_->header()->close();
+		projectTree_->setContextMenuPolicy(Qt::CustomContextMenu);
 
 		// added root item
+		ModulInfo* modulInfo = new ModulInfo();
+		modulInfo->type_ = "Project";
+		QVariant v;
+		v.setValue(modulInfo);
+
 		rootItem_ = new QTreeWidgetItem(projectTree_);
 		rootItem_->setText(0, "Project");
+		rootItem_->setData(0, Qt::UserRole, v);
 		rootItem_->setIcon(0, QIcon(":images/Project.png"));
-		addContextMenu("Project", rootItem_);
+		connect(
+		    projectTree_, SIGNAL(customContextMenuRequested(const QPoint&)),
+		    this, SLOT(onCustomContextMenuRequested(const QPoint&))
+		);
 
 		// show project tree
 		QVBoxLayout* layout_ = new QVBoxLayout();
 		layout_->addWidget(projectTree_);
-		this->setLayout(layout_);
+		setLayout(layout_);
 	}
 
 	ProjectWindow::~ProjectWindow(void)
@@ -56,10 +68,26 @@ namespace OpcUaGui
 		modul_ = modul;
 	}
 
-	void
-	ProjectWindow::addContextMenu(const std::string modulType, QTreeWidgetItem* rootItem)
-	{
-	}
+    void
+    ProjectWindow::onCustomContextMenuRequested(const QPoint& pos)
+    {
+        QTreeWidgetItem* item = projectTree_->itemAt(pos);
+
+        if (item == NULL) {
+        	return;
+        }
+
+        // add Menu
+        QMenu* addMenu = new QMenu();
+        addMenu->setTitle(tr("Add"));
+        addMenu->addAction("xxxx1");
+        addMenu->addAction("xxxx2");
+
+        // show menu
+        QMenu menu;
+        menu.addMenu(addMenu);
+        menu.exec(projectTree_->viewport()->mapToGlobal(pos));
+    }
 
 }
 
