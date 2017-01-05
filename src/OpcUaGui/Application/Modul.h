@@ -37,6 +37,7 @@ namespace OpcUaGui
 	class ModulConfig
 	{
 	  public:
+		typedef std::vector<std::string> ModulParents;
 		typedef boost::shared_ptr<ModulConfig> SPtr;
 		typedef std::map<std::string,ModulConfig::SPtr> Map;
 
@@ -46,7 +47,7 @@ namespace OpcUaGui
 		// configuration parameter
 		std::string modulName_;
 		std::string modulLibrary_;
-		std::vector<std::string> modulDependencies_;
+		ModulParents modulParents_;
 
 		// runtime parameter
 		DynamicLibrary* dynamicLibrary_;

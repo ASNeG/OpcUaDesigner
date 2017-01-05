@@ -158,11 +158,11 @@ namespace OpcUaGui
 		}
 
 		// read modul dependencies
-		config->getValues("OpcUaModul.ModulDependencies.Modul", modulConfig->modulDependencies_);
-		if (modulConfig->modulDependencies_.empty()) {
+		config->getValues("OpcUaModul.ModulParents.Modul", modulConfig->modulParents_);
+		if (modulConfig->modulParents_.empty()) {
 			Log(Error, "parameter missing in modul config file")
 				.parameter("ModulConfigFileName", modulConfigFileName)
-				.parameter("Parameter", "OpcUaModul.ModulDependencies.Modul");
+				.parameter("Parameter", "OpcUaModul.ModulParents.Modul");
 			return false;
 		}
 
