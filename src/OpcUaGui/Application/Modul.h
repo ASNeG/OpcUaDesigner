@@ -19,7 +19,7 @@
 #define __OpcUaGui_Modul_h__
 
 #include <boost/shared_ptr.hpp>
-#include <set>
+#include <map>
 #include <string>
 
 #include "OpcUaGui/ModulInterface/ModulInterface.h"
@@ -38,7 +38,7 @@ namespace OpcUaGui
 	{
 	  public:
 		typedef boost::shared_ptr<ModulConfig> SPtr;
-		typedef std::set<ModulConfig::SPtr> Set;
+		typedef std::map<std::string,ModulConfig::SPtr> Map;
 
 		ModulConfig(void);
 		~ModulConfig(void);
@@ -57,10 +57,13 @@ namespace OpcUaGui
 	class Modul
 	{
 	  public:
+		typedef std::vector<std::string> ModulNames;
+
 		Modul(void);
 		virtual ~Modul(void);
 
-		ModulConfig::Set& modulConfigSet(void);
+		ModulConfig::Map& modulConfigMap(void);
+		ModulNames& moduleNames(void);
 
 		bool initModuls(const std::string& modulDirectory);
 
@@ -69,7 +72,8 @@ namespace OpcUaGui
 		bool parseModulConfig(const std::string& modulConfigFileName, ModulConfig::SPtr& modulConfig);
 		bool loadModul(void);
 
-		ModulConfig::Set modulConfigSet_;
+		ModulConfig::Map modulConfigMap_;
+		ModulNames modulNames_;
 	};
 
 }

@@ -59,7 +59,8 @@ namespace OpcUaGui
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	Modul::Modul(void)
-	: modulConfigSet_()
+	: modulConfigMap_()
+	, modulNames_()
 	{
 	}
 
@@ -67,10 +68,16 @@ namespace OpcUaGui
 	{
 	}
 
-	ModulConfig::Set&
-	Modul::modulConfigSet(void)
+	ModulConfig::Map&
+	Modul::modulConfigMap(void)
 	{
-		return modulConfigSet_;
+		return modulConfigMap_;
+	}
+
+	Modul::ModulNames&
+	Modul::moduleNames(void)
+	{
+		return modulNames_;
 	}
 
 	bool
@@ -103,7 +110,8 @@ namespace OpcUaGui
 		    	if (!parseModulConfig(modulConfigFileName, modulConfig)) {
 		    		continue;
 		    	}
-		    	modulConfigSet_.insert(modulConfig);
+		    	modulNames_.push_back(modulConfig->modulName_);
+		    	modulConfigMap_.insert(std::make_pair(modulConfig->modulName_, modulConfig));
 		    }
 		}
 		catch (...)
@@ -164,9 +172,9 @@ namespace OpcUaGui
 	bool
 	Modul::loadModul(void)
 	{
-		ModulConfig::Set::iterator it;
-		for (it = modulConfigSet_.begin(); it != modulConfigSet_.end(); it++) {
-			ModulConfig::SPtr modulConfig = *it;
+		ModulConfig::Map::iterator it;
+		for (it = modulConfigMap_.begin(); it != modulConfigMap_.end(); it++) {
+			ModulConfig::SPtr modulConfig = it->second;
 			DynamicLibrary* dynamicLibrary = modulConfig->dynamicLibrary_;
 
 			Log(Info, "open dynamic library")
