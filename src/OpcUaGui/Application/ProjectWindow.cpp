@@ -24,6 +24,7 @@
 #include <QTreeWidgetItem>
 #include <QVBoxLayout>
 #include <QMenu>
+#include <QAction>
 
 namespace OpcUaGui
 {
@@ -99,13 +100,20 @@ namespace OpcUaGui
     {
         if (!modulConfig->modulChilds_.empty()) {
         	ModulConfig::ModulChilds::iterator it1;
-        	QMenu* addMenu = new QMenu();
-        	menu.addMenu(addMenu);
-        	addMenu->setTitle(tr("New"));
-        	addMenu->setIcon(QIcon(":images/New.png"));
+        	QMenu* newMenu = new QMenu();
+        	menu.addMenu(newMenu);
+        	newMenu->setTitle(tr("New"));
+        	newMenu->setIcon(QIcon(":images/New.png"));
 
         	for (it1 = modulConfig->modulChilds_.begin(); it1 != modulConfig->modulChilds_.end(); it1++) {
-        		addMenu->addAction((*it1).c_str());
+                ModulConfig::SPtr modulConfigChild = modul_->getModulConfig(*it1);
+                if (modulConfigChild.get() == NULL) {
+                	continue;
+                }
+
+        		QAction* action = new QAction(tr((*it1).c_str()), this);
+        		action->setIcon(*modulConfigChild->modulInterface_->modulIcon());
+        		newMenu->addAction(action);
         	}
         }
     }

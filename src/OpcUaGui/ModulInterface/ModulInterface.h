@@ -45,6 +45,8 @@ namespace OpcUaGui
 		void application(QApplication* application) { application_ = application; }
 		QApplication* application(void) { return application_; }
 
+		virtual QIcon* modulIcon(void) = 0;
+
       public slots:
         void startupLibrary(void) {}
         void shutdownLibrary(void) {}

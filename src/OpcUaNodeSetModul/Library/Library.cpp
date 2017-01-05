@@ -18,6 +18,7 @@
 #include "OpcUaNodeSetModul/Library/Library.h"
 
 #include <QMainWindow>
+#include <QIcon>
 
 namespace OpcUaNodeSet
 {
@@ -29,6 +30,12 @@ namespace OpcUaNodeSet
 
 	Library::~Library(void)
 	{
+	}
+
+	QIcon*
+	Library::modulIcon(void)
+	{
+		return new QIcon(":images/OpcUaNodeSet.png");
 	}
 
 }
