@@ -19,5 +19,8 @@
   
   <Name>OpcUaNodeSetModul</name>  
   <Library>OpcUaNodeSetModul</Library>
+  <ModulDependencies>
+    <Modul>Project</Modul>
+  </ModulDependencies>
 
 </OpcUaModul>

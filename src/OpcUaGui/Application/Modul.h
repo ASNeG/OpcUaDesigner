@@ -46,6 +46,7 @@ namespace OpcUaGui
 		// configuration parameter
 		std::string modulName_;
 		std::string modulLibrary_;
+		std::vector<std::string> modulDependencies_;
 
 		// runtime parameter
 		DynamicLibrary* dynamicLibrary_;
