@@ -51,6 +51,7 @@ namespace OpcUaGui
       private slots:
         void onCustomContextMenuRequested(const QPoint& pos);
         void createNewMenu(QMenu& menu, ModulConfig* modulConfig);
+        void createDeleteMenu(QMenu& menu, ModulConfig* modulConfig);
 
 	  private:
 		Modul* modul_;

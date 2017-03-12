@@ -48,9 +48,9 @@ namespace OpcUaGui
 		void addChild(const std::string& modulName);
 
 		// configuration parameter
-		std::string modulName_;
-		std::string modulLibrary_;
-		ModulParents modulParents_;
+		std::string modulName_;			// name of the modul
+		std::string modulLibrary_;		// name of the modul library
+		ModulParents modulParents_;		// list of modul parents
 
 		// runtime parameter
 		DynamicLibrary* dynamicLibrary_;

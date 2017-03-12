@@ -289,8 +289,9 @@ int main(int argc, char**argv)
 	if (!mainWindow.startup(argc, argv)) {
 		return 0;
 	}
-	//mainWindow.show();
-	mainWindow.showMaximized();
+	mainWindow.resize(400,600);
+	mainWindow.show();
+	//mainWindow.showMaximized();
 	return app.exec();
 	return 0;
 }

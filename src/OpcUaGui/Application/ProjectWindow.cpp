@@ -90,6 +90,7 @@ namespace OpcUaGui
 
         // create menu
         createNewMenu(menu, modulConfig.get());
+        createDeleteMenu(menu, modulConfig.get());
 
         // show menu
         menu.exec(projectTree_->viewport()->mapToGlobal(pos));
@@ -116,6 +117,12 @@ namespace OpcUaGui
         		newMenu->addAction(action);
         	}
         }
+    }
+
+    void
+    ProjectWindow::createDeleteMenu(QMenu& menu, ModulConfig* modulConfig)
+    {
+    	// FIXME: todo
     }
 
 }

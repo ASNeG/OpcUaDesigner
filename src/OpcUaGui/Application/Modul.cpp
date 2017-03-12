@@ -257,16 +257,17 @@ namespace OpcUaGui
 	bool
 	Modul::addModulChilds(void)
 	{
+		// read all moduls
 		ModulConfig::Map::iterator it1;
 		for (it1 = modulConfigMap_.begin(); it1 != modulConfigMap_.end(); it1++) {
 			ModulConfig::SPtr modulConfig = it1->second;
 
-			std::cout << "ModulName=" << it1->first << std::endl;
-
+			// read all parents names
 			ModulConfig::ModulParents::iterator it2;
 			for (it2 = modulConfig->modulParents_.begin(); it2 != modulConfig->modulParents_.end(); it2++) {
 				std::string modulParent = *it2;
 
+				// find parent object
 				ModulConfig::Map::iterator it3;
 				it3 = modulConfigMap_.find(modulParent);
 				if (it3 == modulConfigMap_.end()) {
@@ -277,6 +278,7 @@ namespace OpcUaGui
 				}
 				ModulConfig::SPtr modulConfigParent = it3->second;
 
+				// insert child into parent object
 				modulConfigParent->addChild(it1->first);
 			}
 		}
