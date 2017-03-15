@@ -53,6 +53,8 @@ namespace OpcUaGui
         void createNewMenu(QMenu& menu, ModulConfig* modulConfig);
         void createDeleteMenu(QMenu& menu, ModulConfig* modulConfig);
 
+        void projectNewAction(void);
+
 	  private:
 		Modul* modul_;
 		QTreeWidget* projectTree_;

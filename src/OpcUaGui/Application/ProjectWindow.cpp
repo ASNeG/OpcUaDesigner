@@ -115,8 +115,15 @@ namespace OpcUaGui
         		QAction* action = new QAction(tr((*it1).c_str()), this);
         		action->setIcon(*modulConfigChild->modulInterface_->modulIcon());
         		newMenu->addAction(action);
+        		connect(action, SIGNAL(triggered()), this, SLOT(projectNewAction()));
         	}
         }
+    }
+
+    void
+    ProjectWindow::projectNewAction(void)
+    {
+    	std::cout << "project new..." << std::endl;
     }
 
     void
