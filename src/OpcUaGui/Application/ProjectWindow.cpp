@@ -112,8 +112,13 @@ namespace OpcUaGui
                 	continue;
                 }
 
+        		// create modul config value
+        		QVariant v;
+        		v.setValue((void*)modulConfigChild.get());
+
         		QAction* action = new QAction(tr((*it1).c_str()), this);
         		action->setIcon(*modulConfigChild->modulInterface_->modulIcon());
+        		action->setData(v);
         		newMenu->addAction(action);
         		connect(action, SIGNAL(triggered()), this, SLOT(projectNewAction()));
         	}
@@ -123,7 +128,12 @@ namespace OpcUaGui
     void
     ProjectWindow::projectNewAction(void)
     {
-    	std::cout << "project new..." << std::endl;
+    	// find modul configuration
+    	QAction* action = (QAction*)sender();
+    	QVariant v = action->data();
+    	ModulConfig* modulConfig = (ModulConfig*)v.value<void*>();
+
+    	std::cout << "project new..." << modulConfig->modulName_ << std::endl;
     }
 
     void
