@@ -1,5 +1,5 @@
 /*
-   Copyright 2016 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2016-2017 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -15,8 +15,8 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#ifndef __OpcUaGui_ModulInterface_h__
-#define __OpcUaGui_ModulInterface_h__
+#ifndef __OpcUaGui_ModulLibraryInterface_h__
+#define __OpcUaGui_ModulLibraryInterface_h__
 
 #include <QObject>
 #include <QtCore/QtGlobal>
@@ -31,16 +31,16 @@
 namespace OpcUaGui
 {
 
-	class MYSHAREDLIB_EXPORT ModulInterface
+	class MYSHAREDLIB_EXPORT ModulLibraryInterface
 	: public QObject
 	{
 		Q_OBJECT
 
 	  public:
-		ModulInterface(void)
+		ModulLibraryInterface(void)
 		: application_(0)
 		{}
-		virtual ~ModulInterface(void) {}
+		virtual ~ModulLibraryInterface(void) {}
 
 		void application(QApplication* application) { application_ = application; }
 		QApplication* application(void) { return application_; }

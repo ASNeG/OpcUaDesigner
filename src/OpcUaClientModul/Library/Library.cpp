@@ -1,5 +1,5 @@
 /*
-   Copyright 2016 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2016-2017 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -24,7 +24,7 @@ namespace OpcUaNodeSet
 {
 
 	Library::Library(void)
-	: OpcUaGui::ModulInterface()
+	: OpcUaGui::ModulLibraryInterface()
 	{
 	}
 
@@ -40,8 +40,8 @@ namespace OpcUaNodeSet
 
 }
 
-extern "C" MYSHAREDLIB_EXPORT void  init(OpcUaGui::ModulInterface** modulInterface) {
-    *modulInterface = new OpcUaNodeSet::Library();
+extern "C" MYSHAREDLIB_EXPORT void  init(OpcUaGui::ModulLibraryInterface** modulLibraryInterface) {
+    *modulLibraryInterface = new OpcUaNodeSet::Library();
 }
 
 

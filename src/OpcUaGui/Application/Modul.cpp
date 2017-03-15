@@ -1,5 +1,5 @@
 /*
-   Copyright 2016 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2016-2017 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -41,7 +41,7 @@ namespace OpcUaGui
 	// ------------------------------------------------------------------------
 	ModulConfig::ModulConfig(void)
 	: dynamicLibrary_(new DynamicLibrary())
-	, modulInterface_(NULL)
+	, modulLibraryInterface_(NULL)
 	, modulChilds_()
 	{
 	}
@@ -223,7 +223,7 @@ namespace OpcUaGui
 			}
 
 			// load init function
-			typedef void InitFunction(OpcUaGui::ModulInterface**);
+			typedef void InitFunction(OpcUaGui::ModulLibraryInterface**);
 			InitFunction* initFunction;
 			if (!dynamicLibrary->get("init", (void**)&initFunction)) {
 				Log(Error, "get init function error")
@@ -233,8 +233,8 @@ namespace OpcUaGui
 			}
 
 			// call init function in library
-			(*initFunction)(&modulConfig->modulInterface_);
-			if (modulConfig->modulInterface_ == NULL) {
+			(*initFunction)(&modulConfig->modulLibraryInterface_);
+			if (modulConfig->modulLibraryInterface_ == NULL) {
 				Log(Error, "init function library error")
 					.parameter("ModulName", modulConfig->modulName_)
 					.parameter("ModulLibrary", modulConfig->modulLibrary_);

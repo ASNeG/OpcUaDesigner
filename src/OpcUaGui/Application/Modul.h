@@ -1,5 +1,5 @@
 /*
-   Copyright 2016 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2016-2017 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -22,7 +22,7 @@
 #include <map>
 #include <string>
 
-#include "OpcUaGui/ModulInterface/ModulInterface.h"
+#include "OpcUaGui/ModulInterface/ModulLibraryInterface.h"
 
 namespace OpcUaStackCore
 {
@@ -54,7 +54,7 @@ namespace OpcUaGui
 
 		// runtime parameter
 		DynamicLibrary* dynamicLibrary_;
-		ModulInterface* modulInterface_;
+		ModulLibraryInterface* modulLibraryInterface_;
 		ModulChilds modulChilds_;
 	};
 

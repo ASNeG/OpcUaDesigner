@@ -1,5 +1,5 @@
 /*
-   Copyright 2016 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2016-2017 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -20,13 +20,13 @@
 
 #include <QObject>
 
-#include "OpcUaGui/ModulInterface/ModulInterface.h"
+#include "OpcUaGui/ModulInterface/ModulLibraryInterface.h"
 
 namespace OpcUaNodeSet
 {
 
 	class MYSHAREDLIB_EXPORT Library
-	: public OpcUaGui::ModulInterface
+	: public OpcUaGui::ModulLibraryInterface
 	{
 	  Q_OBJECT
 

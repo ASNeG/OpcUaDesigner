@@ -20,13 +20,13 @@
 
 #include <QObject>
 
-#include "OpcUaGui/ModulInterface/ModulInterface.h"
+#include "OpcUaGui/ModulInterface/ModulLibraryInterface.h"
 
 namespace OpcUaNodeSet
 {
 
 	class MYSHAREDLIB_EXPORT Library
-	: public OpcUaGui::ModulInterface
+	: public OpcUaGui::ModulLibraryInterface
 	{
 	  Q_OBJECT
 
