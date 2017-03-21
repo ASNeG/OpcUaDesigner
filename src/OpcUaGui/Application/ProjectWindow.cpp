@@ -117,7 +117,7 @@ namespace OpcUaGui
         		v.setValue((void*)modulConfigChild.get());
 
         		QAction* action = new QAction(tr((*it1).c_str()), this);
-        		action->setIcon(*modulConfigChild->modulLibraryInterface_->modulIcon());
+        		action->setIcon(*modulConfigChild->modulLibraryInterface_->libModulIcon());
         		action->setData(v);
         		newMenu->addAction(action);
         		connect(action, SIGNAL(triggered()), this, SLOT(projectNewAction()));

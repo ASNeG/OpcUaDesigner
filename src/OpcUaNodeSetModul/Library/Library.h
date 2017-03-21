@@ -35,9 +35,9 @@ namespace OpcUaNodeSet
 		virtual ~Library(void);
 
 		//- ModulInterface ----------------------------------------------------
-		virtual QIcon* modulIcon(void);
-		virtual void startup(void);
-		virtual void shutdown(void);
+		virtual QIcon* libModulIcon(void);
+		virtual void libStartup(void);
+		virtual void libShutdown(void);
 		//- ModulInterface ----------------------------------------------------
 
 	  private:

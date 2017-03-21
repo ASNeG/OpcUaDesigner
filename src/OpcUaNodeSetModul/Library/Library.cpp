@@ -34,20 +34,20 @@ namespace OpcUaNodeSet
 	}
 
 	QIcon*
-	Library::modulIcon(void)
+	Library::libModulIcon(void)
 	{
 		return new QIcon(":images/OpcUaNodeSet.png");
 	}
 
 	void
-	Library::startup(void)
+	Library::libStartup(void)
 	{
 		// FIXME: todo
 		std::cout << "library startup..." << std::endl;
 	}
 
 	void
-	Library::shutdown(void)
+	Library::libShutdown(void)
 	{
 		// FIXME: todo
 		std::cout << "library shutdown..." << std::endl;
@@ -57,6 +57,7 @@ namespace OpcUaNodeSet
 
 extern "C" MYSHAREDLIB_EXPORT void  init(OpcUaGui::ModulLibraryInterface** modulLibraryInterface) {
     *modulLibraryInterface = new OpcUaNodeSet::Library();
+    std::cout << "xxx..." << std::endl;
 }
 
 

@@ -41,6 +41,7 @@ namespace OpcUaGui
 		virtual ~MainWindow(void);
 
 		bool startup(int argc, char**argv);
+		bool shutdown(void);
 
 	  protected:
 		void closeEvent(QCloseEvent* event);

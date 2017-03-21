@@ -75,11 +75,48 @@ namespace OpcUaGui
 	Modul::Modul(void)
 	: modulConfigMap_()
 	, modulNames_()
+	, modulDirectory_("")
 	{
 	}
 
 	Modul::~Modul(void)
 	{
+	}
+
+	bool
+	Modul::startup(void)
+	{
+		if (!initModuls()) {
+			return false;
+		}
+
+		// startup all moduls
+		ModulConfig::Map::iterator it1;
+		for (it1 = modulConfigMap_.begin(); it1 != modulConfigMap_.end(); it1++) {
+			ModulConfig::SPtr modulConfig = it1->second;
+			if (modulConfig->modulLibraryInterface_ == nullptr) continue;
+			modulConfig->modulLibraryInterface_->libStartup();
+		}
+		return true;
+	}
+
+	bool
+	Modul::shutdown(void)
+	{
+		// shutdown all moduls
+		ModulConfig::Map::iterator it1;
+		for (it1 = modulConfigMap_.begin(); it1 != modulConfigMap_.end(); it1++) {
+			ModulConfig::SPtr modulConfig = it1->second;
+			if (modulConfig->modulLibraryInterface_ == nullptr) continue;
+			modulConfig->modulLibraryInterface_->libShutdown();
+		}
+		return true;
+	}
+
+	void
+	Modul::modulDirectory(const std::string& modulDirectory)
+	{
+		modulDirectory_ = modulDirectory;
 	}
 
 	ModulConfig::Map&
@@ -108,10 +145,10 @@ namespace OpcUaGui
 	}
 
 	bool
-	Modul::initModuls(const std::string& modulDirectory)
+	Modul::initModuls(void)
 	{
 		// read modul configuration from modul directory
-		if (!readModulConfig(modulDirectory)) {
+		if (!readModulConfig(modulDirectory_)) {
 			return false;
 		}
 

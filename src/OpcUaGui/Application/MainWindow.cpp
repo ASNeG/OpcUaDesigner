@@ -98,15 +98,26 @@ namespace OpcUaGui
 		}
 
 		// load modul configuration
-		modul_->initModuls(application_->libraryConfigPath());
+		modul_->modulDirectory(application_->libraryConfigPath());
+		if (!modul_->startup()) {
+			return false;
+		}
 		addModulMenus();
 
+		return true;
+	}
+
+	bool
+	MainWindow::shutdown(void)
+	{
+		modul_->shutdown();
 		return true;
 	}
 
 	void
 	MainWindow::closeEvent(QCloseEvent* event)
 	{
+		std::cout << "STOP" << std::endl;
 		event->accept();
 	}
 

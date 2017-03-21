@@ -33,7 +33,7 @@ namespace OpcUaNodeSet
 	}
 
 	QIcon*
-	Library::modulIcon(void)
+	Library::libModulIcon(void)
 	{
 		return new QIcon(":images/OpcUaClient.png");
 	}

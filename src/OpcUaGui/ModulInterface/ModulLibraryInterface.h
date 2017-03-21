@@ -22,6 +22,8 @@
 #include <QtCore/QtGlobal>
 #include <QApplication>
 
+#include <iostream>
+
 #if defined(MYSHAREDLIB_LIBRARY)
 #  define MYSHAREDLIB_EXPORT Q_DECL_EXPORT
 #else
@@ -45,13 +47,13 @@ namespace OpcUaGui
 		void application(QApplication* application) { application_ = application; }
 		QApplication* application(void) { return application_; }
 
-		virtual QIcon* modulIcon(void) = 0;
-		virtual void startup(void) {}
-		virtual void shutdown(void) {}
+		virtual QIcon* libModulIcon(void) = 0;
+		virtual void libStartup(void) {  std::cout << "startup base ..." << std::endl;  }
+		virtual void libShutdown(void) {}
 
       public slots:
         void startupLibrary(void) {}
-        void shutdownLibrary(void) {}
+        void shutdownLibrary(void) { }
 
       signals:
 

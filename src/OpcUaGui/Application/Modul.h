@@ -67,13 +67,17 @@ namespace OpcUaGui
 		Modul(void);
 		virtual ~Modul(void);
 
+		void modulDirectory(const std::string& modulDirectory);
+
 		ModulConfig::Map& modulConfigMap(void);
 		ModulNames& moduleNames(void);
 		ModulConfig::SPtr getModulConfig(const std::string& modulName);
 
-		bool initModuls(const std::string& modulDirectory);
+		bool startup(void);
+		bool shutdown(void);
 
 	  private:
+		bool initModuls(void);
 		bool readModulConfig(const std::string& modulDirectory);
 		bool parseModulConfig(const std::string& modulConfigFileName, ModulConfig::SPtr& modulConfig);
 		bool loadModul(void);
@@ -82,6 +86,7 @@ namespace OpcUaGui
 
 		ModulConfig::Map modulConfigMap_;
 		ModulNames modulNames_;
+		std::string modulDirectory_;
 	};
 
 }
