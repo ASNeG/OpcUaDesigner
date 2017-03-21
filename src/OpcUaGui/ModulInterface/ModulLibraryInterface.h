@@ -48,7 +48,7 @@ namespace OpcUaGui
 		QApplication* application(void) { return application_; }
 
 		virtual QIcon* libModulIcon(void) = 0;
-		virtual void libStartup(void) {  std::cout << "startup base ..." << std::endl;  }
+		virtual void libStartup(void) {}
 		virtual void libShutdown(void) {}
 
       public slots:
