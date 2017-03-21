@@ -52,8 +52,8 @@ namespace OpcUaGui
 		virtual void libShutdown(void) {}
 
       public slots:
-        void startupLibrary(void) {}
-        void shutdownLibrary(void) { }
+        void startupSlot(void) { libStartup(); }
+        void shutdownSlot(void) { libShutdown(); }
 
       signals:
 

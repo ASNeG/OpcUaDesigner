@@ -118,6 +118,7 @@ namespace OpcUaGui
 	MainWindow::closeEvent(QCloseEvent* event)
 	{
 		std::cout << "STOP" << std::endl;
+		shutdown();
 		event->accept();
 	}
 

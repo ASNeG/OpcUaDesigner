@@ -22,6 +22,8 @@
 #include <map>
 #include <string>
 
+#include <QObject>
+
 #include "OpcUaGui/ModulInterface/ModulLibraryInterface.h"
 
 namespace OpcUaStackCore
@@ -60,7 +62,11 @@ namespace OpcUaGui
 
 
 	class Modul
+    : public QObject
 	{
+
+		Q_OBJECT
+
 	  public:
 		typedef std::vector<std::string> ModulNames;
 
@@ -75,6 +81,10 @@ namespace OpcUaGui
 
 		bool startup(void);
 		bool shutdown(void);
+
+	  signals:
+	    void startupSignal(void);
+	    void shutdownSignal(void);
 
 	  private:
 		bool initModuls(void);

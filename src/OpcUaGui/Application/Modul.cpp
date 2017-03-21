@@ -73,7 +73,8 @@ namespace OpcUaGui
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	Modul::Modul(void)
-	: modulConfigMap_()
+	: QObject()
+	, modulConfigMap_()
 	, modulNames_()
 	, modulDirectory_("")
 	{
@@ -91,12 +92,8 @@ namespace OpcUaGui
 		}
 
 		// startup all moduls
-		ModulConfig::Map::iterator it1;
-		for (it1 = modulConfigMap_.begin(); it1 != modulConfigMap_.end(); it1++) {
-			ModulConfig::SPtr modulConfig = it1->second;
-			if (modulConfig->modulLibraryInterface_ == nullptr) continue;
-			modulConfig->modulLibraryInterface_->libStartup();
-		}
+		emit startupSignal();
+
 		return true;
 	}
 
@@ -104,12 +101,8 @@ namespace OpcUaGui
 	Modul::shutdown(void)
 	{
 		// shutdown all moduls
-		ModulConfig::Map::iterator it1;
-		for (it1 = modulConfigMap_.begin(); it1 != modulConfigMap_.end(); it1++) {
-			ModulConfig::SPtr modulConfig = it1->second;
-			if (modulConfig->modulLibraryInterface_ == nullptr) continue;
-			modulConfig->modulLibraryInterface_->libShutdown();
-		}
+		emit shutdownSignal();
+
 		return true;
 	}
 
@@ -277,6 +270,16 @@ namespace OpcUaGui
 					.parameter("ModulLibrary", modulConfig->modulLibrary_);
 				return false;
 			}
+
+			// connect startup and shutdown signals
+			connect(
+			    this, SIGNAL(startupSignal(void)),
+			    modulConfig->modulLibraryInterface_, SLOT(startupSlot(void))
+			);
+			connect(
+			    this, SIGNAL(shutdownSignal(void)),
+			    modulConfig->modulLibraryInterface_, SLOT(shutdownSlot(void))
+			);
 		}
 
 		return true;
