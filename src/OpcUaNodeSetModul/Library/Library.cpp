@@ -19,6 +19,7 @@
 
 #include <QMainWindow>
 #include <QIcon>
+#include <iostream>
 
 namespace OpcUaNodeSet
 {
@@ -36,6 +37,20 @@ namespace OpcUaNodeSet
 	Library::modulIcon(void)
 	{
 		return new QIcon(":images/OpcUaNodeSet.png");
+	}
+
+	void
+	Library::startup(void)
+	{
+		// FIXME: todo
+		std::cout << "library startup..." << std::endl;
+	}
+
+	void
+	Library::shutdown(void)
+	{
+		// FIXME: todo
+		std::cout << "library shutdown..." << std::endl;
 	}
 
 }

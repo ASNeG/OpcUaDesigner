@@ -36,6 +36,8 @@ namespace OpcUaNodeSet
 
 		//- ModulInterface ----------------------------------------------------
 		virtual QIcon* modulIcon(void);
+		virtual void startup(void);
+		virtual void shutdown(void);
 		//- ModulInterface ----------------------------------------------------
 
 	  private:
