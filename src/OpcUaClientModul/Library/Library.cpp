@@ -38,6 +38,22 @@ namespace OpcUaNodeSet
 		return new QIcon(":images/OpcUaClient.png");
 	}
 
+	bool
+	Library::startApplication(uint32_t& handle)
+	{
+		// FIXME: todo
+		std::cout << "start application..." << std::endl;
+		return true;
+	}
+
+	bool
+	Library::stopApplication(uint32_t handle)
+	{
+		// FIXME: todo
+		std::cout << "stop application..." << std::endl;
+		return true;
+	}
+
 }
 
 extern "C" MYSHAREDLIB_EXPORT void  init(OpcUaGui::ModulLibraryInterface** modulLibraryInterface) {

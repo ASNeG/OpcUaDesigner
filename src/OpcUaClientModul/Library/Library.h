@@ -36,6 +36,8 @@ namespace OpcUaNodeSet
 
 		//- ModulInterface ----------------------------------------------------
 		virtual QIcon* libModulIcon(void);
+		virtual bool startApplication(uint32_t& handle);
+		virtual bool stopApplication(uint32_t handle);
 		//- ModulInterface ----------------------------------------------------
 
 	  private:

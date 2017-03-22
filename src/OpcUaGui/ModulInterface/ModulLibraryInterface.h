@@ -23,6 +23,7 @@
 #include <QApplication>
 
 #include <iostream>
+#include <stdint.h>
 
 #if defined(MYSHAREDLIB_LIBRARY)
 #  define MYSHAREDLIB_EXPORT Q_DECL_EXPORT
@@ -50,6 +51,8 @@ namespace OpcUaGui
 		virtual QIcon* libModulIcon(void) = 0;
 		virtual void libStartup(void) {}
 		virtual void libShutdown(void) {}
+		virtual bool startApplication(uint32_t& handle) = 0;
+		virtual bool stopApplication(uint32_t handle) = 0;
 
       public slots:
         void startupSlot(void) { libStartup(); }
