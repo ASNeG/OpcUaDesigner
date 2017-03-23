@@ -40,6 +40,11 @@ namespace OpcUaGui
 		Q_OBJECT
 
 	  public:
+		typedef enum {
+			V_ModulName,
+			V_ModulFile
+		} Value;
+
 		ModulLibraryInterface(void)
 		: application_(0)
 		{}
@@ -53,12 +58,14 @@ namespace OpcUaGui
 		virtual void libShutdown(void) {}
 		virtual bool startApplication(uint32_t& handle) = 0;
 		virtual bool stopApplication(uint32_t handle) = 0;
+		virtual bool getValue(uint32_t handle, Value name, QVariant& value) = 0;
 
       public slots:
         void startupSlot(void) { libStartup(); }
         void shutdownSlot(void) { libShutdown(); }
 
       signals:
+        void updateValue(uint32_t handle, Value value, QVariant& variant);
 
       private:
         QApplication* application_;

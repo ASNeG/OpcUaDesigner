@@ -69,6 +69,20 @@ namespace OpcUaNodeSet
 		return true;
 	}
 
+	bool
+	Library::getValue(uint32_t handle, Value name, QVariant& value)
+	{
+		if (value == ModulLibraryInterface::V_ModulName) {
+			value.setValue(QString("MyOpcUaNodeSet"));
+			return true;
+		}
+		else if (value == ModulLibraryInterface::V_ModulFile) {
+			value.setValue(QString("MyOpcUaNodeSet.xml"));
+			return true;
+		}
+		return false;
+	}
+
 }
 
 extern "C" MYSHAREDLIB_EXPORT void  init(OpcUaGui::ModulLibraryInterface** modulLibraryInterface) {

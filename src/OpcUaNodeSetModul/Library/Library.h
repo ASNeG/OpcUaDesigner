@@ -40,6 +40,7 @@ namespace OpcUaNodeSet
 		virtual void libShutdown(void);
 		virtual bool startApplication(uint32_t& handle);
 		virtual bool stopApplication(uint32_t handle);
+		virtual bool getValue(uint32_t handle, Value name, QVariant& value);
 		//- ModulInterface ----------------------------------------------------
 
 	  private:

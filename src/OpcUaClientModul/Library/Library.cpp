@@ -54,6 +54,13 @@ namespace OpcUaNodeSet
 		return true;
 	}
 
+	bool
+	Library::getValue(uint32_t handle, Value value, QVariant& variant)
+	{
+		// FIXME: todo
+		return true;
+	}
+
 }
 
 extern "C" MYSHAREDLIB_EXPORT void  init(OpcUaGui::ModulLibraryInterface** modulLibraryInterface) {

@@ -130,10 +130,28 @@ namespace OpcUaGui
     {
     	// find modul configuration
     	QAction* action = (QAction*)sender();
-    	QVariant v = action->data();
-    	ModulConfig* modulConfig = (ModulConfig*)v.value<void*>();
+    	QVariant a = action->data();
+    	ModulConfig* modulConfig = (ModulConfig*)a.value<void*>();
 
     	std::cout << "project new..." << modulConfig->modulName_ << std::endl;
+
+    	// create modul window
+    	uint32_t handle;
+    	bool rc = modulConfig->modulLibraryInterface_->startApplication(handle);
+    	if (!rc) return;
+
+    	// insert new modul window item into project window
+		ModulInfo* modulInfo = new ModulInfo();
+		modulInfo->modulName_ = modulConfig->modulName_;
+		QVariant v;
+		v.setValue(modulInfo);
+
+		QTreeWidgetItem* item;
+		item = new QTreeWidgetItem(projectTree_);
+		item->setText(0, "xx");
+		item->setData(0, Qt::UserRole, v);
+		item->setIcon(0, QIcon(":images/Project.png"));
+
     }
 
     void
