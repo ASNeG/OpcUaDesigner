@@ -153,6 +153,7 @@ namespace OpcUaGui
 		item->setText(0, modulConfig->modulName_.c_str());
 		item->setData(0, Qt::UserRole, v);
 		item->setIcon(0, *modulConfig->modulLibraryInterface_->libModulIcon());
+		actItem_->setExpanded(true);
 
     }
 
