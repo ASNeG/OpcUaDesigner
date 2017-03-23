@@ -26,6 +26,7 @@
 class QTreeWidget;
 class QTreeWidgetItem;
 class QMenu;
+class QMainWindow;
 
 namespace OpcUaGui
 {

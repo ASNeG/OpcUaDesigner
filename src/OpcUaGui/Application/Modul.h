@@ -23,6 +23,8 @@
 #include <string>
 
 #include <QObject>
+#include <QApplication>
+#include <QMainWindow>
 
 #include "OpcUaGui/ModulInterface/ModulLibraryInterface.h"
 

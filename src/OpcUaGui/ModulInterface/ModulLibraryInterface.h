@@ -20,7 +20,7 @@
 
 #include <QObject>
 #include <QtCore/QtGlobal>
-#include <QApplication>
+#include <QMainWindow>
 
 #include <iostream>
 #include <stdint.h>
@@ -46,12 +46,12 @@ namespace OpcUaGui
 		} Value;
 
 		ModulLibraryInterface(void)
-		: application_(0)
+		: parentMainWindow_(NULL)
 		{}
 		virtual ~ModulLibraryInterface(void) {}
 
-		void application(QApplication* application) { application_ = application; }
-		QApplication* application(void) { return application_; }
+		void parentMainWindow(QMainWindow* parentMainWindow) { parentMainWindow_ = parentMainWindow; }
+		QMainWindow* parentMainWindow(void) { return parentMainWindow_; }
 
 		virtual QIcon* libModulIcon(void) = 0;
 		virtual void libStartup(void) {}
@@ -68,7 +68,7 @@ namespace OpcUaGui
         void updateValue(uint32_t handle, Value value, QVariant& variant);
 
       private:
-        QApplication* application_;
+        QMainWindow* parentMainWindow_;
 
 	};
 
