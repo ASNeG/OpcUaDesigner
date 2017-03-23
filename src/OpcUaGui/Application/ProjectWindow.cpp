@@ -38,6 +38,7 @@ namespace OpcUaGui
 	// ------------------------------------------------------------------------
 	ModulInfo::ModulInfo(void)
 	: modulName_("")
+	, modulConfig_(NULL)
 	, handle_(0)
 	{
 	}
@@ -156,10 +157,14 @@ namespace OpcUaGui
     {
     	if (modulInfo->handle_ == 0) return;
 
-    	QMenu* deleteMenu = new QMenu();
-    	menu.addMenu(deleteMenu);
-    	deleteMenu->setTitle(tr("Delete"));
-    	deleteMenu->setIcon(QIcon(":images/Delete.png"));
+    	QVariant v;
+    	v.setValue((void*)modulInfo);
+
+    	QAction* action = new QAction("Delete", this);
+    	action->setIcon(QIcon(":images/Delete.png"));
+    	action->setData(v);
+    	menu.addAction(action);
+    	connect(action, SIGNAL(triggered()), this, SLOT(projectDeleteAction()));
     }
 
     void
@@ -184,6 +189,7 @@ namespace OpcUaGui
     	// insert new modul window item into project window
 		ModulInfo* modulInfo = new ModulInfo();
 		modulInfo->modulName_ = modulConfig->modulName_;
+		modulInfo->modulConfig_ = modulConfig;
 		modulInfo->handle_ = handle;
 		QVariant v;
 		v.setValue(modulInfo);
@@ -194,6 +200,26 @@ namespace OpcUaGui
 		item->setData(0, Qt::UserRole, v);
 		item->setIcon(0, *modulConfig->modulLibraryInterface_->libModulIcon());
 		actItem_->setExpanded(true);
+    }
+
+    void
+    ProjectWindow::projectDeleteAction(void)
+    {
+    	// find modul configuration
+    	QAction* action = (QAction*)sender();
+    	QVariant a = action->data();
+    	ModulInfo* modulInfo = (ModulInfo*)a.value<void*>();
+    	ModulConfig* modulConfig = modulInfo->modulConfig_;
+
+    	std::cout << "project delete..." << std::endl;
+
+    	// delete modul
+    	bool rc = modulConfig->modulLibraryInterface_->stopApplication(modulInfo->handle_);
+    	if (!rc) return;
+
+    	delete modulInfo;
+    	delete actItem_->parent()->takeChild(actItem_->parent()->indexOfChild(actItem_));
+
     }
 
 }

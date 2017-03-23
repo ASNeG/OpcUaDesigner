@@ -39,6 +39,7 @@ namespace OpcUaGui
     	ModulInfo(void);
     	~ModulInfo(void);
 
+    	ModulConfig* modulConfig_;
     	std::string modulName_;
     	uint32_t handle_;
     };
@@ -60,6 +61,7 @@ namespace OpcUaGui
         void createDeleteMenu(QMenu& menu, ModulInfo* modulInfo);
 
         void projectNewAction(void);
+        void projectDeleteAction(void);
 
 	  private:
 		Modul* modul_;
