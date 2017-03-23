@@ -29,6 +29,30 @@
 namespace OpcUaGui
 {
 
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// ModulInfo
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	ModulInfo::ModulInfo(void)
+	: modulName_("")
+	, handle_(0)
+	{
+	}
+
+	ModulInfo::~ModulInfo(void)
+	{
+	}
+
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// ProjectWindow
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 	ProjectWindow::ProjectWindow(QWidget* parent)
 	: QWidget()
 	, modul_(NULL)
@@ -92,7 +116,7 @@ namespace OpcUaGui
 
         // create menu
         createNewMenu(menu, modulConfig.get());
-        createDeleteMenu(menu, modulConfig.get());
+        createDeleteMenu(menu, modulInfo);
 
         // show menu
         menu.exec(projectTree_->viewport()->mapToGlobal(pos));
@@ -128,6 +152,17 @@ namespace OpcUaGui
     }
 
     void
+    ProjectWindow::createDeleteMenu(QMenu& menu, ModulInfo* modulInfo)
+    {
+    	if (modulInfo->handle_ == 0) return;
+
+    	QMenu* deleteMenu = new QMenu();
+    	menu.addMenu(deleteMenu);
+    	deleteMenu->setTitle(tr("Delete"));
+    	deleteMenu->setIcon(QIcon(":images/Delete.png"));
+    }
+
+    void
     ProjectWindow::projectNewAction(void)
     {
     	// find modul configuration
@@ -149,6 +184,7 @@ namespace OpcUaGui
     	// insert new modul window item into project window
 		ModulInfo* modulInfo = new ModulInfo();
 		modulInfo->modulName_ = modulConfig->modulName_;
+		modulInfo->handle_ = handle;
 		QVariant v;
 		v.setValue(modulInfo);
 
@@ -158,13 +194,6 @@ namespace OpcUaGui
 		item->setData(0, Qt::UserRole, v);
 		item->setIcon(0, *modulConfig->modulLibraryInterface_->libModulIcon());
 		actItem_->setExpanded(true);
-
-    }
-
-    void
-    ProjectWindow::createDeleteMenu(QMenu& menu, ModulConfig* modulConfig)
-    {
-    	// FIXME: todo
     }
 
 }

@@ -21,6 +21,8 @@
 #include <QWidget>
 #include <QMetaType>
 
+#include <stdint.h>
+
 class QTreeWidget;
 class QTreeWidgetItem;
 class QMenu;
@@ -34,7 +36,11 @@ namespace OpcUaGui
     class ModulInfo
     {
       public:
+    	ModulInfo(void);
+    	~ModulInfo(void);
+
     	std::string modulName_;
+    	uint32_t handle_;
     };
 
 	class ProjectWindow
@@ -51,7 +57,7 @@ namespace OpcUaGui
       private slots:
         void onCustomContextMenuRequested(const QPoint& pos);
         void createNewMenu(QMenu& menu, ModulConfig* modulConfig);
-        void createDeleteMenu(QMenu& menu, ModulConfig* modulConfig);
+        void createDeleteMenu(QMenu& menu, ModulInfo* modulInfo);
 
         void projectNewAction(void);
 
