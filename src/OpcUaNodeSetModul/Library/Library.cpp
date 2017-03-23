@@ -32,6 +32,8 @@ namespace OpcUaNodeSet
 
 	Library::Library(void)
 	: OpcUaGui::ModulLibraryInterface()
+	, mainWindowMap_()
+	, handle_(1)
 	{
 	}
 
@@ -55,8 +57,13 @@ namespace OpcUaNodeSet
 	void
 	Library::libShutdown(void)
 	{
-		// FIXME: todo
 		std::cout << "library shutdown..." << std::endl;
+
+		MainWindow::Map::iterator it;
+		for (it = mainWindowMap_.begin(); it != mainWindowMap_.end(); it++) {
+			delete it->second;
+		}
+		mainWindowMap_.clear();
 	}
 
 	bool
@@ -75,12 +82,20 @@ namespace OpcUaNodeSet
 
 		// use file name as project name
 		QStringList parts1 = fileName.split("/");
-		QString file = parts1.at(parts1.size()-1);
-		file.replace(".xml", "");
+		QString name = parts1.at(parts1.size()-1);
+		name.replace(".xml", "");
 
+		std::cout << name.toStdString() << std::endl;
 
+		// create main window
+		MainWindow* mainWindow = new MainWindow(application());
+		mainWindow->modulFile(fileName.toStdString());
+		mainWindow->modulName(name.toStdString());
 
-		std::cout << file.toStdString() << std::endl;
+		// insert new main window into main window map
+		handle = handle_;
+		handle_++;
+		mainWindowMap_.insert(std::make_pair(handle, mainWindow));
 
 		return true;
 	}
@@ -96,12 +111,17 @@ namespace OpcUaNodeSet
 	bool
 	Library::getValue(uint32_t handle, Value name, QVariant& value)
 	{
+		MainWindow::Map::iterator it;
+		it = mainWindowMap_.find(handle);
+		if (it == mainWindowMap_.end()) return false;
+		MainWindow* mainWindow = it->second;
+
 		if (name == ModulLibraryInterface::V_ModulName) {
-			value.setValue(QString("MyOpcUaNodeSet"));
+			value.setValue(QString(mainWindow->modulName().c_str()));
 			return true;
 		}
 		else if (name == ModulLibraryInterface::V_ModulFile) {
-			value.setValue(QString("MyOpcUaNodeSet.xml"));
+			value.setValue(QString(mainWindow->modulFile().c_str()));
 			return true;
 		}
 		return false;

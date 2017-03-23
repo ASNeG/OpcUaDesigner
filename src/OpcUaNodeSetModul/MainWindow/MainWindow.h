@@ -18,14 +18,30 @@
 #ifndef __OpcUaNodeSetModul_MainWindow_h__
 #define __OpcUaNodeSetModul_MainWindow_h__
 
+#include <QApplication>
+
+#include <map>
+#include <stdint.h>
+
 namespace OpcUaNodeSet
 {
 
 	class MainWindow
 	{
 	  public:
-		MainWindow(void);
+		typedef std::map<uint32_t, MainWindow*> Map;
+
+		MainWindow(QApplication* parent);
 		virtual ~MainWindow(void);
+
+		void modulName(const std::string& modulName);
+		std::string modulName(void);
+		void modulFile(const std::string& modulFile);
+		std::string modulFile(void);
+
+	  private:
+		std::string modulName_;
+		std::string modulFile_;
 	};
 
 }

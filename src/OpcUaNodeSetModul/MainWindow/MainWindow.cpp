@@ -20,12 +20,38 @@
 namespace OpcUaNodeSet
 {
 
-	MainWindow::MainWindow(void)
+	MainWindow::MainWindow(QApplication* parent)
+	: modulName_("")
+	, modulFile_("")
 	{
 	}
 
 	MainWindow::~MainWindow(void)
 	{
+	}
+
+	void
+	MainWindow::modulName(const std::string& modulName)
+	{
+		modulName_ = modulName;
+	}
+
+	std::string
+	MainWindow::modulName(void)
+	{
+		return modulName_;
+	}
+
+	void
+	MainWindow::modulFile(const std::string& modulFile)
+	{
+		modulFile_ = modulFile;
+	}
+
+	std::string
+	MainWindow::modulFile(void)
+	{
+		return modulFile_;
 	}
 
 }
