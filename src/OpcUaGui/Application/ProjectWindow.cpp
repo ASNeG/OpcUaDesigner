@@ -137,10 +137,14 @@ namespace OpcUaGui
 
     	std::cout << "project new..." << modulConfig->modulName_ << std::endl;
 
-    	// create modul window
+    	// create modul window and read modul information
     	uint32_t handle;
     	bool rc = modulConfig->modulLibraryInterface_->startApplication(handle);
     	if (!rc) return;
+
+    	QVariant modulNameVariant;
+    	modulConfig->modulLibraryInterface_->getValue(handle, ModulLibraryInterface::V_ModulName, modulNameVariant);
+    	QString modulName = modulNameVariant.value<QString>();
 
     	// insert new modul window item into project window
 		ModulInfo* modulInfo = new ModulInfo();
@@ -150,7 +154,7 @@ namespace OpcUaGui
 
 		QTreeWidgetItem* item;
 		item = new QTreeWidgetItem(actItem_);
-		item->setText(0, modulConfig->modulName_.c_str());
+		item->setText(0, modulName);
 		item->setData(0, Qt::UserRole, v);
 		item->setIcon(0, *modulConfig->modulLibraryInterface_->libModulIcon());
 		actItem_->setExpanded(true);

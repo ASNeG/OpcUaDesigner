@@ -72,11 +72,11 @@ namespace OpcUaNodeSet
 	bool
 	Library::getValue(uint32_t handle, Value name, QVariant& value)
 	{
-		if (value == ModulLibraryInterface::V_ModulName) {
+		if (name == ModulLibraryInterface::V_ModulName) {
 			value.setValue(QString("MyOpcUaNodeSet"));
 			return true;
 		}
-		else if (value == ModulLibraryInterface::V_ModulFile) {
+		else if (name == ModulLibraryInterface::V_ModulFile) {
 			value.setValue(QString("MyOpcUaNodeSet.xml"));
 			return true;
 		}
