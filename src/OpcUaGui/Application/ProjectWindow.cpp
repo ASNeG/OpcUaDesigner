@@ -32,6 +32,8 @@ namespace OpcUaGui
 	ProjectWindow::ProjectWindow(QWidget* parent)
 	: QWidget()
 	, modul_(NULL)
+	, rootItem_(NULL)
+	, actItem_(NULL)
 	{
 		// create project tree
 		projectTree_ = new QTreeWidget();
@@ -75,13 +77,13 @@ namespace OpcUaGui
     	QMenu menu;
 
     	// get and check tree widget item
-        QTreeWidgetItem* item = projectTree_->itemAt(pos);
-        if (item == NULL) {
+        actItem_ = projectTree_->itemAt(pos);
+        if (actItem_ == NULL) {
         	return;
         }
 
         // get modul configuration
-        QVariant v = item->data(0, Qt::UserRole);
+        QVariant v = actItem_->data(0, Qt::UserRole);
         ModulInfo* modulInfo = v.value<ModulInfo*>();
         ModulConfig::SPtr modulConfig = modul_->getModulConfig(modulInfo->modulName_);
         if (modulConfig.get() == NULL) {
@@ -147,10 +149,10 @@ namespace OpcUaGui
 		v.setValue(modulInfo);
 
 		QTreeWidgetItem* item;
-		item = new QTreeWidgetItem(projectTree_);
-		item->setText(0, "xx");
+		item = new QTreeWidgetItem(actItem_);
+		item->setText(0, modulConfig->modulName_.c_str());
 		item->setData(0, Qt::UserRole, v);
-		item->setIcon(0, QIcon(":images/Project.png"));
+		item->setIcon(0, *modulConfig->modulLibraryInterface_->libModulIcon());
 
     }
 

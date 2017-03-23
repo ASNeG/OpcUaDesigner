@@ -59,6 +59,7 @@ namespace OpcUaGui
 		Modul* modul_;
 		QTreeWidget* projectTree_;
 		QTreeWidgetItem* rootItem_;
+		QTreeWidgetItem* actItem_;
 	};
 
 }
