@@ -217,6 +217,7 @@ namespace OpcUaGui
     	bool rc = modulConfig->modulLibraryInterface_->stopApplication(modulInfo->handle_);
     	if (!rc) return;
 
+    	// delete item
     	delete modulInfo;
     	delete actItem_->parent()->takeChild(actItem_->parent()->indexOfChild(actItem_));
 

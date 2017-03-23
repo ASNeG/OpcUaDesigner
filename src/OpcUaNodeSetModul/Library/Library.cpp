@@ -19,6 +19,12 @@
 
 #include <QMainWindow>
 #include <QIcon>
+#include <QString>
+#include <QFileDialog>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+
 #include <iostream>
 
 namespace OpcUaNodeSet
@@ -58,6 +64,24 @@ namespace OpcUaNodeSet
 	{
 		// FIXME: todo
 		std::cout << "start application..." << std::endl;
+
+		// get node set file name
+		QString fileName = QFileDialog::getSaveFileName(
+			NULL, tr("Erstelle neue NodeSet Datei"), QDir::homePath(), tr("Dokumente (*.xml)")
+		);
+		if (fileName.isNull()) {
+			return false;
+		}
+
+		// use file name as project name
+		QStringList parts1 = fileName.split("/");
+		QString file = parts1.at(parts1.size()-1);
+		file.replace(".xml", "");
+
+
+
+		std::cout << file.toStdString() << std::endl;
+
 		return true;
 	}
 
