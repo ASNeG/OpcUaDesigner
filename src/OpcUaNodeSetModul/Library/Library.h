@@ -21,7 +21,7 @@
 #include <QObject>
 
 #include "OpcUaGui/ModulInterface/ModulLibraryInterface.h"
-#include "OpcUaNodeSetModul/MainWindow/NodeSetWindow.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/NodeSetWindow.h"
 
 namespace OpcUaNodeSet
 {

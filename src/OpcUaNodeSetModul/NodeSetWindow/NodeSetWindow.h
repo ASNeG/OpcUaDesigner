@@ -37,6 +37,7 @@ namespace OpcUaNodeSet
 
 		NodeSetWindow(QMainWindow* parentMainWindow);
 		virtual ~NodeSetWindow(void);
+		void start(void);
 
 		void modulName(const std::string& modulName);
 		std::string modulName(void);

@@ -15,7 +15,9 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#include "OpcUaNodeSetModul/MainWindow/NodeSetWindow.h"
+#include <QString>
+
+#include "OpcUaNodeSetModul/NodeSetWindow/NodeSetWindow.h"
 
 namespace OpcUaNodeSet
 {
@@ -30,6 +32,12 @@ namespace OpcUaNodeSet
 
 	NodeSetWindow::~NodeSetWindow(void)
 	{
+	}
+
+	void
+	NodeSetWindow::start(void)
+	{
+		setWindowTitle(QString("OpcUaNodeSet - %1").arg(QString(modulName_.c_str())));
 	}
 
 	void

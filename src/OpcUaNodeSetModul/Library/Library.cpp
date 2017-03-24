@@ -89,18 +89,19 @@ namespace OpcUaNodeSet
 		std::cout << name.toStdString() << std::endl;
 
 		// create main window
-		NodeSetWindow* mainWindow = new NodeSetWindow(parentMainWindow());
-		mainWindow->modulFile(fileName.toStdString());
-		mainWindow->modulName(name.toStdString());
+		NodeSetWindow* nodeSetWindow = new NodeSetWindow(parentMainWindow());
+		nodeSetWindow->modulFile(fileName.toStdString());
+		nodeSetWindow->modulName(name.toStdString());
+		nodeSetWindow->start();
 
 		// show main window
-		mainWindow->resize(400,600);
-		mainWindow->show();
+		nodeSetWindow->resize(400,600);
+		nodeSetWindow->show();
 
 		// insert new main window into main window map
 		handle = handle_;
 		handle_++;
-		mainWindowMap_.insert(std::make_pair(handle, mainWindow));
+		mainWindowMap_.insert(std::make_pair(handle, nodeSetWindow));
 
 		return true;
 	}
