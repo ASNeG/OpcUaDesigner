@@ -16,6 +16,7 @@
  */
 
 #include <QString>
+#include <QDockWidget>
 
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeSetWindow.h"
 
@@ -38,6 +39,16 @@ namespace OpcUaNodeSet
 	NodeSetWindow::start(void)
 	{
 		setWindowTitle(QString("OpcUaNodeSet - %1").arg(QString(modulName_.c_str())));
+
+		// create opc ua tree window
+		opcUaTreeWindow_ = new OpcUaTreeWindow(NULL);
+
+		// create dock widget
+		QDockWidget* dockWidget = new QDockWidget(tr("OPC UA Model"));
+		dockWidget->setObjectName("ProjectName");
+		dockWidget->setWidget(opcUaTreeWindow_);
+		dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+		this->addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
 	}
 
 	void

@@ -18,6 +18,10 @@
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaTreeWindow.h"
 
 #include <QWidget>
+#include <QHeaderView>
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
+#include <QVBoxLayout>
 
 namespace OpcUaNodeSet
 {
@@ -26,6 +30,21 @@ namespace OpcUaNodeSet
 	OpcUaTreeWindow::OpcUaTreeWindow(QWidget* parent)
 	: QWidget()
 	{
+		// create opc ua tree
+		opcUaTree_ = new QTreeWidget();
+		opcUaTree_->header()->close();
+		opcUaTree_->setContextMenuPolicy(Qt::CustomContextMenu);
+
+		// create opc ua tree
+		rootItem_ = new QTreeWidgetItem(opcUaTree_);
+		rootItem_->setText(0, "Project");
+		//rootItem_->setData(0, Qt::UserRole, v);
+		rootItem_->setIcon(0, QIcon(":images/Project.png"));
+
+		// show opc ua tree
+		QVBoxLayout* layout_ = new QVBoxLayout();
+		layout_->addWidget(opcUaTree_);
+		setLayout(layout_);
 	}
 
 	OpcUaTreeWindow::~OpcUaTreeWindow(void)

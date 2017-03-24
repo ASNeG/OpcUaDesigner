@@ -20,6 +20,9 @@
 
 #include <QWidget>
 
+class QTreeWidget;
+class QTreeWidgetItem;
+
 namespace OpcUaNodeSet
 {
 
@@ -31,6 +34,11 @@ namespace OpcUaNodeSet
 	  public:
 		OpcUaTreeWindow(QWidget* parent = 0);
 		virtual ~OpcUaTreeWindow(void);
+
+	  private:
+		QTreeWidget* opcUaTree_;
+		QTreeWidgetItem* rootItem_;
+		QTreeWidgetItem* actItem_;
 	};
 
 }

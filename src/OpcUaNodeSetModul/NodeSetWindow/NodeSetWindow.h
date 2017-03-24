@@ -23,6 +23,8 @@
 #include <map>
 #include <stdint.h>
 
+#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaTreeWindow.h"
+
 namespace OpcUaNodeSet
 {
 
@@ -48,6 +50,8 @@ namespace OpcUaNodeSet
 		QMainWindow* parentMainWindow_;
 		std::string modulName_;
 		std::string modulFile_;
+
+		OpcUaTreeWindow* opcUaTreeWindow_;
 	};
 
 }
