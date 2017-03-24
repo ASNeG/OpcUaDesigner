@@ -21,7 +21,8 @@ namespace OpcUaNodeSet
 {
 
 	MainWindow::MainWindow(QMainWindow* parentMainWindow)
-	: modulName_("")
+	: QMainWindow()
+	, modulName_("")
 	, modulFile_("")
 	, parentMainWindow_(parentMainWindow)
 	{

@@ -93,6 +93,10 @@ namespace OpcUaNodeSet
 		mainWindow->modulFile(fileName.toStdString());
 		mainWindow->modulName(name.toStdString());
 
+		// show main window
+		mainWindow->resize(400,600);
+		mainWindow->show();
+
 		// insert new main window into main window map
 		handle = handle_;
 		handle_++;

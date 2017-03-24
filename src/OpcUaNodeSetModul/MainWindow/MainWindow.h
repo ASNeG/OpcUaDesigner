@@ -27,7 +27,11 @@ namespace OpcUaNodeSet
 {
 
 	class MainWindow
+    : public QMainWindow
 	{
+
+	  Q_OBJECT
+
 	  public:
 		typedef std::map<uint32_t, MainWindow*> Map;
 
