@@ -18,7 +18,7 @@
 #ifndef __OpcUaNodeSetModul_MainWindow_h__
 #define __OpcUaNodeSetModul_MainWindow_h__
 
-#include <QApplication>
+#include <QMainWindow>
 
 #include <map>
 #include <stdint.h>
@@ -31,7 +31,7 @@ namespace OpcUaNodeSet
 	  public:
 		typedef std::map<uint32_t, MainWindow*> Map;
 
-		MainWindow(QApplication* parent);
+		MainWindow(QMainWindow* parentMainWindow);
 		virtual ~MainWindow(void);
 
 		void modulName(const std::string& modulName);
@@ -40,6 +40,7 @@ namespace OpcUaNodeSet
 		std::string modulFile(void);
 
 	  private:
+		QMainWindow* parentMainWindow_;
 		std::string modulName_;
 		std::string modulFile_;
 	};

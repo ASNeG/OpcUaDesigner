@@ -102,6 +102,7 @@ namespace OpcUaGui
 		if (!modul_->startup()) {
 			return false;
 		}
+		modul_->mainWindow(this);
 		addModulMenus();
 
 		return true;

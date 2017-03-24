@@ -24,6 +24,7 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
+#include <QVariant>
 
 #include <iostream>
 
@@ -88,7 +89,7 @@ namespace OpcUaNodeSet
 		std::cout << name.toStdString() << std::endl;
 
 		// create main window
-		MainWindow* mainWindow = new MainWindow(application());
+		MainWindow* mainWindow = new MainWindow(parentMainWindow());
 		mainWindow->modulFile(fileName.toStdString());
 		mainWindow->modulName(name.toStdString());
 

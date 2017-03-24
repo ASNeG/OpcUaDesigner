@@ -77,6 +77,8 @@ namespace OpcUaGui
 
 		void modulDirectory(const std::string& modulDirectory);
 
+		void mainWindow(QMainWindow* mainWindow);
+		QMainWindow* mainWindow(void);
 		ModulConfig::Map& modulConfigMap(void);
 		ModulNames& moduleNames(void);
 		ModulConfig::SPtr getModulConfig(const std::string& modulName);
@@ -99,6 +101,7 @@ namespace OpcUaGui
 		ModulConfig::Map modulConfigMap_;
 		ModulNames modulNames_;
 		std::string modulDirectory_;
+		QMainWindow* mainWindow_;
 	};
 
 }

@@ -20,9 +20,10 @@
 namespace OpcUaNodeSet
 {
 
-	MainWindow::MainWindow(QApplication* parent)
+	MainWindow::MainWindow(QMainWindow* parentMainWindow)
 	: modulName_("")
 	, modulFile_("")
+	, parentMainWindow_(parentMainWindow)
 	{
 	}
 

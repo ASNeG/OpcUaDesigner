@@ -65,6 +65,7 @@ namespace OpcUaGui
 	}
 
 
+
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	//
@@ -77,6 +78,7 @@ namespace OpcUaGui
 	, modulConfigMap_()
 	, modulNames_()
 	, modulDirectory_("")
+	, mainWindow_(NULL)
 	{
 	}
 
@@ -110,6 +112,18 @@ namespace OpcUaGui
 	Modul::modulDirectory(const std::string& modulDirectory)
 	{
 		modulDirectory_ = modulDirectory;
+	}
+
+	void
+	Modul::mainWindow(QMainWindow* mainWindow)
+	{
+		mainWindow_ = mainWindow;
+	}
+
+	QMainWindow*
+	Modul::mainWindow(void)
+	{
+		return mainWindow_;
 	}
 
 	ModulConfig::Map&
@@ -270,6 +284,9 @@ namespace OpcUaGui
 					.parameter("ModulLibrary", modulConfig->modulLibrary_);
 				return false;
 			}
+
+			// set values
+			modulConfig->modulLibraryInterface_->parentMainWindow(mainWindow_);
 
 			// connect startup and shutdown signals
 			connect(
