@@ -15,12 +15,12 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#include "OpcUaNodeSetModul/MainWindow/MainWindow.h"
+#include "OpcUaNodeSetModul/MainWindow/NodeSetWindow.h"
 
 namespace OpcUaNodeSet
 {
 
-	MainWindow::MainWindow(QMainWindow* parentMainWindow)
+	NodeSetWindow::NodeSetWindow(QMainWindow* parentMainWindow)
 	: QMainWindow()
 	, modulName_("")
 	, modulFile_("")
@@ -28,30 +28,30 @@ namespace OpcUaNodeSet
 	{
 	}
 
-	MainWindow::~MainWindow(void)
+	NodeSetWindow::~NodeSetWindow(void)
 	{
 	}
 
 	void
-	MainWindow::modulName(const std::string& modulName)
+	NodeSetWindow::modulName(const std::string& modulName)
 	{
 		modulName_ = modulName;
 	}
 
 	std::string
-	MainWindow::modulName(void)
+	NodeSetWindow::modulName(void)
 	{
 		return modulName_;
 	}
 
 	void
-	MainWindow::modulFile(const std::string& modulFile)
+	NodeSetWindow::modulFile(const std::string& modulFile)
 	{
 		modulFile_ = modulFile;
 	}
 
 	std::string
-	MainWindow::modulFile(void)
+	NodeSetWindow::modulFile(void)
 	{
 		return modulFile_;
 	}

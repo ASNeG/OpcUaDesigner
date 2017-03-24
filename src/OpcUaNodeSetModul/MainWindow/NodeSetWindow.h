@@ -26,17 +26,17 @@
 namespace OpcUaNodeSet
 {
 
-	class MainWindow
+	class NodeSetWindow
     : public QMainWindow
 	{
 
 	  Q_OBJECT
 
 	  public:
-		typedef std::map<uint32_t, MainWindow*> Map;
+		typedef std::map<uint32_t, NodeSetWindow*> Map;
 
-		MainWindow(QMainWindow* parentMainWindow);
-		virtual ~MainWindow(void);
+		NodeSetWindow(QMainWindow* parentMainWindow);
+		virtual ~NodeSetWindow(void);
 
 		void modulName(const std::string& modulName);
 		std::string modulName(void);

@@ -21,7 +21,7 @@
 #include <QObject>
 
 #include "OpcUaGui/ModulInterface/ModulLibraryInterface.h"
-#include "OpcUaNodeSetModul/MainWindow/MainWindow.h"
+#include "OpcUaNodeSetModul/MainWindow/NodeSetWindow.h"
 
 namespace OpcUaNodeSet
 {
@@ -46,7 +46,7 @@ namespace OpcUaNodeSet
 
 	  private:
 		uint32_t handle_;
-		MainWindow::Map mainWindowMap_;
+		NodeSetWindow::Map mainWindowMap_;
 	};
 
 

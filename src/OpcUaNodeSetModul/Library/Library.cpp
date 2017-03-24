@@ -60,7 +60,7 @@ namespace OpcUaNodeSet
 	{
 		std::cout << "library shutdown..." << std::endl;
 
-		MainWindow::Map::iterator it;
+		NodeSetWindow::Map::iterator it;
 		for (it = mainWindowMap_.begin(); it != mainWindowMap_.end(); it++) {
 			delete it->second;
 		}
@@ -89,7 +89,7 @@ namespace OpcUaNodeSet
 		std::cout << name.toStdString() << std::endl;
 
 		// create main window
-		MainWindow* mainWindow = new MainWindow(parentMainWindow());
+		NodeSetWindow* mainWindow = new NodeSetWindow(parentMainWindow());
 		mainWindow->modulFile(fileName.toStdString());
 		mainWindow->modulName(name.toStdString());
 
@@ -116,10 +116,10 @@ namespace OpcUaNodeSet
 	bool
 	Library::getValue(uint32_t handle, Value name, QVariant& value)
 	{
-		MainWindow::Map::iterator it;
+		NodeSetWindow::Map::iterator it;
 		it = mainWindowMap_.find(handle);
 		if (it == mainWindowMap_.end()) return false;
-		MainWindow* mainWindow = it->second;
+		NodeSetWindow* mainWindow = it->second;
 
 		if (name == ModulLibraryInterface::V_ModulName) {
 			value.setValue(QString(mainWindow->modulName().c_str()));
