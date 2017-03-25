@@ -18,7 +18,12 @@
 #ifndef __OpcUaNodeSetModul_NodeSet_h__
 #define __OpcUaNodeSetModul_NodeSet_h__
 
+#include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
+#include "OpcUaStackServer/InformationModel/InformationModelNodeSet.h"
+
 #include <iostream>
+
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -36,6 +41,7 @@ namespace OpcUaNodeSet
 
 	  private:
 		std::string fileName_;
+		InformationModel::SPtr informationModel_;
 
 		bool loadOpcUaNodeSet(const std::string& fileName);
 	};

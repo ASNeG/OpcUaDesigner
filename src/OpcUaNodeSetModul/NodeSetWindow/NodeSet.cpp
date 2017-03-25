@@ -85,6 +85,17 @@ namespace OpcUaNodeSet
 			return false;
 		}
 
+		// create opc ua information model
+		informationModel_ = constructSPtr<InformationModel>();
+		rc = InformationModelNodeSet::initial(informationModel_, nodeSetXmlParser);
+		if (!rc) {
+			Log(Error, "create node set error")
+			    .parameter("NodeSetFile", fileName);
+			return false;
+		}
+
+		informationModel_->checkForwardReferences();
+
 
 #if 0
 	    NodeSetNamespace& nodeSetNamespace = nodeSetXmlParser.nodeSetNamespace();
@@ -97,12 +108,6 @@ namespace OpcUaNodeSet
 	        std::cout << "NamespaceUri: " << *it << std::endl;
 	        std::cout << "mapToGlobalNamespaceIndex: " << namespaceIndex << std::endl;
 	    }
-
-		InformationModel::SPtr informationModel = constructSPtr<InformationModel>();
-		success = InformationModelNodeSet::initial(informationModel, nodeSetXmlParser);
-		BOOST_REQUIRE(success == true);
-
-		informationModel->checkForwardReferences();
 #endif
 		return false;
 	}
