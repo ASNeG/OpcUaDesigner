@@ -17,9 +17,11 @@
 
 #include "OpcUaStackCore/Base/Log.h"
 #include "OpcUaStackCore/Base/ConfigXml.h"
+#include "OpcUaStackServer/NodeSet/NodeSetXmlParser.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeSet.h"
 
 using namespace OpcUaStackCore;
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -75,14 +77,16 @@ namespace OpcUaNodeSet
 		}
 
 		// decode node set
+	    NodeSetXmlParser nodeSetXmlParser;
+	    rc = nodeSetXmlParser.decode(configXml.ptree());
+		if (!rc) {
+			Log(Error, "decode node set file error")
+			    .parameter("NodeSetFile", fileName);
+			return false;
+		}
 
 
 #if 0
-
-	    NodeSetXmlParser nodeSetXmlParser;
-	    success = nodeSetXmlParser.decode(configXml.ptree());
-	    BOOST_REQUIRE(success == true);
-
 	    NodeSetNamespace& nodeSetNamespace = nodeSetXmlParser.nodeSetNamespace();
 	    NamespaceVec& namespaceVec = nodeSetNamespace.localNamespaceVec();
 	    NamespaceVec::iterator it;
