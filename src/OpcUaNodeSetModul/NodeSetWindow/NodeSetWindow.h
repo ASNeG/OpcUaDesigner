@@ -15,8 +15,8 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#ifndef __OpcUaNodeSetModul_MainWindow_h__
-#define __OpcUaNodeSetModul_MainWindow_h__
+#ifndef __OpcUaNodeSetModul_NodeSetWindow_h__
+#define __OpcUaNodeSetModul_NodeSetWindow_h__
 
 #include <QMainWindow>
 
