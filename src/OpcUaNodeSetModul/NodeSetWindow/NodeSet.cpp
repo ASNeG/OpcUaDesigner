@@ -34,6 +34,12 @@ namespace OpcUaNodeSet
 	{
 	}
 
+	InformationModel::SPtr
+	NodeSet::informationModel(void)
+	{
+		return informationModel_;
+	}
+
 	bool
 	NodeSet::create(const std::string& fileName)
 	{
@@ -96,19 +102,6 @@ namespace OpcUaNodeSet
 
 		informationModel_->checkForwardReferences();
 
-
-#if 0
-	    NodeSetNamespace& nodeSetNamespace = nodeSetXmlParser.nodeSetNamespace();
-	    NamespaceVec& namespaceVec = nodeSetNamespace.localNamespaceVec();
-	    NamespaceVec::iterator it;
-
-	    for (it = namespaceVec.begin(); it != namespaceVec.end(); it++) {
-	        uint16_t namespaceIndex = nodeSetNamespace.mapToGlobalNamespaceIndex(*it);
-
-	        std::cout << "NamespaceUri: " << *it << std::endl;
-	        std::cout << "mapToGlobalNamespaceIndex: " << namespaceIndex << std::endl;
-	    }
-#endif
 		return false;
 	}
 

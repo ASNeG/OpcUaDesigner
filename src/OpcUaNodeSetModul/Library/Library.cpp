@@ -92,7 +92,7 @@ namespace OpcUaNodeSet
 		NodeSetWindow* nodeSetWindow = new NodeSetWindow(parentMainWindow());
 		nodeSetWindow->modulFile(fileName.toStdString());
 		nodeSetWindow->modulName(name.toStdString());
-		nodeSetWindow->start();
+		nodeSetWindow->create();
 
 		// show main window
 		nodeSetWindow->resize(400,600);

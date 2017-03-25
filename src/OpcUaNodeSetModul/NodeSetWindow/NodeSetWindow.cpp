@@ -35,9 +35,11 @@ namespace OpcUaNodeSet
 	{
 	}
 
-	void
-	NodeSetWindow::start(void)
+	bool
+	NodeSetWindow::create(void)
 	{
+		bool rc;
+
 		setWindowTitle(QString("OpcUaNodeSet - %1").arg(QString(modulName_.c_str())));
 
 		// create opc ua tree window
@@ -49,6 +51,23 @@ namespace OpcUaNodeSet
 		dockWidget->setWidget(opcUaTreeWindow_);
 		dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
 		this->addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
+
+		rc = opcUaTreeWindow_->create(modulFile_);
+		if (!rc) {
+			delete dockWidget;
+			delete opcUaTreeWindow_;
+			opcUaTreeWindow_ = NULL;
+			return false;
+		}
+
+		return true;
+	}
+
+	bool
+	NodeSetWindow::open(void)
+	{
+		// FIXME: todo
+		return false;
 	}
 
 	void

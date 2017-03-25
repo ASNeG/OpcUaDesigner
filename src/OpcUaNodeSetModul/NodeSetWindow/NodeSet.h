@@ -35,6 +35,8 @@ namespace OpcUaNodeSet
 		virtual ~NodeSet(void);
 		void start(void);
 
+		InformationModel::SPtr informationModel(void);
+
 		bool create(const std::string& fileName);
 		bool open(const std::string& fileName);
 		bool save(const std::string& fileName);

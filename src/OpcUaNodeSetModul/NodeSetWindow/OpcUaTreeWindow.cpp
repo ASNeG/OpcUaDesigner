@@ -16,6 +16,7 @@
  */
 
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaTreeWindow.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/NodeSet.h"
 
 #include <QWidget>
 #include <QHeaderView>
@@ -29,6 +30,8 @@ namespace OpcUaNodeSet
 
 	OpcUaTreeWindow::OpcUaTreeWindow(QWidget* parent)
 	: QWidget()
+	, actItem_(NULL)
+	, fileName_("")
 	{
 		// create opc ua tree
 		opcUaTree_ = new QTreeWidget();
@@ -49,6 +52,24 @@ namespace OpcUaNodeSet
 
 	OpcUaTreeWindow::~OpcUaTreeWindow(void)
 	{
+	}
+
+	bool
+	OpcUaTreeWindow::create(const std::string& fileName)
+	{
+		fileName_ = fileName;
+
+		// FIXME: todo
+		return true;
+	}
+
+	bool
+	OpcUaTreeWindow::open(const std::string& fileName)
+	{
+		fileName_ = fileName;
+
+		// FIXME: todo
+		return true;
 	}
 
 }
