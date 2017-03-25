@@ -18,6 +18,8 @@
 #ifndef __OpcUaNodeSetModul_NodeSet_h__
 #define __OpcUaNodeSetModul_NodeSet_h__
 
+#include <iostream>
+
 namespace OpcUaNodeSet
 {
 
@@ -27,6 +29,15 @@ namespace OpcUaNodeSet
 		NodeSet(void);
 		virtual ~NodeSet(void);
 		void start(void);
+
+		bool create(const std::string& fileName);
+		bool open(const std::string& fileName);
+		bool save(const std::string& fileName);
+
+	  private:
+		std::string fileName_;
+
+		bool loadOpcUaNodeSet(const std::string& fileName);
 	};
 
 }
