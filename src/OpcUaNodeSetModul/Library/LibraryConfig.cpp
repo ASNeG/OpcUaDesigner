@@ -15,7 +15,10 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
+#include "OpcUaStackCore/Base/Log.h"
 #include "OpcUaNodeSetModul/Library/LibraryConfig.h"
+
+using namespace OpcUaStackCore;
 
 namespace OpcUaNodeSet
 {
@@ -27,6 +30,20 @@ namespace OpcUaNodeSet
 
 	LibraryConfig::~LibraryConfig(void)
 	{
+	}
+
+	bool
+	LibraryConfig::readLibraryConfig(Config *config)
+	{
+		// get standard node set file name
+		if (!config->getConfigParameter("OpcUaModul.ModulConfig.StandardNodeSetFile", standardNodeSetFile_)) {
+			Log(Error, "missing element in configuration")
+				.parameter("Element", "OpcUaModul.ModulConfig.StandardNodeSetFile")
+				.parameter("FileName", config->configFileName());
+		    return false;
+		}
+
+		return true;
 	}
 
 }

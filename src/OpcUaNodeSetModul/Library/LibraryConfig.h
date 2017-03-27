@@ -18,6 +18,12 @@
 #ifndef __OpcUaNodeSetModul_LibraryConfig_h__
 #define __OpcUaNodeSetModul_LibraryConfig_h__
 
+#include "OpcUaStackCore/Base/Config.h"
+
+#include <iostream>
+
+using namespace OpcUaStackCore;
+
 namespace OpcUaNodeSet
 {
 
@@ -26,6 +32,8 @@ namespace OpcUaNodeSet
 	  public:
 		LibraryConfig(void);
 		~LibraryConfig(void);
+
+		bool readLibraryConfig(Config* config);
 
 		std::string standardNodeSetFile_;
 	};

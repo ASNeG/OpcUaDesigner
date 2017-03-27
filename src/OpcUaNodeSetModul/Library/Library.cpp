@@ -73,6 +73,11 @@ namespace OpcUaNodeSet
 		// FIXME: todo
 		std::cout << "start application..." << std::endl;
 
+		// read modul configuration
+		if (!libraryConfig_.readLibraryConfig(config())) {
+			return false;
+		}
+
 		// get node set file name
 		QString fileName = QFileDialog::getSaveFileName(
 			NULL, tr("Erstelle neue NodeSet Datei"), QDir::homePath(), tr("Dokumente (*.xml)")

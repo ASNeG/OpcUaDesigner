@@ -21,6 +21,7 @@
 #include <QObject>
 
 #include "OpcUaGui/ModulInterface/ModulLibraryInterface.h"
+#include "OpcUaNodeSetModul/Library/LibraryConfig.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeSetWindow.h"
 
 namespace OpcUaNodeSet
@@ -47,6 +48,9 @@ namespace OpcUaNodeSet
 	  private:
 		uint32_t handle_;
 		NodeSetWindow::Map mainWindowMap_;
+		LibraryConfig libraryConfig_;
+
+		bool readLibraryConfig(void);
 	};
 
 
