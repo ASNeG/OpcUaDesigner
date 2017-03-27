@@ -22,5 +22,10 @@
   <ModulParents>
     <Modul>Project</Modul>
   </ModulParents>
+  
+  
+  <ModulConfig>
+    <StandardNodeSetFile>CONF_DIR/Opc.Ua.NodeSet.xml</StandardNodeSetFile>
+  </ModulConfig>
 
 </OpcUaModul>
