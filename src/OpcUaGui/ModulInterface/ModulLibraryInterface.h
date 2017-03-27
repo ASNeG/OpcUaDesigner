@@ -25,6 +25,10 @@
 #include <iostream>
 #include <stdint.h>
 
+#include "OpcUaStackCore/Base/Config.h"
+
+using namespace OpcUaStackCore;
+
 #if defined(MYSHAREDLIB_LIBRARY)
 #  define MYSHAREDLIB_EXPORT Q_DECL_EXPORT
 #else
@@ -50,6 +54,8 @@ namespace OpcUaGui
 		{}
 		virtual ~ModulLibraryInterface(void) {}
 
+		void config(Config * config) { config_ = config; }
+		Config* config(void) { return config_; }
 		void parentMainWindow(QMainWindow* parentMainWindow) { parentMainWindow_ = parentMainWindow; }
 		QMainWindow* parentMainWindow(void) { return parentMainWindow_; }
 
@@ -68,6 +74,7 @@ namespace OpcUaGui
         void updateValue(uint32_t handle, Value value, QVariant& variant);
 
       private:
+        Config* config_;
         QMainWindow* parentMainWindow_;
 
 	};

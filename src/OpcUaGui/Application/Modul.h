@@ -60,6 +60,8 @@ namespace OpcUaGui
 		DynamicLibrary* dynamicLibrary_;
 		ModulLibraryInterface* modulLibraryInterface_;
 		ModulChilds modulChilds_;
+
+		OpcUaStackCore::Config* config_;
 	};
 
 

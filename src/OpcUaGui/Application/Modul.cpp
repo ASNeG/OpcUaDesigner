@@ -43,6 +43,7 @@ namespace OpcUaGui
 	: dynamicLibrary_(new DynamicLibrary())
 	, modulLibraryInterface_(NULL)
 	, modulChilds_()
+	, config_(NULL)
 	{
 	}
 
@@ -209,6 +210,7 @@ namespace OpcUaGui
 
 		// parse configuration file
 		Config* config = Config::instance();
+		modulConfig->config_ = config;
 		config->alias("@CONF_DIR@", Environment::confDir());
 		ConfigXml configXml;
 		if (!configXml.parse(modulConfigFileName, true)) {
@@ -287,6 +289,7 @@ namespace OpcUaGui
 
 			// set values
 			modulConfig->modulLibraryInterface_->parentMainWindow(mainWindow_);
+			modulConfig->modulLibraryInterface_->config(modulConfig->config_);
 
 			// connect startup and shutdown signals
 			connect(
