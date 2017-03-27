@@ -16,7 +16,7 @@
  */
 
 #include "OpcUaStackCore/Base/Log.h"
-#include "OpcUaNodeSetModul/Library/LibraryConfig.h"
+#include "OpcUaNodeSetModul/Base/LibraryConfig.h"
 
 using namespace OpcUaStackCore;
 
