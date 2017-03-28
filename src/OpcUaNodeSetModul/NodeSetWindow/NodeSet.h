@@ -18,8 +18,7 @@
 #ifndef __OpcUaNodeSetModul_NodeSet_h__
 #define __OpcUaNodeSetModul_NodeSet_h__
 
-#include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
-#include "OpcUaStackServer/InformationModel/InformationModelNodeSet.h"
+#include "OpcUaStackServer/InformationModel/InformationModel.h"
 
 #include <iostream>
 

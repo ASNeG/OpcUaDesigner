@@ -41,6 +41,7 @@ target_link_libraries(
     ${pthread}
     ${OPCUASTACK_LIBRARY_CORE}
     ${OPCUASTACK_LIBRARY_CLIENT}
+    ${OPCUASTACK_LIBRARY_SERVER}
     ${Boost_LIBRARIES}
     ${Qt5Widgets_LIBRARIES}
     ${Qt5Gui_LIBRARIES}

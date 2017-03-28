@@ -35,6 +35,7 @@ namespace OpcUaNodeSet
 	: OpcUaGui::ModulLibraryInterface()
 	, mainWindowMap_()
 	, handle_(1)
+	, libraryConfig_()
 	{
 	}
 

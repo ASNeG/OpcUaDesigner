@@ -50,7 +50,6 @@ namespace OpcUaNodeSet
 		NodeSetWindow::Map mainWindowMap_;
 		LibraryConfig libraryConfig_;
 
-		bool readLibraryConfig(void);
 	};
 
 

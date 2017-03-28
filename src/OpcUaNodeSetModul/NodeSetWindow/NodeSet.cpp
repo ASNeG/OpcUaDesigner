@@ -18,10 +18,10 @@
 #include "OpcUaStackCore/Base/Log.h"
 #include "OpcUaStackCore/Base/ConfigXml.h"
 #include "OpcUaStackServer/NodeSet/NodeSetXmlParser.h"
+#include "OpcUaStackServer/InformationModel/InformationModelNodeSet.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeSet.h"
 
 using namespace OpcUaStackCore;
-using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {

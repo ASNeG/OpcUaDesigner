@@ -127,7 +127,8 @@ namespace OpcUaGui
 			errorString_ = "unknown";
 			std::string libName = std::string("lib") + libraryName + std::string(".so");
 			if (libName.length() > 999) return false;
-			handle_ = dlopen(libName.c_str(), RTLD_LAZY);
+			//handle_ = dlopen(libName.c_str(), RTLD_LAZY);
+			handle_ = dlopen(libName.c_str(), RTLD_NOW | RTLD_GLOBAL);
 			if (handle_ == NULL) {
 				char* err = dlerror();
 				if (err != NULL) errorString_ = std::string(err);
