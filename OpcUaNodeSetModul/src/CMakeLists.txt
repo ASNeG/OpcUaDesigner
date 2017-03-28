@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.9)
-project	(OpcUaDesigner)
+project	(OpcUaNodeSetModul)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # ----------------------------------------------------------------------------
@@ -127,9 +127,7 @@ message(STATUS "  Qt5Core libraries: ${Qt5Core_LIBRARIES}")
 #
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
-include(OpcUaGui/CMakeLists.txt) 
 include(OpcUaNodeSetModul/CMakeLists.txt) 
-#include(OpcUaClientModul/CMakeLists.txt) 
 
 
 # -----------------------------------------------------------------------------
