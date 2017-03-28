@@ -25,6 +25,11 @@
 
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaTreeWindow.h"
 
+namespace OpcUaStackCore
+{
+    class Config;
+}
+
 namespace OpcUaNodeSet
 {
 
@@ -39,15 +44,18 @@ namespace OpcUaNodeSet
 
 		NodeSetWindow(QMainWindow* parentMainWindow);
 		virtual ~NodeSetWindow(void);
+
 		bool create(void);
 		bool open(void);
 
+		void config(OpcUaStackCore::Config* config);
 		void modulName(const std::string& modulName);
 		std::string modulName(void);
 		void modulFile(const std::string& modulFile);
 		std::string modulFile(void);
 
 	  private:
+		OpcUaStackCore::Config* config_;
 		QMainWindow* parentMainWindow_;
 		std::string modulName_;
 		std::string modulFile_;

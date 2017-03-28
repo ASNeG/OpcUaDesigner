@@ -54,6 +54,12 @@ namespace OpcUaNodeSet
 	{
 	}
 
+	void
+	OpcUaTreeWindow::standardNodeSetFileName(const std::string& standardNodeSetFileName)
+	{
+		standardNodeSetFileName_ = standardNodeSetFileName;
+	}
+
 	bool
 	OpcUaTreeWindow::create(const std::string& fileName)
 	{

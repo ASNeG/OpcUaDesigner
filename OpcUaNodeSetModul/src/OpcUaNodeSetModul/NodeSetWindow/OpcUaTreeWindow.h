@@ -35,10 +35,13 @@ namespace OpcUaNodeSet
 		OpcUaTreeWindow(QWidget* parent = 0);
 		virtual ~OpcUaTreeWindow(void);
 
+		void standardNodeSetFileName(const std::string& standardNodeSetFileName);
+
 		bool create(const std::string& fileName);
 		bool open(const std::string& fileName);
 
 	  private:
+		std::string standardNodeSetFileName_;
 		std::string fileName_;
 		QTreeWidget* opcUaTree_;
 		QTreeWidgetItem* rootItem_;

@@ -18,7 +18,11 @@
 #include <QString>
 #include <QDockWidget>
 
+#include "OpcUaStackCore/Base/Config.h"
+#include "OpcUaStackCore/Base/Log.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeSetWindow.h"
+
+using namespace OpcUaStackCore;
 
 namespace OpcUaNodeSet
 {
@@ -28,6 +32,7 @@ namespace OpcUaNodeSet
 	, modulName_("")
 	, modulFile_("")
 	, parentMainWindow_(parentMainWindow)
+	, config_(NULL)
 	{
 	}
 
@@ -44,6 +49,17 @@ namespace OpcUaNodeSet
 
 		// create opc ua tree window
 		opcUaTreeWindow_ = new OpcUaTreeWindow(NULL);
+
+		// set configuration parameters
+		std::string standardNodeSetFileName;
+		rc = config_->getConfigParameter("OpcUaModul.ModulConfig.StandardNodeSetFile", standardNodeSetFileName);
+		if (!rc) {
+			Log(Error, "element missing in configuration")
+			    .parameter("Element", "OpcUaModul.ModulConfig.StandardNodeSetFile")
+			    .parameter("FileName", config_->configFileName());
+			return false;
+		}
+		opcUaTreeWindow_->standardNodeSetFileName(standardNodeSetFileName);
 
 		// create dock widget
 		QDockWidget* dockWidget = new QDockWidget(tr("OPC UA Model"));
@@ -68,6 +84,12 @@ namespace OpcUaNodeSet
 	{
 		// FIXME: todo
 		return false;
+	}
+
+	void
+	NodeSetWindow::config(Config* config)
+	{
+		config_ = config;
 	}
 
 	void

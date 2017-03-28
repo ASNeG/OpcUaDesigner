@@ -34,6 +34,12 @@ namespace OpcUaNodeSet
 	{
 	}
 
+	void
+	NodeSet::standardNodeSetFileName(const std::string& standardNodeSetFileName)
+	{
+		standardNodeSetFileName_ = standardNodeSetFileName;
+	}
+
 	InformationModel::SPtr
 	NodeSet::informationModel(void)
 	{
