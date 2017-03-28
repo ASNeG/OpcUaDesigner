@@ -128,8 +128,6 @@ message(STATUS "  Qt5Core libraries: ${Qt5Core_LIBRARIES}")
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
 include(OpcUaGui/CMakeLists.txt) 
-include(OpcUaNodeSetModul/CMakeLists.txt) 
-#include(OpcUaClientModul/CMakeLists.txt) 
 
 
 # -----------------------------------------------------------------------------
