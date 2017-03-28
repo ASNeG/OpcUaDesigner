@@ -15,7 +15,7 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#include "OpcUaNodeSetModul/Library/Library.h"
+#include "OpcUaClientModul/Library/Library.h"
 
 #include <QMainWindow>
 #include <QIcon>
