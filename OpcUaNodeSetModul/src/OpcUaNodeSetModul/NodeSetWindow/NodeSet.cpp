@@ -34,13 +34,11 @@ namespace OpcUaNodeSet
 	{
 	}
 
-#if 0
 	InformationModel::SPtr
 	NodeSet::informationModel(void)
 	{
 		return informationModel_;
 	}
-#endif
 
 	bool
 	NodeSet::create(const std::string& fileName)
@@ -84,7 +82,6 @@ namespace OpcUaNodeSet
 			return false;
 		}
 
-#if 0
 		// decode node set
 	    NodeSetXmlParser nodeSetXmlParser;
 	    rc = nodeSetXmlParser.decode(configXml.ptree());
@@ -104,7 +101,6 @@ namespace OpcUaNodeSet
 		}
 
 		informationModel_->checkForwardReferences();
-#endif
 
 		return false;
 	}
