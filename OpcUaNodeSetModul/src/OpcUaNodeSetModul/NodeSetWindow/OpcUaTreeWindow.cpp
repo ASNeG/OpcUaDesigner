@@ -15,6 +15,7 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
+#include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaTreeWindow.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeSet.h"
 
@@ -24,6 +25,8 @@
 #include <QTreeWidgetItem>
 #include <QVBoxLayout>
 #include <QMessageBox>
+
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -86,7 +89,7 @@ namespace OpcUaNodeSet
 			msgBox.exec();
 			return false;
 		}
-		addNode(informationModel, baseNode);
+		addNode(informationModel, NULL, baseNode);
 
 		return true;
 	}
@@ -101,7 +104,11 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaTreeWindow::addNode(InformationModel::SPtr& informationModel, BaseNodeClass::SPtr& baseNode)
+	OpcUaTreeWindow::addNode(
+		InformationModel::SPtr& informationModel,
+		QTreeWidgetItem* parentItem,
+		BaseNodeClass::SPtr& baseNode
+	)
 	{
 		QIcon icon;
 		NodeClassType nodeClass;
@@ -165,12 +172,34 @@ namespace OpcUaNodeSet
 		baseNode->getDisplayName(displayName);
 
 		// create tree item
-		if (rootItem_ == NULL) {
-			rootItem_ = new QTreeWidgetItem(opcUaTree_);
-			rootItem_->setText(0, displayName.text().value().c_str());
-			//rootItem_->setData(0, Qt::UserRole, v);
-			rootItem_->setIcon(0, icon);
+		QTreeWidgetItem* item = new QTreeWidgetItem();
+		item->setText(0, displayName.text().value().c_str());
+		//item->setData(0, Qt::UserRole, v);
+		item->setIcon(0, icon);
+
+		if (parentItem == NULL) {
+			opcUaTree_->addTopLevelItem(item);
 		}
+		else {
+			parentItem->addChild(item);
+		}
+
+		// read childs of base node
+		InformationModelAccess informationModelAccess(informationModel);
+		BaseNodeClass::Vec baseNodeClassVec;
+		if (!informationModelAccess.getChildHierarchically(baseNode, baseNodeClassVec)) {
+			Log(Error, "hierarchical child access error")
+				.parameter("NodeId", *baseNode->getNodeId());
+			return;
+		}
+
+		BaseNodeClass::Vec::iterator it;
+		for (it=baseNodeClassVec.begin(); it!=baseNodeClassVec.end(); it++) {
+			BaseNodeClass::SPtr childBaseNode = *it;
+
+			addNode(informationModel, item, childBaseNode);
+		}
+
 	}
 
 }
