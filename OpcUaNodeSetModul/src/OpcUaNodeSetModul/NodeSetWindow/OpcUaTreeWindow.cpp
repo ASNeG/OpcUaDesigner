@@ -41,12 +41,6 @@ namespace OpcUaNodeSet
 		opcUaTree_->header()->close();
 		opcUaTree_->setContextMenuPolicy(Qt::CustomContextMenu);
 
-		// create opc ua tree
-		rootItem_ = new QTreeWidgetItem(opcUaTree_);
-		rootItem_->setText(0, "Object");
-		//rootItem_->setData(0, Qt::UserRole, v);
-		rootItem_->setIcon(0, QIcon(":images/Folder.png"));
-
 		// show opc ua tree
 		QVBoxLayout* layout_ = new QVBoxLayout();
 		layout_->addWidget(opcUaTree_);
@@ -109,7 +103,74 @@ namespace OpcUaNodeSet
 	void
 	OpcUaTreeWindow::addNode(InformationModel::SPtr& informationModel, BaseNodeClass::SPtr& baseNode)
 	{
-		// FIXME: tosdo
+		QIcon icon;
+		NodeClassType nodeClass;
+		baseNode->getNodeClass(nodeClass);
+		switch (nodeClass)
+		{
+			case NodeClassType_Object:
+			{
+				icon = QIcon(":images/Folder.png");
+				icon = QIcon(":images/Object.png");
+				break;
+			}
+			case NodeClassType_Variable:
+			{
+				icon = QIcon(":images/Property.png");
+				icon = QIcon(":images/Value.png");
+				break;
+			}
+			case NodeClassType_Method:
+			{
+				icon = QIcon(":images/Function.png");
+				break;
+			}
+			case NodeClassType_ObjectType:
+			{
+				icon = QIcon(":images/ObjectType.png");
+				break;
+			}
+			case NodeClassType_VariableType:
+			{
+				icon = QIcon(":images/ValueType.png");
+				break;
+			}
+			case NodeClassType_ReferenceType:
+			{
+				icon = QIcon(":images/ReferenceType.png");
+				break;
+			}
+			case NodeClassType_DataType:
+			{
+				icon = QIcon(":images/DataType.png");
+				break;
+			}
+			case NodeClassType_View:
+			{
+				icon = QIcon(":images/Folder.png");
+				break;
+			}
+			default:
+			{
+				Log(Error, "invalid node class found")
+					.parameter("NodeId", "xx")
+					.parameter("NodeClass", (uint32_t)nodeClass);
+				// FIXME: todo
+
+				break;
+			}
+		}
+
+		OpcUaLocalizedText displayName;
+		baseNode->getDisplayName(displayName);
+
+		// create tree item
+		if (rootItem_ == NULL) {
+			rootItem_ = new QTreeWidgetItem(opcUaTree_);
+			rootItem_->setText(0, displayName.text().value().c_str());
+			//rootItem_->setData(0, Qt::UserRole, v);
+			rootItem_->setIcon(0, icon);
+		}
 	}
 
 }
