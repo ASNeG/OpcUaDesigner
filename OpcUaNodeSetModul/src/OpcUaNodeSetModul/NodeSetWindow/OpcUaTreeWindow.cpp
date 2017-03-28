@@ -32,6 +32,7 @@ namespace OpcUaNodeSet
 	: QWidget()
 	, actItem_(NULL)
 	, fileName_("")
+	, nodeSet_()
 	{
 		// create opc ua tree
 		opcUaTree_ = new QTreeWidget();
@@ -63,9 +64,18 @@ namespace OpcUaNodeSet
 	bool
 	OpcUaTreeWindow::create(const std::string& fileName)
 	{
+		bool rc;
+
 		fileName_ = fileName;
 
-		// FIXME: todo
+		// create standard opc ua node set
+		nodeSet_.standardNodeSetFileName(standardNodeSetFileName_);
+		rc = nodeSet_.create(fileName);
+		if (!rc) {
+			// FIXME: message box ....
+			return false;
+		}
+
 		return true;
 	}
 

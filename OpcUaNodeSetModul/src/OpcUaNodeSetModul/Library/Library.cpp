@@ -99,7 +99,11 @@ namespace OpcUaNodeSet
 		nodeSetWindow->modulFile(fileName.toStdString());
 		nodeSetWindow->modulName(name.toStdString());
 		nodeSetWindow->config(config());
-		nodeSetWindow->create();
+
+		if (!nodeSetWindow->create()) {
+			delete nodeSetWindow;
+			return false;
+		}
 
 		// show main window
 		nodeSetWindow->resize(400,600);

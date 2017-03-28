@@ -20,6 +20,8 @@
 
 #include <QWidget>
 
+#include "OpcUaNodeSetModul/NodeSetWindow/NodeSet.h"
+
 class QTreeWidget;
 class QTreeWidgetItem;
 
@@ -46,6 +48,8 @@ namespace OpcUaNodeSet
 		QTreeWidget* opcUaTree_;
 		QTreeWidgetItem* rootItem_;
 		QTreeWidgetItem* actItem_;
+
+		NodeSet nodeSet_;
 	};
 
 }

@@ -27,11 +27,15 @@ namespace OpcUaNodeSet
 {
 
 	NodeSet::NodeSet(void)
+	: informationModel_()
 	{
 	}
 
 	NodeSet::~NodeSet(void)
 	{
+		if (informationModel_.get() != nullptr) {
+			informationModel_.reset();
+		}
 	}
 
 	void
@@ -51,8 +55,12 @@ namespace OpcUaNodeSet
 	{
 		fileName_ = fileName;
 
-		// FIXME: todo
-		return false;
+		// load standard opc ua node set
+		if (!loadOpcUaNodeSet(standardNodeSetFileName_)) {
+			return false;
+		}
+
+		return true;
 	}
 
 	bool
@@ -98,7 +106,9 @@ namespace OpcUaNodeSet
 		}
 
 		// create opc ua information model
-		informationModel_ = constructSPtr<InformationModel>();
+		if (informationModel_.get() == nullptr) {
+			informationModel_ = constructSPtr<InformationModel>();
+		}
 		rc = InformationModelNodeSet::initial(informationModel_, nodeSetXmlParser);
 		if (!rc) {
 			Log(Error, "create node set error")
@@ -108,7 +118,7 @@ namespace OpcUaNodeSet
 
 		informationModel_->checkForwardReferences();
 
-		return false;
+		return true;
 	}
 
 }

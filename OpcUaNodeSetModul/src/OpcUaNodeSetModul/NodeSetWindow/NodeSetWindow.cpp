@@ -71,8 +71,6 @@ namespace OpcUaNodeSet
 		rc = opcUaTreeWindow_->create(modulFile_);
 		if (!rc) {
 			delete dockWidget;
-			delete opcUaTreeWindow_;
-			opcUaTreeWindow_ = NULL;
 			return false;
 		}
 
