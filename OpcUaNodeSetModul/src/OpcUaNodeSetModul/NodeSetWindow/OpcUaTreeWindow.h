@@ -43,6 +43,8 @@ namespace OpcUaNodeSet
 		bool open(const std::string& fileName);
 
 	  private:
+		void addNode(InformationModel::SPtr& informationModel, BaseNodeClass::SPtr& baseNode);
+
 		std::string standardNodeSetFileName_;
 		std::string fileName_;
 		QTreeWidget* opcUaTree_;

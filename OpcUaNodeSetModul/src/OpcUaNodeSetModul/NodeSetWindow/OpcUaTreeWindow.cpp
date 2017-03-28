@@ -31,6 +31,7 @@ namespace OpcUaNodeSet
 
 	OpcUaTreeWindow::OpcUaTreeWindow(QWidget* parent)
 	: QWidget()
+	, rootItem_(NULL)
 	, actItem_(NULL)
 	, fileName_("")
 	, nodeSet_()
@@ -42,9 +43,9 @@ namespace OpcUaNodeSet
 
 		// create opc ua tree
 		rootItem_ = new QTreeWidgetItem(opcUaTree_);
-		rootItem_->setText(0, "Project");
+		rootItem_->setText(0, "Object");
 		//rootItem_->setData(0, Qt::UserRole, v);
-		rootItem_->setIcon(0, QIcon(":images/Project.png"));
+		rootItem_->setIcon(0, QIcon(":images/Folder.png"));
 
 		// show opc ua tree
 		QVBoxLayout* layout_ = new QVBoxLayout();
@@ -91,6 +92,7 @@ namespace OpcUaNodeSet
 			msgBox.exec();
 			return false;
 		}
+		addNode(informationModel, baseNode);
 
 		return true;
 	}
@@ -102,6 +104,12 @@ namespace OpcUaNodeSet
 
 		// FIXME: todo
 		return true;
+	}
+
+	void
+	OpcUaTreeWindow::addNode(InformationModel::SPtr& informationModel, BaseNodeClass::SPtr& baseNode)
+	{
+		// FIXME: tosdo
 	}
 
 }
