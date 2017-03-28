@@ -79,6 +79,19 @@ namespace OpcUaNodeSet
 			return false;
 		}
 
+		// get opc ua information model
+		InformationModel::SPtr informationModel = nodeSet_.informationModel();
+
+		// get root element and create tree
+		OpcUaNodeId rootNodeId(84);
+		BaseNodeClass::SPtr baseNode = informationModel->find(rootNodeId);
+		if (baseNode.get() == nullptr) {
+			QMessageBox msgBox;
+			msgBox.setText("The information model can not be displayed");
+			msgBox.exec();
+			return false;
+		}
+
 		return true;
 	}
 

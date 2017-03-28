@@ -2,7 +2,16 @@
 
     <qresource>
       <file>images/OpcUaNodeSet.png</file>
+      
+      <file>images/DataType.png</file>
+      <file>images/Folder.png</file>
+      <file>images/Function.png</file>
+      <file>images/Object.png</file>
+      <file>images/ObjectType.png</file>
+      <file>images/Property.png</file>
+      <file>images/ReferenceType.png</file>
+      <file>images/Value.png</file>
+      <file>images/ValueType.png</file>
     </qresource>
 
 </RCC>
-
