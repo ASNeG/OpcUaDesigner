@@ -34,7 +34,7 @@ namespace OpcUaNodeSet
 		virtual ~NodeSet(void);
 		void start(void);
 
-		InformationModel::SPtr informationModel(void);
+		//InformationModel::SPtr informationModel(void);
 
 		bool create(const std::string& fileName);
 		bool open(const std::string& fileName);
@@ -42,7 +42,7 @@ namespace OpcUaNodeSet
 
 	  private:
 		std::string fileName_;
-		InformationModel::SPtr informationModel_;
+		//InformationModel::SPtr informationModel_;
 
 		bool loadOpcUaNodeSet(const std::string& fileName);
 	};

@@ -10,6 +10,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 include_directories(
     ${OPCUASTACK_INSTALL_PREFIX}/usr/include/OpcUaStack${OPCUASTACK_VERSION_MAJOR}
     ${PROJECT_SOURCE_DIR}
+    ${PROJECT_SOURCE_DIR}/../../OpcUaDesigner/src
     ${Boost_INCLUDE_DIR}
     ${OPENSSL_INCLUDE_DIR}
 )
