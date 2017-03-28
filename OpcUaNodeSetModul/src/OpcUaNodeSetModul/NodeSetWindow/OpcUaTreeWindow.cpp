@@ -23,6 +23,7 @@
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QVBoxLayout>
+#include <QMessageBox>
 
 namespace OpcUaNodeSet
 {
@@ -72,7 +73,9 @@ namespace OpcUaNodeSet
 		nodeSet_.standardNodeSetFileName(standardNodeSetFileName_);
 		rc = nodeSet_.create(fileName);
 		if (!rc) {
-			// FIXME: message box ....
+			QMessageBox msgBox;
+			msgBox.setText("The nodeset can not be created");
+			msgBox.exec();
 			return false;
 		}
 
