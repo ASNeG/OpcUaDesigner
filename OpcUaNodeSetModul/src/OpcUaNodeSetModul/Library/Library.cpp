@@ -98,7 +98,7 @@ namespace OpcUaNodeSet
 		NodeSetWindow* nodeSetWindow = new NodeSetWindow(parentMainWindow());
 		nodeSetWindow->modulFile(fileName.toStdString());
 		nodeSetWindow->modulName(name.toStdString());
-		nodeSetWindow->config(config());
+		nodeSetWindow->libraryConfig(&libraryConfig_);
 
 		if (!nodeSetWindow->create()) {
 			delete nodeSetWindow;

@@ -32,7 +32,7 @@ namespace OpcUaNodeSet
 	, modulName_("")
 	, modulFile_("")
 	, parentMainWindow_(parentMainWindow)
-	, config_(NULL)
+	, libraryConfig_(NULL)
 	{
 	}
 
@@ -49,17 +49,7 @@ namespace OpcUaNodeSet
 
 		// create opc ua tree window
 		opcUaTreeWindow_ = new OpcUaTreeWindow(NULL);
-
-		// set configuration parameters
-		std::string standardNodeSetFileName;
-		rc = config_->getConfigParameter("OpcUaModul.ModulConfig.StandardNodeSetFile", standardNodeSetFileName);
-		if (!rc) {
-			Log(Error, "element missing in configuration")
-			    .parameter("Element", "OpcUaModul.ModulConfig.StandardNodeSetFile")
-			    .parameter("FileName", config_->configFileName());
-			return false;
-		}
-		opcUaTreeWindow_->standardNodeSetFileName(standardNodeSetFileName);
+		opcUaTreeWindow_->standardNodeSetFileName(libraryConfig_->standardNodeSetFile_);
 
 		// create dock widget
 		QDockWidget* dockWidget = new QDockWidget(tr("OPC UA Model"));
@@ -85,9 +75,9 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	NodeSetWindow::config(Config* config)
+	NodeSetWindow::libraryConfig(LibraryConfig* libraryConfig)
 	{
-		config_ = config;
+		libraryConfig_ = libraryConfig;
 	}
 
 	void
