@@ -15,9 +15,10 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#ifndef __OpcUaNodeInfoModul_NodeInfo_h__
-#define __OpcUaNodeInfoModul_NodeInfo_h__
+#ifndef __OpcUaNodeSetModul_NodeInfo_h__
+#define __OpcUaNodeSetModul_NodeInfo_h__
 
+#include <QMetaType>
 
 namespace OpcUaNodeSet
 {
@@ -26,9 +27,13 @@ namespace OpcUaNodeSet
 	{
 	  public:
 		NodeInfo(void);
-		virtual ~NodeInfo(void);
+		~NodeInfo(void);
+
+		int32_t x;
 	};
 
 }
+
+Q_DECLARE_METATYPE(OpcUaNodeSet::NodeInfo*);
 
 #endif

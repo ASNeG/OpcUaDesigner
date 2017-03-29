@@ -19,6 +19,7 @@
 #include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaTreeWindow.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeSet.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
 
 #include <QWidget>
 #include <QHeaderView>
@@ -26,6 +27,7 @@
 #include <QTreeWidgetItem>
 #include <QVBoxLayout>
 #include <QMessageBox>
+#include <QVariant>
 
 using namespace OpcUaStackCore;
 using namespace OpcUaStackServer;
@@ -191,9 +193,13 @@ namespace OpcUaNodeSet
 		baseNode->getDisplayName(displayName);
 
 		// create tree item
+		NodeInfo* nodeInfo = new NodeInfo();
+		QVariant v;
+		v.setValue((void*)nodeInfo);
+
 		QTreeWidgetItem* item = new QTreeWidgetItem();
 		item->setText(0, displayName.text().value().c_str());
-		//item->setData(0, Qt::UserRole, v);
+		item->setData(0, Qt::UserRole, v);
 		item->setIcon(0, icon);
 
 		if (parentItem == NULL) {
@@ -225,6 +231,10 @@ namespace OpcUaNodeSet
 	)
 	{
 		if(!item) return;
+
+		QVariant v = item->data(0, Qt::UserRole);
+		NodeInfo* nodeInfo = v.value<NodeInfo*>();
+		delete nodeInfo;
 
 		delete item->parent()->takeChild(item->parent()->indexOfChild(item));
 	}
