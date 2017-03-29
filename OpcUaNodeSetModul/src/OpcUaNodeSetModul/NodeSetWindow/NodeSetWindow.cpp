@@ -47,6 +47,13 @@ namespace OpcUaNodeSet
 
 		setWindowTitle(QString("OpcUaNodeSet - %1").arg(QString(modulName_.c_str())));
 
+
+		// --------------------------------------------------------------------
+		//
+		// opc ua tree window
+		//
+		// --------------------------------------------------------------------
+
 		// create opc ua tree window
 		opcUaTreeWindow_ = new OpcUaTreeWindow(NULL);
 		opcUaTreeWindow_->standardNodeSetFileName(libraryConfig_->standardNodeSetFile_);
@@ -63,6 +70,14 @@ namespace OpcUaNodeSet
 			delete dockWidget;
 			return false;
 		}
+
+		// --------------------------------------------------------------------
+		//
+		// opc ua attribute window
+		//
+		// --------------------------------------------------------------------
+		opcUaAttributeWindow_ = new OpcUaAttributeWindow(NULL);
+		this->setCentralWidget(opcUaAttributeWindow_);
 
 		return true;
 	}

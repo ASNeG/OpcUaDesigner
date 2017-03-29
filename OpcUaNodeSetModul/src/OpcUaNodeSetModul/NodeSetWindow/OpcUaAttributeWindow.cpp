@@ -15,6 +15,8 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
+#include <QVBoxLayout>
+
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeWindow.h"
 
 namespace OpcUaNodeSet
@@ -24,6 +26,13 @@ namespace OpcUaNodeSet
 	OpcUaAttributeWindow::OpcUaAttributeWindow(QWidget* parent)
 	: QWidget()
 	{
+		// create opc ua attribute tab
+		opcUaAttributeTab_ = new QTabWidget();
+
+		// show opc ua attriubute tab
+		QVBoxLayout* layout_ = new QVBoxLayout();
+		layout_->addWidget(opcUaAttributeTab_);
+		setLayout(layout_);
 	}
 
 	OpcUaAttributeWindow::~OpcUaAttributeWindow(void)

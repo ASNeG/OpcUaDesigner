@@ -25,6 +25,7 @@
 
 #include "OpcUaNodeSetModul/Base/LibraryConfig.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaTreeWindow.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeWindow.h"
 
 namespace OpcUaNodeSet
 {
@@ -57,6 +58,7 @@ namespace OpcUaNodeSet
 		std::string modulFile_;
 
 		OpcUaTreeWindow* opcUaTreeWindow_;
+		OpcUaAttributeWindow* opcUaAttributeWindow_;
 	};
 
 }

@@ -19,6 +19,7 @@
 #define __OpcUaNodeSet_OpcUaAttributeWindow_h__
 
 #include <QWidget>
+#include <QTabWidget>
 
 namespace OpcUaNodeSet
 {
@@ -31,6 +32,9 @@ namespace OpcUaNodeSet
 	  public:
 		OpcUaAttributeWindow(QWidget* parent = 0);
 		virtual ~OpcUaAttributeWindow(void);
+
+	  private:
+		QTabWidget* opcUaAttributeTab_;
 	};
 
 }
