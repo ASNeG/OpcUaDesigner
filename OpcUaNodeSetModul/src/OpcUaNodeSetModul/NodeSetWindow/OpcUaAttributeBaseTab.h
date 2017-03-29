@@ -15,34 +15,26 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#include <QVBoxLayout>
+#ifndef __OpcUaNodeSet_OpcUaAttributeBaseTab_h__
+#define __OpcUaNodeSet_OpcUaAttributeBaseTab_h__
 
-#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeWindow.h"
-#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeBaseTab.h"
+#include <QWidget>
 
 namespace OpcUaNodeSet
 {
 
-
-	OpcUaAttributeWindow::OpcUaAttributeWindow(QWidget* parent)
-	: QWidget()
+	class OpcUaAttributeBaseTab
+	: public QWidget
 	{
-		// create opc ua attribute tab
-		opcUaAttributeTab_ = new QTabWidget();
+		Q_OBJECT
 
-		OpcUaAttributeBaseTab* tabBase = new  OpcUaAttributeBaseTab();
-		opcUaAttributeTab_->addTab(tabBase, "Base Attributes");
+	  public:
+		OpcUaAttributeBaseTab(QWidget* parent = 0);
+		virtual ~OpcUaAttributeBaseTab(void);
 
-		// show opc ua attriubute tab
-		QVBoxLayout* layout_ = new QVBoxLayout();
-		layout_->addWidget(opcUaAttributeTab_);
-		setLayout(layout_);
-	}
-
-	OpcUaAttributeWindow::~OpcUaAttributeWindow(void)
-	{
-	}
+	  private:
+	};
 
 }
 
-
+#endif
