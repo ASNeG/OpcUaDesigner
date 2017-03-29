@@ -17,37 +17,27 @@
 
 #include <QVBoxLayout>
 
-#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeWindow.h"
-#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeBaseTab.h"
-#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeRefTab.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeParentTab.h"
+
+#include <QLabel>
 
 namespace OpcUaNodeSet
 {
 
 
-	OpcUaAttributeWindow::OpcUaAttributeWindow(QWidget* parent)
+	OpcUaAttributeParentTab::OpcUaAttributeParentTab(QWidget* parent)
 	: QWidget()
 	{
-		// create opc ua attribute tab
-		opcUaAttributeTab_ = new QTabWidget();
+		// create opc ua attribute base tab
+		QLabel* label = new QLabel("todo");
 
-		OpcUaAttributeBaseTab* tabBase = new  OpcUaAttributeBaseTab();
-		opcUaAttributeTab_->addTab(tabBase, "Base Attributes");
-
-		OpcUaAttributeParentTab* tabParent = new  OpcUaAttributeParentTab();
-		opcUaAttributeTab_->addTab(tabParent, "Parent");
-
-		OpcUaAttributeRefTab* tabRef = new  OpcUaAttributeRefTab();
-		opcUaAttributeTab_->addTab(tabRef, "References");
-
-		// show opc ua attriubute tab
+		// show opc ua attriubute base tab
 		QVBoxLayout* layout_ = new QVBoxLayout();
-		layout_->addWidget(opcUaAttributeTab_);
+		layout_->addWidget(label);
 		setLayout(layout_);
 	}
 
-	OpcUaAttributeWindow::~OpcUaAttributeWindow(void)
+	OpcUaAttributeParentTab::~OpcUaAttributeParentTab(void)
 	{
 	}
 
