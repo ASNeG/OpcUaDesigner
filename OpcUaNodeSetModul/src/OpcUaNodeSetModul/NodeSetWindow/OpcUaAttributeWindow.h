@@ -15,29 +15,24 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#ifndef __OpcUaNodeSetModul_NodeInfo_h__
-#define __OpcUaNodeSetModul_NodeInfo_h__
+#ifndef __OpcUaNodeSet_OpcUaAttributeWindow_h__
+#define __OpcUaNodeSet_OpcUaAttributeWindow_h__
 
-#include <QMetaType>
-
-#include "OpcUaStackServer/AddressSpaceModel/BaseNodeClass.h"
-
-using namespace OpcUaStackServer;
+#include <QWidget>
 
 namespace OpcUaNodeSet
 {
 
-	class NodeInfo
+	class OpcUaAttributeWindow
+	: public QWidget
 	{
-	  public:
-		NodeInfo(void);
-		~NodeInfo(void);
+		Q_OBJECT
 
-		BaseNodeClass::SPtr baseNode_;
+	  public:
+		OpcUaAttributeWindow(QWidget* parent = 0);
+		virtual ~OpcUaAttributeWindow(void);
 	};
 
 }
-
-Q_DECLARE_METATYPE(OpcUaNodeSet::NodeInfo*);
 
 #endif
