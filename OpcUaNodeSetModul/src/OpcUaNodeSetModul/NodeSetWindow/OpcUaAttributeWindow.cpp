@@ -32,6 +32,7 @@ namespace OpcUaNodeSet
 	{
 		// create opc ua attribute tab
 		opcUaAttributeTab_ = new QTabWidget();
+		opcUaAttributeTab_->setMinimumWidth(600);
 
 		OpcUaAttributeBaseTab* tabBase = new  OpcUaAttributeBaseTab();
 		opcUaAttributeTab_->addTab(tabBase, "Base Attributes");

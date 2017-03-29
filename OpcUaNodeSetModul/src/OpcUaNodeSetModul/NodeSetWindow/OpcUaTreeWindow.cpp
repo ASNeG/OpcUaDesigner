@@ -45,6 +45,7 @@ namespace OpcUaNodeSet
 	{
 		// create opc ua tree
 		opcUaTree_ = new QTreeWidget();
+		opcUaTree_->setMinimumWidth(300);
 		opcUaTree_->header()->close();
 		opcUaTree_->setContextMenuPolicy(Qt::CustomContextMenu);
 
