@@ -21,6 +21,7 @@
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeBaseTab.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeRefTab.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeParentTab.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeChildTab.h"
 
 namespace OpcUaNodeSet
 {
@@ -37,6 +38,9 @@ namespace OpcUaNodeSet
 
 		OpcUaAttributeParentTab* tabParent = new  OpcUaAttributeParentTab();
 		opcUaAttributeTab_->addTab(tabParent, "Parent");
+
+		OpcUaAttributeChildTab* tabChild = new  OpcUaAttributeChildTab();
+		opcUaAttributeTab_->addTab(tabChild, "Childs");
 
 		OpcUaAttributeRefTab* tabRef = new  OpcUaAttributeRefTab();
 		opcUaAttributeTab_->addTab(tabRef, "References");
