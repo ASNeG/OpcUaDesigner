@@ -48,6 +48,9 @@ namespace OpcUaNodeSet
 			QTreeWidgetItem* parentItem,
 			BaseNodeClass::SPtr& baseNode
 		);
+		void removeNode(
+			QTreeWidgetItem* item
+		);
 
 		std::string standardNodeSetFileName_;
 		std::string fileName_;

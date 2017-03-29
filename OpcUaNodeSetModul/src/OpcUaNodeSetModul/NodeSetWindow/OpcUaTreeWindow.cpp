@@ -15,6 +15,7 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
+#include "OpcUaStackCore/BuildInTypes/OpcUaIdentifier.h"
 #include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaTreeWindow.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeSet.h"
@@ -26,6 +27,7 @@
 #include <QVBoxLayout>
 #include <QMessageBox>
 
+using namespace OpcUaStackCore;
 using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
@@ -81,7 +83,7 @@ namespace OpcUaNodeSet
 		InformationModel::SPtr informationModel = nodeSet_.informationModel();
 
 		// get root element and create tree
-		OpcUaNodeId rootNodeId(84);
+		OpcUaNodeId rootNodeId(OpcUaId_RootFolder);
 		BaseNodeClass::SPtr baseNode = informationModel->find(rootNodeId);
 		if (baseNode.get() == nullptr) {
 			QMessageBox msgBox;
@@ -110,21 +112,38 @@ namespace OpcUaNodeSet
 		BaseNodeClass::SPtr& baseNode
 	)
 	{
+		InformationModelAccess informationModelAccess(informationModel);
+		OpcUaNodeId typeNodeId;
 		QIcon icon;
 		NodeClassType nodeClass;
+
+		// get information from base node
+		informationModelAccess.getType(baseNode, typeNodeId);
 		baseNode->getNodeClass(nodeClass);
+
 		switch (nodeClass)
 		{
 			case NodeClassType_Object:
 			{
-				icon = QIcon(":images/Folder.png");
-				icon = QIcon(":images/Object.png");
+				OpcUaNodeId folderNodeId(OpcUaId_FolderType);
+
+				if (typeNodeId == folderNodeId) {
+					icon = QIcon(":images/Folder.png");
+				}
+				else {
+					icon = QIcon(":images/Object.png");
+				}
 				break;
 			}
 			case NodeClassType_Variable:
 			{
-				icon = QIcon(":images/Property.png");
-				icon = QIcon(":images/Value.png");
+				OpcUaNodeId propertyNodeId(OpcUaId_PropertyType);
+
+				if (typeNodeId == propertyNodeId) {
+					icon = QIcon(":images/Property.png");
+				} else {
+					icon = QIcon(":images/Value.png");
+				}
 				break;
 			}
 			case NodeClassType_Method:
@@ -185,7 +204,6 @@ namespace OpcUaNodeSet
 		}
 
 		// read childs of base node
-		InformationModelAccess informationModelAccess(informationModel);
 		BaseNodeClass::Vec baseNodeClassVec;
 		if (!informationModelAccess.getChildHierarchically(baseNode, baseNodeClassVec)) {
 			Log(Error, "hierarchical child access error")
@@ -199,7 +217,16 @@ namespace OpcUaNodeSet
 
 			addNode(informationModel, item, childBaseNode);
 		}
+	}
 
+	void
+	OpcUaTreeWindow::removeNode(
+		QTreeWidgetItem* item
+	)
+	{
+		if(!item) return;
+
+		delete item->parent()->takeChild(item->parent()->indexOfChild(item));
 	}
 
 }
