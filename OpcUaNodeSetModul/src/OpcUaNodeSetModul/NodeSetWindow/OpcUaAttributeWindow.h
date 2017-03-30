@@ -43,7 +43,7 @@ namespace OpcUaNodeSet
 
 	  public slots:
 		void onNodeChanged(BaseNodeClass::SPtr nodeClass);
-		void onVisibleChanged(int index);
+		void onCurrendChanged(int index);
 
 	  private:
 		QTabWidget* opcUaAttributeTab_;

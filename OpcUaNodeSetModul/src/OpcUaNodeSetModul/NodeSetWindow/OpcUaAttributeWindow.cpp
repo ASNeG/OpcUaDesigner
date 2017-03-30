@@ -46,6 +46,11 @@ namespace OpcUaNodeSet
 		QVBoxLayout* layout_ = new QVBoxLayout();
 		layout_->addWidget(opcUaAttributeTab_);
 		setLayout(layout_);
+
+		connect(
+			opcUaAttributeTab_, SIGNAL(currentChanged(int)),
+			this, SLOT(onCurrendChanged(int))
+		);
 	}
 
 	OpcUaAttributeWindow::~OpcUaAttributeWindow(void)
@@ -61,12 +66,14 @@ namespace OpcUaNodeSet
 	{
 		std::cout << "onCurrentItemChanged OpcUaAttributeWindow..." << std::endl;
 		nodeClass_ = nodeClass;
-		onVisibleChanged(0);
+		onCurrendChanged(-1);
 	}
 
 	void
-	OpcUaAttributeWindow::onVisibleChanged(int index)
+	OpcUaAttributeWindow::onCurrendChanged(int index)
 	{
+		std::cout << "::: " << index << std::endl;
+
 		if (nodeClass_.get() == NULL) return;
 
 		if (tabBase_->isVisible()) {
