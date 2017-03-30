@@ -18,10 +18,6 @@
 #include <QVBoxLayout>
 
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeWindow.h"
-#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeBaseTab.h"
-#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeRefTab.h"
-#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeParentTab.h"
-#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeChildTab.h"
 
 namespace OpcUaNodeSet
 {
@@ -34,17 +30,17 @@ namespace OpcUaNodeSet
 		opcUaAttributeTab_ = new QTabWidget();
 		opcUaAttributeTab_->setMinimumWidth(600);
 
-		OpcUaAttributeBaseTab* tabBase = new  OpcUaAttributeBaseTab();
-		opcUaAttributeTab_->addTab(tabBase, "Base Attributes");
+		tabBase_ = new  OpcUaAttributeBaseTab();
+		opcUaAttributeTab_->addTab(tabBase_, "Attributes");
 
-		OpcUaAttributeParentTab* tabParent = new  OpcUaAttributeParentTab();
-		opcUaAttributeTab_->addTab(tabParent, "Parent");
+		tabParent_ = new  OpcUaAttributeParentTab();
+		opcUaAttributeTab_->addTab(tabParent_, "Parent");
 
-		OpcUaAttributeChildTab* tabChild = new  OpcUaAttributeChildTab();
-		opcUaAttributeTab_->addTab(tabChild, "Childs");
+		tabChild_ = new  OpcUaAttributeChildTab();
+		opcUaAttributeTab_->addTab(tabChild_, "Childs");
 
-		OpcUaAttributeRefTab* tabRef = new  OpcUaAttributeRefTab();
-		opcUaAttributeTab_->addTab(tabRef, "References");
+		tabRef_ = new  OpcUaAttributeRefTab();
+		opcUaAttributeTab_->addTab(tabRef_, "References");
 
 		// show opc ua attriubute tab
 		QVBoxLayout* layout_ = new QVBoxLayout();
@@ -54,12 +50,27 @@ namespace OpcUaNodeSet
 
 	OpcUaAttributeWindow::~OpcUaAttributeWindow(void)
 	{
+		delete tabBase_;
+		delete tabParent_;
+		delete tabChild_;
+		delete tabRef_;
 	}
 
 	void
 	OpcUaAttributeWindow::onCurrentItemChanged(BaseNodeClass::SPtr& nodeClass)
 	{
-		std::cout << "onCurrentItemChanged" << std::endl;
+		if (tabBase_->isVisible()) {
+			std::cout << "tabBase_ is activated..." << std::endl;
+		}
+		else if (tabParent_->hasFocus()) {
+			std::cout << "tabParent_ is activated..." << std::endl;
+		}
+		else if (tabChild_->hasFocus()) {
+			std::cout << "tabChild_ is activated..." << std::endl;
+		}
+		else if (tabRef_->hasFocus()) {
+			std::cout << "tabRef_ is activated..." << std::endl;
+		}
 	}
 
 }
