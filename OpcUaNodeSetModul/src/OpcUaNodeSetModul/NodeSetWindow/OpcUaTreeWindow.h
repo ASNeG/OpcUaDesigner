@@ -20,10 +20,13 @@
 
 #include <QWidget>
 
+#include "OpcUaStackServer/AddressSpaceModel/BaseNodeClass.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeSet.h"
 
 class QTreeWidget;
 class QTreeWidgetItem;
+
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -42,15 +45,19 @@ namespace OpcUaNodeSet
 		bool create(const std::string& fileName);
 		bool open(const std::string& fileName);
 
+	  public slots:
+	    void onCurrentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previos);
+
+	  signals:
+	    void currentItemChanged(BaseNodeClass::SPtr& baseNode);
+
 	  private:
 		void addNode(
 			InformationModel::SPtr& informationModel,
 			QTreeWidgetItem* parentItem,
 			BaseNodeClass::SPtr& baseNode
 		);
-		void removeNode(
-			QTreeWidgetItem* item
-		);
+		void removeNode(QTreeWidgetItem* item);
 
 		std::string standardNodeSetFileName_;
 		std::string fileName_;

@@ -48,6 +48,10 @@ namespace OpcUaNodeSet
 		opcUaTree_->setMinimumWidth(300);
 		opcUaTree_->header()->close();
 		opcUaTree_->setContextMenuPolicy(Qt::CustomContextMenu);
+		connect(
+			opcUaTree_, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)),
+			this, SLOT(onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*))
+		);
 
 		// show opc ua tree
 		QVBoxLayout* layout_ = new QVBoxLayout();
@@ -239,6 +243,15 @@ namespace OpcUaNodeSet
 		delete nodeInfo;
 
 		delete item->parent()->takeChild(item->parent()->indexOfChild(item));
+	}
+
+	void
+	OpcUaTreeWindow::onCurrentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previos)
+	{
+		QVariant v = current->data(0, Qt::UserRole);
+		NodeInfo* nodeInfo = v.value<NodeInfo*>();
+
+		emit currentItemChanged(nodeInfo->baseNode_);
 	}
 
 }
