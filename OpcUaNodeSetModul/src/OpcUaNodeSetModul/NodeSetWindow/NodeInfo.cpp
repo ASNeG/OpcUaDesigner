@@ -21,7 +21,7 @@ namespace OpcUaNodeSet
 {
 
 	NodeInfo::NodeInfo(void)
-	: baseNode_(NULL)
+	: baseNode_()
 	{
 	}
 
