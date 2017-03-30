@@ -49,7 +49,7 @@ namespace OpcUaNodeSet
 	    void onCurrentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previos);
 
 	  signals:
-	    void currentItemChanged(BaseNodeClass::SPtr& baseNode);
+	    void nodeChanged(BaseNodeClass* baseNode);
 
 	  private:
 		void addNode(

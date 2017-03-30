@@ -33,7 +33,7 @@ namespace OpcUaNodeSet
 		NodeInfo(void);
 		~NodeInfo(void);
 
-		BaseNodeClass::SPtr baseNode_;
+		BaseNodeClass* baseNode_;
 	};
 
 }

@@ -85,8 +85,8 @@ namespace OpcUaNodeSet
 		//
 		// --------------------------------------------------------------------
 		connect(
-			opcUaTreeWindow_, SIGNAL(currentItemChanged(BaseNodeClass::SPtr&)),
-			opcUaAttributeWindow_, SLOT(onCurrentItemChanged(BaseNodeClass::SPtr&))
+			opcUaTreeWindow_, SIGNAL(nodeChanged(BaseNodeClass*)),
+			opcUaAttributeWindow_, SLOT(onNodeChanged(BaseNodeClass*))
 		);
 
 		return true;

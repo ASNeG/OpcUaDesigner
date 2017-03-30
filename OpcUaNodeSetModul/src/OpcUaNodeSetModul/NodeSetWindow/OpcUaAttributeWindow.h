@@ -42,7 +42,8 @@ namespace OpcUaNodeSet
 		virtual ~OpcUaAttributeWindow(void);
 
 	  public slots:
-		void onCurrentItemChanged(BaseNodeClass::SPtr& nodeClass);
+		void onNodeChanged(BaseNodeClass* nodeClass);
+		void onVisibleChanged(int index);
 
 	  private:
 		QTabWidget* opcUaAttributeTab_;
@@ -50,6 +51,8 @@ namespace OpcUaNodeSet
 		OpcUaAttributeParentTab* tabParent_;
 		OpcUaAttributeChildTab* tabChild_;
 		OpcUaAttributeRefTab* tabRef_;
+
+		BaseNodeClass* nodeClass_;
 	};
 
 }

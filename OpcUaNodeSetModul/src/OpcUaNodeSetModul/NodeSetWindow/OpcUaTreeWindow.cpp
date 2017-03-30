@@ -199,9 +199,9 @@ namespace OpcUaNodeSet
 
 		// create tree item
 		NodeInfo* nodeInfo = new NodeInfo();
-		nodeInfo->baseNode_ = baseNode;
+		nodeInfo->baseNode_ = baseNode.get();
 		QVariant v;
-		v.setValue((void*)nodeInfo);
+		v.setValue(nodeInfo);
 
 		QTreeWidgetItem* item = new QTreeWidgetItem();
 		item->setText(0, displayName.text().value().c_str());
@@ -251,7 +251,12 @@ namespace OpcUaNodeSet
 		QVariant v = current->data(0, Qt::UserRole);
 		NodeInfo* nodeInfo = v.value<NodeInfo*>();
 
-		emit currentItemChanged(nodeInfo->baseNode_);
+		if (nodeInfo == NULL) {
+			std::cout << "NULL " << current->text(0).toStdString() << std::endl;
+			return;
+		}
+
+		emit nodeChanged(nodeInfo->baseNode_);
 	}
 
 }
