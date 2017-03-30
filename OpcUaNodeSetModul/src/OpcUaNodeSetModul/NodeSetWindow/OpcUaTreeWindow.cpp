@@ -250,7 +250,7 @@ namespace OpcUaNodeSet
 	{
 		QVariant v = current->data(0, Qt::UserRole);
 		NodeInfo* nodeInfo = v.value<NodeInfo*>();
-		emit nodeChanged(nodeInfo->baseNode_.get());
+		emit nodeChanged(nodeInfo->baseNode_);
 	}
 
 }

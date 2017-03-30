@@ -57,7 +57,7 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaAttributeWindow::onNodeChanged(BaseNodeClass* nodeClass)
+	OpcUaAttributeWindow::onNodeChanged(BaseNodeClass::SPtr nodeClass)
 	{
 		std::cout << "onCurrentItemChanged OpcUaAttributeWindow..." << std::endl;
 		nodeClass_ = nodeClass;
@@ -67,7 +67,7 @@ namespace OpcUaNodeSet
 	void
 	OpcUaAttributeWindow::onVisibleChanged(int index)
 	{
-		if (nodeClass_ == NULL) return;
+		if (nodeClass_.get() == NULL) return;
 
 		if (tabBase_->isVisible()) {
 			std::cout << "tabBase_ is activated..." << std::endl;
