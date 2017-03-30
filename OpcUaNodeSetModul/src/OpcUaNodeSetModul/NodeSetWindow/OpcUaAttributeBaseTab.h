@@ -41,7 +41,11 @@ namespace OpcUaNodeSet
 		void nodeChange(BaseNodeClass::SPtr baseNode);
 
 	  private:
+		void setNodeId(BaseNodeClass::SPtr& baseNode);
+		void setNodeClass(BaseNodeClass::SPtr& baseNode);
+
 		QLineEdit* nodeIdLineEdit_;
+		QLineEdit* nodeClassLineEdit_;
 	};
 
 }

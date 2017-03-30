@@ -54,11 +54,11 @@ namespace OpcUaNodeSet
 		QLabel* nodeClassLabel = new QLabel("NodeClass");
 		gridLayout->addWidget(nodeClassLabel, 1, 0);
 
-		QLineEdit* nodeClassLineEdit = new QLineEdit();
-		nodeClassLineEdit->setFixedWidth(300);
+		nodeClassLineEdit_ = new QLineEdit();
+		nodeClassLineEdit_->setFixedWidth(300);
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(nodeClassLineEdit);
+		hBoxLayout->addWidget(nodeClassLineEdit_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 1, 1);
@@ -147,6 +147,13 @@ namespace OpcUaNodeSet
 	void
 	OpcUaAttributeBaseTab::nodeChange(BaseNodeClass::SPtr baseNode)
 	{
+		setNodeId(baseNode);
+		setNodeClass(baseNode);
+	}
+
+	void
+	OpcUaAttributeBaseTab::setNodeId(BaseNodeClass::SPtr& baseNode)
+	{
 		// set node id
 		if (baseNode->isNullNodeId()) {
 			nodeIdLineEdit_->setText(QString(""));
@@ -155,6 +162,20 @@ namespace OpcUaNodeSet
 			OpcUaNodeId nodeId;
 			baseNode->getNodeId(nodeId);
 			nodeIdLineEdit_->setText(QString(nodeId.toString().c_str()));
+		}
+	}
+
+	void
+	OpcUaAttributeBaseTab::setNodeClass(BaseNodeClass::SPtr& baseNode)
+	{
+		// set node id
+		if (baseNode->isNullNodeClass()) {
+			nodeClassLineEdit_->setText(QString(""));
+		}
+		else {
+			NodeClassType nodeClass;
+			baseNode->getNodeClass(nodeClass);
+			nodeClassLineEdit_->setText(QString(NodeClass::toString(nodeClass).c_str()));
 		}
 	}
 
