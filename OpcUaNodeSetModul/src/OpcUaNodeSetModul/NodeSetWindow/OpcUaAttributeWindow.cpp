@@ -56,6 +56,12 @@ namespace OpcUaNodeSet
 	{
 	}
 
+	void
+	OpcUaAttributeWindow::onCurrentItemChanged(BaseNodeClass::SPtr& nodeClass)
+	{
+		std::cout << "onCurrentItemChanged" << std::endl;
+	}
+
 }
 
 

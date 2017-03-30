@@ -79,6 +79,16 @@ namespace OpcUaNodeSet
 		opcUaAttributeWindow_ = new OpcUaAttributeWindow(NULL);
 		this->setCentralWidget(opcUaAttributeWindow_);
 
+		// --------------------------------------------------------------------
+		//
+		// signals
+		//
+		// --------------------------------------------------------------------
+		connect(
+			opcUaTreeWindow_, SIGNAL(currentItemChanged(BaseNodeClass::SPtr&)),
+			opcUaAttributeWindow_, SLOT(onCurrentItemChanged(BaseNodeClass::SPtr&))
+		);
+
 		return true;
 	}
 

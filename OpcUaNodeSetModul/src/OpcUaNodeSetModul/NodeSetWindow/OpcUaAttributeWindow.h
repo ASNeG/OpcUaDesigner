@@ -18,8 +18,12 @@
 #ifndef __OpcUaNodeSet_OpcUaAttributeWindow_h__
 #define __OpcUaNodeSet_OpcUaAttributeWindow_h__
 
+#include "OpcUaStackServer/AddressSpaceModel/BaseNodeClass.h"
+
 #include <QWidget>
 #include <QTabWidget>
+
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -32,6 +36,9 @@ namespace OpcUaNodeSet
 	  public:
 		OpcUaAttributeWindow(QWidget* parent = 0);
 		virtual ~OpcUaAttributeWindow(void);
+
+		public slots:
+		  void onCurrentItemChanged(BaseNodeClass::SPtr& nodeClass);
 
 	  private:
 		QTabWidget* opcUaAttributeTab_;
