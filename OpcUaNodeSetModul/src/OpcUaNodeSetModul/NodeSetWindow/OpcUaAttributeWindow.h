@@ -42,7 +42,7 @@ namespace OpcUaNodeSet
 		virtual ~OpcUaAttributeWindow(void);
 
 	  public slots:
-		void onNodeChanged(BaseNodeClass::SPtr nodeClass);
+		void onNodeChanged(BaseNodeClass::SPtr baseNode);
 		void onCurrendChanged(int index);
 
 	  private:
@@ -52,7 +52,7 @@ namespace OpcUaNodeSet
 		OpcUaAttributeChildTab* tabChild_;
 		OpcUaAttributeRefTab* tabRef_;
 
-		BaseNodeClass::SPtr nodeClass_;
+		BaseNodeClass::SPtr baseNode_;
 	};
 
 }
