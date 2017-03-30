@@ -43,9 +43,20 @@ namespace OpcUaNodeSet
 	  private:
 		void setNodeId(BaseNodeClass::SPtr& baseNode);
 		void setNodeClass(BaseNodeClass::SPtr& baseNode);
+		void setBrowseName(BaseNodeClass::SPtr& baseNode);
+		void setDisplayName(BaseNodeClass::SPtr& baseNode);
+		void setDescription(BaseNodeClass::SPtr& baseNode);
+		void setWriteMask(BaseNodeClass::SPtr& baseNode);
+		void setUserWriteMask(BaseNodeClass::SPtr& baseNode);
+
 
 		QLineEdit* nodeIdLineEdit_;
 		QLineEdit* nodeClassLineEdit_;
+		QLineEdit* browseNameLineEdit_;
+		QLineEdit* displayNameLineEdit_;
+		QLineEdit* descriptionLineEdit_;
+		QLineEdit* writeMaskLineEdit_;
+		QLineEdit* userWriteMaskLineEdit_;
 	};
 
 }

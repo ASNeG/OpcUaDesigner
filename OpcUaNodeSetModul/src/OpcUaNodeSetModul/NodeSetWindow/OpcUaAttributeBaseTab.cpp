@@ -68,11 +68,11 @@ namespace OpcUaNodeSet
 		QLabel* browseNameLabel = new QLabel("BrowseName");
 		gridLayout->addWidget(browseNameLabel, 2, 0);
 
-		QLineEdit* browseNameLineEdit = new QLineEdit();
-		browseNameLineEdit->setFixedWidth(300);
+		browseNameLineEdit_ = new QLineEdit();
+		browseNameLineEdit_->setFixedWidth(300);
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(browseNameLineEdit);
+		hBoxLayout->addWidget(browseNameLineEdit_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 2, 1);
@@ -82,11 +82,11 @@ namespace OpcUaNodeSet
 		QLabel* displayNameLabel = new QLabel("DisplayName");
 		gridLayout->addWidget(displayNameLabel, 3, 0);
 
-		QLineEdit* displayNameLineEdit = new QLineEdit();
-		displayNameLineEdit->setFixedWidth(300);
+		displayNameLineEdit_ = new QLineEdit();
+		displayNameLineEdit_->setFixedWidth(300);
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(displayNameLineEdit);
+		hBoxLayout->addWidget(displayNameLineEdit_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 3, 1);
@@ -96,11 +96,11 @@ namespace OpcUaNodeSet
 		QLabel* descriptionLabel = new QLabel("Description");
 		gridLayout->addWidget(descriptionLabel, 4, 0);
 
-		QLineEdit* descriptionLineEdit = new QLineEdit();
-		descriptionLineEdit->setFixedWidth(300);
+		descriptionLineEdit_ = new QLineEdit();
+		descriptionLineEdit_->setFixedWidth(300);
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(descriptionLineEdit);
+		hBoxLayout->addWidget(descriptionLineEdit_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 4, 1);
@@ -110,11 +110,11 @@ namespace OpcUaNodeSet
 		QLabel* writeMaskLabel = new QLabel("WriteMask");
 		gridLayout->addWidget(writeMaskLabel, 5, 0);
 
-		QLineEdit* writeMaskLineEdit = new QLineEdit();
-		writeMaskLineEdit->setFixedWidth(300);
+		writeMaskLineEdit_ = new QLineEdit();
+		writeMaskLineEdit_->setFixedWidth(300);
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(writeMaskLineEdit);
+		hBoxLayout->addWidget(writeMaskLineEdit_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 5, 1);
@@ -124,11 +124,11 @@ namespace OpcUaNodeSet
 		QLabel* userWriteMaskLabel = new QLabel("UserWriteMask");
 		gridLayout->addWidget(userWriteMaskLabel, 6, 0);
 
-		QLineEdit* userWriteMaskLineEdit = new QLineEdit();
-		userWriteMaskLineEdit->setFixedWidth(300);
+		userWriteMaskLineEdit_ = new QLineEdit();
+		userWriteMaskLineEdit_->setFixedWidth(300);
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(userWriteMaskLineEdit);
+		hBoxLayout->addWidget(userWriteMaskLineEdit_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 6, 1);
@@ -149,12 +149,16 @@ namespace OpcUaNodeSet
 	{
 		setNodeId(baseNode);
 		setNodeClass(baseNode);
+		setBrowseName(baseNode);
+		setDisplayName(baseNode);
+		setDescription(baseNode);
+		setWriteMask(baseNode);
+		setUserWriteMask(baseNode);
 	}
 
 	void
 	OpcUaAttributeBaseTab::setNodeId(BaseNodeClass::SPtr& baseNode)
 	{
-		// set node id
 		if (baseNode->isNullNodeId()) {
 			nodeIdLineEdit_->setText(QString(""));
 		}
@@ -168,7 +172,6 @@ namespace OpcUaNodeSet
 	void
 	OpcUaAttributeBaseTab::setNodeClass(BaseNodeClass::SPtr& baseNode)
 	{
-		// set node id
 		if (baseNode->isNullNodeClass()) {
 			nodeClassLineEdit_->setText(QString(""));
 		}
@@ -176,6 +179,71 @@ namespace OpcUaNodeSet
 			NodeClassType nodeClass;
 			baseNode->getNodeClass(nodeClass);
 			nodeClassLineEdit_->setText(QString(NodeClass::toString(nodeClass).c_str()));
+		}
+	}
+
+	void
+	OpcUaAttributeBaseTab::setBrowseName(BaseNodeClass::SPtr& baseNode)
+	{
+		if (baseNode->isNullBrowseName()) {
+			browseNameLineEdit_->setText(QString(".."));
+		}
+		else {
+			OpcUaQualifiedName browseName;
+			baseNode->getBrowseName(browseName);
+			browseNameLineEdit_->setText(QString(browseName.toString().c_str()));
+		}
+	}
+
+	void
+	OpcUaAttributeBaseTab::setDisplayName(BaseNodeClass::SPtr& baseNode)
+	{
+		if (baseNode->isNullDisplayName()) {
+			displayNameLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaLocalizedText displayName;
+			baseNode->getDisplayName(displayName);
+			displayNameLineEdit_->setText(QString(displayName.toString().c_str()));
+		}
+	}
+
+	void
+	OpcUaAttributeBaseTab::setDescription(BaseNodeClass::SPtr& baseNode)
+	{
+		if (baseNode->isNullDescription()) {
+			descriptionLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaLocalizedText description;
+			baseNode->getDescription(description);
+			descriptionLineEdit_->setText(QString(description.toString().c_str()));
+		}
+	}
+
+	void
+	OpcUaAttributeBaseTab::setWriteMask(BaseNodeClass::SPtr& baseNode)
+	{
+		if (baseNode->isNullWriteMask()) {
+			writeMaskLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaUInt32 writeMask;
+			baseNode->getUserWriteMask(writeMask);
+			writeMaskLineEdit_->setText(QString("%1").arg((uint32_t)writeMask));
+		}
+	}
+
+	void
+	OpcUaAttributeBaseTab::setUserWriteMask(BaseNodeClass::SPtr& baseNode)
+	{
+		if (baseNode->isNullUserWriteMask()) {
+			userWriteMaskLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaUInt32 userWriteMask;
+			baseNode->getUserWriteMask(userWriteMask);
+			userWriteMaskLineEdit_->setText(QString("%1").arg((uint32_t)userWriteMask));
 		}
 	}
 
