@@ -17,10 +17,14 @@
 
 #include <QVBoxLayout>
 
+#include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeChildTab.h"
 
 #include <QLabel>
 #include <QTableWidget>
+#include <QTableWidgetItem>
+
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -31,13 +35,12 @@ namespace OpcUaNodeSet
 	{
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
 
-
 		// create table
-		opcUaChildTable_ = new QTableWidget(4, 4);
+		opcUaChildTable_ = new QTableWidget(0, 5);
 		vBoxLayout->addWidget(opcUaChildTable_);
 
 		QStringList headerLabels;
-		headerLabels << "NodeClass" << "DisplayName" << "TypeDefinition" << "DataType";
+		headerLabels << "NodeClass" << "DisplayName" << "TypeDefinition" << "DataType" << "Reference";
 		opcUaChildTable_->setHorizontalHeaderLabels(headerLabels);
 
 		// show opc ua attriubute tab
@@ -51,7 +54,36 @@ namespace OpcUaNodeSet
 	void
 	OpcUaAttributeChildTab::nodeChange(NodeInfo* nodeInfo)
 	{
-		// FIXME: todo
+		bool success;
+
+		// clear table
+		while (opcUaChildTable_->rowCount() > 0) {
+			opcUaChildTable_->removeRow(0);
+		}
+
+		// find childs
+		BaseNodeClass::Vec childBaseNodeClassVec;
+		InformationModelAccess ima(nodeInfo->informationModel_);
+		success = ima.getChildHierarchically(nodeInfo->baseNode_, childBaseNodeClassVec);
+		if (!success || childBaseNodeClassVec.size() == 0) {
+			return;
+		}
+
+		std::cout << "size=" << childBaseNodeClassVec.size() << std::endl;
+
+		// fill table
+		BaseNodeClass::Vec::iterator it;
+		for (it = childBaseNodeClassVec.begin(); it != childBaseNodeClassVec.end(); it++) {
+			uint32_t row = opcUaChildTable_->rowCount();
+			opcUaChildTable_->insertRow(row);
+
+			std::cout << "row=" << row << std::endl;
+
+			for (uint32_t idx=0; idx<5; idx++) {
+				QTableWidgetItem* item = new QTableWidgetItem("entry");
+				opcUaChildTable_->setItem(row, idx, item);
+			}
+		}
 	}
 
 }
