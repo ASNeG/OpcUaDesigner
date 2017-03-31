@@ -15,8 +15,10 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
+
 #include <QVBoxLayout>
 
+#include "OpcUaStackCore/BuildInTypes/OpcUaIdentifier.h"
 #include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeChildTab.h"
 
@@ -26,6 +28,7 @@
 #include <QHeaderView>
 
 using namespace OpcUaStackServer;
+using namespace OpcUaStackCore;
 
 namespace OpcUaNodeSet
 {
@@ -113,7 +116,30 @@ namespace OpcUaNodeSet
     void
     OpcUaAttributeChildTab::setTypeDefinition(NodeInfo* nodeInfo, uint32_t row, BaseNodeClass::SPtr baseNode)
     {
+    	bool success;
+
     	QTableWidgetItem* item = new QTableWidgetItem("");
+
+    	// get type node id
+    	OpcUaNodeId typeNodeId;
+    	InformationModelAccess ima(nodeInfo->informationModel_);
+    	success = ima.getType(baseNode, typeNodeId);
+    	if (success) {
+    		std::string typeNodeIdString = "";
+
+    		if (typeNodeId.namespaceIndex() == 0 && typeNodeId.nodeIdType() == OpcUaBuildInType_OpcUaUInt32) {
+    			uint32_t id = typeNodeId.nodeId<uint32_t>();
+    			typeNodeIdString = OpcUaIdMap::shortString(id);
+    		}
+
+    		if (typeNodeIdString == "") {
+    			item->setText(QString(typeNodeId.toString().c_str()));
+    		}
+    		else {
+    			item->setText(QString(typeNodeIdString.c_str()));
+    		}
+    	}
+
     	opcUaChildTable_->setItem(row, 2, item);
     }
 
