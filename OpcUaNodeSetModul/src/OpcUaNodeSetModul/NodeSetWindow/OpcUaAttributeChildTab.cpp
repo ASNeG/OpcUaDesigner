@@ -20,6 +20,7 @@
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeChildTab.h"
 
 #include <QLabel>
+#include <QTableWidget>
 
 namespace OpcUaNodeSet
 {
@@ -28,13 +29,19 @@ namespace OpcUaNodeSet
 	OpcUaAttributeChildTab::OpcUaAttributeChildTab(QWidget* parent)
 	: QWidget()
 	{
-		// create opc ua attribute base tab
-		QLabel* label = new QLabel("todo");
+		QVBoxLayout* vBoxLayout = new QVBoxLayout();
 
-		// show opc ua attriubute base tab
-		QVBoxLayout* layout_ = new QVBoxLayout();
-		layout_->addWidget(label);
-		setLayout(layout_);
+
+		// create table
+		opcUaChildTable_ = new QTableWidget(4, 4);
+		vBoxLayout->addWidget(opcUaChildTable_);
+
+		QStringList headerLabels;
+		headerLabels << "NodeClass" << "DisplayName" << "TypeDefinition" << "DataType";
+		opcUaChildTable_->setHorizontalHeaderLabels(headerLabels);
+
+		// show opc ua attriubute tab
+		setLayout(vBoxLayout);
 	}
 
 	OpcUaAttributeChildTab::~OpcUaAttributeChildTab(void)
@@ -42,7 +49,7 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaAttributeChildTab::nodeChange(BaseNodeClass::SPtr baseNode)
+	OpcUaAttributeChildTab::nodeChange(NodeInfo* nodeInfo)
 	{
 		// FIXME: todo
 	}
