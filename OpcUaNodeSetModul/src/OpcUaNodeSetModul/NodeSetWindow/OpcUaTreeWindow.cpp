@@ -200,6 +200,7 @@ namespace OpcUaNodeSet
 		// create tree item
 		NodeInfo* nodeInfo = new NodeInfo();
 		nodeInfo->baseNode_ = baseNode;
+		nodeInfo->informationModel_ = informationModel;
 		QVariant v;
 		v.setValue(nodeInfo);
 

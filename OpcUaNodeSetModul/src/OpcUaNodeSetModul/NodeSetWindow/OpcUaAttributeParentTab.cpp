@@ -45,6 +45,8 @@ namespace OpcUaNodeSet
 	OpcUaAttributeParentTab::nodeChange(BaseNodeClass::SPtr baseNode)
 	{
 		// FIXME: todo
+
+
 	}
 
 }

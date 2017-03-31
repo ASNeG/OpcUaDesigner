@@ -21,6 +21,7 @@
 #include <QMetaType>
 
 #include "OpcUaStackServer/AddressSpaceModel/BaseNodeClass.h"
+#include "OpcUaStackServer/InformationModel/InformationModel.h"
 
 using namespace OpcUaStackServer;
 
@@ -34,6 +35,7 @@ namespace OpcUaNodeSet
 		~NodeInfo(void);
 
 		BaseNodeClass::SPtr baseNode_;
+		InformationModel::SPtr informationModel_;
 	};
 
 }
