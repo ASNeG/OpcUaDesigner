@@ -69,22 +69,26 @@ namespace OpcUaNodeSet
 		// find childs
 		BaseNodeClass::Vec childBaseNodeClassVec;
 		InformationModelAccess ima(nodeInfo->informationModel_);
-		success = ima.getChildHierarchically(nodeInfo->baseNode_, childBaseNodeClassVec);
+		success = ima.getChildHierarchically(
+			nodeInfo->baseNode_,
+			childBaseNodeClassVec
+		);
 		if (!success || childBaseNodeClassVec.size() == 0) {
 			return;
 		}
 
 		// fill table
-		BaseNodeClass::Vec::iterator it;
-		for (it = childBaseNodeClassVec.begin(); it != childBaseNodeClassVec.end(); it++) {
+		for (uint32_t idx = 0; idx < childBaseNodeClassVec.size(); idx++) {
+			BaseNodeClass::SPtr baseNodeChild = childBaseNodeClassVec[idx];
+
 			uint32_t row = opcUaChildTable_->rowCount();
 			opcUaChildTable_->insertRow(row);
 
-			setNodeClass(nodeInfo, row, *it);
-			setDisplayName(nodeInfo, row, *it);
-			setTypeDefinition(nodeInfo, row, *it);
-			setDataType(nodeInfo, row, *it);
-			setReference(nodeInfo, row, *it);
+			setNodeClass(nodeInfo, row, baseNodeChild);
+			setDisplayName(nodeInfo, row, baseNodeChild);
+			setTypeDefinition(nodeInfo, row, baseNodeChild);
+			setDataType(nodeInfo, row, baseNodeChild);
+			setReference(nodeInfo, row, baseNodeChild);
 		}
 		opcUaChildTable_->resizeColumnsToContents();
 	}
@@ -173,9 +177,42 @@ namespace OpcUaNodeSet
     }
 
     void
-    OpcUaAttributeChildTab::setReference(NodeInfo* nodeInfo, uint32_t row, BaseNodeClass::SPtr baseNode)
+    OpcUaAttributeChildTab::setReference(
+    	NodeInfo* nodeInfo,
+    	uint32_t row,
+    	BaseNodeClass::SPtr baseNode
+    )
     {
+    	bool success;
+
+    	// bool getParentReference(BaseNodeClass::SPtr baseNodeClass, std::vector<OpcUaNodeId>& referenceTypeNodeIdVec, ReferenceItem::Vec& referenceItemVec);
     	QTableWidgetItem* item = new QTableWidgetItem("");
+
+    	// get reference type
+    	std::string typeNodeIdString = "";
+		BaseNodeClass::Vec childBaseNodeClassVec;
+		InformationModelAccess ima(nodeInfo->informationModel_);
+		std::vector<OpcUaNodeId> referenceTypeNodeIdVec;
+		ReferenceItem::Vec referenceItemVec;
+		success = ima.getParentReference(
+			baseNode,
+			referenceTypeNodeIdVec,
+			referenceItemVec
+		);
+
+		if (success && referenceTypeNodeIdVec.size() > 0) {
+		    ReferenceType referenceType = ReferenceTypeMap::nodeIdToReferenceType(referenceTypeNodeIdVec[0]);
+		    if (referenceType != ReferenceType_Unknown) {
+		        typeNodeIdString = ReferenceTypeMap::typeToString(referenceType);
+		    }
+		    else {
+		    	typeNodeIdString = referenceTypeNodeIdVec[0].toString();
+		    }
+
+		}
+        item->setText(QString(typeNodeIdString.c_str()));
+
+
     	opcUaChildTable_->setItem(row, 4, item);
     }
 
