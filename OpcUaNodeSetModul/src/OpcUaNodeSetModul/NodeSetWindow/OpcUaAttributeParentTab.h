@@ -39,6 +39,11 @@ namespace OpcUaNodeSet
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
+		void setDisplayName(NodeInfo* nodeInfo);
+		void setNodeId(NodeInfo* nodeInfo);
+		void setBrowseName(NodeInfo* nodeInfo);
+		void setReference(NodeInfo* nodeInfo);
+
 		QLineEdit* displayNameLineEdit_;
 		QLineEdit* nodeIdLineEdit_;
 		QLineEdit* browseNameLineEdit_;

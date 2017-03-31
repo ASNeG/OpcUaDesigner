@@ -16,11 +16,13 @@
  */
 
 #include <QVBoxLayout>
-
-#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeParentTab.h"
-
 #include <QLabel>
 #include <QLineEdit>
+
+#include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeParentTab.h"
+
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -102,9 +104,108 @@ namespace OpcUaNodeSet
 	void
 	OpcUaAttributeParentTab::nodeChange(NodeInfo* nodeInfo)
 	{
-		// FIXME: todo
+		setDisplayName(nodeInfo);
+		setNodeId(nodeInfo);
+		setBrowseName(nodeInfo);
+		setReference(nodeInfo);
+	}
 
+	void
+	OpcUaAttributeParentTab::setDisplayName(NodeInfo* nodeInfo)
+	{
+		bool success;
 
+		// get parent base node
+		BaseNodeClass::Vec childBaseNodeClassVec;
+		InformationModelAccess ima(nodeInfo->informationModel_);
+		success = ima.getParent(nodeInfo->baseNode_, childBaseNodeClassVec);
+		if (!success || childBaseNodeClassVec.size() == 0) {
+			displayNameLineEdit_->setText(QString(""));
+			return;
+		}
+
+		// set display name
+		BaseNodeClass::SPtr baseNode = childBaseNodeClassVec[0];
+		if (baseNode->isNullDisplayName()) {
+			displayNameLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaLocalizedText displayName;
+			baseNode->getDisplayName(displayName);
+			displayNameLineEdit_->setText(QString(displayName.toString().c_str()));
+		}
+
+	}
+
+	void
+	OpcUaAttributeParentTab::setNodeId(NodeInfo* nodeInfo)
+	{
+		bool success;
+
+		// get parent base node
+		BaseNodeClass::Vec childBaseNodeClassVec;
+		InformationModelAccess ima(nodeInfo->informationModel_);
+		success = ima.getParent(nodeInfo->baseNode_, childBaseNodeClassVec);
+		if (!success || childBaseNodeClassVec.size() == 0) {
+			nodeIdLineEdit_->setText(QString(""));
+			return;
+		}
+
+		// set node id
+		BaseNodeClass::SPtr baseNode = childBaseNodeClassVec[0];
+		if (baseNode->isNullNodeId()) {
+			nodeIdLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaNodeId nodeId;
+			baseNode->getNodeId(nodeId);
+			nodeIdLineEdit_->setText(QString(nodeId.toString().c_str()));
+		}
+	}
+
+	void
+	OpcUaAttributeParentTab::setBrowseName(NodeInfo* nodeInfo)
+	{
+		bool success;
+
+		// get parent base node
+		BaseNodeClass::Vec childBaseNodeClassVec;
+		InformationModelAccess ima(nodeInfo->informationModel_);
+		success = ima.getParent(nodeInfo->baseNode_, childBaseNodeClassVec);
+		if (!success || childBaseNodeClassVec.size() == 0) {
+			browseNameLineEdit_->setText(QString(""));
+			return;
+		}
+
+		BaseNodeClass::SPtr baseNode = childBaseNodeClassVec[0];
+		if (baseNode->isNullBrowseName()) {
+			browseNameLineEdit_->setText(QString(".."));
+		}
+		else {
+			OpcUaQualifiedName browseName;
+			baseNode->getBrowseName(browseName);
+			browseNameLineEdit_->setText(QString(browseName.toString().c_str()));
+		}
+	}
+
+	void
+	OpcUaAttributeParentTab::setReference(NodeInfo* nodeInfo)
+	{
+		bool success;
+
+		// get parent base node
+		ReferenceItem::Vec referenceItemVec;
+		std::vector<OpcUaNodeId> referenceTypeNodeIdVec;
+		InformationModelAccess ima(nodeInfo->informationModel_);
+		success = ima.getParentReference(nodeInfo->baseNode_, referenceTypeNodeIdVec, referenceItemVec);
+		if (!success || referenceTypeNodeIdVec.size() == 0) {
+			referenceLineEdit_->setText(QString(""));
+			return;
+		}
+
+		// set reference type
+		OpcUaNodeId nodeId = referenceTypeNodeIdVec[0];
+		referenceLineEdit_->setText(QString(nodeId.toString().c_str()));
 	}
 
 }
