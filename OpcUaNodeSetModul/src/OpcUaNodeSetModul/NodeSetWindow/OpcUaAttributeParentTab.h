@@ -18,11 +18,11 @@
 #ifndef __OpcUaNodeSet_OpcUaAttributeParentTab_h__
 #define __OpcUaNodeSet_OpcUaAttributeParentTab_h__
 
-#include "OpcUaStackServer/AddressSpaceModel/BaseNodeClass.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
 
 #include <QWidget>
 
-using namespace OpcUaStackServer;
+class QLineEdit;
 
 namespace OpcUaNodeSet
 {
@@ -36,9 +36,13 @@ namespace OpcUaNodeSet
 		OpcUaAttributeParentTab(QWidget* parent = 0);
 		virtual ~OpcUaAttributeParentTab(void);
 
-		void nodeChange(BaseNodeClass::SPtr baseNode);
+		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
+		QLineEdit* displayNameLineEdit_;
+		QLineEdit* nodeIdLineEdit_;
+		QLineEdit* browseNameLineEdit_;
+		QLineEdit* referenceLineEdit_;
 	};
 
 }

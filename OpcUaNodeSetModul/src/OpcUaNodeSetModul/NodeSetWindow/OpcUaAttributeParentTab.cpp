@@ -20,6 +20,7 @@
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeParentTab.h"
 
 #include <QLabel>
+#include <QLineEdit>
 
 namespace OpcUaNodeSet
 {
@@ -28,13 +29,70 @@ namespace OpcUaNodeSet
 	OpcUaAttributeParentTab::OpcUaAttributeParentTab(QWidget* parent)
 	: QWidget()
 	{
-		// create opc ua attribute base tab
-		QLabel* label = new QLabel("todo");
+		QHBoxLayout* hBoxLayout;
+		QVBoxLayout* vBoxLayout = new QVBoxLayout();
+		QGridLayout* gridLayout = new QGridLayout();
 
-		// show opc ua attriubute base tab
-		QVBoxLayout* layout_ = new QVBoxLayout();
-		layout_->addWidget(label);
-		setLayout(layout_);
+
+		// DisplayName
+		QLabel* displayNameLabel = new QLabel("DisplayName");
+		gridLayout->addWidget(displayNameLabel, 1, 0);
+
+		displayNameLineEdit_ = new QLineEdit();
+		displayNameLineEdit_->setFixedWidth(300);
+
+		hBoxLayout = new QHBoxLayout();
+		hBoxLayout->addWidget(displayNameLineEdit_);
+		hBoxLayout->addStretch();
+
+		gridLayout->addLayout(hBoxLayout, 1, 1);
+
+
+		// NodeId
+		QLabel* nodeIdLabel = new QLabel("NodeId");
+		gridLayout->addWidget(nodeIdLabel, 2, 0);
+
+		nodeIdLineEdit_ = new QLineEdit();
+		nodeIdLineEdit_->setFixedWidth(300);
+
+		hBoxLayout = new QHBoxLayout();
+		hBoxLayout->addWidget(nodeIdLineEdit_);
+		hBoxLayout->addStretch();
+
+		gridLayout->addLayout(hBoxLayout, 2, 1);
+
+		// BrowseName
+		QLabel* browseNameLabel = new QLabel("BrowseName");
+		gridLayout->addWidget(browseNameLabel, 3, 0);
+
+		browseNameLineEdit_ = new QLineEdit();
+		browseNameLineEdit_->setFixedWidth(300);
+
+		hBoxLayout = new QHBoxLayout();
+		hBoxLayout->addWidget(browseNameLineEdit_);
+		hBoxLayout->addStretch();
+
+		gridLayout->addLayout(hBoxLayout, 3, 1);
+
+
+		// Reference
+		QLabel* referenceLabel = new QLabel("Reference");
+		gridLayout->addWidget(referenceLabel, 4, 0);
+
+		referenceLineEdit_ = new QLineEdit();
+		referenceLineEdit_->setFixedWidth(300);
+
+		hBoxLayout = new QHBoxLayout();
+		hBoxLayout->addWidget(referenceLineEdit_);
+		hBoxLayout->addStretch();
+
+		gridLayout->addLayout(hBoxLayout, 4, 1);
+
+
+		vBoxLayout->addLayout(gridLayout);
+		vBoxLayout->addStretch();
+
+		setLayout(vBoxLayout);
 	}
 
 	OpcUaAttributeParentTab::~OpcUaAttributeParentTab(void)
@@ -42,7 +100,7 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaAttributeParentTab::nodeChange(BaseNodeClass::SPtr baseNode)
+	OpcUaAttributeParentTab::nodeChange(NodeInfo* nodeInfo)
 	{
 		// FIXME: todo
 
