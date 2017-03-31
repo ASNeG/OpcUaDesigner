@@ -205,7 +205,9 @@ namespace OpcUaNodeSet
 
 		// set reference type
 		OpcUaNodeId nodeId = referenceTypeNodeIdVec[0];
-		referenceLineEdit_->setText(QString(nodeId.toString().c_str()));
+		std::string referenceTypeString = ReferenceTypeMap::typeToString(ReferenceTypeMap::nodeIdToReferenceType(nodeId));
+		if (referenceTypeString == "Unknown") referenceTypeString = nodeId.toString();
+		referenceLineEdit_->setText(QString(referenceTypeString.c_str()));
 	}
 
 }
