@@ -145,20 +145,21 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaAttributeBaseTab::nodeChange(BaseNodeClass::SPtr baseNode)
+	OpcUaAttributeBaseTab::nodeChange(NodeInfo* nodeInfo)
 	{
-		setNodeId(baseNode);
-		setNodeClass(baseNode);
-		setBrowseName(baseNode);
-		setDisplayName(baseNode);
-		setDescription(baseNode);
-		setWriteMask(baseNode);
-		setUserWriteMask(baseNode);
+		setNodeId(nodeInfo);
+		setNodeClass(nodeInfo);
+		setBrowseName(nodeInfo);
+		setDisplayName(nodeInfo);
+		setDescription(nodeInfo);
+		setWriteMask(nodeInfo);
+		setUserWriteMask(nodeInfo);
 	}
 
 	void
-	OpcUaAttributeBaseTab::setNodeId(BaseNodeClass::SPtr& baseNode)
+	OpcUaAttributeBaseTab::setNodeId(NodeInfo* nodeInfo)
 	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
 		if (baseNode->isNullNodeId()) {
 			nodeIdLineEdit_->setText(QString(""));
 		}
@@ -170,8 +171,9 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaAttributeBaseTab::setNodeClass(BaseNodeClass::SPtr& baseNode)
+	OpcUaAttributeBaseTab::setNodeClass(NodeInfo* nodeInfo)
 	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
 		if (baseNode->isNullNodeClass()) {
 			nodeClassLineEdit_->setText(QString(""));
 		}
@@ -183,8 +185,9 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaAttributeBaseTab::setBrowseName(BaseNodeClass::SPtr& baseNode)
+	OpcUaAttributeBaseTab::setBrowseName(NodeInfo* nodeInfo)
 	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
 		if (baseNode->isNullBrowseName()) {
 			browseNameLineEdit_->setText(QString(".."));
 		}
@@ -196,8 +199,9 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaAttributeBaseTab::setDisplayName(BaseNodeClass::SPtr& baseNode)
+	OpcUaAttributeBaseTab::setDisplayName(NodeInfo* nodeInfo)
 	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
 		if (baseNode->isNullDisplayName()) {
 			displayNameLineEdit_->setText(QString(""));
 		}
@@ -209,8 +213,9 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaAttributeBaseTab::setDescription(BaseNodeClass::SPtr& baseNode)
+	OpcUaAttributeBaseTab::setDescription(NodeInfo* nodeInfo)
 	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
 		if (baseNode->isNullDescription()) {
 			descriptionLineEdit_->setText(QString(""));
 		}
@@ -222,8 +227,9 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaAttributeBaseTab::setWriteMask(BaseNodeClass::SPtr& baseNode)
+	OpcUaAttributeBaseTab::setWriteMask(NodeInfo* nodeInfo)
 	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
 		if (baseNode->isNullWriteMask()) {
 			writeMaskLineEdit_->setText(QString(""));
 		}
@@ -235,8 +241,9 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaAttributeBaseTab::setUserWriteMask(BaseNodeClass::SPtr& baseNode)
+	OpcUaAttributeBaseTab::setUserWriteMask(NodeInfo* nodeInfo)
 	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
 		if (baseNode->isNullUserWriteMask()) {
 			userWriteMaskLineEdit_->setText(QString(""));
 		}

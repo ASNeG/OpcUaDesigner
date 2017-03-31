@@ -18,11 +18,9 @@
 #ifndef __OpcUaNodeSet_OpcUaAttributeBaseTab_h__
 #define __OpcUaNodeSet_OpcUaAttributeBaseTab_h__
 
-#include "OpcUaStackServer/AddressSpaceModel/BaseNodeClass.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
 
 #include <QWidget>
-
-using namespace OpcUaStackServer;
 
 class QLineEdit;
 
@@ -38,16 +36,16 @@ namespace OpcUaNodeSet
 		OpcUaAttributeBaseTab(QWidget* parent = 0);
 		virtual ~OpcUaAttributeBaseTab(void);
 
-		void nodeChange(BaseNodeClass::SPtr baseNode);
+		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
-		void setNodeId(BaseNodeClass::SPtr& baseNode);
-		void setNodeClass(BaseNodeClass::SPtr& baseNode);
-		void setBrowseName(BaseNodeClass::SPtr& baseNode);
-		void setDisplayName(BaseNodeClass::SPtr& baseNode);
-		void setDescription(BaseNodeClass::SPtr& baseNode);
-		void setWriteMask(BaseNodeClass::SPtr& baseNode);
-		void setUserWriteMask(BaseNodeClass::SPtr& baseNode);
+		void setNodeId(NodeInfo* nodeInfo);
+		void setNodeClass(NodeInfo* nodeInfo);
+		void setBrowseName(NodeInfo* nodeInfo);
+		void setDisplayName(NodeInfo* nodeInfo);
+		void setDescription(NodeInfo* nodeInfo);
+		void setWriteMask(NodeInfo* nodeInfo);
+		void setUserWriteMask(NodeInfo* nodeInfo);
 
 
 		QLineEdit* nodeIdLineEdit_;
