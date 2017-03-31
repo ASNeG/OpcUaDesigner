@@ -146,7 +146,29 @@ namespace OpcUaNodeSet
     void
     OpcUaAttributeChildTab::setDataType(NodeInfo* nodeInfo, uint32_t row, BaseNodeClass::SPtr baseNode)
     {
+    	bool success;
     	QTableWidgetItem* item = new QTableWidgetItem("");
+
+    	// get data type
+    	if (!baseNode->isNullDataType()) {
+    		std::string dataTypeString = "";
+
+    		OpcUaNodeId dataType;
+    		success = baseNode->getDataType(dataType);
+    		if (success) {
+
+    			if (dataType.namespaceIndex() == 0 &&  dataType.nodeIdType() == OpcUaBuildInType_OpcUaUInt32) {
+    				uint32_t id = dataType.nodeId<uint32_t>();
+    				dataTypeString = OpcUaIdMap::shortString(id);
+    			}
+    			else {
+    				dataTypeString = dataType.toString();
+    			}
+    		}
+
+    		item->setText(QString(dataTypeString.c_str()));
+    	}
+
     	opcUaChildTable_->setItem(row, 3, item);
     }
 
