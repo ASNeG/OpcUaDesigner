@@ -23,6 +23,7 @@
 #include <QLabel>
 #include <QTableWidget>
 #include <QTableWidgetItem>
+#include <QHeaderView>
 
 using namespace OpcUaStackServer;
 
@@ -37,6 +38,7 @@ namespace OpcUaNodeSet
 
 		// create table
 		opcUaChildTable_ = new QTableWidget(0, 5);
+		opcUaChildTable_->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 		vBoxLayout->addWidget(opcUaChildTable_);
 
 		QStringList headerLabels;
@@ -69,22 +71,65 @@ namespace OpcUaNodeSet
 			return;
 		}
 
-		std::cout << "size=" << childBaseNodeClassVec.size() << std::endl;
-
 		// fill table
 		BaseNodeClass::Vec::iterator it;
 		for (it = childBaseNodeClassVec.begin(); it != childBaseNodeClassVec.end(); it++) {
 			uint32_t row = opcUaChildTable_->rowCount();
 			opcUaChildTable_->insertRow(row);
 
-			std::cout << "row=" << row << std::endl;
-
-			for (uint32_t idx=0; idx<5; idx++) {
-				QTableWidgetItem* item = new QTableWidgetItem("entry");
-				opcUaChildTable_->setItem(row, idx, item);
-			}
+			setNodeClass(nodeInfo, row, *it);
+			setDisplayName(nodeInfo, row, *it);
+			setTypeDefinition(nodeInfo, row, *it);
+			setDataType(nodeInfo, row, *it);
+			setReference(nodeInfo, row, *it);
 		}
+		opcUaChildTable_->resizeColumnsToContents();
 	}
+
+	void
+	OpcUaAttributeChildTab::setNodeClass(NodeInfo* nodeInfo, uint32_t row, BaseNodeClass::SPtr baseNode)
+	{
+		QTableWidgetItem* item = new QTableWidgetItem("");
+		if (!baseNode->isNullNodeClass()) {
+			NodeClassType nodeClass;
+			baseNode->getNodeClass(nodeClass);
+			item->setText(QString(NodeClass::toString(nodeClass).c_str()));
+		}
+		opcUaChildTable_->setItem(row, 0, item);
+	}
+
+    void
+    OpcUaAttributeChildTab::setDisplayName(NodeInfo* nodeInfo, uint32_t row, BaseNodeClass::SPtr baseNode)
+    {
+    	QTableWidgetItem* item = new QTableWidgetItem("");
+		if (!baseNode->isNullDisplayName()) {
+			OpcUaLocalizedText displayName;
+			baseNode->getDisplayName(displayName);
+			item->setText(QString(displayName.toString().c_str()));
+		}
+		opcUaChildTable_->setItem(row, 1, item);
+    }
+
+    void
+    OpcUaAttributeChildTab::setTypeDefinition(NodeInfo* nodeInfo, uint32_t row, BaseNodeClass::SPtr baseNode)
+    {
+    	QTableWidgetItem* item = new QTableWidgetItem("");
+    	opcUaChildTable_->setItem(row, 2, item);
+    }
+
+    void
+    OpcUaAttributeChildTab::setDataType(NodeInfo* nodeInfo, uint32_t row, BaseNodeClass::SPtr baseNode)
+    {
+    	QTableWidgetItem* item = new QTableWidgetItem("");
+    	opcUaChildTable_->setItem(row, 3, item);
+    }
+
+    void
+    OpcUaAttributeChildTab::setReference(NodeInfo* nodeInfo, uint32_t row, BaseNodeClass::SPtr baseNode)
+    {
+    	QTableWidgetItem* item = new QTableWidgetItem("");
+    	opcUaChildTable_->setItem(row, 4, item);
+    }
 
 }
 
