@@ -25,6 +25,7 @@ namespace OpcUaNodeSet
 
 	OpcUaAttributeWindow::OpcUaAttributeWindow(QWidget* parent)
 	: QWidget()
+	, nodeInfo_(NULL)
 	{
 		// create opc ua attribute tab
 		opcUaAttributeTab_ = new QTabWidget();
@@ -62,28 +63,29 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaAttributeWindow::onNodeChanged(BaseNodeClass::SPtr baseNode)
+	OpcUaAttributeWindow::onNodeChanged(NodeInfo* nodeInfo)
 	{
-		baseNode_ = baseNode;
+		nodeInfo_ = nodeInfo;
 		onCurrendChanged(-1);
 	}
 
 	void
 	OpcUaAttributeWindow::onCurrendChanged(int index)
 	{
-		if (baseNode_.get() == NULL) return;
+		if (nodeInfo_ == NULL) return;
+		if (nodeInfo_->baseNode_.get() == NULL) return;
 
 		if (tabBase_->isVisible()) {
-			tabBase_->nodeChange(baseNode_);
+			tabBase_->nodeChange(nodeInfo_->baseNode_);
 		}
 		else if (tabParent_->isVisible()) {
-			tabParent_->nodeChange(baseNode_);
+			tabParent_->nodeChange(nodeInfo_->baseNode_);
 		}
 		else if (tabChild_->isVisible()) {
-			tabChild_->nodeChange(baseNode_);
+			tabChild_->nodeChange(nodeInfo_->baseNode_);
 		}
 		else if (tabRef_->isVisible()) {
-			tabRef_->nodeChange(baseNode_);
+			tabRef_->nodeChange(nodeInfo_->baseNode_);
 		}
 	}
 

@@ -19,6 +19,7 @@
 #define __OpcUaNodeSet_OpcUaAttributeWindow_h__
 
 #include "OpcUaStackServer/AddressSpaceModel/BaseNodeClass.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeBaseTab.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeRefTab.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeParentTab.h"
@@ -42,7 +43,7 @@ namespace OpcUaNodeSet
 		virtual ~OpcUaAttributeWindow(void);
 
 	  public slots:
-		void onNodeChanged(BaseNodeClass::SPtr baseNode);
+		void onNodeChanged(NodeInfo* nodeInfo);
 		void onCurrendChanged(int index);
 
 	  private:
@@ -52,7 +53,7 @@ namespace OpcUaNodeSet
 		OpcUaAttributeChildTab* tabChild_;
 		OpcUaAttributeRefTab* tabRef_;
 
-		BaseNodeClass::SPtr baseNode_;
+		NodeInfo* nodeInfo_;
 	};
 
 }

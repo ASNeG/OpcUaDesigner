@@ -21,6 +21,7 @@
 #include <QWidget>
 
 #include "OpcUaStackServer/AddressSpaceModel/BaseNodeClass.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeSet.h"
 
 class QTreeWidget;
@@ -49,7 +50,7 @@ namespace OpcUaNodeSet
 	    void onCurrentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previos);
 
 	  signals:
-	    void nodeChanged(BaseNodeClass::SPtr baseNode);
+	    void nodeChanged(NodeInfo* nodeInfo);
 
 	  private:
 		void addNode(

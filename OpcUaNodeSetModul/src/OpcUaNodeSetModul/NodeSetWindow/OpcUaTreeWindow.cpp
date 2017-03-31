@@ -19,7 +19,6 @@
 #include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaTreeWindow.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeSet.h"
-#include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
 
 #include <QWidget>
 #include <QHeaderView>
@@ -251,7 +250,7 @@ namespace OpcUaNodeSet
 	{
 		QVariant v = current->data(0, Qt::UserRole);
 		NodeInfo* nodeInfo = v.value<NodeInfo*>();
-		emit nodeChanged(nodeInfo->baseNode_);
+		emit nodeChanged(nodeInfo);
 	}
 
 }
