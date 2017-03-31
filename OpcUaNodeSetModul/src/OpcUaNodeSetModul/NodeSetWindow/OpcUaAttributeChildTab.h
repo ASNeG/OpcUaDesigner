@@ -18,7 +18,11 @@
 #ifndef __OpcUaNodeSet_OpcUaAttributeChildTab_h__
 #define __OpcUaNodeSet_OpcUaAttributeChildTab_h__
 
+#include "OpcUaStackServer/AddressSpaceModel/BaseNodeClass.h"
+
 #include <QWidget>
+
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -31,6 +35,8 @@ namespace OpcUaNodeSet
 	  public:
 		OpcUaAttributeChildTab(QWidget* parent = 0);
 		virtual ~OpcUaAttributeChildTab(void);
+
+		void nodeChange(BaseNodeClass::SPtr baseNode);
 
 	  private:
 	};

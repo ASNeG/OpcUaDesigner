@@ -77,13 +77,13 @@ namespace OpcUaNodeSet
 			tabBase_->nodeChange(baseNode_);
 		}
 		else if (tabParent_->isVisible()) {
-
+			tabParent_->nodeChange(baseNode_);
 		}
 		else if (tabChild_->isVisible()) {
-
+			tabChild_->nodeChange(baseNode_);
 		}
 		else if (tabRef_->isVisible()) {
-
+			tabRef_->nodeChange(baseNode_);
 		}
 	}
 
