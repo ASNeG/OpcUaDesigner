@@ -42,7 +42,7 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaAttributeRefTab::nodeChange(BaseNodeClass::SPtr baseNode)
+	OpcUaAttributeRefTab::nodeChange(NodeInfo* nodeInfo)
 	{
 		// FIXME: todo
 	}
