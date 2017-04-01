@@ -20,6 +20,9 @@
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeRefTab.h"
 
 #include <QLabel>
+#include <QTableWidget>
+#include <QTableWidgetItem>
+#include <QHeaderView>
 
 namespace OpcUaNodeSet
 {
@@ -28,13 +31,19 @@ namespace OpcUaNodeSet
 	OpcUaAttributeRefTab::OpcUaAttributeRefTab(QWidget* parent)
 	: QWidget()
 	{
-		// create opc ua attribute base tab
-		QLabel* label = new QLabel("todo");
+		QVBoxLayout* vBoxLayout = new QVBoxLayout();
 
-		// show opc ua attriubute base tab
-		QVBoxLayout* layout_ = new QVBoxLayout();
-		layout_->addWidget(label);
-		setLayout(layout_);
+		// create table
+		opcUaRefTable_ = new QTableWidget(0, 5);
+		opcUaRefTable_->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+		vBoxLayout->addWidget(opcUaRefTable_);
+
+		QStringList headerLabels;
+		headerLabels << "NodeClass" << "DisplayName" << "TypeDefinition" << "DataType" << "Reference";
+		opcUaRefTable_->setHorizontalHeaderLabels(headerLabels);
+
+		// show opc ua attriubute tab
+		setLayout(vBoxLayout);
 	}
 
 	OpcUaAttributeRefTab::~OpcUaAttributeRefTab(void)

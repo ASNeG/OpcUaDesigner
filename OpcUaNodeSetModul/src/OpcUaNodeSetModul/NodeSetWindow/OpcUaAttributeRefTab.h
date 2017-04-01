@@ -22,6 +22,8 @@
 
 #include <QWidget>
 
+class QTableWidget;
+
 namespace OpcUaNodeSet
 {
 
@@ -37,6 +39,7 @@ namespace OpcUaNodeSet
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
+		QTableWidget* opcUaRefTable_;
 	};
 
 }
