@@ -34,6 +34,9 @@ namespace OpcUaNodeSet
 		tabBase_ = new  OpcUaAttributeBaseTab();
 		opcUaAttributeTab_->addTab(tabBase_, "Base Attributes");
 
+		tabSpecial_ = new  OpcUaAttributeSpecialTab();
+		opcUaAttributeTab_->addTab(tabSpecial_, "Special Attributes");
+
 		tabParent_ = new  OpcUaAttributeParentTab();
 		opcUaAttributeTab_->addTab(tabParent_, "Parent");
 
@@ -57,6 +60,7 @@ namespace OpcUaNodeSet
 	OpcUaAttributeWindow::~OpcUaAttributeWindow(void)
 	{
 		delete tabBase_;
+		delete tabSpecial_;
 		delete tabParent_;
 		delete tabChild_;
 		delete tabRef_;
@@ -77,6 +81,9 @@ namespace OpcUaNodeSet
 
 		if (tabBase_->isVisible()) {
 			tabBase_->nodeChange(nodeInfo_);
+		}
+		if (tabSpecial_->isVisible()) {
+			tabSpecial_->nodeChange(nodeInfo_);
 		}
 		else if (tabParent_->isVisible()) {
 			tabParent_->nodeChange(nodeInfo_);

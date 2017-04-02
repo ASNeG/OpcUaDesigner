@@ -21,6 +21,7 @@
 #include "OpcUaStackServer/AddressSpaceModel/BaseNodeClass.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeBaseTab.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeSpecialTab.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeRefTab.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeParentTab.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeChildTab.h"
@@ -49,6 +50,7 @@ namespace OpcUaNodeSet
 	  private:
 		QTabWidget* opcUaAttributeTab_;
 		OpcUaAttributeBaseTab* tabBase_;
+		OpcUaAttributeSpecialTab* tabSpecial_;
 		OpcUaAttributeParentTab* tabParent_;
 		OpcUaAttributeChildTab* tabChild_;
 		OpcUaAttributeRefTab* tabRef_;
