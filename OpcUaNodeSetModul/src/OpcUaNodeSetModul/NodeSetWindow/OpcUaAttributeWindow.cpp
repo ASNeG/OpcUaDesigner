@@ -32,7 +32,7 @@ namespace OpcUaNodeSet
 		opcUaAttributeTab_->setMinimumWidth(600);
 
 		tabBase_ = new  OpcUaAttributeBaseTab();
-		opcUaAttributeTab_->addTab(tabBase_, "Attributes");
+		opcUaAttributeTab_->addTab(tabBase_, "Base Attributes");
 
 		tabParent_ = new  OpcUaAttributeParentTab();
 		opcUaAttributeTab_->addTab(tabParent_, "Parent");
