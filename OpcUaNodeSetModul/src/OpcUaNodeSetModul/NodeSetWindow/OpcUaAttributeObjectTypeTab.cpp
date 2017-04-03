@@ -16,10 +16,10 @@
  */
 
 #include <QVBoxLayout>
+#include <QLabel>
+#include <QLineEdit>
 
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeObjectTypeTab.h"
-
-#include <QLabel>
 
 namespace OpcUaNodeSet
 {
@@ -28,17 +28,67 @@ namespace OpcUaNodeSet
 	OpcUaAttributeObjectTypeTab::OpcUaAttributeObjectTypeTab(QWidget* parent)
 	: QWidget()
 	{
-		// create opc ua attribute base tab
-		QLabel* label = new QLabel("todo");
+		QHBoxLayout* hBoxLayout;
+		QVBoxLayout* vBoxLayout = new QVBoxLayout();
+		QGridLayout* gridLayout = new QGridLayout();
 
-		// show opc ua attriubute base tab
-		QVBoxLayout* layout_ = new QVBoxLayout();
-		layout_->addWidget(label);
-		setLayout(layout_);
+
+		// IsAbstract
+		QLabel* isAbstractLabel = new QLabel("IsAbstract");
+		gridLayout->addWidget(isAbstractLabel, 0, 0);
+
+		isAbstractLineEdit_ = new QLineEdit();
+		isAbstractLineEdit_->setFixedWidth(300);
+
+		hBoxLayout = new QHBoxLayout();
+		hBoxLayout->addWidget(isAbstractLineEdit_);
+		hBoxLayout->addStretch();
+
+		gridLayout->addLayout(hBoxLayout, 0, 1);
+
+
+		// UserWriteMask
+		QLabel* userWriteMaskLabel = new QLabel("UserWriteMask");
+		gridLayout->addWidget(userWriteMaskLabel, 1, 0);
+
+		userWriteMaskLineEdit_ = new QLineEdit();
+		userWriteMaskLineEdit_->setFixedWidth(300);
+
+		hBoxLayout = new QHBoxLayout();
+		hBoxLayout->addWidget(userWriteMaskLineEdit_);
+		hBoxLayout->addStretch();
+
+		gridLayout->addLayout(hBoxLayout, 1, 1);
+
+
+		// WriteMask
+		QLabel* writeMaskLabel = new QLabel("WriteMask");
+		gridLayout->addWidget(writeMaskLabel, 2, 0);
+
+		writeMaskLineEdit_ = new QLineEdit();
+		writeMaskLineEdit_->setFixedWidth(300);
+
+		hBoxLayout = new QHBoxLayout();
+		hBoxLayout->addWidget(writeMaskLineEdit_);
+		hBoxLayout->addStretch();
+
+		gridLayout->addLayout(hBoxLayout, 2, 1);
+
+
+		vBoxLayout->addLayout(gridLayout);
+		vBoxLayout->addStretch();
+
+		setLayout(vBoxLayout);
 	}
 
 	OpcUaAttributeObjectTypeTab::~OpcUaAttributeObjectTypeTab(void)
 	{
+	}
+
+	void
+	OpcUaAttributeObjectTypeTab::nodeChange(NodeInfo* nodeInfo)
+	{
+		// FIXME: todo
 	}
 
 }

@@ -22,6 +22,7 @@
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeObjectTab.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeValueTab.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeValueTypeTab.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeObjectTypeTab.h"
 
 namespace OpcUaNodeSet
 {
@@ -44,6 +45,9 @@ namespace OpcUaNodeSet
 
 		attributeValueTypeTab_ = new OpcUaAttributeValueTypeTab();
 		specialAttributeWidget_->addWidget(attributeValueTypeTab_);
+
+		attributeObjectTypeTab_ = new OpcUaAttributeObjectTypeTab();
+		specialAttributeWidget_->addWidget(attributeObjectTypeTab_);
 
 
 		// add widget to  tab window
@@ -79,6 +83,9 @@ namespace OpcUaNodeSet
 				specialAttributeWidget_->setCurrentIndex(2);
 				break;
 			case NodeClassType_ObjectType:
+				attributeObjectTypeTab_->nodeChange(nodeInfo);
+				specialAttributeWidget_->setCurrentIndex(3);
+				break;
 				break;
 			case NodeClassType_ReferenceType:
 				break;
