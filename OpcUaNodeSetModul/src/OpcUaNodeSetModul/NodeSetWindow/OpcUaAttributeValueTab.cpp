@@ -16,11 +16,10 @@
  */
 
 #include <QVBoxLayout>
-
-#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeValueTab.h"
-
 #include <QLabel>
 #include <QLineEdit>
+
+#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeValueTab.h"
 
 namespace OpcUaNodeSet
 {

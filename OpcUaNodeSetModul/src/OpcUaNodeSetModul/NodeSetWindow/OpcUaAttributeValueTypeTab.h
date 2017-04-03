@@ -20,6 +20,10 @@
 
 #include <QWidget>
 
+#include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
+
+class QLineEdit;
+
 namespace OpcUaNodeSet
 {
 
@@ -32,7 +36,16 @@ namespace OpcUaNodeSet
 		OpcUaAttributeValueTypeTab(QWidget* parent = 0);
 		virtual ~OpcUaAttributeValueTypeTab(void);
 
+		void nodeChange(NodeInfo* nodeInfo);
+
 	  private:
+		QLineEdit* arrayDimensionsLineEdit_;
+		QLineEdit* dataTypeLineEdit_;
+		QLineEdit* isAbstractLineEdit_;
+		QLineEdit* userWriteMaskLineEdit_;
+		QLineEdit* valueLineEdit_;
+		QLineEdit* valueRankLineEdit_;
+		QLineEdit* writeMaskLineEdit_;
 	};
 
 }

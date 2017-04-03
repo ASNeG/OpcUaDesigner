@@ -30,6 +30,7 @@ namespace OpcUaNodeSet
 
 	class OpcUaAttributeObjectTab;
 	class OpcUaAttributeValueTab;
+	class OpcUaAttributeValueTypeTab;
 
 	class OpcUaAttributeSpecialTab
 	: public QWidget
@@ -46,6 +47,7 @@ namespace OpcUaNodeSet
 		QStackedWidget* specialAttributeWidget_;
 		OpcUaAttributeObjectTab* attributeObjectTab_;
 		OpcUaAttributeValueTab* attributeValueTab_;
+		OpcUaAttributeValueTypeTab* attributeValueTypeTab_;
 	};
 
 }
