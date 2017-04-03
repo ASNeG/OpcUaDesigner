@@ -20,6 +20,8 @@
 
 #include <QWidget>
 
+#include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
+
 namespace OpcUaNodeSet
 {
 
@@ -31,6 +33,8 @@ namespace OpcUaNodeSet
 	  public:
 		OpcUaAttributeObjectTab(QWidget* parent = 0);
 		virtual ~OpcUaAttributeObjectTab(void);
+
+		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
 	};

@@ -41,6 +41,12 @@ namespace OpcUaNodeSet
 	{
 	}
 
+	void
+	OpcUaAttributeValueTab::nodeChange(NodeInfo* nodeInfo)
+	{
+		// FIXME: todo
+	}
+
 }
 
 

@@ -63,9 +63,11 @@ namespace OpcUaNodeSet
 		switch (nodeClass)
 		{
 			case NodeClassType_Object:
+				attributeObjectTab_->nodeChange(nodeInfo);
 				specialAttributeWidget_->setCurrentIndex(0);
 				break;
 			case NodeClassType_Variable:
+				attributeValueTab_->nodeChange(nodeInfo);
 				specialAttributeWidget_->setCurrentIndex(1);
 				break;
 			case NodeClassType_Method:

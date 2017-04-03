@@ -18,9 +18,9 @@
 #ifndef __OpcUaNodeSet_OpcUaAttributeBaseTab_h__
 #define __OpcUaNodeSet_OpcUaAttributeBaseTab_h__
 
-#include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
-
 #include <QWidget>
+
+#include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
 
 class QLineEdit;
 
