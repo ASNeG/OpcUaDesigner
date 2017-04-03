@@ -16,13 +16,11 @@
  */
 
 #include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QGridLayout>
+#include <QStackedWidget>
 
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeSpecialTab.h"
-
-#include <QLabel>
-#include <QLineEdit>
+#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeObjectTab.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeValueTab.h"
 
 namespace OpcUaNodeSet
 {
@@ -31,17 +29,21 @@ namespace OpcUaNodeSet
 	OpcUaAttributeSpecialTab::OpcUaAttributeSpecialTab(QWidget* parent)
 	: QWidget()
 	{
-		QHBoxLayout* hBoxLayout;
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
-		QGridLayout* gridLayout = new QGridLayout();
+
+		// create stacked widget
+		specialAttributeWidget_ = new QStackedWidget();
+
+		// create and add special widgets
+		attributeObjectTab_ = new OpcUaAttributeObjectTab();
+		specialAttributeWidget_->addWidget(attributeObjectTab_);
+
+		attributeValueTab_ = new OpcUaAttributeValueTab();
+		specialAttributeWidget_->addWidget(attributeValueTab_);
 
 
-		// NodeId
-		QLabel* nodeIdLabel = new QLabel("NodeId");
-		gridLayout->addWidget(nodeIdLabel, 0, 0);
-
-
-		vBoxLayout->addLayout(gridLayout);
+		// add widget to  tab window
+		vBoxLayout->addWidget(specialAttributeWidget_);
 		vBoxLayout->addStretch();
 
 		setLayout(vBoxLayout);
@@ -54,6 +56,27 @@ namespace OpcUaNodeSet
 	void
 	OpcUaAttributeSpecialTab::nodeChange(NodeInfo* nodeInfo)
 	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		NodeClassType nodeClass;
+		baseNode->getNodeClass(nodeClass);
+
+		switch (nodeClass)
+		{
+			case NodeClassType_Object:
+				specialAttributeWidget_->setCurrentIndex(0);
+				break;
+			case NodeClassType_Variable:
+				specialAttributeWidget_->setCurrentIndex(1);
+				break;
+			case NodeClassType_Method:
+			case NodeClassType_ObjectType:
+			case NodeClassType_VariableType:
+			case NodeClassType_ReferenceType:
+			case NodeClassType_DataType:
+			case NodeClassType_View:
+			default:
+				break;
+		}
 	}
 
 }

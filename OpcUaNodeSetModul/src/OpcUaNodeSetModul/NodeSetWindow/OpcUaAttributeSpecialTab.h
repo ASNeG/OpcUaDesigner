@@ -23,9 +23,13 @@
 #include <QWidget>
 
 class QLineEdit;
+class QStackedWidget;
 
 namespace OpcUaNodeSet
 {
+
+	class OpcUaAttributeObjectTab;
+	class OpcUaAttributeValueTab;
 
 	class OpcUaAttributeSpecialTab
 	: public QWidget
@@ -39,6 +43,9 @@ namespace OpcUaNodeSet
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
+		QStackedWidget* specialAttributeWidget_;
+		OpcUaAttributeObjectTab* attributeObjectTab_;
+		OpcUaAttributeValueTab* attributeValueTab_;
 	};
 
 }

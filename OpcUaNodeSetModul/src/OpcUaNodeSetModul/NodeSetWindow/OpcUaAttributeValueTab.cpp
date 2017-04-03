@@ -29,7 +29,7 @@ namespace OpcUaNodeSet
 	: QWidget()
 	{
 		// create opc ua attribute base tab
-		QLabel* label = new QLabel("todo");
+		QLabel* label = new QLabel("todo - value");
 
 		// show opc ua attriubute base tab
 		QVBoxLayout* layout_ = new QVBoxLayout();
