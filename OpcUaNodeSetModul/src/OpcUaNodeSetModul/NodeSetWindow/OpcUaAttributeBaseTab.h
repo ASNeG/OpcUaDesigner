@@ -47,7 +47,6 @@ namespace OpcUaNodeSet
 		void setWriteMask(NodeInfo* nodeInfo);
 		void setUserWriteMask(NodeInfo* nodeInfo);
 
-
 		QLineEdit* nodeIdLineEdit_;
 		QLineEdit* nodeClassLineEdit_;
 		QLineEdit* browseNameLineEdit_;
