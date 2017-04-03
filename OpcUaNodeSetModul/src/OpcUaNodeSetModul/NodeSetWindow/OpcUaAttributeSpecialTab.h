@@ -35,6 +35,7 @@ namespace OpcUaNodeSet
 	class OpcUaAttributeReferenceTypeTab;
 	class OpcUaAttributeDataTypeTab;
 	class OpcUaAttributeMethodTab;
+	class OpcUaAttributeViewTab;
 
 	class OpcUaAttributeSpecialTab
 	: public QWidget
@@ -56,6 +57,7 @@ namespace OpcUaNodeSet
 		OpcUaAttributeReferenceTypeTab* attributeReferenceTypeTab_;
 		OpcUaAttributeDataTypeTab* attributeDataTypeTab_;
 		OpcUaAttributeMethodTab* attributeMethodTab_;
+		OpcUaAttributeViewTab* attributeViewTab_;
 	};
 
 }

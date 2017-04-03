@@ -26,6 +26,7 @@
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeReferenceTypeTab.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeDataTypeTab.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeMethodTab.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeViewTab.h"
 
 namespace OpcUaNodeSet
 {
@@ -61,6 +62,8 @@ namespace OpcUaNodeSet
 		attributeMethodTab_ = new OpcUaAttributeMethodTab();
 		specialAttributeWidget_->addWidget(attributeMethodTab_);
 
+		attributeViewTab_ = new OpcUaAttributeViewTab();
+		specialAttributeWidget_->addWidget(attributeViewTab_);
 
 		// add widget to  tab window
 		vBoxLayout->addWidget(specialAttributeWidget_);
@@ -111,6 +114,8 @@ namespace OpcUaNodeSet
 				specialAttributeWidget_->setCurrentIndex(6);
 				break;
 			case NodeClassType_View:
+				attributeViewTab_->nodeChange(nodeInfo);
+				specialAttributeWidget_->setCurrentIndex(7);
 				break;
 			default:
 				break;
