@@ -16,10 +16,10 @@
  */
 
 #include <QVBoxLayout>
+#include <QLabel>
+#include <QLineEdit>
 
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeObjectTab.h"
-
-#include <QLabel>
 
 namespace OpcUaNodeSet
 {
@@ -28,13 +28,57 @@ namespace OpcUaNodeSet
 	OpcUaAttributeObjectTab::OpcUaAttributeObjectTab(QWidget* parent)
 	: QWidget()
 	{
-		// create opc ua attribute base tab
-		QLabel* label = new QLabel("todo - object");
+		QHBoxLayout* hBoxLayout;
+		QVBoxLayout* vBoxLayout = new QVBoxLayout();
+		QGridLayout* gridLayout = new QGridLayout();
 
-		// show opc ua attriubute base tab
-		QVBoxLayout* layout_ = new QVBoxLayout();
-		layout_->addWidget(label);
-		setLayout(layout_);
+
+		// EventNotifier
+		QLabel* accessLevelLabel = new QLabel("EventNotifier");
+		gridLayout->addWidget(accessLevelLabel, 0, 0);
+
+		eventNotifierLineEdit_ = new QLineEdit();
+		eventNotifierLineEdit_->setFixedWidth(300);
+
+		hBoxLayout = new QHBoxLayout();
+		hBoxLayout->addWidget(eventNotifierLineEdit_);
+		hBoxLayout->addStretch();
+
+		gridLayout->addLayout(hBoxLayout, 0, 1);
+
+
+		// UserWriteMask
+		QLabel* userWriteMaskLabel = new QLabel("UserWriteMask");
+		gridLayout->addWidget(userWriteMaskLabel, 1, 0);
+
+		userWriteMaskLineEdit_ = new QLineEdit();
+		userWriteMaskLineEdit_->setFixedWidth(300);
+
+		hBoxLayout = new QHBoxLayout();
+		hBoxLayout->addWidget(userWriteMaskLineEdit_);
+		hBoxLayout->addStretch();
+
+		gridLayout->addLayout(hBoxLayout, 1, 1);
+
+
+		// WriteMask
+		QLabel* writeMaskLabel = new QLabel("WriteMask");
+		gridLayout->addWidget(writeMaskLabel, 2, 0);
+
+		writeMaskLineEdit_ = new QLineEdit();
+		writeMaskLineEdit_->setFixedWidth(300);
+
+		hBoxLayout = new QHBoxLayout();
+		hBoxLayout->addWidget(writeMaskLineEdit_);
+		hBoxLayout->addStretch();
+
+		gridLayout->addLayout(hBoxLayout, 2, 1);
+
+
+		vBoxLayout->addLayout(gridLayout);
+		vBoxLayout->addStretch();
+
+		setLayout(vBoxLayout);
 	}
 
 	OpcUaAttributeObjectTab::~OpcUaAttributeObjectTab(void)

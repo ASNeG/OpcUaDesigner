@@ -78,13 +78,13 @@ namespace OpcUaNodeSet
 				attributeValueTab_->nodeChange(nodeInfo);
 				specialAttributeWidget_->setCurrentIndex(2);
 				break;
-			case NodeClassType_Method:
-				break;
 			case NodeClassType_ObjectType:
 				break;
 			case NodeClassType_ReferenceType:
 				break;
 			case NodeClassType_DataType:
+				break;
+			case NodeClassType_Method:
 				break;
 			case NodeClassType_View:
 				break;
