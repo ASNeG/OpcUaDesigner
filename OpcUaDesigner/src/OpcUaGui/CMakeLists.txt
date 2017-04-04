@@ -59,6 +59,15 @@ install(FILES ${PROJECT_SOURCE_DIR}/OpcUaGui/Config/Opc.Ua.NodeSet.xml DESTINATI
 install(FILES ${PROJECT_SOURCE_DIR}/OpcUaGui/linux/log/README DESTINATION /var/log/OpcUaStack/OpcUaDesigner)
 install(DIRECTORY DESTINATION /var/log/OpcUaStack/OpcUaDesigner)
 
+file(GLOB INC_OpcUaDesigner ${PROJECT_SOURCE_DIR}/OpcUaGui/ModulInterface/*.h)
+
+install(
+    FILES ${INC_OpcUaDesigner} 
+    DESTINATION /usr/include/OpcUaGui/ModulInterface
+    COMPONENT headers
+)
+
+
 if (WIN32)
 else() 
 endif()
