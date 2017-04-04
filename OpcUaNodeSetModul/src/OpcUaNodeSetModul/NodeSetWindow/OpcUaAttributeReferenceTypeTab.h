@@ -39,6 +39,11 @@ namespace OpcUaNodeSet
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
+		void setInverseName(NodeInfo* nodeInfo);
+		void setSymmetric(NodeInfo* nodeInfo);
+		void setUserWriteMask(NodeInfo* nodeInfo);
+		void setWriteMask(NodeInfo* nodeInfo);
+
 		QLineEdit* inverseNameLineEdit_;
 		QLineEdit* symmetricLineEdit_;
 		QLineEdit* userWriteMaskLineEdit_;

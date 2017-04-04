@@ -102,7 +102,66 @@ namespace OpcUaNodeSet
 	void
 	OpcUaAttributeReferenceTypeTab::nodeChange(NodeInfo* nodeInfo)
 	{
-		// FIXME: todo
+		setInverseName(nodeInfo);
+		setSymmetric(nodeInfo);
+		setUserWriteMask(nodeInfo);
+		setWriteMask(nodeInfo);
+	}
+
+	void
+	OpcUaAttributeReferenceTypeTab::setInverseName(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullInverseName()) {
+			inverseNameLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaLocalizedText inverseName;
+			baseNode->getInverseName(inverseName);
+			inverseNameLineEdit_->setText(inverseName.toString().c_str());
+		}
+	}
+
+	void
+	OpcUaAttributeReferenceTypeTab::setSymmetric(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullSymmetric()) {
+			symmetricLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaBoolean symmetric;
+			baseNode->getSymmetric(symmetric);
+			symmetricLineEdit_->setText(symmetric == 1 ? QString("True") : QString("False"));
+		}
+	}
+
+	void
+	OpcUaAttributeReferenceTypeTab::setUserWriteMask(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullUserWriteMask()) {
+			userWriteMaskLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaUInt32 userWriteMask;
+			baseNode->getUserWriteMask(userWriteMask);
+			userWriteMaskLineEdit_->setText(QString("%1").arg((uint32_t)userWriteMask));
+		}
+	}
+
+	void
+	OpcUaAttributeReferenceTypeTab::setWriteMask(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullWriteMask()) {
+			writeMaskLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaUInt32 writeMask;
+			baseNode->getWriteMask(writeMask);
+			writeMaskLineEdit_->setText(QString("%1").arg((uint32_t)writeMask));
+		}
 	}
 
 }
