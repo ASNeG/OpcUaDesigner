@@ -39,6 +39,11 @@ namespace OpcUaNodeSet
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
+		void setContainsNoLoops(NodeInfo* nodeInfo);
+		void setEventNotifier(NodeInfo* nodeInfo);
+		void setUserWriteMask(NodeInfo* nodeInfo);
+		void setWriteMask(NodeInfo* nodeInfo);
+
 		QLineEdit* containsNoLoopsLineEdit_;
 		QLineEdit* eventNotifierLineEdit_;
 		QLineEdit* userWriteMaskLineEdit_;
