@@ -39,6 +39,14 @@ namespace OpcUaNodeSet
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
+		void setArrayDimensions(NodeInfo* nodeInfo);
+		void setDataType(NodeInfo* nodeInfo);
+		void setIsAbstract(NodeInfo* nodeInfo);
+		void setUserWriteMask(NodeInfo* nodeInfo);
+		void setValue(NodeInfo* nodeInfo);
+		void setValueRank(NodeInfo* nodeInfo);
+		void setWriteMask(NodeInfo* nodeInfo);
+
 		QLineEdit* arrayDimensionsLineEdit_;
 		QLineEdit* dataTypeLineEdit_;
 		QLineEdit* isAbstractLineEdit_;

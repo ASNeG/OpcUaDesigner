@@ -19,7 +19,10 @@
 #include <QLabel>
 #include <QLineEdit>
 
+#include "OpcUaStackCore/BuildInTypes/OpcUaIdentifier.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeValueTypeTab.h"
+
+using namespace OpcUaStackCore;
 
 namespace OpcUaNodeSet
 {
@@ -144,7 +147,130 @@ namespace OpcUaNodeSet
 	void
 	OpcUaAttributeValueTypeTab::nodeChange(NodeInfo* nodeInfo)
 	{
-		// FIXME: todo
+		setArrayDimensions(nodeInfo);
+		setDataType(nodeInfo);
+		setIsAbstract(nodeInfo);
+		setUserWriteMask(nodeInfo);
+		setValue(nodeInfo);
+		setValueRank(nodeInfo);
+		setWriteMask(nodeInfo);
+	}
+
+	void
+	OpcUaAttributeValueTypeTab::setArrayDimensions(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullArrayDimensions()) {
+			arrayDimensionsLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaUInt32Array arrayDimensions;
+			baseNode->getArrayDimensions(arrayDimensions);
+			std::stringstream ss;
+			arrayDimensions.out(ss);
+			arrayDimensionsLineEdit_->setText(QString(ss.str().c_str()));
+		}
+	}
+
+	void
+	OpcUaAttributeValueTypeTab::setDataType(NodeInfo* nodeInfo)
+	{
+		bool success;
+
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+	   	if (baseNode->isNullDataType()) {
+	   		dataTypeLineEdit_->setText(QString(""));
+	   	}
+	   	else {
+	    	std::string dataTypeString = "";
+
+	    	OpcUaNodeId dataType;
+	    	success = baseNode->getDataType(dataType);
+	    	if (success) {
+
+	    		if (dataType.namespaceIndex() == 0 &&  dataType.nodeIdType() == OpcUaBuildInType_OpcUaUInt32) {
+	    			uint32_t id = dataType.nodeId<uint32_t>();
+	    			dataTypeString = OpcUaIdMap::shortString(id);
+	    		}
+	    		else {
+	    			dataTypeString = dataType.toString();
+	    		}
+	    	}
+
+	    	dataTypeLineEdit_->setText(QString(dataTypeString.c_str()));
+	    }
+	}
+
+	void
+	OpcUaAttributeValueTypeTab::setIsAbstract(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullIsAbstract()) {
+			isAbstractLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaBoolean isAbstract;
+			baseNode->getIsAbstract(isAbstract);
+			isAbstractLineEdit_->setText(isAbstract == 1 ? QString("True") : QString("False"));
+		}
+	}
+
+	void
+	OpcUaAttributeValueTypeTab::setUserWriteMask(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullUserWriteMask()) {
+			userWriteMaskLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaUInt32 userWriteMask;
+			baseNode->getUserWriteMask(userWriteMask);
+			userWriteMaskLineEdit_->setText(QString("%1").arg((uint32_t)userWriteMask));
+		}
+	}
+
+	void
+	OpcUaAttributeValueTypeTab::setValue(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullValue()) {
+			valueLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaDataValue dataValue;
+			baseNode->getValue(dataValue);
+			std::stringstream ss;
+			dataValue.out(ss);
+			valueLineEdit_->setText(QString(ss.str().c_str()));
+		}
+	}
+
+	void
+	OpcUaAttributeValueTypeTab::setValueRank(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullValueRank()) {
+			valueRankLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaInt32 valueRank;
+			baseNode->getValueRank(valueRank);
+			valueRankLineEdit_->setText(QString("%1").arg((int32_t)valueRank));
+		}
+	}
+
+	void
+	OpcUaAttributeValueTypeTab::setWriteMask(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullWriteMask()) {
+			writeMaskLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaUInt32 writeMask;
+			baseNode->getWriteMask(writeMask);
+			writeMaskLineEdit_->setText(QString("%1").arg((uint32_t)writeMask));
+		}
 	}
 
 }

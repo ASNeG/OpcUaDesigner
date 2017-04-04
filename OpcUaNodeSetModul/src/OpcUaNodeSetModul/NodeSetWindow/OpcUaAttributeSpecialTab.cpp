@@ -94,7 +94,7 @@ namespace OpcUaNodeSet
 				specialAttributeWidget_->setCurrentIndex(1);
 				break;
 			case NodeClassType_VariableType:
-				attributeValueTab_->nodeChange(nodeInfo);
+				attributeValueTypeTab_->nodeChange(nodeInfo);
 				specialAttributeWidget_->setCurrentIndex(2);
 				break;
 			case NodeClassType_ObjectType:
