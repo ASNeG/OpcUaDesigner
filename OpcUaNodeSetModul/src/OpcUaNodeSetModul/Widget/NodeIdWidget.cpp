@@ -42,6 +42,7 @@ namespace OpcUaNodeSet
 
 		// layout
 		QHBoxLayout* hBoxLayout = new QHBoxLayout();
+		hBoxLayout->setMargin(0);
 		hBoxLayout->addWidget(typeWidget_);
 		hBoxLayout->addWidget(nodeIdWidget_);
 		hBoxLayout->addStretch();

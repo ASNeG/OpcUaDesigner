@@ -15,45 +15,31 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#ifndef __OpcUaNodeSet_OpcUaAttributeBaseTab_h__
-#define __OpcUaNodeSet_OpcUaAttributeBaseTab_h__
+#ifndef __OpcUaNodeSet_NodeClassWidget_h__
+#define __OpcUaNodeSet_NodeClassWidget_h__
+
+#include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
 
 #include <QWidget>
 
-#include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
-#include "OpcUaNodeSetModul/Widget/NodeIdWidget.h"
-#include "OpcUaNodeSetModul/Widget/NodeClassWidget.h"
-
-class QLineEdit;
+class QComboBox;
 
 namespace OpcUaNodeSet
 {
 
-	class OpcUaAttributeBaseTab
+	class NodeClassWidget
 	: public QWidget
 	{
 		Q_OBJECT
 
 	  public:
-		OpcUaAttributeBaseTab(QWidget* parent = 0);
-		virtual ~OpcUaAttributeBaseTab(void);
+		NodeClassWidget(QWidget* parent = 0);
+		virtual ~NodeClassWidget(void);
 
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
-		void setBrowseName(NodeInfo* nodeInfo);
-		void setDisplayName(NodeInfo* nodeInfo);
-		void setDescription(NodeInfo* nodeInfo);
-		void setWriteMask(NodeInfo* nodeInfo);
-		void setUserWriteMask(NodeInfo* nodeInfo);
-
-		NodeIdWidget* nodeIdWidget_;
-		NodeClassWidget* nodeClassWidget_;
-		QLineEdit* browseNameLineEdit_;
-		QLineEdit* displayNameLineEdit_;
-		QLineEdit* descriptionLineEdit_;
-		QLineEdit* writeMaskLineEdit_;
-		QLineEdit* userWriteMaskLineEdit_;
+		QComboBox* nodeClassWidget_;
 	};
 
 }
