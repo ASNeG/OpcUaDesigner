@@ -88,7 +88,51 @@ namespace OpcUaNodeSet
 	void
 	OpcUaAttributeObjectTab::nodeChange(NodeInfo* nodeInfo)
 	{
-		// FIXME: todo
+		setEventNotifier(nodeInfo);
+		setUserWriteMask(nodeInfo);
+		setWriteMask(nodeInfo);
+	}
+
+	void
+	OpcUaAttributeObjectTab::setEventNotifier(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullEventNotifier()) {
+			eventNotifierLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaByte eventNotifier;
+			baseNode->getEventNotifier(eventNotifier);
+			eventNotifierLineEdit_->setText(QString("%1").arg((uint32_t)eventNotifier));
+		}
+	}
+
+	void
+	OpcUaAttributeObjectTab::setUserWriteMask(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullUserWriteMask()) {
+			userWriteMaskLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaUInt32 userWriteMask;
+			baseNode->getUserWriteMask(userWriteMask);
+			userWriteMaskLineEdit_->setText(QString("%1").arg((uint32_t)userWriteMask));
+		}
+	}
+
+	void
+	OpcUaAttributeObjectTab::setWriteMask(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullWriteMask()) {
+			writeMaskLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaUInt32 writeMask;
+			baseNode->getWriteMask(writeMask);
+			writeMaskLineEdit_->setText(QString("%1").arg((uint32_t)writeMask));
+		}
 	}
 
 }
