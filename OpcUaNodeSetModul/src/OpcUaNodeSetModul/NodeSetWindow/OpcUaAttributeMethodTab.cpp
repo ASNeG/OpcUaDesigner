@@ -102,7 +102,66 @@ namespace OpcUaNodeSet
 	void
 	OpcUaAttributeMethodTab::nodeChange(NodeInfo* nodeInfo)
 	{
-		// FIXME: todo
+		setExecutable(nodeInfo);
+		setUserExecutable(nodeInfo);
+		setUserWriteMask(nodeInfo);
+		setWriteMask(nodeInfo);
+	}
+
+	void
+	OpcUaAttributeMethodTab::setExecutable(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullExecutable()) {
+			executableLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaBoolean executableLineEdit;
+			baseNode->getExecutable(executableLineEdit);
+			executableLineEdit_->setText(executableLineEdit == 1 ? QString("True") : QString("False"));
+		}
+	}
+
+	void
+	OpcUaAttributeMethodTab::setUserExecutable(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullUserExecutable()) {
+			userExecutableLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaBoolean userExecutableLineEdit;
+			baseNode->getUserExecutable(userExecutableLineEdit);
+			userExecutableLineEdit_->setText(userExecutableLineEdit == 1 ? QString("True") : QString("False"));
+		}
+	}
+
+	void
+	OpcUaAttributeMethodTab::setUserWriteMask(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullUserWriteMask()) {
+			userWriteMaskLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaUInt32 userWriteMask;
+			baseNode->getUserWriteMask(userWriteMask);
+			userWriteMaskLineEdit_->setText(QString("%1").arg((uint32_t)userWriteMask));
+		}
+	}
+
+	void
+	OpcUaAttributeMethodTab::setWriteMask(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullWriteMask()) {
+			writeMaskLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaUInt32 writeMask;
+			baseNode->getWriteMask(writeMask);
+			writeMaskLineEdit_->setText(QString("%1").arg((uint32_t)writeMask));
+		}
 	}
 
 }
