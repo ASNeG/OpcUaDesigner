@@ -15,6 +15,9 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
+#include <QHBoxLayout>
+#include <QLineEdit>
+
 #include "OpcUaNodeSetModul/Widget/NodeIdWidget.h"
 
 namespace OpcUaNodeSet
@@ -24,10 +27,30 @@ namespace OpcUaNodeSet
 	NodeIdWidget::NodeIdWidget(QWidget* parent)
 	: QWidget()
 	{
+		nodeIdLineEdit_ = new QLineEdit();
+		nodeIdLineEdit_->setFixedWidth(300);
+
+		QHBoxLayout* hBoxLayout = new QHBoxLayout();
+		hBoxLayout->addWidget(nodeIdLineEdit_);
+		setLayout(hBoxLayout);
 	}
 
 	NodeIdWidget::~NodeIdWidget(void)
 	{
+	}
+
+	void
+	NodeIdWidget::nodeChange(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullNodeId()) {
+			nodeIdLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaNodeId nodeId;
+			baseNode->getNodeId(nodeId);
+			nodeIdLineEdit_->setText(QString(nodeId.toString().c_str()));
+		}
 	}
 
 }

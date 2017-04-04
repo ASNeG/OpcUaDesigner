@@ -22,6 +22,8 @@
 
 #include <QWidget>
 
+class QLineEdit;
+
 namespace OpcUaNodeSet
 {
 
@@ -33,6 +35,11 @@ namespace OpcUaNodeSet
 	  public:
 		NodeIdWidget(QWidget* parent = 0);
 		virtual ~NodeIdWidget(void);
+
+		void nodeChange(NodeInfo* nodeInfo);
+
+	  private:
+		QLineEdit* nodeIdLineEdit_;
 	};
 
 }

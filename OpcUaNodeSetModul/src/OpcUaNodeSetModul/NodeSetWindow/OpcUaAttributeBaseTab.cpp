@@ -40,11 +40,10 @@ namespace OpcUaNodeSet
 		QLabel* nodeIdLabel = new QLabel("NodeId");
 		gridLayout->addWidget(nodeIdLabel, 0, 0);
 
-		nodeIdLineEdit_ = new QLineEdit();
-		nodeIdLineEdit_->setFixedWidth(300);
+		nodeIdWidget_ = new NodeIdWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(nodeIdLineEdit_);
+		hBoxLayout->addWidget(nodeIdWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 0, 1);
@@ -147,27 +146,13 @@ namespace OpcUaNodeSet
 	void
 	OpcUaAttributeBaseTab::nodeChange(NodeInfo* nodeInfo)
 	{
-		setNodeId(nodeInfo);
+		nodeIdWidget_->nodeChange(nodeInfo);
 		setNodeClass(nodeInfo);
 		setBrowseName(nodeInfo);
 		setDisplayName(nodeInfo);
 		setDescription(nodeInfo);
 		setWriteMask(nodeInfo);
 		setUserWriteMask(nodeInfo);
-	}
-
-	void
-	OpcUaAttributeBaseTab::setNodeId(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullNodeId()) {
-			nodeIdLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaNodeId nodeId;
-			baseNode->getNodeId(nodeId);
-			nodeIdLineEdit_->setText(QString(nodeId.toString().c_str()));
-		}
 	}
 
 	void
