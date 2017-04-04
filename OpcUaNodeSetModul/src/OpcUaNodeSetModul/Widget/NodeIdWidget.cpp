@@ -17,6 +17,9 @@
 
 #include <QHBoxLayout>
 #include <QLineEdit>
+#include <QComboBox>
+#include <QStringList>
+#include <QString>
 
 #include "OpcUaNodeSetModul/Widget/NodeIdWidget.h"
 
@@ -27,11 +30,21 @@ namespace OpcUaNodeSet
 	NodeIdWidget::NodeIdWidget(QWidget* parent)
 	: QWidget()
 	{
-		nodeIdLineEdit_ = new QLineEdit();
-		nodeIdLineEdit_->setFixedWidth(300);
+		// widgets
+		QStringList typeList;
+		typeList << "Numeric" << "String" << "Guid" << "Oqaque" << "Unknown";
+		typeWidget_ = new QComboBox();
+		typeWidget_->addItems(typeList);
+		typeWidget_->setFixedWidth(100);
 
+		nodeIdWidget_ = new QLineEdit();
+		nodeIdWidget_->setFixedWidth(200);
+
+		// layout
 		QHBoxLayout* hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(nodeIdLineEdit_);
+		hBoxLayout->addWidget(typeWidget_);
+		hBoxLayout->addWidget(nodeIdWidget_);
+		hBoxLayout->addStretch();
 		setLayout(hBoxLayout);
 	}
 
@@ -44,12 +57,47 @@ namespace OpcUaNodeSet
 	{
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
 		if (baseNode->isNullNodeId()) {
-			nodeIdLineEdit_->setText(QString(""));
+			typeWidget_->setCurrentIndex(4);
+			nodeIdWidget_->setText(QString(""));
+			return;
 		}
-		else {
-			OpcUaNodeId nodeId;
-			baseNode->getNodeId(nodeId);
-			nodeIdLineEdit_->setText(QString(nodeId.toString().c_str()));
+
+		OpcUaNodeId nodeId;
+		baseNode->getNodeId(nodeId);
+
+		switch (nodeId.nodeIdType())
+		{
+			case OpcUaBuildInType_OpcUaUInt32:
+			{
+				OpcUaUInt16 namespaceIndex;
+				OpcUaUInt32 value;
+				nodeId.get(value, namespaceIndex);
+				typeWidget_->setCurrentIndex(0);
+				nodeIdWidget_->setText(QString("%1").arg(value));
+				break;
+			}
+			case OpcUaBuildInType_OpcUaString:
+			{
+				OpcUaUInt16 namespaceIndex;
+				std::string value;
+				nodeId.get(value, namespaceIndex);
+				typeWidget_->setCurrentIndex(1);
+				nodeIdWidget_->setText(value.c_str());
+				break;
+			}
+			case OpcUaBuildInType_OpcUaGuid:
+			{
+				// FIXME: todo
+				typeWidget_->setCurrentIndex(2);
+				nodeIdWidget_->setText(QString("GUID not supported"));
+				break;
+			}
+			default:
+			{
+				typeWidget_->setCurrentIndex(4);
+				nodeIdWidget_->setText(QString(""));
+				break;
+			}
 		}
 	}
 

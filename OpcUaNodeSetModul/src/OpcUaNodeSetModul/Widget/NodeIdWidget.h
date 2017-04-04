@@ -23,6 +23,7 @@
 #include <QWidget>
 
 class QLineEdit;
+class QComboBox;
 
 namespace OpcUaNodeSet
 {
@@ -39,7 +40,8 @@ namespace OpcUaNodeSet
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
-		QLineEdit* nodeIdLineEdit_;
+		QComboBox* typeWidget_;
+		QLineEdit* nodeIdWidget_;
 	};
 
 }
