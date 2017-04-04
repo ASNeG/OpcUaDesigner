@@ -21,13 +21,13 @@
 #include <QStringList>
 #include <QString>
 
-#include "OpcUaNodeSetModul/Widget/NodeClassWidget.h"
+#include "OpcUaNodeSetModul/Widget/BrowseNameWidget.h"
 
 namespace OpcUaNodeSet
 {
 
 
-	NodeClassWidget::NodeClassWidget(QWidget* parent)
+	BrowseNameWidget::BrowseNameWidget(QWidget* parent)
 	: QWidget()
 	{
 		// widgets
@@ -47,22 +47,13 @@ namespace OpcUaNodeSet
 		setLayout(hBoxLayout);
 	}
 
-	NodeClassWidget::~NodeClassWidget(void)
+	BrowseNameWidget::~BrowseNameWidget(void)
 	{
 	}
 
 	void
-	NodeClassWidget::nodeChange(NodeInfo* nodeInfo)
+	BrowseNameWidget::nodeChange(NodeInfo* nodeInfo)
 	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullNodeClass()) {
-			nodeClassWidget_->setCurrentText("Error");
-			return;
-		}
-
-		NodeClassType nodeClass;
-		baseNode->getNodeClass(nodeClass);
-		nodeClassWidget_->setCurrentText(NodeClass::toString(nodeClass).c_str());
 	}
 
 }

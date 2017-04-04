@@ -16,6 +16,7 @@
  */
 
 #include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QLineEdit>
 #include <QComboBox>
 #include <QStringList>
@@ -35,18 +36,29 @@ namespace OpcUaNodeSet
 		typeList << "Numeric" << "String" << "Guid" << "Oqaque" << "Unknown";
 		typeWidget_ = new QComboBox();
 		typeWidget_->addItems(typeList);
-		typeWidget_->setFixedWidth(100);
+		typeWidget_->setFixedWidth(120);
 
 		nodeIdWidget_ = new QLineEdit();
-		nodeIdWidget_->setFixedWidth(200);
+		nodeIdWidget_->setFixedWidth(280-5);
+
+		namespaceWidget_ = new QComboBox();
+		//namespaceWidget_->addItems(typeList);
+		namespaceWidget_->setFixedWidth(400);
 
 		// layout
 		QHBoxLayout* hBoxLayout = new QHBoxLayout();
-		hBoxLayout->setMargin(0);
+		hBoxLayout->setSpacing(5);
 		hBoxLayout->addWidget(typeWidget_);
 		hBoxLayout->addWidget(nodeIdWidget_);
 		hBoxLayout->addStretch();
-		setLayout(hBoxLayout);
+		hBoxLayout->setMargin(0);
+
+		QVBoxLayout* vBoxLayout = new QVBoxLayout();
+		vBoxLayout->addLayout(hBoxLayout);
+		vBoxLayout->addWidget(namespaceWidget_);
+		vBoxLayout->setMargin(0);
+
+		setLayout(vBoxLayout);
 	}
 
 	NodeIdWidget::~NodeIdWidget(void)
@@ -100,6 +112,9 @@ namespace OpcUaNodeSet
 				break;
 			}
 		}
+
+		// set namespace
+
 	}
 
 }
