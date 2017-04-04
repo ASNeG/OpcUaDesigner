@@ -88,7 +88,51 @@ namespace OpcUaNodeSet
 	void
 	OpcUaAttributeObjectTypeTab::nodeChange(NodeInfo* nodeInfo)
 	{
-		// FIXME: todo
+		setIsAbstract(nodeInfo);
+		setUserWriteMask(nodeInfo);
+		setWriteMask(nodeInfo);
+	}
+
+	void
+	OpcUaAttributeObjectTypeTab::setIsAbstract(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullIsAbstract()) {
+			isAbstractLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaBoolean isAbstract;
+			baseNode->getIsAbstract(isAbstract);
+			isAbstractLineEdit_->setText(isAbstract == 1 ? QString("True") : QString("False"));
+		}
+	}
+
+	void
+	OpcUaAttributeObjectTypeTab::setUserWriteMask(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullUserWriteMask()) {
+			userWriteMaskLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaUInt32 userWriteMask;
+			baseNode->getUserWriteMask(userWriteMask);
+			userWriteMaskLineEdit_->setText(QString("%1").arg((uint32_t)userWriteMask));
+		}
+	}
+
+	void
+	OpcUaAttributeObjectTypeTab::setWriteMask(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullWriteMask()) {
+			writeMaskLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaUInt32 writeMask;
+			baseNode->getWriteMask(writeMask);
+			writeMaskLineEdit_->setText(QString("%1").arg((uint32_t)writeMask));
+		}
 	}
 
 }
