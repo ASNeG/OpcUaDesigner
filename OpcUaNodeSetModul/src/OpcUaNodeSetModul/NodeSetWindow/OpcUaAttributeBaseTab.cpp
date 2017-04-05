@@ -79,11 +79,10 @@ namespace OpcUaNodeSet
 		QLabel* displayNameLabel = new QLabel("DisplayName");
 		gridLayout->addWidget(displayNameLabel, 3, 0);
 
-		displayNameLineEdit_ = new QLineEdit();
-		displayNameLineEdit_->setFixedWidth(300);
+		displayNameWidget_ = new DisplayNameWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(displayNameLineEdit_);
+		hBoxLayout->addWidget(displayNameWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 3, 1);
@@ -147,24 +146,10 @@ namespace OpcUaNodeSet
 		nodeIdWidget_->nodeChange(nodeInfo);
 		nodeClassWidget_->nodeChange(nodeInfo);
 		browseNameWidget_->nodeChange(nodeInfo);
-		setDisplayName(nodeInfo);
+		displayNameWidget_->nodeChange(nodeInfo);
 		setDescription(nodeInfo);
 		setWriteMask(nodeInfo);
 		setUserWriteMask(nodeInfo);
-	}
-
-	void
-	OpcUaAttributeBaseTab::setDisplayName(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullDisplayName()) {
-			displayNameLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaLocalizedText displayName;
-			baseNode->getDisplayName(displayName);
-			displayNameLineEdit_->setText(QString(displayName.toString().c_str()));
-		}
 	}
 
 	void
