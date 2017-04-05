@@ -15,45 +15,32 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#ifndef __OpcUaNodeSet_OpcUaAttributeBaseTab_h__
-#define __OpcUaNodeSet_OpcUaAttributeBaseTab_h__
-
-#include <QWidget>
+#ifndef __OpcUaNodeSet_DescriptionWidget_h__
+#define __OpcUaNodeSet_DescriptionWidget_h__
 
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
-#include "OpcUaNodeSetModul/Widget/NodeIdWidget.h"
-#include "OpcUaNodeSetModul/Widget/NodeClassWidget.h"
-#include "OpcUaNodeSetModul/Widget/BrowseNameWidget.h"
-#include "OpcUaNodeSetModul/Widget/DisplayNameWidget.h"
-#include "OpcUaNodeSetModul/Widget/DescriptionWidget.h"
+
+#include <QWidget>
 
 class QLineEdit;
 
 namespace OpcUaNodeSet
 {
 
-	class OpcUaAttributeBaseTab
+	class DescriptionWidget
 	: public QWidget
 	{
 		Q_OBJECT
 
 	  public:
-		OpcUaAttributeBaseTab(QWidget* parent = 0);
-		virtual ~OpcUaAttributeBaseTab(void);
+		DescriptionWidget(QWidget* parent = 0);
+		virtual ~DescriptionWidget(void);
 
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
-		void setWriteMask(NodeInfo* nodeInfo);
-		void setUserWriteMask(NodeInfo* nodeInfo);
-
-		NodeIdWidget* nodeIdWidget_;
-		NodeClassWidget* nodeClassWidget_;
-		BrowseNameWidget* browseNameWidget_;
-		DisplayNameWidget* displayNameWidget_;
-		DescriptionWidget* descriptionWidget_;
-		QLineEdit* writeMaskLineEdit_;
-		QLineEdit* userWriteMaskLineEdit_;
+		QLineEdit* localeWidget_;
+		QLineEdit* textWidget_;
 	};
 
 }

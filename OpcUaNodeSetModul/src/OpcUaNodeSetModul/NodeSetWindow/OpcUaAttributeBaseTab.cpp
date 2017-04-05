@@ -92,11 +92,10 @@ namespace OpcUaNodeSet
 		QLabel* descriptionLabel = new QLabel("Description");
 		gridLayout->addWidget(descriptionLabel, 4, 0);
 
-		descriptionLineEdit_ = new QLineEdit();
-		descriptionLineEdit_->setFixedWidth(300);
+		descriptionWidget_ = new DescriptionWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(descriptionLineEdit_);
+		hBoxLayout->addWidget(descriptionWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 4, 1);
@@ -147,23 +146,9 @@ namespace OpcUaNodeSet
 		nodeClassWidget_->nodeChange(nodeInfo);
 		browseNameWidget_->nodeChange(nodeInfo);
 		displayNameWidget_->nodeChange(nodeInfo);
-		setDescription(nodeInfo);
+		descriptionWidget_->nodeChange(nodeInfo);
 		setWriteMask(nodeInfo);
 		setUserWriteMask(nodeInfo);
-	}
-
-	void
-	OpcUaAttributeBaseTab::setDescription(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullDescription()) {
-			descriptionLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaLocalizedText description;
-			baseNode->getDescription(description);
-			descriptionLineEdit_->setText(QString(description.toString().c_str()));
-		}
 	}
 
 	void
