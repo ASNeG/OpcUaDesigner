@@ -15,8 +15,8 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#ifndef __OpcUaNodeSet_OpcUaAttributeObjectTab_h__
-#define __OpcUaNodeSet_OpcUaAttributeObjectTab_h__
+#ifndef __OpcUaNodeSet_OpcUaAttributeReferenceTypeTab_h__
+#define __OpcUaNodeSet_OpcUaAttributeReferenceTypeTab_h__
 
 #include <QWidget>
 
@@ -27,23 +27,25 @@ class QLineEdit;
 namespace OpcUaNodeSet
 {
 
-	class OpcUaAttributeObjectTab
+	class OpcUaAttributeReferenceTypeTab
 	: public QWidget
 	{
 		Q_OBJECT
 
 	  public:
-		OpcUaAttributeObjectTab(QWidget* parent = 0);
-		virtual ~OpcUaAttributeObjectTab(void);
+		OpcUaAttributeReferenceTypeTab(QWidget* parent = 0);
+		virtual ~OpcUaAttributeReferenceTypeTab(void);
 
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
-		void setEventNotifier(NodeInfo* nodeInfo);
+		void setInverseName(NodeInfo* nodeInfo);
+		void setSymmetric(NodeInfo* nodeInfo);
 		void setUserWriteMask(NodeInfo* nodeInfo);
 		void setWriteMask(NodeInfo* nodeInfo);
 
-		QLineEdit* eventNotifierLineEdit_;
+		QLineEdit* inverseNameLineEdit_;
+		QLineEdit* symmetricLineEdit_;
 		QLineEdit* userWriteMaskLineEdit_;
 		QLineEdit* writeMaskLineEdit_;
 	};

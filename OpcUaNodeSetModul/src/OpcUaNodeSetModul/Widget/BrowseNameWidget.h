@@ -15,37 +15,31 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#ifndef __OpcUaNodeSet_OpcUaAttributeObjectTab_h__
-#define __OpcUaNodeSet_OpcUaAttributeObjectTab_h__
-
-#include <QWidget>
+#ifndef __OpcUaNodeSet_BrowseNameWidget_h__
+#define __OpcUaNodeSet_BrowseNameWidget_h__
 
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
 
-class QLineEdit;
+#include <QWidget>
+
+class QComboBox;
 
 namespace OpcUaNodeSet
 {
 
-	class OpcUaAttributeObjectTab
+	class BrowseNameWidget
 	: public QWidget
 	{
 		Q_OBJECT
 
 	  public:
-		OpcUaAttributeObjectTab(QWidget* parent = 0);
-		virtual ~OpcUaAttributeObjectTab(void);
+		BrowseNameWidget(QWidget* parent = 0);
+		virtual ~BrowseNameWidget(void);
 
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
-		void setEventNotifier(NodeInfo* nodeInfo);
-		void setUserWriteMask(NodeInfo* nodeInfo);
-		void setWriteMask(NodeInfo* nodeInfo);
-
-		QLineEdit* eventNotifierLineEdit_;
-		QLineEdit* userWriteMaskLineEdit_;
-		QLineEdit* writeMaskLineEdit_;
+		QComboBox* nodeClassWidget_;
 	};
 
 }

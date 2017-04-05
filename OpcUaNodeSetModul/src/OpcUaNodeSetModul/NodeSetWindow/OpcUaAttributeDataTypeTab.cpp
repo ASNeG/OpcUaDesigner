@@ -19,13 +19,13 @@
 #include <QLabel>
 #include <QLineEdit>
 
-#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeObjectTypeTab.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeDataTypeTab.h"
 
 namespace OpcUaNodeSet
 {
 
 
-	OpcUaAttributeObjectTypeTab::OpcUaAttributeObjectTypeTab(QWidget* parent)
+	OpcUaAttributeDataTypeTab::OpcUaAttributeDataTypeTab(QWidget* parent)
 	: QWidget()
 	{
 		QHBoxLayout* hBoxLayout;
@@ -81,12 +81,12 @@ namespace OpcUaNodeSet
 		setLayout(vBoxLayout);
 	}
 
-	OpcUaAttributeObjectTypeTab::~OpcUaAttributeObjectTypeTab(void)
+	OpcUaAttributeDataTypeTab::~OpcUaAttributeDataTypeTab(void)
 	{
 	}
 
 	void
-	OpcUaAttributeObjectTypeTab::nodeChange(NodeInfo* nodeInfo)
+	OpcUaAttributeDataTypeTab::nodeChange(NodeInfo* nodeInfo)
 	{
 		setIsAbstract(nodeInfo);
 		setUserWriteMask(nodeInfo);
@@ -94,7 +94,7 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaAttributeObjectTypeTab::setIsAbstract(NodeInfo* nodeInfo)
+	OpcUaAttributeDataTypeTab::setIsAbstract(NodeInfo* nodeInfo)
 	{
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
 		if (baseNode->isNullIsAbstract()) {
@@ -108,7 +108,7 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaAttributeObjectTypeTab::setUserWriteMask(NodeInfo* nodeInfo)
+	OpcUaAttributeDataTypeTab::setUserWriteMask(NodeInfo* nodeInfo)
 	{
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
 		if (baseNode->isNullUserWriteMask()) {
@@ -122,7 +122,7 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaAttributeObjectTypeTab::setWriteMask(NodeInfo* nodeInfo)
+	OpcUaAttributeDataTypeTab::setWriteMask(NodeInfo* nodeInfo)
 	{
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
 		if (baseNode->isNullWriteMask()) {

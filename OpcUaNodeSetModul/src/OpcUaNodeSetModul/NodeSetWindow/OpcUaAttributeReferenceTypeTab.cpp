@@ -19,13 +19,13 @@
 #include <QLabel>
 #include <QLineEdit>
 
-#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeObjectTypeTab.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeReferenceTypeTab.h"
 
 namespace OpcUaNodeSet
 {
 
 
-	OpcUaAttributeObjectTypeTab::OpcUaAttributeObjectTypeTab(QWidget* parent)
+	OpcUaAttributeReferenceTypeTab::OpcUaAttributeReferenceTypeTab(QWidget* parent)
 	: QWidget()
 	{
 		QHBoxLayout* hBoxLayout;
@@ -33,23 +33,37 @@ namespace OpcUaNodeSet
 		QGridLayout* gridLayout = new QGridLayout();
 
 
-		// IsAbstract
-		QLabel* isAbstractLabel = new QLabel("IsAbstract");
-		gridLayout->addWidget(isAbstractLabel, 0, 0);
+		// InverseName
+		QLabel* inverseNameLabel = new QLabel("InverseName");
+		gridLayout->addWidget(inverseNameLabel, 0, 0);
 
-		isAbstractLineEdit_ = new QLineEdit();
-		isAbstractLineEdit_->setFixedWidth(300);
+		inverseNameLineEdit_ = new QLineEdit();
+		inverseNameLineEdit_->setFixedWidth(300);
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(isAbstractLineEdit_);
+		hBoxLayout->addWidget(inverseNameLineEdit_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 0, 1);
 
 
+		// Symmetric
+		QLabel* symmetricLabel = new QLabel("Symmetric");
+		gridLayout->addWidget(symmetricLabel, 1, 0);
+
+		symmetricLineEdit_ = new QLineEdit();
+		symmetricLineEdit_->setFixedWidth(300);
+
+		hBoxLayout = new QHBoxLayout();
+		hBoxLayout->addWidget(symmetricLineEdit_);
+		hBoxLayout->addStretch();
+
+		gridLayout->addLayout(hBoxLayout, 1, 1);
+
+
 		// UserWriteMask
 		QLabel* userWriteMaskLabel = new QLabel("UserWriteMask");
-		gridLayout->addWidget(userWriteMaskLabel, 1, 0);
+		gridLayout->addWidget(userWriteMaskLabel, 2, 0);
 
 		userWriteMaskLineEdit_ = new QLineEdit();
 		userWriteMaskLineEdit_->setFixedWidth(300);
@@ -58,12 +72,12 @@ namespace OpcUaNodeSet
 		hBoxLayout->addWidget(userWriteMaskLineEdit_);
 		hBoxLayout->addStretch();
 
-		gridLayout->addLayout(hBoxLayout, 1, 1);
+		gridLayout->addLayout(hBoxLayout, 2, 1);
 
 
 		// WriteMask
 		QLabel* writeMaskLabel = new QLabel("WriteMask");
-		gridLayout->addWidget(writeMaskLabel, 2, 0);
+		gridLayout->addWidget(writeMaskLabel, 3, 0);
 
 		writeMaskLineEdit_ = new QLineEdit();
 		writeMaskLineEdit_->setFixedWidth(300);
@@ -72,7 +86,7 @@ namespace OpcUaNodeSet
 		hBoxLayout->addWidget(writeMaskLineEdit_);
 		hBoxLayout->addStretch();
 
-		gridLayout->addLayout(hBoxLayout, 2, 1);
+		gridLayout->addLayout(hBoxLayout, 3, 1);
 
 
 		vBoxLayout->addLayout(gridLayout);
@@ -81,34 +95,49 @@ namespace OpcUaNodeSet
 		setLayout(vBoxLayout);
 	}
 
-	OpcUaAttributeObjectTypeTab::~OpcUaAttributeObjectTypeTab(void)
+	OpcUaAttributeReferenceTypeTab::~OpcUaAttributeReferenceTypeTab(void)
 	{
 	}
 
 	void
-	OpcUaAttributeObjectTypeTab::nodeChange(NodeInfo* nodeInfo)
+	OpcUaAttributeReferenceTypeTab::nodeChange(NodeInfo* nodeInfo)
 	{
-		setIsAbstract(nodeInfo);
+		setInverseName(nodeInfo);
+		setSymmetric(nodeInfo);
 		setUserWriteMask(nodeInfo);
 		setWriteMask(nodeInfo);
 	}
 
 	void
-	OpcUaAttributeObjectTypeTab::setIsAbstract(NodeInfo* nodeInfo)
+	OpcUaAttributeReferenceTypeTab::setInverseName(NodeInfo* nodeInfo)
 	{
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullIsAbstract()) {
-			isAbstractLineEdit_->setText(QString(""));
+		if (baseNode->isNullInverseName()) {
+			inverseNameLineEdit_->setText(QString(""));
 		}
 		else {
-			OpcUaBoolean isAbstract;
-			baseNode->getIsAbstract(isAbstract);
-			isAbstractLineEdit_->setText(isAbstract == 1 ? QString("True") : QString("False"));
+			OpcUaLocalizedText inverseName;
+			baseNode->getInverseName(inverseName);
+			inverseNameLineEdit_->setText(inverseName.toString().c_str());
 		}
 	}
 
 	void
-	OpcUaAttributeObjectTypeTab::setUserWriteMask(NodeInfo* nodeInfo)
+	OpcUaAttributeReferenceTypeTab::setSymmetric(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullSymmetric()) {
+			symmetricLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaBoolean symmetric;
+			baseNode->getSymmetric(symmetric);
+			symmetricLineEdit_->setText(symmetric == 1 ? QString("True") : QString("False"));
+		}
+	}
+
+	void
+	OpcUaAttributeReferenceTypeTab::setUserWriteMask(NodeInfo* nodeInfo)
 	{
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
 		if (baseNode->isNullUserWriteMask()) {
@@ -122,7 +151,7 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaAttributeObjectTypeTab::setWriteMask(NodeInfo* nodeInfo)
+	OpcUaAttributeReferenceTypeTab::setWriteMask(NodeInfo* nodeInfo)
 	{
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
 		if (baseNode->isNullWriteMask()) {

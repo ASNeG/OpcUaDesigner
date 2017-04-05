@@ -19,13 +19,13 @@
 #include <QLabel>
 #include <QLineEdit>
 
-#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeObjectTypeTab.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeMethodTab.h"
 
 namespace OpcUaNodeSet
 {
 
 
-	OpcUaAttributeObjectTypeTab::OpcUaAttributeObjectTypeTab(QWidget* parent)
+	OpcUaAttributeMethodTab::OpcUaAttributeMethodTab(QWidget* parent)
 	: QWidget()
 	{
 		QHBoxLayout* hBoxLayout;
@@ -33,23 +33,37 @@ namespace OpcUaNodeSet
 		QGridLayout* gridLayout = new QGridLayout();
 
 
-		// IsAbstract
-		QLabel* isAbstractLabel = new QLabel("IsAbstract");
-		gridLayout->addWidget(isAbstractLabel, 0, 0);
+		// Executable
+		QLabel* executableLabel = new QLabel("Executable");
+		gridLayout->addWidget(executableLabel, 0, 0);
 
-		isAbstractLineEdit_ = new QLineEdit();
-		isAbstractLineEdit_->setFixedWidth(300);
+		executableLineEdit_ = new QLineEdit();
+		executableLineEdit_->setFixedWidth(300);
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(isAbstractLineEdit_);
+		hBoxLayout->addWidget(executableLineEdit_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 0, 1);
 
 
+		// UserExecutable
+		QLabel* userExecutableLabel = new QLabel("UserExecutable");
+		gridLayout->addWidget(userExecutableLabel, 1, 0);
+
+		userExecutableLineEdit_ = new QLineEdit();
+		userExecutableLineEdit_->setFixedWidth(300);
+
+		hBoxLayout = new QHBoxLayout();
+		hBoxLayout->addWidget(userExecutableLineEdit_);
+		hBoxLayout->addStretch();
+
+		gridLayout->addLayout(hBoxLayout, 1, 1);
+
+
 		// UserWriteMask
 		QLabel* userWriteMaskLabel = new QLabel("UserWriteMask");
-		gridLayout->addWidget(userWriteMaskLabel, 1, 0);
+		gridLayout->addWidget(userWriteMaskLabel, 2, 0);
 
 		userWriteMaskLineEdit_ = new QLineEdit();
 		userWriteMaskLineEdit_->setFixedWidth(300);
@@ -58,12 +72,12 @@ namespace OpcUaNodeSet
 		hBoxLayout->addWidget(userWriteMaskLineEdit_);
 		hBoxLayout->addStretch();
 
-		gridLayout->addLayout(hBoxLayout, 1, 1);
+		gridLayout->addLayout(hBoxLayout, 2, 1);
 
 
 		// WriteMask
 		QLabel* writeMaskLabel = new QLabel("WriteMask");
-		gridLayout->addWidget(writeMaskLabel, 2, 0);
+		gridLayout->addWidget(writeMaskLabel, 3, 0);
 
 		writeMaskLineEdit_ = new QLineEdit();
 		writeMaskLineEdit_->setFixedWidth(300);
@@ -72,7 +86,7 @@ namespace OpcUaNodeSet
 		hBoxLayout->addWidget(writeMaskLineEdit_);
 		hBoxLayout->addStretch();
 
-		gridLayout->addLayout(hBoxLayout, 2, 1);
+		gridLayout->addLayout(hBoxLayout, 3, 1);
 
 
 		vBoxLayout->addLayout(gridLayout);
@@ -81,34 +95,49 @@ namespace OpcUaNodeSet
 		setLayout(vBoxLayout);
 	}
 
-	OpcUaAttributeObjectTypeTab::~OpcUaAttributeObjectTypeTab(void)
+	OpcUaAttributeMethodTab::~OpcUaAttributeMethodTab(void)
 	{
 	}
 
 	void
-	OpcUaAttributeObjectTypeTab::nodeChange(NodeInfo* nodeInfo)
+	OpcUaAttributeMethodTab::nodeChange(NodeInfo* nodeInfo)
 	{
-		setIsAbstract(nodeInfo);
+		setExecutable(nodeInfo);
+		setUserExecutable(nodeInfo);
 		setUserWriteMask(nodeInfo);
 		setWriteMask(nodeInfo);
 	}
 
 	void
-	OpcUaAttributeObjectTypeTab::setIsAbstract(NodeInfo* nodeInfo)
+	OpcUaAttributeMethodTab::setExecutable(NodeInfo* nodeInfo)
 	{
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullIsAbstract()) {
-			isAbstractLineEdit_->setText(QString(""));
+		if (baseNode->isNullExecutable()) {
+			executableLineEdit_->setText(QString(""));
 		}
 		else {
-			OpcUaBoolean isAbstract;
-			baseNode->getIsAbstract(isAbstract);
-			isAbstractLineEdit_->setText(isAbstract == 1 ? QString("True") : QString("False"));
+			OpcUaBoolean executableLineEdit;
+			baseNode->getExecutable(executableLineEdit);
+			executableLineEdit_->setText(executableLineEdit == 1 ? QString("True") : QString("False"));
 		}
 	}
 
 	void
-	OpcUaAttributeObjectTypeTab::setUserWriteMask(NodeInfo* nodeInfo)
+	OpcUaAttributeMethodTab::setUserExecutable(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullUserExecutable()) {
+			userExecutableLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaBoolean userExecutableLineEdit;
+			baseNode->getUserExecutable(userExecutableLineEdit);
+			userExecutableLineEdit_->setText(userExecutableLineEdit == 1 ? QString("True") : QString("False"));
+		}
+	}
+
+	void
+	OpcUaAttributeMethodTab::setUserWriteMask(NodeInfo* nodeInfo)
 	{
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
 		if (baseNode->isNullUserWriteMask()) {
@@ -122,7 +151,7 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaAttributeObjectTypeTab::setWriteMask(NodeInfo* nodeInfo)
+	OpcUaAttributeMethodTab::setWriteMask(NodeInfo* nodeInfo)
 	{
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
 		if (baseNode->isNullWriteMask()) {

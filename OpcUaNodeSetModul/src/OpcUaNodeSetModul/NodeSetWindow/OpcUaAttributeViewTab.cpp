@@ -19,13 +19,13 @@
 #include <QLabel>
 #include <QLineEdit>
 
-#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeObjectTypeTab.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeViewTab.h"
 
 namespace OpcUaNodeSet
 {
 
 
-	OpcUaAttributeObjectTypeTab::OpcUaAttributeObjectTypeTab(QWidget* parent)
+	OpcUaAttributeViewTab::OpcUaAttributeViewTab(QWidget* parent)
 	: QWidget()
 	{
 		QHBoxLayout* hBoxLayout;
@@ -33,23 +33,37 @@ namespace OpcUaNodeSet
 		QGridLayout* gridLayout = new QGridLayout();
 
 
-		// IsAbstract
-		QLabel* isAbstractLabel = new QLabel("IsAbstract");
-		gridLayout->addWidget(isAbstractLabel, 0, 0);
+		// ContainsNoLoops
+		QLabel* containsNoLoopsLabel = new QLabel("ContainsNoLoops");
+		gridLayout->addWidget(containsNoLoopsLabel, 0, 0);
 
-		isAbstractLineEdit_ = new QLineEdit();
-		isAbstractLineEdit_->setFixedWidth(300);
+		containsNoLoopsLineEdit_ = new QLineEdit();
+		containsNoLoopsLineEdit_->setFixedWidth(300);
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(isAbstractLineEdit_);
+		hBoxLayout->addWidget(containsNoLoopsLineEdit_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 0, 1);
 
 
+		// EventNotifier
+		QLabel* eventNotifierLabel = new QLabel("EventNotifier");
+		gridLayout->addWidget(eventNotifierLabel, 1, 0);
+
+		eventNotifierLineEdit_ = new QLineEdit();
+		eventNotifierLineEdit_->setFixedWidth(300);
+
+		hBoxLayout = new QHBoxLayout();
+		hBoxLayout->addWidget(eventNotifierLineEdit_);
+		hBoxLayout->addStretch();
+
+		gridLayout->addLayout(hBoxLayout, 1, 1);
+
+
 		// UserWriteMask
 		QLabel* userWriteMaskLabel = new QLabel("UserWriteMask");
-		gridLayout->addWidget(userWriteMaskLabel, 1, 0);
+		gridLayout->addWidget(userWriteMaskLabel, 2, 0);
 
 		userWriteMaskLineEdit_ = new QLineEdit();
 		userWriteMaskLineEdit_->setFixedWidth(300);
@@ -58,12 +72,12 @@ namespace OpcUaNodeSet
 		hBoxLayout->addWidget(userWriteMaskLineEdit_);
 		hBoxLayout->addStretch();
 
-		gridLayout->addLayout(hBoxLayout, 1, 1);
+		gridLayout->addLayout(hBoxLayout, 2, 1);
 
 
 		// WriteMask
 		QLabel* writeMaskLabel = new QLabel("WriteMask");
-		gridLayout->addWidget(writeMaskLabel, 2, 0);
+		gridLayout->addWidget(writeMaskLabel, 3, 0);
 
 		writeMaskLineEdit_ = new QLineEdit();
 		writeMaskLineEdit_->setFixedWidth(300);
@@ -72,7 +86,7 @@ namespace OpcUaNodeSet
 		hBoxLayout->addWidget(writeMaskLineEdit_);
 		hBoxLayout->addStretch();
 
-		gridLayout->addLayout(hBoxLayout, 2, 1);
+		gridLayout->addLayout(hBoxLayout, 3, 1);
 
 
 		vBoxLayout->addLayout(gridLayout);
@@ -81,34 +95,49 @@ namespace OpcUaNodeSet
 		setLayout(vBoxLayout);
 	}
 
-	OpcUaAttributeObjectTypeTab::~OpcUaAttributeObjectTypeTab(void)
+	OpcUaAttributeViewTab::~OpcUaAttributeViewTab(void)
 	{
 	}
 
 	void
-	OpcUaAttributeObjectTypeTab::nodeChange(NodeInfo* nodeInfo)
+	OpcUaAttributeViewTab::nodeChange(NodeInfo* nodeInfo)
 	{
-		setIsAbstract(nodeInfo);
+		setContainsNoLoops(nodeInfo);
+		setEventNotifier(nodeInfo);
 		setUserWriteMask(nodeInfo);
 		setWriteMask(nodeInfo);
 	}
 
 	void
-	OpcUaAttributeObjectTypeTab::setIsAbstract(NodeInfo* nodeInfo)
+	OpcUaAttributeViewTab::setContainsNoLoops(NodeInfo* nodeInfo)
 	{
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullIsAbstract()) {
-			isAbstractLineEdit_->setText(QString(""));
+		if (baseNode->isNullContainsNoLoops()) {
+			containsNoLoopsLineEdit_->setText(QString(""));
 		}
 		else {
-			OpcUaBoolean isAbstract;
-			baseNode->getIsAbstract(isAbstract);
-			isAbstractLineEdit_->setText(isAbstract == 1 ? QString("True") : QString("False"));
+			OpcUaBoolean containsNoLoops;
+			baseNode->getContainsNoLoops(containsNoLoops);
+			containsNoLoopsLineEdit_->setText(containsNoLoops == 1 ? QString("True") : QString("False"));
 		}
 	}
 
 	void
-	OpcUaAttributeObjectTypeTab::setUserWriteMask(NodeInfo* nodeInfo)
+	OpcUaAttributeViewTab::setEventNotifier(NodeInfo* nodeInfo)
+	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullEventNotifier()) {
+			eventNotifierLineEdit_->setText(QString(""));
+		}
+		else {
+			OpcUaByte eventNotifier;
+			baseNode->getEventNotifier(eventNotifier);
+			eventNotifierLineEdit_->setText(QString("%1").arg((uint32_t)eventNotifier));
+		}
+	}
+
+	void
+	OpcUaAttributeViewTab::setUserWriteMask(NodeInfo* nodeInfo)
 	{
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
 		if (baseNode->isNullUserWriteMask()) {
@@ -122,7 +151,7 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaAttributeObjectTypeTab::setWriteMask(NodeInfo* nodeInfo)
+	OpcUaAttributeViewTab::setWriteMask(NodeInfo* nodeInfo)
 	{
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
 		if (baseNode->isNullWriteMask()) {

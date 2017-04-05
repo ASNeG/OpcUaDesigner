@@ -22,6 +22,8 @@
 
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
 
+class QLineEdit;
+
 namespace OpcUaNodeSet
 {
 
@@ -37,6 +39,25 @@ namespace OpcUaNodeSet
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
+		void setAccessLevel(NodeInfo* nodeInfo);
+		void setArrayDimensions(NodeInfo* nodeInfo);
+		void setDataType(NodeInfo* nodeInfo);
+		void setHistorizing(NodeInfo* nodeInfo);
+		void setMinimumSamplingInterval(NodeInfo* nodeInfo);
+		void setUserWriteMask(NodeInfo* nodeInfo);
+		void setValue(NodeInfo* nodeInfo);
+		void setValueRank(NodeInfo* nodeInfo);
+		void setWriteMask(NodeInfo* nodeInfo);
+
+		QLineEdit* accessLevelLineEdit_;
+		QLineEdit* arrayDimensionsLineEdit_;
+		QLineEdit* dataTypeLineEdit_;
+		QLineEdit* historizingLineEdit_;
+		QLineEdit* minimumSamplingIntervalLineEdit_;
+		QLineEdit* userWriteMaskLineEdit_;
+		QLineEdit* valueLineEdit_;
+		QLineEdit* valueRankLineEdit_;
+		QLineEdit* writeMaskLineEdit_;
 	};
 
 }

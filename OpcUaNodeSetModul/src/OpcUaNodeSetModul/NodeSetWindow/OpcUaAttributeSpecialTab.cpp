@@ -21,6 +21,12 @@
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeSpecialTab.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeObjectTab.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeValueTab.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeValueTypeTab.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeObjectTypeTab.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeReferenceTypeTab.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeDataTypeTab.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeMethodTab.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeViewTab.h"
 
 namespace OpcUaNodeSet
 {
@@ -41,6 +47,23 @@ namespace OpcUaNodeSet
 		attributeValueTab_ = new OpcUaAttributeValueTab();
 		specialAttributeWidget_->addWidget(attributeValueTab_);
 
+		attributeValueTypeTab_ = new OpcUaAttributeValueTypeTab();
+		specialAttributeWidget_->addWidget(attributeValueTypeTab_);
+
+		attributeObjectTypeTab_ = new OpcUaAttributeObjectTypeTab();
+		specialAttributeWidget_->addWidget(attributeObjectTypeTab_);
+
+		attributeReferenceTypeTab_ = new OpcUaAttributeReferenceTypeTab();
+		specialAttributeWidget_->addWidget(attributeReferenceTypeTab_);
+
+		attributeDataTypeTab_ = new OpcUaAttributeDataTypeTab();
+		specialAttributeWidget_->addWidget(attributeDataTypeTab_);
+
+		attributeMethodTab_ = new OpcUaAttributeMethodTab();
+		specialAttributeWidget_->addWidget(attributeMethodTab_);
+
+		attributeViewTab_ = new OpcUaAttributeViewTab();
+		specialAttributeWidget_->addWidget(attributeViewTab_);
 
 		// add widget to  tab window
 		vBoxLayout->addWidget(specialAttributeWidget_);
@@ -70,12 +93,30 @@ namespace OpcUaNodeSet
 				attributeValueTab_->nodeChange(nodeInfo);
 				specialAttributeWidget_->setCurrentIndex(1);
 				break;
-			case NodeClassType_Method:
-			case NodeClassType_ObjectType:
 			case NodeClassType_VariableType:
+				attributeValueTypeTab_->nodeChange(nodeInfo);
+				specialAttributeWidget_->setCurrentIndex(2);
+				break;
+			case NodeClassType_ObjectType:
+				attributeObjectTypeTab_->nodeChange(nodeInfo);
+				specialAttributeWidget_->setCurrentIndex(3);
+				break;
 			case NodeClassType_ReferenceType:
+				attributeReferenceTypeTab_->nodeChange(nodeInfo);
+				specialAttributeWidget_->setCurrentIndex(4);
+				break;
 			case NodeClassType_DataType:
+				attributeDataTypeTab_->nodeChange(nodeInfo);
+				specialAttributeWidget_->setCurrentIndex(5);
+				break;
+			case NodeClassType_Method:
+				attributeMethodTab_->nodeChange(nodeInfo);
+				specialAttributeWidget_->setCurrentIndex(6);
+				break;
 			case NodeClassType_View:
+				attributeViewTab_->nodeChange(nodeInfo);
+				specialAttributeWidget_->setCurrentIndex(7);
+				break;
 			default:
 				break;
 		}
