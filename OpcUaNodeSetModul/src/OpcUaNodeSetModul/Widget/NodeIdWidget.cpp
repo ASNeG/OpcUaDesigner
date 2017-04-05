@@ -68,6 +68,7 @@ namespace OpcUaNodeSet
 	void
 	NodeIdWidget::nodeChange(NodeInfo* nodeInfo)
 	{
+		// get base node
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
 		if (baseNode->isNullNodeId()) {
 			typeWidget_->setCurrentIndex(4);
@@ -75,6 +76,7 @@ namespace OpcUaNodeSet
 			return;
 		}
 
+		// set node id
 		OpcUaNodeId nodeId;
 		baseNode->getNodeId(nodeId);
 
@@ -108,12 +110,16 @@ namespace OpcUaNodeSet
 			default:
 			{
 				typeWidget_->setCurrentIndex(4);
-				nodeIdWidget_->setText(QString(""));
+				nodeIdWidget_->setText(QString("Type not supported"));
 				break;
 			}
 		}
 
 		// set namespace
+		namespaceWidget_->clear();
+		for (uint32_t idx = 0; idx < nodeInfo->nodeSetNamespace_.globalNamespaceVec().size(); idx++) {
+			namespaceWidget_->addItem(nodeInfo->nodeSetNamespace_.globalNamespaceVec()[idx].c_str());
+		}
 
 	}
 

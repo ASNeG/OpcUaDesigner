@@ -22,6 +22,7 @@
 
 #include "OpcUaStackServer/AddressSpaceModel/BaseNodeClass.h"
 #include "OpcUaStackServer/InformationModel/InformationModel.h"
+#include "OpcUaStackServer/NodeSet/NodeSetNamespace.h"
 
 using namespace OpcUaStackServer;
 
@@ -36,6 +37,7 @@ namespace OpcUaNodeSet
 
 		BaseNodeClass::SPtr baseNode_;
 		InformationModel::SPtr informationModel_;
+		NodeSetNamespace nodeSetNamespace_;
 	};
 
 }
