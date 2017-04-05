@@ -15,7 +15,7 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QLineEdit>
 #include <QComboBox>
 #include <QStringList>
@@ -31,20 +31,19 @@ namespace OpcUaNodeSet
 	: QWidget()
 	{
 		// widgets
-		QStringList nodeClassList;
+		browseNameWidget_ = new QLineEdit();
+		browseNameWidget_->setFixedWidth(400);
 
-		nodeClassList << "Error" <<  "Object" << "Variable" << "Method" << "ObjectType"
-			<< "VariableType" << "ReferenceType" << "DataType" << "View";
-		nodeClassWidget_ = new QComboBox();
-		nodeClassWidget_->addItems(nodeClassList);
-		nodeClassWidget_->setFixedWidth(120);
+		namespaceWidget_ = new QComboBox();
+		namespaceWidget_->setFixedWidth(400);
 
 		// layout
-		QHBoxLayout* hBoxLayout = new QHBoxLayout();
-		hBoxLayout->setMargin(0);
-		hBoxLayout->addWidget(nodeClassWidget_);
-		hBoxLayout->addStretch();
-		setLayout(hBoxLayout);
+		QVBoxLayout* vBoxLayout = new QVBoxLayout();
+		vBoxLayout->addWidget(browseNameWidget_);
+		vBoxLayout->addWidget(namespaceWidget_);
+		vBoxLayout->addStretch();
+		vBoxLayout->setMargin(0);
+		setLayout(vBoxLayout);
 	}
 
 	BrowseNameWidget::~BrowseNameWidget(void)
@@ -54,6 +53,24 @@ namespace OpcUaNodeSet
 	void
 	BrowseNameWidget::nodeChange(NodeInfo* nodeInfo)
 	{
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		if (baseNode->isNullBrowseName()) {
+			browseNameWidget_->setText(QString(".."));
+			namespaceWidget_->clear();
+			return;
+		}
+
+		// set browse name
+		OpcUaQualifiedName browseName;
+		baseNode->getBrowseName(browseName);
+		browseNameWidget_->setText(QString(browseName.toString().c_str()));
+
+		// set namespace
+		namespaceWidget_->clear();
+		for (uint32_t idx = 0; idx < nodeInfo->nodeSetNamespace_.globalNamespaceVec().size(); idx++) {
+			namespaceWidget_->addItem(nodeInfo->nodeSetNamespace_.globalNamespaceVec()[idx].c_str());
+		}
+		namespaceWidget_->setCurrentIndex(browseName.namespaceIndex());
 	}
 
 }

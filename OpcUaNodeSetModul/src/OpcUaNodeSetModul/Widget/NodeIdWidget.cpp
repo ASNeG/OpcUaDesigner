@@ -42,7 +42,6 @@ namespace OpcUaNodeSet
 		nodeIdWidget_->setFixedWidth(280-5);
 
 		namespaceWidget_ = new QComboBox();
-		//namespaceWidget_->addItems(typeList);
 		namespaceWidget_->setFixedWidth(400);
 
 		// layout
@@ -120,6 +119,7 @@ namespace OpcUaNodeSet
 		for (uint32_t idx = 0; idx < nodeInfo->nodeSetNamespace_.globalNamespaceVec().size(); idx++) {
 			namespaceWidget_->addItem(nodeInfo->nodeSetNamespace_.globalNamespaceVec()[idx].c_str());
 		}
+		namespaceWidget_->setCurrentIndex(nodeId.namespaceIndex());
 
 	}
 

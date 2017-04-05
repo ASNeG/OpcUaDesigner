@@ -23,6 +23,7 @@
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
 #include "OpcUaNodeSetModul/Widget/NodeIdWidget.h"
 #include "OpcUaNodeSetModul/Widget/NodeClassWidget.h"
+#include "OpcUaNodeSetModul/Widget/BrowseNameWidget.h"
 
 class QLineEdit;
 
@@ -41,7 +42,6 @@ namespace OpcUaNodeSet
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
-		void setBrowseName(NodeInfo* nodeInfo);
 		void setDisplayName(NodeInfo* nodeInfo);
 		void setDescription(NodeInfo* nodeInfo);
 		void setWriteMask(NodeInfo* nodeInfo);
@@ -49,7 +49,7 @@ namespace OpcUaNodeSet
 
 		NodeIdWidget* nodeIdWidget_;
 		NodeClassWidget* nodeClassWidget_;
-		QLineEdit* browseNameLineEdit_;
+		BrowseNameWidget* browseNameWidget_;
 		QLineEdit* displayNameLineEdit_;
 		QLineEdit* descriptionLineEdit_;
 		QLineEdit* writeMaskLineEdit_;

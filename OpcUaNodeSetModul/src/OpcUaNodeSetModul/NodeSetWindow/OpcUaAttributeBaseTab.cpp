@@ -66,11 +66,10 @@ namespace OpcUaNodeSet
 		QLabel* browseNameLabel = new QLabel("BrowseName");
 		gridLayout->addWidget(browseNameLabel, 2, 0);
 
-		browseNameLineEdit_ = new QLineEdit();
-		browseNameLineEdit_->setFixedWidth(300);
+		browseNameWidget_ = new BrowseNameWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(browseNameLineEdit_);
+		hBoxLayout->addWidget(browseNameWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 2, 1);
@@ -147,25 +146,11 @@ namespace OpcUaNodeSet
 	{
 		nodeIdWidget_->nodeChange(nodeInfo);
 		nodeClassWidget_->nodeChange(nodeInfo);
-		setBrowseName(nodeInfo);
+		browseNameWidget_->nodeChange(nodeInfo);
 		setDisplayName(nodeInfo);
 		setDescription(nodeInfo);
 		setWriteMask(nodeInfo);
 		setUserWriteMask(nodeInfo);
-	}
-
-	void
-	OpcUaAttributeBaseTab::setBrowseName(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullBrowseName()) {
-			browseNameLineEdit_->setText(QString(".."));
-		}
-		else {
-			OpcUaQualifiedName browseName;
-			baseNode->getBrowseName(browseName);
-			browseNameLineEdit_->setText(QString(browseName.toString().c_str()));
-		}
 	}
 
 	void
