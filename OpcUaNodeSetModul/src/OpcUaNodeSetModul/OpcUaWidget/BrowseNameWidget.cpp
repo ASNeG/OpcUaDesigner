@@ -21,7 +21,7 @@
 #include <QStringList>
 #include <QString>
 
-#include "OpcUaNodeSetModul/Widget/BrowseNameWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/BrowseNameWidget.h"
 
 namespace OpcUaNodeSet
 {

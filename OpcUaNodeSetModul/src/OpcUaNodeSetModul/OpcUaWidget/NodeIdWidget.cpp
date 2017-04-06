@@ -22,7 +22,7 @@
 #include <QStringList>
 #include <QString>
 
-#include "OpcUaNodeSetModul/Widget/NodeIdWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/NodeIdWidget.h"
 
 namespace OpcUaNodeSet
 {

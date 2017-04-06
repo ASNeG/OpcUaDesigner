@@ -16,53 +16,51 @@
  */
 
 #include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QLineEdit>
-#include <QComboBox>
-#include <QStringList>
-#include <QString>
 
-#include "OpcUaNodeSetModul/Widget/NodeClassWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/DisplayNameWidget.h"
 
 namespace OpcUaNodeSet
 {
 
 
-	NodeClassWidget::NodeClassWidget(QWidget* parent)
+	DisplayNameWidget::DisplayNameWidget(QWidget* parent)
 	: QWidget()
 	{
 		// widgets
-		QStringList nodeClassList;
+		localeWidget_ = new QLineEdit();
+		localeWidget_->setFixedWidth(50);
 
-		nodeClassList << "Error" <<  "Object" << "Variable" << "Method" << "ObjectType"
-			<< "VariableType" << "ReferenceType" << "DataType" << "View";
-		nodeClassWidget_ = new QComboBox();
-		nodeClassWidget_->addItems(nodeClassList);
-		nodeClassWidget_->setFixedWidth(120);
+		textWidget_ = new QLineEdit();
+		textWidget_->setFixedWidth(350-5);
 
 		// layout
 		QHBoxLayout* hBoxLayout = new QHBoxLayout();
+		hBoxLayout->addWidget(localeWidget_);
+		hBoxLayout->addWidget(textWidget_);
 		hBoxLayout->setMargin(0);
-		hBoxLayout->addWidget(nodeClassWidget_);
-		hBoxLayout->addStretch();
+
 		setLayout(hBoxLayout);
 	}
 
-	NodeClassWidget::~NodeClassWidget(void)
+	DisplayNameWidget::~DisplayNameWidget(void)
 	{
 	}
 
 	void
-	NodeClassWidget::nodeChange(NodeInfo* nodeInfo)
+	DisplayNameWidget::nodeChange(NodeInfo* nodeInfo)
 	{
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullNodeClass()) {
-			nodeClassWidget_->setCurrentText("Error");
-			return;
+		if (baseNode->isNullDisplayName()) {
+			localeWidget_->setText(QString(""));
+			textWidget_->setText(QString(""));
 		}
 
-		NodeClassType nodeClass;
-		baseNode->getNodeClass(nodeClass);
-		nodeClassWidget_->setCurrentText(NodeClass::toString(nodeClass).c_str());
+		OpcUaLocalizedText displayName;
+		baseNode->getDisplayName(displayName);
+		localeWidget_->setText(QString(displayName.locale().value().c_str()));
+		textWidget_->setText(QString(displayName.text().value().c_str()));
 	}
 
 }
