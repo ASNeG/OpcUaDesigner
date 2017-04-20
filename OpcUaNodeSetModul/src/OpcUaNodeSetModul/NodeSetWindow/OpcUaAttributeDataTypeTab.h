@@ -42,6 +42,7 @@ namespace OpcUaNodeSet
 		void setIsAbstract(NodeInfo* nodeInfo);
 		void setUserWriteMask(NodeInfo* nodeInfo);
 		void setWriteMask(NodeInfo* nodeInfo);
+		void setDefinition(NodeInfo* nodeInfo);
 
 		QLineEdit* isAbstractLineEdit_;
 		QLineEdit* userWriteMaskLineEdit_;

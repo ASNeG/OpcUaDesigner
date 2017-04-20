@@ -19,7 +19,11 @@
 #include <QLabel>
 #include <QLineEdit>
 
+#include "OpcUaStackServer/AddressSpaceModel/DataTypeNodeClass.h"
+#include "OpcUaStackServer/NodeSet/DataTypeDefinition.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeDataTypeTab.h"
+
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -105,6 +109,7 @@ namespace OpcUaNodeSet
 		setIsAbstract(nodeInfo);
 		setUserWriteMask(nodeInfo);
 		setWriteMask(nodeInfo);
+		setDefinition(nodeInfo);
 	}
 
 	void
@@ -146,6 +151,30 @@ namespace OpcUaNodeSet
 			OpcUaUInt32 writeMask;
 			baseNode->getWriteMask(writeMask);
 			writeMaskLineEdit_->setText(QString("%1").arg((uint32_t)writeMask));
+		}
+	}
+
+	void
+	OpcUaAttributeDataTypeTab::setDefinition(NodeInfo* nodeInfo)
+	{
+		// get data type node
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		DataTypeNodeClass::SPtr dataTypeNode = boost::static_pointer_cast<DataTypeNodeClass>(baseNode);
+
+		// get definition object
+		Object::SPtr object = dataTypeNode->dataTypeDefinition();
+		if (object.get() == nullptr) {
+			definitionLineEdit_->setText(QString("None"));
+			return;
+		}
+
+		// cast to definition type
+		DataTypeDefinition::SPtr definition = boost::static_pointer_cast<DataTypeDefinition>(object);
+		if (definition->dataSubType() == Enumeration) {
+			definitionLineEdit_->setText(QString("Enumeration"));
+		}
+		else {
+			definitionLineEdit_->setText(QString("Structure"));
 		}
 	}
 
