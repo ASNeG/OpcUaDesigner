@@ -46,6 +46,8 @@ namespace OpcUaNodeSet
 		QLineEdit* isAbstractLineEdit_;
 		QLineEdit* userWriteMaskLineEdit_;
 		QLineEdit* writeMaskLineEdit_;
+
+		QLineEdit* definitionLineEdit_;
 	};
 
 }

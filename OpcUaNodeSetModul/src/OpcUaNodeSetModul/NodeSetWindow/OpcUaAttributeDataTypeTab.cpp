@@ -75,6 +75,20 @@ namespace OpcUaNodeSet
 		gridLayout->addLayout(hBoxLayout, 2, 1);
 
 
+		// definition
+		QLabel* definitionLabel = new QLabel("Definition");
+		gridLayout->addWidget(definitionLabel, 3, 0);
+
+		definitionLineEdit_ = new QLineEdit();
+		definitionLineEdit_->setFixedWidth(300);
+
+		hBoxLayout = new QHBoxLayout();
+		hBoxLayout->addWidget(definitionLineEdit_);
+		hBoxLayout->addStretch();
+
+		gridLayout->addLayout(hBoxLayout, 3, 1);
+
+
 		vBoxLayout->addLayout(gridLayout);
 		vBoxLayout->addStretch();
 
