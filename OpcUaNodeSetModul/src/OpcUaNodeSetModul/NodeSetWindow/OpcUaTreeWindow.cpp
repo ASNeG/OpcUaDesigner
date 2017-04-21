@@ -20,6 +20,7 @@
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaTreeWindow.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeSet.h"
 
+#include <QString>
 #include <QWidget>
 #include <QHeaderView>
 #include <QTreeWidget>
@@ -80,7 +81,7 @@ namespace OpcUaNodeSet
 		rc = nodeSet_.create(fileName);
 		if (!rc) {
 			QMessageBox msgBox;
-			msgBox.setText("The nodeset can not be created");
+			msgBox.setText(QString("The nodeset %1 can not be created").arg(fileName.c_str()));
 			msgBox.exec();
 			return false;
 		}
@@ -90,14 +91,14 @@ namespace OpcUaNodeSet
 
 		// get root element and create tree
 		OpcUaNodeId rootNodeId(OpcUaId_RootFolder);
-		BaseNodeClass::SPtr baseNode = informationModel->find(rootNodeId);
-		if (baseNode.get() == nullptr) {
+		BaseNodeClass::SPtr rootNode = informationModel->find(rootNodeId);
+		if (rootNode.get() == nullptr) {
 			QMessageBox msgBox;
 			msgBox.setText("The information model can not be displayed");
 			msgBox.exec();
 			return false;
 		}
-		addNode(informationModel, NULL, baseNode);
+		addNode(informationModel, NULL, rootNode);
 
 		return true;
 	}
@@ -105,9 +106,34 @@ namespace OpcUaNodeSet
 	bool
 	OpcUaTreeWindow::open(const std::string& fileName)
 	{
+		bool rc;
+
 		fileName_ = fileName;
 
-		// FIXME: todo
+		// create standard opc ua node set
+		nodeSet_.standardNodeSetFileName(standardNodeSetFileName_);
+		rc = nodeSet_.open(fileName);
+		if (!rc) {
+			QMessageBox msgBox;
+			msgBox.setText(QString("The nodeset %1 can not be opened").arg(fileName.c_str()));
+			msgBox.exec();
+			return false;
+		}
+
+		// get opc ua information model
+		InformationModel::SPtr informationModel = nodeSet_.informationModel();
+
+		// get root element and create tree
+		OpcUaNodeId rootNodeId(OpcUaId_RootFolder);
+		BaseNodeClass::SPtr rootNode = informationModel->find(rootNodeId);
+		if (rootNode.get() == nullptr) {
+			QMessageBox msgBox;
+			msgBox.setText("The information model can not be displayed");
+			msgBox.exec();
+			return false;
+		}
+		addNode(informationModel, NULL, rootNode);
+
 		return true;
 	}
 

@@ -117,7 +117,7 @@ namespace OpcUaNodeSet
 		dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
 		this->addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
 
-		rc = opcUaTreeWindow_->create(modulFile_);
+		rc = opcUaTreeWindow_->open(modulFile_);
 		if (!rc) {
 			delete dockWidget;
 			return false;
