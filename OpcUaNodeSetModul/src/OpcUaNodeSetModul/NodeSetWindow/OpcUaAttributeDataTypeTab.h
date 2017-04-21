@@ -21,8 +21,12 @@
 #include <QWidget>
 
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/DataTypeNoneTable.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/DataTypeEnumTable.h"
+#include "OpcUaNodeSetModul/NodeSetWindow/DataTypeStructTable.h"
 
 class QLineEdit;
+class QStackedWidget;
 
 namespace OpcUaNodeSet
 {
@@ -48,7 +52,10 @@ namespace OpcUaNodeSet
 		QLineEdit* userWriteMaskLineEdit_;
 		QLineEdit* writeMaskLineEdit_;
 
-		QLineEdit* definitionLineEdit_;
+		QStackedWidget* definitionWidget_;
+		DataTypeNoneTable* noneDefinitionWidget_;
+		DataTypeEnumTable* enumDefinitionWidget_;
+		DataTypeStructTable* structDefinitionWidget_;
 	};
 
 }

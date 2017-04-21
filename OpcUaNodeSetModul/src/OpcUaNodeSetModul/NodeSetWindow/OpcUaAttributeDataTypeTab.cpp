@@ -18,6 +18,7 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
+#include <QStackedWidget>
 
 #include "OpcUaStackServer/AddressSpaceModel/DataTypeNodeClass.h"
 #include "OpcUaStackServer/NodeSet/DataTypeDefinition.h"
@@ -78,22 +79,23 @@ namespace OpcUaNodeSet
 
 		gridLayout->addLayout(hBoxLayout, 2, 1);
 
+		vBoxLayout->addLayout(gridLayout);
 
 		// definition
-		QLabel* definitionLabel = new QLabel("Definition");
-		gridLayout->addWidget(definitionLabel, 3, 0);
+		definitionWidget_ = new QStackedWidget();
 
-		definitionLineEdit_ = new QLineEdit();
-		definitionLineEdit_->setFixedWidth(300);
+		noneDefinitionWidget_ = new DataTypeNoneTable();
+		definitionWidget_->addWidget(noneDefinitionWidget_);
 
-		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(definitionLineEdit_);
-		hBoxLayout->addStretch();
+		enumDefinitionWidget_ = new DataTypeEnumTable();
+		definitionWidget_->addWidget(enumDefinitionWidget_);
 
-		gridLayout->addLayout(hBoxLayout, 3, 1);
+		structDefinitionWidget_ = new DataTypeStructTable();
+		definitionWidget_->addWidget(structDefinitionWidget_);
+
+		vBoxLayout->addWidget(definitionWidget_);
 
 
-		vBoxLayout->addLayout(gridLayout);
 		vBoxLayout->addStretch();
 
 		setLayout(vBoxLayout);
@@ -164,17 +166,17 @@ namespace OpcUaNodeSet
 		// get definition object
 		Object::SPtr object = dataTypeNode->dataTypeDefinition();
 		if (object.get() == nullptr) {
-			definitionLineEdit_->setText(QString("None"));
+			definitionWidget_->setCurrentIndex(0);
 			return;
 		}
 
 		// cast to definition type
 		DataTypeDefinition::SPtr definition = boost::static_pointer_cast<DataTypeDefinition>(object);
 		if (definition->dataSubType() == Enumeration) {
-			definitionLineEdit_->setText(QString("Enumeration"));
+			definitionWidget_->setCurrentIndex(1);
 		}
 		else {
-			definitionLineEdit_->setText(QString("Structure"));
+			definitionWidget_->setCurrentIndex(2);
 		}
 	}
 
