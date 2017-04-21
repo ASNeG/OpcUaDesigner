@@ -95,8 +95,53 @@ namespace OpcUaNodeSet
 	bool
 	NodeSetWindow::open(void)
 	{
-		// FIXME: todo
-		return false;
+		bool rc;
+
+		setWindowTitle(QString("OpcUaNodeSet - %1").arg(QString(modulName_.c_str())));
+
+
+		// --------------------------------------------------------------------
+		//
+		// opc ua tree window
+		//
+		// --------------------------------------------------------------------
+
+		// create opc ua tree window
+		opcUaTreeWindow_ = new OpcUaTreeWindow(NULL);
+		opcUaTreeWindow_->standardNodeSetFileName(libraryConfig_->standardNodeSetFile_);
+
+		// create dock widget
+		QDockWidget* dockWidget = new QDockWidget(tr("OPC UA Model"));
+		dockWidget->setObjectName("ProjectName");
+		dockWidget->setWidget(opcUaTreeWindow_);
+		dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+		this->addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
+
+		rc = opcUaTreeWindow_->create(modulFile_);
+		if (!rc) {
+			delete dockWidget;
+			return false;
+		}
+
+		// --------------------------------------------------------------------
+		//
+		// opc ua attribute window
+		//
+		// --------------------------------------------------------------------
+		opcUaAttributeWindow_ = new OpcUaAttributeWindow(NULL);
+		this->setCentralWidget(opcUaAttributeWindow_);
+
+		// --------------------------------------------------------------------
+		//
+		// signals
+		//
+		// --------------------------------------------------------------------
+		connect(
+			opcUaTreeWindow_, SIGNAL(nodeChanged(NodeInfo*)),
+			opcUaAttributeWindow_, SLOT(onNodeChanged(NodeInfo*))
+		);
+
+		return true;
 	}
 
 	void
