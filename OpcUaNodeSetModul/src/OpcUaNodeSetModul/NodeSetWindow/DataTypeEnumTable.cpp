@@ -20,6 +20,7 @@
 #include <QHeaderView>
 #include <QVBoxLayout>
 #include <QString>
+#include <QLabel>
 
 #include "OpcUaStackServer/AddressSpaceModel/DataTypeNodeClass.h"
 #include "OpcUaStackServer/NodeSet/DataTypeDefinition.h"
@@ -35,6 +36,9 @@ namespace OpcUaNodeSet
 	: QWidget()
 	{
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
+
+		QLabel* enumLabel = new QLabel("Enumeration:");
+		vBoxLayout->addWidget(enumLabel);
 
 		enumTable_ = new QTableWidget(0,2);
 		enumTable_->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);

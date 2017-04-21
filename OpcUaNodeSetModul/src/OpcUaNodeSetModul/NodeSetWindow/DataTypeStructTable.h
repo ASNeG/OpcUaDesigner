@@ -22,7 +22,7 @@
 
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
 
-class QLineEdit;
+class QTableWidget;
 
 namespace OpcUaNodeSet
 {
@@ -39,7 +39,7 @@ namespace OpcUaNodeSet
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
-		QLineEdit* definitionLineEdit_;
+		QTableWidget* structTable_;
 	};
 
 }
