@@ -69,16 +69,16 @@ namespace OpcUaNodeSet
 		fileName_ = fileName;
 
 		// load standard opc ua node set
-		//if (!loadOpcUaNodeSet(standardNodeSetFileName_)) {
-		//	return false;
-		//}
+		if (!loadOpcUaNodeSet(standardNodeSetFileName_)) {
+			return false;
+		}
 
 		// load node set file
 		if (!loadOpcUaNodeSet(fileName)) {
 			return false;
 		}
 
-		return false;
+		return true;
 	}
 
 	bool
