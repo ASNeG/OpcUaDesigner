@@ -15,7 +15,9 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#include <QLineEdit>
+#include <QTableWidget>
+#include <QTableWidgetItem>
+#include <QHeaderView>
 #include <QVBoxLayout>
 
 #include "OpcUaStackServer/AddressSpaceModel/DataTypeNodeClass.h"
@@ -32,8 +34,12 @@ namespace OpcUaNodeSet
 	: QWidget()
 	{
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
-		definitionLineEdit_ = new QLineEdit("Enumeration");
-		vBoxLayout->addWidget(definitionLineEdit_);
+		enumTable_ = new QTableWidget();
+		vBoxLayout->addWidget(enumTable_);
+
+		QStringList headerLabels;
+		headerLabels << "Name" << "Value";
+		enumTable_->setHorizontalHeaderLabels(headerLabels);
 
 		this->setLayout(vBoxLayout);
 	}
@@ -45,6 +51,40 @@ namespace OpcUaNodeSet
 	void
 	DataTypeEnumTable::nodeChange(NodeInfo* nodeInfo)
 	{
+		bool success;
+
+		// clear table
+		while (enumTable_->rowCount() > 0) {
+			enumTable_->removeRow(0);
+		}
+
+#if 0
+		// find references
+		BaseNodeClass::Vec childBaseNodeClassVec;
+		InformationModelAccess ima(nodeInfo->informationModel_);
+		success = ima.getChildNonHierarchically(
+			nodeInfo->baseNode_,
+			childBaseNodeClassVec
+		);
+		if (!success || childBaseNodeClassVec.size() == 0) {
+			return;
+		}
+
+		// fill table
+		for (uint32_t idx = 0; idx < childBaseNodeClassVec.size(); idx++) {
+			BaseNodeClass::SPtr baseNodeChild = childBaseNodeClassVec[idx];
+
+			uint32_t row = opcUaRefTable_->rowCount();
+			opcUaRefTable_->insertRow(row);
+
+			setNodeClass(nodeInfo, row, baseNodeChild);
+			setDisplayName(nodeInfo, row, baseNodeChild);
+			setTypeDefinition(nodeInfo, row, baseNodeChild);
+			setDataType(nodeInfo, row, baseNodeChild);
+			setReference(nodeInfo, row, baseNodeChild);
+		}
+#endif
+		enumTable_->resizeColumnsToContents();
 	}
 
 }

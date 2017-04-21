@@ -166,6 +166,7 @@ namespace OpcUaNodeSet
 		// get definition object
 		Object::SPtr object = dataTypeNode->dataTypeDefinition();
 		if (object.get() == nullptr) {
+			noneDefinitionWidget_->nodeChange(nodeInfo);
 			definitionWidget_->setCurrentIndex(0);
 			return;
 		}
@@ -173,9 +174,11 @@ namespace OpcUaNodeSet
 		// cast to definition type
 		DataTypeDefinition::SPtr definition = boost::static_pointer_cast<DataTypeDefinition>(object);
 		if (definition->dataSubType() == Enumeration) {
+			enumDefinitionWidget_->nodeChange(nodeInfo);
 			definitionWidget_->setCurrentIndex(1);
 		}
 		else {
+			structDefinitionWidget_->nodeChange(nodeInfo);
 			definitionWidget_->setCurrentIndex(2);
 		}
 	}
