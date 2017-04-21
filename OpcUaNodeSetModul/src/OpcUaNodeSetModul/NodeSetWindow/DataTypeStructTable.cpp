@@ -22,10 +22,12 @@
 #include <QString>
 #include <QLabel>
 
+#include "OpcUaStackCore/BuildInTypes/OpcUaIdentifier.h"
 #include "OpcUaStackServer/AddressSpaceModel/DataTypeNodeClass.h"
 #include "OpcUaStackServer/NodeSet/DataTypeDefinition.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/DataTypeStructTable.h"
 
+using namespace OpcUaStackCore;
 using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
@@ -79,15 +81,11 @@ namespace OpcUaNodeSet
 			structTable_->insertRow(row);
 
 			setName(row, dataField);
+			setDataType(row, dataField);
+			setValueRank(row, dataField);
+			setDescription(row, dataField);
+			setIsOptional(row, dataField);
 		}
-
-#if 0
-		OpcUaString name_;
-		OpcUaNodeId dataType_;
-		OpcUaInt32 valueRank_;
-		OpcUaLocalizedText description_;
-		OpcUaBoolean isOptional_;
-#endif
 
 		structTable_->resizeColumnsToContents();
 	}
@@ -99,6 +97,55 @@ namespace OpcUaNodeSet
 		item = new QTableWidgetItem();
 		item->setText(dataField->name().value().c_str());
 		structTable_->setItem(row, 0, item);
+	}
+
+	void
+	DataTypeStructTable::setDataType(uint32_t row, DataTypeField::SPtr& dataField)
+	{
+		std::string dataTypeString = "";
+    	OpcUaNodeId dataType = dataField->dataSubType();
+
+    	if (dataType.namespaceIndex() == 0 &&  dataType.nodeIdType() == OpcUaBuildInType_OpcUaUInt32) {
+    		uint32_t id = dataType.nodeId<uint32_t>();
+    		dataTypeString = OpcUaIdMap::shortString(id);
+    	}
+    	else {
+    		dataTypeString = dataType.toString();
+    	}
+
+		QTableWidgetItem* item;
+		item = new QTableWidgetItem();
+		item->setText(dataTypeString.c_str());
+		structTable_->setItem(row, 1, item);
+	}
+
+	void
+	DataTypeStructTable::setValueRank(uint32_t row, DataTypeField::SPtr& dataField)
+	{
+		int32_t valueRank = dataField->valueRank();
+
+		QTableWidgetItem* item;
+		item = new QTableWidgetItem();
+		item->setText(QString("%1").arg((int32_t)valueRank));
+		structTable_->setItem(row, 2, item);
+	}
+
+	void
+	DataTypeStructTable::setDescription(uint32_t row, DataTypeField::SPtr& dataField)
+	{
+		QTableWidgetItem* item;
+		item = new QTableWidgetItem();
+		item->setText(dataField->description().text().value().c_str());
+		structTable_->setItem(row, 3, item);
+	}
+
+	void
+	DataTypeStructTable::setIsOptional(uint32_t row, DataTypeField::SPtr& dataField)
+	{
+		QTableWidgetItem* item;
+		item = new QTableWidgetItem();
+		item->setText(dataField->isOptional() == true ? QString("Yes") : QString("No"));
+		structTable_->setItem(row, 4, item);
 	}
 
 }

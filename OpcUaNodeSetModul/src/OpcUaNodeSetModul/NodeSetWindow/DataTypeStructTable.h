@@ -43,6 +43,10 @@ namespace OpcUaNodeSet
 
 	  private:
 		void setName(uint32_t row, DataTypeField::SPtr& dataField);
+		void setDataType(uint32_t row, DataTypeField::SPtr& dataField);
+		void setValueRank(uint32_t row, DataTypeField::SPtr& dataField);
+		void setDescription(uint32_t row, DataTypeField::SPtr& dataField);
+		void setIsOptional(uint32_t row, DataTypeField::SPtr& dataField);
 
 		QTableWidget* structTable_;
 	};
