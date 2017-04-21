@@ -19,6 +19,7 @@
 #include <QTableWidgetItem>
 #include <QHeaderView>
 #include <QVBoxLayout>
+#include <QString>
 
 #include "OpcUaStackServer/AddressSpaceModel/DataTypeNodeClass.h"
 #include "OpcUaStackServer/NodeSet/DataTypeDefinition.h"
@@ -34,13 +35,16 @@ namespace OpcUaNodeSet
 	: QWidget()
 	{
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
-		enumTable_ = new QTableWidget();
+
+		enumTable_ = new QTableWidget(0,2);
+		enumTable_->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 		vBoxLayout->addWidget(enumTable_);
 
 		QStringList headerLabels;
 		headerLabels << "Name" << "Value";
 		enumTable_->setHorizontalHeaderLabels(headerLabels);
 
+		vBoxLayout->setMargin(0);
 		this->setLayout(vBoxLayout);
 	}
 
@@ -58,32 +62,28 @@ namespace OpcUaNodeSet
 			enumTable_->removeRow(0);
 		}
 
-#if 0
-		// find references
-		BaseNodeClass::Vec childBaseNodeClassVec;
-		InformationModelAccess ima(nodeInfo->informationModel_);
-		success = ima.getChildNonHierarchically(
-			nodeInfo->baseNode_,
-			childBaseNodeClassVec
-		);
-		if (!success || childBaseNodeClassVec.size() == 0) {
-			return;
+		// get definition from data type node class
+		DataTypeNodeClass::SPtr dataTypeNode = boost::static_pointer_cast<DataTypeNodeClass>(nodeInfo->baseNode_);
+		Object::SPtr definitionObject = dataTypeNode->dataTypeDefinition();
+		DataTypeDefinition::SPtr definition = boost::static_pointer_cast<DataTypeDefinition>(definitionObject);
+
+		DataTypeField::Vec dataTypeFieldVec = definition->dataFields();
+		for (uint32_t idx = 0; idx < dataTypeFieldVec.size(); idx++) {
+			QTableWidgetItem* item;
+			DataTypeField::SPtr dataField = dataTypeFieldVec[idx];
+
+			uint32_t row = enumTable_->rowCount();
+			enumTable_->insertRow(row);
+
+			item = new QTableWidgetItem();
+			item->setText(dataField->name().value().c_str());
+			enumTable_->setItem(row, 0, item);
+
+			item = new QTableWidgetItem();
+			item->setText(QString("%1").arg(dataField->value()));
+			enumTable_->setItem(row, 1, item);
 		}
 
-		// fill table
-		for (uint32_t idx = 0; idx < childBaseNodeClassVec.size(); idx++) {
-			BaseNodeClass::SPtr baseNodeChild = childBaseNodeClassVec[idx];
-
-			uint32_t row = opcUaRefTable_->rowCount();
-			opcUaRefTable_->insertRow(row);
-
-			setNodeClass(nodeInfo, row, baseNodeChild);
-			setDisplayName(nodeInfo, row, baseNodeChild);
-			setTypeDefinition(nodeInfo, row, baseNodeChild);
-			setDataType(nodeInfo, row, baseNodeChild);
-			setReference(nodeInfo, row, baseNodeChild);
-		}
-#endif
 		enumTable_->resizeColumnsToContents();
 	}
 
