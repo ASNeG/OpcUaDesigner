@@ -103,7 +103,7 @@ namespace OpcUaNodeSet
 	DataTypeStructTable::setDataType(uint32_t row, DataTypeField::SPtr& dataField)
 	{
 		std::string dataTypeString = "";
-    	OpcUaNodeId dataType = dataField->dataSubType();
+    	OpcUaNodeId dataType = dataField->dataType();
 
     	if (dataType.namespaceIndex() == 0 &&  dataType.nodeIdType() == OpcUaBuildInType_OpcUaUInt32) {
     		uint32_t id = dataType.nodeId<uint32_t>();
