@@ -15,6 +15,8 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
+#include <QLineEdit>
+#include <QVBoxLayout>
 
 #include "OpcUaStackServer/AddressSpaceModel/DataTypeNodeClass.h"
 #include "OpcUaStackServer/NodeSet/DataTypeDefinition.h"
@@ -25,10 +27,14 @@ using namespace OpcUaStackServer;
 namespace OpcUaNodeSet
 {
 
-
 	DataTypeStructTable::DataTypeStructTable(QWidget* parent)
 	: QWidget()
 	{
+		QVBoxLayout* vBoxLayout = new QVBoxLayout();
+		definitionLineEdit_ = new QLineEdit("Structure");
+		vBoxLayout->addWidget(definitionLineEdit_);
+
+		this->setLayout(vBoxLayout);
 	}
 
 	DataTypeStructTable::~DataTypeStructTable(void)

@@ -15,6 +15,8 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
+#include <QLineEdit>
+#include <QVBoxLayout>
 
 #include "OpcUaStackServer/AddressSpaceModel/DataTypeNodeClass.h"
 #include "OpcUaStackServer/NodeSet/DataTypeDefinition.h"
@@ -29,6 +31,11 @@ namespace OpcUaNodeSet
 	DataTypeEnumTable::DataTypeEnumTable(QWidget* parent)
 	: QWidget()
 	{
+		QVBoxLayout* vBoxLayout = new QVBoxLayout();
+		definitionLineEdit_ = new QLineEdit("Enumeration");
+		vBoxLayout->addWidget(definitionLineEdit_);
+
+		this->setLayout(vBoxLayout);
 	}
 
 	DataTypeEnumTable::~DataTypeEnumTable(void)
