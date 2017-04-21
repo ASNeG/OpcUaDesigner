@@ -39,12 +39,12 @@ namespace OpcUaNodeSet
 		QLabel* structLabel = new QLabel("Structure:");
 		vBoxLayout->addWidget(structLabel);
 
-		structTable_ = new QTableWidget(0,1);
+		structTable_ = new QTableWidget(0,5);
 		structTable_->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 		vBoxLayout->addWidget(structTable_);
 
 		QStringList headerLabels;
-		headerLabels << "Name";
+		headerLabels << "Name" << "DataType" << "ValueRank" << "Description" << "Optional";
 		structTable_->setHorizontalHeaderLabels(headerLabels);
 
 		vBoxLayout->setMargin(0);
@@ -78,16 +78,27 @@ namespace OpcUaNodeSet
 			uint32_t row = structTable_->rowCount();
 			structTable_->insertRow(row);
 
-			item = new QTableWidgetItem();
-			item->setText(dataField->name().value().c_str());
-			structTable_->setItem(row, 0, item);
-
-			//item = new QTableWidgetItem();
-			//item->setText(QString("%1").arg(dataField->value()));
-			//enumTable_->setItem(row, 1, item);
+			setName(row, dataField);
 		}
 
+#if 0
+		OpcUaString name_;
+		OpcUaNodeId dataType_;
+		OpcUaInt32 valueRank_;
+		OpcUaLocalizedText description_;
+		OpcUaBoolean isOptional_;
+#endif
+
 		structTable_->resizeColumnsToContents();
+	}
+
+	void
+	DataTypeStructTable::setName(uint32_t row, DataTypeField::SPtr& dataField)
+	{
+		QTableWidgetItem* item;
+		item = new QTableWidgetItem();
+		item->setText(dataField->name().value().c_str());
+		structTable_->setItem(row, 0, item);
 	}
 
 }

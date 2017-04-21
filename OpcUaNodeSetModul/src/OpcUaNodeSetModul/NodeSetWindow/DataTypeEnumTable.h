@@ -20,7 +20,10 @@
 
 #include <QWidget>
 
+#include "OpcUaStackServer/NodeSet/DataTypeDefinition.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
+
+using namespace OpcUaStackServer;
 
 class QTableWidget;
 
@@ -39,6 +42,9 @@ namespace OpcUaNodeSet
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
+		void setName(uint32_t row, DataTypeField::SPtr& dataField);
+		void setValue(uint32_t row, DataTypeField::SPtr& dataField);
+
 		QTableWidget* enumTable_;
 	};
 

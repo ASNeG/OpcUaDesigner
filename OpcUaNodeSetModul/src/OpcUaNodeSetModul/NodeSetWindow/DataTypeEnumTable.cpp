@@ -23,10 +23,7 @@
 #include <QLabel>
 
 #include "OpcUaStackServer/AddressSpaceModel/DataTypeNodeClass.h"
-#include "OpcUaStackServer/NodeSet/DataTypeDefinition.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/DataTypeEnumTable.h"
-
-using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -73,22 +70,34 @@ namespace OpcUaNodeSet
 
 		DataTypeField::Vec dataTypeFieldVec = definition->dataFields();
 		for (uint32_t idx = 0; idx < dataTypeFieldVec.size(); idx++) {
-			QTableWidgetItem* item;
 			DataTypeField::SPtr dataField = dataTypeFieldVec[idx];
 
 			uint32_t row = enumTable_->rowCount();
 			enumTable_->insertRow(row);
 
-			item = new QTableWidgetItem();
-			item->setText(dataField->name().value().c_str());
-			enumTable_->setItem(row, 0, item);
-
-			item = new QTableWidgetItem();
-			item->setText(QString("%1").arg(dataField->value()));
-			enumTable_->setItem(row, 1, item);
+			setName(row, dataField);
+			setValue(row, dataField);
 		}
 
 		enumTable_->resizeColumnsToContents();
+	}
+
+	void
+	DataTypeEnumTable::setName(uint32_t row, DataTypeField::SPtr& dataField)
+	{
+		QTableWidgetItem* item;
+		item = new QTableWidgetItem();
+		item->setText(dataField->name().value().c_str());
+		enumTable_->setItem(row, 0, item);
+	}
+
+	void
+	DataTypeEnumTable::setValue(uint32_t row, DataTypeField::SPtr& dataField)
+	{
+		QTableWidgetItem* item;
+		item = new QTableWidgetItem();
+		item->setText(QString("%1").arg(dataField->value()));
+		enumTable_->setItem(row, 1, item);
 	}
 
 }
