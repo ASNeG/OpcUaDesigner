@@ -68,8 +68,17 @@ namespace OpcUaNodeSet
 	{
 		fileName_ = fileName;
 
-		// FIXME: todo
-		return false;
+		// load standard opc ua node set
+		if (!loadOpcUaNodeSet(standardNodeSetFileName_)) {
+			return false;
+		}
+
+		// load node set file
+		if (!loadOpcUaNodeSet(fileName)) {
+			return false;
+		}
+
+		return true;
 	}
 
 	bool

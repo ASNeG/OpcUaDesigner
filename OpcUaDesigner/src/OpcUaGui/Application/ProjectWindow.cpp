@@ -117,6 +117,7 @@ namespace OpcUaGui
 
         // create menu
         createNewMenu(menu, modulConfig.get());
+        createOpenMenu(menu, modulConfig.get());
         createDeleteMenu(menu, modulInfo);
 
         // show menu
@@ -153,6 +154,35 @@ namespace OpcUaGui
     }
 
     void
+    ProjectWindow::createOpenMenu(QMenu& menu, ModulConfig* modulConfig)
+    {
+        if (!modulConfig->modulChilds_.empty()) {
+        	ModulConfig::ModulChilds::iterator it1;
+        	QMenu* openMenu = new QMenu();
+        	menu.addMenu(openMenu);
+        	openMenu->setTitle(tr("Open"));
+        	openMenu->setIcon(QIcon(":images/Open.png"));
+
+        	for (it1 = modulConfig->modulChilds_.begin(); it1 != modulConfig->modulChilds_.end(); it1++) {
+                ModulConfig::SPtr modulConfigChild = modul_->getModulConfig(*it1);
+                if (modulConfigChild.get() == NULL) {
+                	continue;
+                }
+
+        		// create modul config value
+        		QVariant v;
+        		v.setValue((void*)modulConfigChild.get());
+
+        		QAction* action = new QAction(tr((*it1).c_str()), this);
+        		action->setIcon(*modulConfigChild->modulLibraryInterface_->libModulIcon());
+        		action->setData(v);
+        	    openMenu->addAction(action);
+        		connect(action, SIGNAL(triggered()), this, SLOT(projectOpenAction()));
+        	}
+        }
+    }
+
+    void
     ProjectWindow::createDeleteMenu(QMenu& menu, ModulInfo* modulInfo)
     {
     	if (modulInfo->handle_ == 0) return;
@@ -180,6 +210,41 @@ namespace OpcUaGui
     	// create modul window and read modul information
     	uint32_t handle;
     	bool rc = modulConfig->modulLibraryInterface_->startApplication(handle);
+    	if (!rc) return;
+
+    	QVariant modulNameVariant;
+    	modulConfig->modulLibraryInterface_->getValue(handle, ModulLibraryInterface::V_ModulName, modulNameVariant);
+    	QString modulName = modulNameVariant.value<QString>();
+
+    	// insert new modul window item into project window
+		ModulInfo* modulInfo = new ModulInfo();
+		modulInfo->modulName_ = modulConfig->modulName_;
+		modulInfo->modulConfig_ = modulConfig;
+		modulInfo->handle_ = handle;
+		QVariant v;
+		v.setValue(modulInfo);
+
+		QTreeWidgetItem* item;
+		item = new QTreeWidgetItem(actItem_);
+		item->setText(0, modulName);
+		item->setData(0, Qt::UserRole, v);
+		item->setIcon(0, *modulConfig->modulLibraryInterface_->libModulIcon());
+		actItem_->setExpanded(true);
+    }
+
+    void
+    ProjectWindow::projectOpenAction(void)
+    {
+    	// find modul configuration
+    	QAction* action = (QAction*)sender();
+    	QVariant a = action->data();
+    	ModulConfig* modulConfig = (ModulConfig*)a.value<void*>();
+
+    	std::cout << "project open..." << modulConfig->modulName_ << std::endl;
+
+    	// create modul window and read modul information
+    	uint32_t handle;
+    	bool rc = modulConfig->modulLibraryInterface_->openApplication(handle);
     	if (!rc) return;
 
     	QVariant modulNameVariant;

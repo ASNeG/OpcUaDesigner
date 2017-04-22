@@ -86,6 +86,14 @@ namespace OpcUaNodeSet
 	}
 
 	bool
+	Library::openApplication(uint32_t& handle)
+	{
+		// FIXME: todo
+		std::cout << "open application..." << std::endl;
+		return false;
+	}
+
+	bool
 	Library::stopApplication(uint32_t handle)
 	{
 		std::cout << "stop application..." << std::endl;

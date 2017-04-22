@@ -21,11 +21,11 @@
 #include <QWidget>
 
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
-#include "OpcUaNodeSetModul/Widget/NodeIdWidget.h"
-#include "OpcUaNodeSetModul/Widget/NodeClassWidget.h"
-#include "OpcUaNodeSetModul/Widget/BrowseNameWidget.h"
-#include "OpcUaNodeSetModul/Widget/DisplayNameWidget.h"
-#include "OpcUaNodeSetModul/Widget/DescriptionWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/NodeIdWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/NodeClassWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/BrowseNameWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/DisplayNameWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/DescriptionWidget.h"
 
 class QLineEdit;
 

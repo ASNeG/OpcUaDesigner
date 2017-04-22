@@ -63,6 +63,7 @@ namespace OpcUaGui
 		virtual void libStartup(void) {}
 		virtual void libShutdown(void) {}
 		virtual bool startApplication(uint32_t& handle) = 0;
+		virtual bool openApplication(uint32_t& handle) = 0;
 		virtual bool stopApplication(uint32_t handle) = 0;
 		virtual bool getValue(uint32_t handle, Value name, QVariant& value) = 0;
 

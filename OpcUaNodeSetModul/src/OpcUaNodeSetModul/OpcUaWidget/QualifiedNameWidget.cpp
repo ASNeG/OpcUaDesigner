@@ -21,56 +21,56 @@
 #include <QStringList>
 #include <QString>
 
-#include "OpcUaNodeSetModul/Widget/BrowseNameWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/QualifiedNameWidget.h"
 
 namespace OpcUaNodeSet
 {
 
 
-	BrowseNameWidget::BrowseNameWidget(QWidget* parent)
+	QualifiedNameWidget::QualifiedNameWidget(QWidget* parent)
 	: QWidget()
 	{
 		// widgets
-		browseNameWidget_ = new QLineEdit();
-		browseNameWidget_->setFixedWidth(400);
+		textWidget_ = new QLineEdit();
+		textWidget_->setFixedWidth(400);
 
 		namespaceWidget_ = new QComboBox();
 		namespaceWidget_->setFixedWidth(400);
 
 		// layout
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
-		vBoxLayout->addWidget(browseNameWidget_);
+		vBoxLayout->addWidget(textWidget_);
 		vBoxLayout->addWidget(namespaceWidget_);
 		vBoxLayout->addStretch();
 		vBoxLayout->setMargin(0);
 		setLayout(vBoxLayout);
 	}
 
-	BrowseNameWidget::~BrowseNameWidget(void)
+	QualifiedNameWidget::~QualifiedNameWidget(void)
 	{
 	}
 
 	void
-	BrowseNameWidget::nodeChange(NodeInfo* nodeInfo)
+	QualifiedNameWidget::nodeChange(void)
 	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullBrowseName()) {
-			browseNameWidget_->setText(QString(".."));
-			namespaceWidget_->clear();
-			return;
-		}
+		textWidget_->setText(QString(""));
+		namespaceWidget_->clear();
+	}
+
+	void
+	QualifiedNameWidget::nodeChange(NodeInfo* nodeInfo, OpcUaQualifiedName& qualifiedName)
+	{
+		nodeChange();
 
 		// set browse name
-		OpcUaQualifiedName browseName;
-		baseNode->getBrowseName(browseName);
-		browseNameWidget_->setText(QString(browseName.toString().c_str()));
+		textWidget_->setText(QString(qualifiedName.name().value().c_str()));
 
 		// set namespace
 		namespaceWidget_->clear();
 		for (uint32_t idx = 0; idx < nodeInfo->nodeSetNamespace_.globalNamespaceVec().size(); idx++) {
 			namespaceWidget_->addItem(nodeInfo->nodeSetNamespace_.globalNamespaceVec()[idx].c_str());
 		}
-		namespaceWidget_->setCurrentIndex(browseName.namespaceIndex());
+		namespaceWidget_->setCurrentIndex(qualifiedName.namespaceIndex());
 	}
 
 }

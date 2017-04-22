@@ -18,8 +18,13 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
+#include <QStackedWidget>
 
+#include "OpcUaStackServer/AddressSpaceModel/DataTypeNodeClass.h"
+#include "OpcUaStackServer/NodeSet/DataTypeDefinition.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeDataTypeTab.h"
+
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -74,8 +79,23 @@ namespace OpcUaNodeSet
 
 		gridLayout->addLayout(hBoxLayout, 2, 1);
 
-
 		vBoxLayout->addLayout(gridLayout);
+
+		// definition
+		definitionWidget_ = new QStackedWidget();
+
+		noneDefinitionWidget_ = new DataTypeNoneTable();
+		definitionWidget_->addWidget(noneDefinitionWidget_);
+
+		enumDefinitionWidget_ = new DataTypeEnumTable();
+		definitionWidget_->addWidget(enumDefinitionWidget_);
+
+		structDefinitionWidget_ = new DataTypeStructTable();
+		definitionWidget_->addWidget(structDefinitionWidget_);
+
+		vBoxLayout->addWidget(definitionWidget_);
+
+
 		vBoxLayout->addStretch();
 
 		setLayout(vBoxLayout);
@@ -91,6 +111,7 @@ namespace OpcUaNodeSet
 		setIsAbstract(nodeInfo);
 		setUserWriteMask(nodeInfo);
 		setWriteMask(nodeInfo);
+		setDefinition(nodeInfo);
 	}
 
 	void
@@ -132,6 +153,33 @@ namespace OpcUaNodeSet
 			OpcUaUInt32 writeMask;
 			baseNode->getWriteMask(writeMask);
 			writeMaskLineEdit_->setText(QString("%1").arg((uint32_t)writeMask));
+		}
+	}
+
+	void
+	OpcUaAttributeDataTypeTab::setDefinition(NodeInfo* nodeInfo)
+	{
+		// get data type node
+		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+		DataTypeNodeClass::SPtr dataTypeNode = boost::static_pointer_cast<DataTypeNodeClass>(baseNode);
+
+		// get definition object
+		Object::SPtr object = dataTypeNode->dataTypeDefinition();
+		if (object.get() == nullptr) {
+			noneDefinitionWidget_->nodeChange(nodeInfo);
+			definitionWidget_->setCurrentIndex(0);
+			return;
+		}
+
+		// cast to definition type
+		DataTypeDefinition::SPtr definition = boost::static_pointer_cast<DataTypeDefinition>(object);
+		if (definition->dataSubType() == Enumeration) {
+			enumDefinitionWidget_->nodeChange(nodeInfo);
+			definitionWidget_->setCurrentIndex(1);
+		}
+		else {
+			structDefinitionWidget_->nodeChange(nodeInfo);
+			definitionWidget_->setCurrentIndex(2);
 		}
 	}
 

@@ -15,47 +15,29 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#ifndef __OpcUaNodeSet_OpcUaAttributeDataTypeTab_h__
-#define __OpcUaNodeSet_OpcUaAttributeDataTypeTab_h__
+#ifndef __OpcUaNodeSet_DataTypeNoneTable_h__
+#define __OpcUaNodeSet_DataTypeNoneTable_h__
 
 #include <QWidget>
 
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
-#include "OpcUaNodeSetModul/NodeSetWindow/DataTypeNoneTable.h"
-#include "OpcUaNodeSetModul/NodeSetWindow/DataTypeEnumTable.h"
-#include "OpcUaNodeSetModul/NodeSetWindow/DataTypeStructTable.h"
 
-class QLineEdit;
-class QStackedWidget;
 
 namespace OpcUaNodeSet
 {
 
-	class OpcUaAttributeDataTypeTab
+	class DataTypeNoneTable
 	: public QWidget
 	{
 		Q_OBJECT
 
 	  public:
-		OpcUaAttributeDataTypeTab(QWidget* parent = 0);
-		virtual ~OpcUaAttributeDataTypeTab(void);
+		DataTypeNoneTable(QWidget* parent = 0);
+		virtual ~DataTypeNoneTable(void);
 
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
-		void setIsAbstract(NodeInfo* nodeInfo);
-		void setUserWriteMask(NodeInfo* nodeInfo);
-		void setWriteMask(NodeInfo* nodeInfo);
-		void setDefinition(NodeInfo* nodeInfo);
-
-		QLineEdit* isAbstractLineEdit_;
-		QLineEdit* userWriteMaskLineEdit_;
-		QLineEdit* writeMaskLineEdit_;
-
-		QStackedWidget* definitionWidget_;
-		DataTypeNoneTable* noneDefinitionWidget_;
-		DataTypeEnumTable* enumDefinitionWidget_;
-		DataTypeStructTable* structDefinitionWidget_;
 	};
 
 }

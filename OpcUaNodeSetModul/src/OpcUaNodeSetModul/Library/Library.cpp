@@ -118,6 +118,55 @@ namespace OpcUaNodeSet
 	}
 
 	bool
+	Library::openApplication(uint32_t& handle)
+	{
+		// FIXME: todo
+		std::cout << "open application..." << std::endl;
+
+		// read modul configuration
+		if (!libraryConfig_.readLibraryConfig(config())) {
+			return false;
+		}
+
+		// get node set file name
+		QString fileName = QFileDialog::getOpenFileName(
+			NULL, tr("Lade NodeSet Datei"), QDir::homePath(), tr("Dokumente (*.xml)")
+		);
+		if (fileName.isNull()) {
+			return false;
+		}
+
+		// use file name as project name
+		QStringList parts1 = fileName.split("/");
+		QString name = parts1.at(parts1.size()-1);
+		name.replace(".xml", "");
+
+		std::cout << name.toStdString() << std::endl;
+
+		// create main window
+		NodeSetWindow* nodeSetWindow = new NodeSetWindow(parentMainWindow());
+		nodeSetWindow->modulFile(fileName.toStdString());
+		nodeSetWindow->modulName(name.toStdString());
+		nodeSetWindow->libraryConfig(&libraryConfig_);
+
+		if (!nodeSetWindow->open()) {
+			delete nodeSetWindow;
+			return false;
+		}
+
+		// show main window
+		nodeSetWindow->resize(400,600);
+		nodeSetWindow->show();
+
+		// insert new main window into main window map
+		handle = handle_;
+		handle_++;
+		mainWindowMap_.insert(std::make_pair(handle, nodeSetWindow));
+
+		return true;
+	}
+
+	bool
 	Library::stopApplication(uint32_t handle)
 	{
 		// FIXME: todo

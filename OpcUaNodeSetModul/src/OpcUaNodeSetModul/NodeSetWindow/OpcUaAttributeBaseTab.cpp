@@ -106,7 +106,7 @@ namespace OpcUaNodeSet
 		gridLayout->addWidget(writeMaskLabel, 5, 0);
 
 		writeMaskLineEdit_ = new QLineEdit();
-		writeMaskLineEdit_->setFixedWidth(300);
+		writeMaskLineEdit_->setFixedWidth(400);
 
 		hBoxLayout = new QHBoxLayout();
 		hBoxLayout->addWidget(writeMaskLineEdit_);
@@ -120,7 +120,7 @@ namespace OpcUaNodeSet
 		gridLayout->addWidget(userWriteMaskLabel, 6, 0);
 
 		userWriteMaskLineEdit_ = new QLineEdit();
-		userWriteMaskLineEdit_->setFixedWidth(300);
+		userWriteMaskLineEdit_->setFixedWidth(400);
 
 		hBoxLayout = new QHBoxLayout();
 		hBoxLayout->addWidget(userWriteMaskLineEdit_);

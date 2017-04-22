@@ -15,47 +15,40 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#ifndef __OpcUaNodeSet_OpcUaAttributeDataTypeTab_h__
-#define __OpcUaNodeSet_OpcUaAttributeDataTypeTab_h__
+#ifndef __OpcUaNodeSet_DataTypeStructTable_h__
+#define __OpcUaNodeSet_DataTypeStructTable_h__
 
 #include <QWidget>
 
+#include "OpcUaStackServer/NodeSet/DataTypeDefinition.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
-#include "OpcUaNodeSetModul/NodeSetWindow/DataTypeNoneTable.h"
-#include "OpcUaNodeSetModul/NodeSetWindow/DataTypeEnumTable.h"
-#include "OpcUaNodeSetModul/NodeSetWindow/DataTypeStructTable.h"
 
-class QLineEdit;
-class QStackedWidget;
+using namespace OpcUaStackServer;
+
+class QTableWidget;
 
 namespace OpcUaNodeSet
 {
 
-	class OpcUaAttributeDataTypeTab
+	class DataTypeStructTable
 	: public QWidget
 	{
 		Q_OBJECT
 
 	  public:
-		OpcUaAttributeDataTypeTab(QWidget* parent = 0);
-		virtual ~OpcUaAttributeDataTypeTab(void);
+		DataTypeStructTable(QWidget* parent = 0);
+		virtual ~DataTypeStructTable(void);
 
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
-		void setIsAbstract(NodeInfo* nodeInfo);
-		void setUserWriteMask(NodeInfo* nodeInfo);
-		void setWriteMask(NodeInfo* nodeInfo);
-		void setDefinition(NodeInfo* nodeInfo);
+		void setName(uint32_t row, DataTypeField::SPtr& dataField);
+		void setDataType(uint32_t row, DataTypeField::SPtr& dataField);
+		void setValueRank(uint32_t row, DataTypeField::SPtr& dataField);
+		void setDescription(uint32_t row, DataTypeField::SPtr& dataField);
+		void setIsOptional(uint32_t row, DataTypeField::SPtr& dataField);
 
-		QLineEdit* isAbstractLineEdit_;
-		QLineEdit* userWriteMaskLineEdit_;
-		QLineEdit* writeMaskLineEdit_;
-
-		QStackedWidget* definitionWidget_;
-		DataTypeNoneTable* noneDefinitionWidget_;
-		DataTypeEnumTable* enumDefinitionWidget_;
-		DataTypeStructTable* structDefinitionWidget_;
+		QTableWidget* structTable_;
 	};
 
 }
