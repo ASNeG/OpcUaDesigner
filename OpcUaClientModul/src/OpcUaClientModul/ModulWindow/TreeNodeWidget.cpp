@@ -254,14 +254,14 @@ namespace OpcUaClientModul
 		QMenu menu(this);
 		TreeMenuHandler* menuHandler = new TreeMenuHandler(pos);
 
-		QAction* attributeAction = new QAction(QIcon(":/Resource/DataType.png"), tr("Attribute"), this);
+		QAction* attributeAction = new QAction(QIcon(":images/DataType.png"), tr("Attribute"), this);
 		connect(attributeAction, SIGNAL(triggered()), menuHandler, SLOT(handleMenuActionAttribute()));
 		connect(menuHandler, SIGNAL(signalMenuActionAttribute(QPoint&)), this, SLOT(menuActionAttribute(QPoint&)));
 		menu.addAction(attributeAction);
 
 		if (item->childCount() == 0) // FIXME: doppelter code
 		{
-			QAction* browseAction = new QAction(QIcon(":/Resource/OpcUaClient.png"), tr("Browse"), this);
+			QAction* browseAction = new QAction(QIcon(":images/OpcUaClient.png"), tr("Browse"), this);
 			connect(browseAction, SIGNAL(triggered()), menuHandler, SLOT(handleMenuActionBrowse()));
 			connect(menuHandler, SIGNAL(signalMenuActionBrowse(QPoint&)), this, SLOT(menuActionBrowse(QPoint&)));
 			menu.addAction(browseAction);
@@ -269,7 +269,7 @@ namespace OpcUaClientModul
 
 		if (nodeInfo->reference_->nodeClass() == NodeClassType_Variable)
 		{
-			QAction* monitorAction = new QAction(QIcon(":/Resource/Value.png"), tr("Monitor"), this);
+			QAction* monitorAction = new QAction(QIcon(":images/Value.png"), tr("Monitor"), this);
 			connect(monitorAction, SIGNAL(triggered()), menuHandler, SLOT(handleMenuActionMonitor()));
 			connect(menuHandler, SIGNAL(signalMenuActionMonitor(QPoint&)), this, SLOT(menuActionMonitor(QPoint&)));
 			menu.addAction(monitorAction);

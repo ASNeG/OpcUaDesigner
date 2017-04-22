@@ -52,7 +52,7 @@ namespace OpcUaClientModul
 	void
 	MonitorItemWindow::createNewMonitorItem(NodeInfo* nodeInfo)
 	{
-		std::cout << "monitor item" << std::endl;
+		std::cout << "TODO monitor item" << std::endl;
 	}
 
 } /* namespace OpcUaClientModul */
