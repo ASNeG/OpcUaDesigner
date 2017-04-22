@@ -26,8 +26,12 @@
 #include <QVBoxLayout>
 #include <QMessageBox>
 #include <QVariant>
+#include <QPoint>
+#include <QAction>
+#include <QMenu>
 
 #include "OpcUaClientModul/ModulWindow/NodeInfo.h"
+#include "OpcUaClientModul/ModulWindow/TreeMenuHandler.h"
 
 using namespace OpcUaStackClient;
 
@@ -47,9 +51,15 @@ namespace OpcUaClientModul
 	  public slots:
 		void myItemDoubleClicked(QTreeWidgetItem* parentItem, int row);
 		void myItemClicked(QTreeWidgetItem* item, int row);
+		void prepareMenu(const QPoint& point);
+
+		void menuActionMonitor(QPoint& pos);
+		void menuActionBrowse(QPoint& pos);
+		void menuActionAttribute(QPoint& pos);
 
 	  signals:
-	  	  void nodeChanged(NodeInfo* nodeInfo);
+	  	void nodeChanged(NodeInfo* nodeInfo);
+	  	void createNewMonitorItem(NodeInfo* nodeInfo);
 
 	  private:
 		QIcon createQIcon(NodeClassType nodeClass, OpcUaExpandedNodeId::SPtr typeNodeId);

@@ -78,6 +78,12 @@ namespace OpcUaClientModul
 		item->setIcon(0, icon);
 
 		opcUaTree_->addTopLevelItem(item);
+		opcUaTree_->setContextMenuPolicy(Qt::CustomContextMenu);
+
+		connect(
+				opcUaTree_, SIGNAL(customContextMenuRequested(const QPoint&)),
+				this, SLOT(prepareMenu(const QPoint&))
+		);
 
 		std::cout << "create tree node widget finished" << std::endl;
 
@@ -232,6 +238,66 @@ namespace OpcUaClientModul
 	void
 	TreeNodeWidget::myItemClicked(QTreeWidgetItem* item, int row)
 	{
+		QVariant v = item->data(0, Qt::UserRole);
+		NodeInfo* nodeInfo = v.value<NodeInfo*>();
+		emit nodeChanged(nodeInfo);
+	}
+
+	void
+	TreeNodeWidget::prepareMenu(const QPoint& pos)
+	{
+		QTreeWidgetItem* item = opcUaTree_->itemAt(pos);
+
+		QVariant v = item->data(0, Qt::UserRole);
+		NodeInfo* nodeInfo = v.value<NodeInfo*>();
+
+		QMenu menu(this);
+		TreeMenuHandler* menuHandler = new TreeMenuHandler(pos);
+
+		QAction* attributeAction = new QAction(QIcon(":/Resource/DataType.png"), tr("Attribute"), this);
+		connect(attributeAction, SIGNAL(triggered()), menuHandler, SLOT(handleMenuActionAttribute()));
+		connect(menuHandler, SIGNAL(signalMenuActionAttribute(QPoint&)), this, SLOT(menuActionAttribute(QPoint&)));
+		menu.addAction(attributeAction);
+
+		if (item->childCount() == 0) // FIXME: doppelter code
+		{
+			QAction* browseAction = new QAction(QIcon(":/Resource/OpcUaClient.png"), tr("Browse"), this);
+			connect(browseAction, SIGNAL(triggered()), menuHandler, SLOT(handleMenuActionBrowse()));
+			connect(menuHandler, SIGNAL(signalMenuActionBrowse(QPoint&)), this, SLOT(menuActionBrowse(QPoint&)));
+			menu.addAction(browseAction);
+		}
+
+		if (nodeInfo->reference_->nodeClass() == NodeClassType_Variable)
+		{
+			QAction* monitorAction = new QAction(QIcon(":/Resource/Value.png"), tr("Monitor"), this);
+			connect(monitorAction, SIGNAL(triggered()), menuHandler, SLOT(handleMenuActionMonitor()));
+			connect(menuHandler, SIGNAL(signalMenuActionMonitor(QPoint&)), this, SLOT(menuActionMonitor(QPoint&)));
+			menu.addAction(monitorAction);
+		}
+
+		menu.exec(opcUaTree_->mapToGlobal(pos));
+	}
+
+	void
+	TreeNodeWidget::menuActionMonitor(QPoint& pos)
+	{
+		QTreeWidgetItem* item = opcUaTree_->itemAt(pos);
+		QVariant v = item->data(0, Qt::UserRole);
+		NodeInfo* nodeInfo = v.value<NodeInfo*>();
+		emit createNewMonitorItem(nodeInfo);
+	}
+
+	void
+	TreeNodeWidget::menuActionBrowse(QPoint& pos)
+	{
+		QTreeWidgetItem* item = opcUaTree_->itemAt(pos);
+		browseNextElements(item);
+	}
+
+	void
+	TreeNodeWidget::menuActionAttribute(QPoint& pos)
+	{
+		QTreeWidgetItem* item = opcUaTree_->itemAt(pos);
 		QVariant v = item->data(0, Qt::UserRole);
 		NodeInfo* nodeInfo = v.value<NodeInfo*>();
 		emit nodeChanged(nodeInfo);

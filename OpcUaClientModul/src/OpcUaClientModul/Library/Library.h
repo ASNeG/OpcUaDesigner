@@ -23,6 +23,7 @@
 
 #include "OpcUaGui/ModulInterface/ModulLibraryInterface.h"
 #include "OpcUaClientModul/ModulWindow/ModulMainWindow.h"
+#include "OpcUaClientModul/ModulWindow/MonitorItemWindow.h"
 #include "OpcUaClientModul/ModulWindow/ConnectionDialog.h"
 
 using namespace OpcUaClientModul;
@@ -49,6 +50,9 @@ namespace OpcUaNodeSet
 
 	  private:
 		OpcUaClientProvider* client_;
+
+		ModulMainWindow* modulMainWindow_;
+		MonitorItemWindow* monitorItemWindow_;
 	};
 
 	class MYSHAREDLIB_EXPORT xxxx

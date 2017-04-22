@@ -17,7 +17,7 @@
 
 <OpcUaModul>
   
-  <Name>OpcUaClientModul</name>  
+  <Name>OpcUaClientModul</Name>  
   <Library>OpcUaClientModul</Library>
   <ModulParents>
     <Modul>Project</Modul>

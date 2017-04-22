@@ -28,6 +28,8 @@ namespace OpcUaNodeSet
 	Library::Library(void)
 	: OpcUaGui::ModulLibraryInterface()
 	, client_(new OpcUaClientProvider())
+	, monitorItemWindow_()
+	, modulMainWindow_()
 	{
 	}
 
@@ -68,19 +70,32 @@ namespace OpcUaNodeSet
 		}
 
 		// create main window
-		ModulMainWindow* modulMainWindow = new ModulMainWindow(parentMainWindow(), client_);
-		modulMainWindow->modulName("ModulMainWindow");
+		modulMainWindow_ = new ModulMainWindow(parentMainWindow(), client_);
+		modulMainWindow_->modulName("ModulMainWindow");
 
-		if (!modulMainWindow->create())
+		if (!modulMainWindow_->create())
 		{
-			delete modulMainWindow;
+			delete modulMainWindow_;
 			client_->disconnectFromServer();
 			return false;
 		}
 
 		// show main window
-		modulMainWindow->resize(400, 600);
-		modulMainWindow->show();
+		modulMainWindow_->resize(400, 600);
+		modulMainWindow_->show();
+
+		// create monitor item window
+		monitorItemWindow_ = new MonitorItemWindow(client_);
+
+		// show main window
+		monitorItemWindow_->resize(400, 600);
+		monitorItemWindow_->show();
+
+		// set connections
+		connect(
+				modulMainWindow_, SIGNAL(createNewMonitorItem(NodeInfo*)),
+				monitorItemWindow_, SLOT(createNewMonitorItem(NodeInfo*))
+		);
 
 		return true;
 	}
@@ -99,6 +114,9 @@ namespace OpcUaNodeSet
 		std::cout << "stop application..." << std::endl;
 
 		client_->disconnectFromServer();
+
+		delete modulMainWindow_;
+		delete monitorItemWindow_;
 
 		return true;
 	}

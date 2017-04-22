@@ -63,9 +63,14 @@ namespace OpcUaClientModul
 		dockAttributeWidget->setFloating(true);
 		this->addDockWidget(Qt::RightDockWidgetArea, dockAttributeWidget);
 
+		// set connections
 		connect(
 			treeNodeWidget_, SIGNAL(nodeChanged(NodeInfo*)),
 			attributeWidget_, SLOT(nodeChange(NodeInfo*))
+		);
+		connect(
+				treeNodeWidget_, SIGNAL(createNewMonitorItem(NodeInfo*)),
+				this, SIGNAL(createNewMonitorItem(NodeInfo*))
 		);
 
 		return true;
