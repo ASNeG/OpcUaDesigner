@@ -18,9 +18,14 @@
 #ifndef __OpcUaNodeSetModul_Library_h__
 #define __OpcUaNodeSetModul_Library_h__
 
+#include <OpcUaClientModul/Tools/OpcUaClientProvider.h>
 #include <QObject>
 
 #include "OpcUaGui/ModulInterface/ModulLibraryInterface.h"
+#include "OpcUaClientModul/ModulWindow/ModulMainWindow.h"
+#include "OpcUaClientModul/ModulWindow/ConnectionDialog.h"
+
+using namespace OpcUaClientModul;
 
 namespace OpcUaNodeSet
 {
@@ -42,8 +47,8 @@ namespace OpcUaNodeSet
 		//- ModulInterface ----------------------------------------------------
 
 	  private:
+		OpcUaClientProvider* client_;
 	};
-
 
 	class MYSHAREDLIB_EXPORT xxxx
 	: public QObject

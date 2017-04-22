@@ -19,10 +19,14 @@
 
 namespace OpcUaClientModul
 {
-	ModulMainWindow::ModulMainWindow(QMainWindow* parentMainWindow)
+	ModulMainWindow::ModulMainWindow(QMainWindow* parentMainWindow, OpcUaClientProvider* client)
 	: QMainWindow()
 	, modulName_("")
 	, parentMainWindow_(parentMainWindow)
+	, client_(client)
+	, treeNodeWidget_(new TreeNodeWidget(client))
+	, attributeWidget_(new AttributeWidget(client))
+	, connectionInfoWidget_(new ConnectionInfoWidget())
 	{
 	}
 
@@ -33,11 +37,36 @@ namespace OpcUaClientModul
 	bool
 	ModulMainWindow::create(void)
 	{
-		bool rc;
-
 		setWindowTitle(QString("OpcUaClientModul - ModulMainWindow"));
 
-		// TODO
+		statusBar()->addWidget(new QLabel("Connection: opc.tcp://127.0.0.1:8889"));
+		statusBar()->addWidget(new QLabel("| Connection Status: Connected"));
+
+		// create dock tree node widget
+		QDockWidget* dockTreeNodeWidget = new QDockWidget(tr("OPC UA AddressSpace"));
+		dockTreeNodeWidget->setObjectName("ProjectNameTreeNode");
+		dockTreeNodeWidget->setWidget(treeNodeWidget_);
+		dockTreeNodeWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+		dockTreeNodeWidget->setFloating(true);
+		this->addDockWidget(Qt::LeftDockWidgetArea, dockTreeNodeWidget);
+
+		if (!treeNodeWidget_->create())
+		{
+			return false;
+		}
+
+		// create dock attribute widget
+		QDockWidget* dockAttributeWidget = new QDockWidget(tr("OPC UA Attribute"));
+		dockAttributeWidget->setObjectName("ProjectNameAttribute");
+		dockAttributeWidget->setWidget(attributeWidget_);
+		dockAttributeWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+		dockAttributeWidget->setFloating(true);
+		this->addDockWidget(Qt::RightDockWidgetArea, dockAttributeWidget);
+
+		connect(
+			treeNodeWidget_, SIGNAL(nodeChanged(NodeInfo*)),
+			attributeWidget_, SLOT(nodeChange(NodeInfo*))
+		);
 
 		return true;
 	}
@@ -45,7 +74,6 @@ namespace OpcUaClientModul
 	bool
 	ModulMainWindow::open(void)
 	{
-		// TODO
 		return false;
 	}
 

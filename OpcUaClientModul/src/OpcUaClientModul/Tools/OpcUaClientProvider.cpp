@@ -15,45 +15,39 @@
    Autor: Samuel Huebl (samuel@huebl-sgh.de)
  */
 
-#include <OpcUaClientModul/ModulWindow/OpcUaClientApp.h>
+#include <OpcUaClientModul/Tools/OpcUaClientProvider.h>
 
 using namespace OpcUaStackClient;
 
 namespace OpcUaClientModul
 {
-	OpcUaClientApp::OpcUaClientApp()
+	OpcUaClientProvider::OpcUaClientProvider()
 	: client_()
 	, sessionName_("")
 	, endpointUrl_("")
 	{
 	}
 
-	OpcUaClientApp::~OpcUaClientApp()
+	OpcUaClientProvider::~OpcUaClientProvider()
 	{
-	}
-
-	void
-	OpcUaClientApp::test()
-	{
-		// set endpointUrl and sessionName
-		std::string endpointUrlStr = "opc.tcp://127.0.0.1:8889";
-		endpointUrl(endpointUrlStr);
-		std::string sessionNameStr = "urn:127.0.0.1:ASNeG.de:DesignerClient";
-		sessionName(sessionNameStr);
-
-		// connect to server
-		if (!connectToServer())
-		{
-			return;
-		}
-
-
-		// disconnect from server
-		disconnectFromServer();
 	}
 
 	bool
-	OpcUaClientApp::connectToServer(void)
+	OpcUaClientProvider::test(void)
+	{
+		OpcUaNodeId nodeId;
+		nodeId.set((OpcUaInt32) 84);
+		OpcUaDataValue dataValue;
+
+		ReadContext readContext;
+		readContext.attributeId_ = 14;
+
+		client_.syncRead(nodeId, dataValue, readContext);
+		return true;
+	}
+
+	bool
+	OpcUaClientProvider::connectToServer(void)
 	{
 	    OpcUaStatusCode statusCode;
 	    ConnectContext connectContext;
@@ -65,7 +59,7 @@ namespace OpcUaClientModul
 	    connectContext.sessionName_ = sessionName_;
 	    statusCode = client_.syncConnect(connectContext);
 	    if (statusCode != Success) {
-	        std::cout << std::endl << "**** connect to opc ua server error ****" << std::endl;
+	        std::cout << std::endl << "**** connect to opc ua server error ****" << statusCode << std::endl;
 	        return false;
 	    }
 
@@ -74,7 +68,7 @@ namespace OpcUaClientModul
 	}
 
 	bool
-	OpcUaClientApp::disconnectFromServer(void)
+	OpcUaClientProvider::disconnectFromServer(void)
 	{
 	    OpcUaStatusCode statusCode;
 
@@ -83,7 +77,7 @@ namespace OpcUaClientModul
 	    //
 	    statusCode = client_.syncDisconnect();
 	    if (statusCode != Success) {
-	        std::cout << std::endl << "**** disconnect from opc ua server error ****" << std::endl;
+	        std::cout << std::endl << "**** disconnect from opc ua server error ****" << statusCode << std::endl;
 		return false;
 	    }
 
@@ -91,26 +85,46 @@ namespace OpcUaClientModul
 	    return true;
 	}
 
+	OpcUaStatusCode
+	OpcUaClientProvider::syncBrowse(OpcUaNodeId::SPtr& nodeId, ReferenceDescriptionArray::SPtr& references)
+	{
+		return client_.syncViewServiceBrowse(nodeId, references);
+	}
+
+	OpcUaStatusCode
+	OpcUaClientProvider::syncRead(OpcUaNodeId& nodeId, OpcUaDataValue& dataValue, AttributeId attributeId)
+	{
+		ReadContext readContext;
+		readContext.attributeId_ = attributeId;
+		return client_.syncRead(nodeId, dataValue, readContext);
+	}
+
+	OpcUaStatusCode
+	OpcUaClientProvider::syncWrite(OpcUaNodeId& nodeId, OpcUaDataValue& dataValue)
+	{
+		return client_.syncWrite(nodeId, dataValue);
+	}
+
 	void
-	OpcUaClientApp::sessionName(std::string& sessionName)
+	OpcUaClientProvider::sessionName(std::string& sessionName)
 	{
 		sessionName_ = sessionName;
 	}
 
 	std::string
-	OpcUaClientApp::sessionName(void)
+	OpcUaClientProvider::sessionName(void)
 	{
 		return sessionName_;
 	}
 
 	void
-	OpcUaClientApp::endpointUrl(std::string& endpointURL)
+	OpcUaClientProvider::endpointUrl(std::string& endpointURL)
 	{
 		endpointUrl_ = endpointURL;
 	}
 
 	std::string
-	OpcUaClientApp::endpointUrl(void)
+	OpcUaClientProvider::endpointUrl(void)
 	{
 		return endpointUrl_;
 	}

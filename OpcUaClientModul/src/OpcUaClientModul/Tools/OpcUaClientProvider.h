@@ -15,8 +15,8 @@
    Autor: Samuel Huebl (samuel@huebl-sgh.de)
  */
 
-#ifndef __OpcUaClientModul_OpcUaClientApp_h__
-#define __OpcUaClientModul_OpcUaClientApp_h__
+#ifndef __OpcUaClientModul_OpcUaClientProvider_h__
+#define __OpcUaClientModul_OpcUaClientProvider_h__
 
 #include "OpcUaStackClient/ValueBasedInterface/VBIClient.h"
 
@@ -24,14 +24,46 @@ using namespace OpcUaStackClient;
 
 namespace OpcUaClientModul
 {
+	enum AttributeId
+	{
+		NodeId = 1,
+		NodeClass = 2,
+		BrowseName = 3,
+		DisplayName = 4,
+		Description = 5,
+		WriteMask = 6,
+		UserWriteMask = 7,
+		IsAbstract = 8,
+		Symmetric = 9,
+		InverseName = 10,
+		ContainsNoLoops = 11,
+		EventNotifier = 12,
+		Value = 13,
+		DataType = 14,
+		ValueRank = 15,
+		ArrayDimensions = 16,
+		AccessLevel = 17,
+		UserAccessLevel = 18,
+		MinimumSamplingInterval = 19,
+		Historizing = 20,
+		Executable = 21,
+		UserExecutable = 22
+	};
 
-	class OpcUaClientApp
+	class OpcUaClientProvider
 	{
 	  public:
-		OpcUaClientApp();
-		virtual ~OpcUaClientApp();
+		OpcUaClientProvider();
+		virtual ~OpcUaClientProvider();
 
-		void test(void);
+		bool test(void);
+
+		bool connectToServer(void);
+		bool disconnectFromServer(void);
+
+		OpcUaStatusCode syncBrowse(OpcUaNodeId::SPtr& nodeId, ReferenceDescriptionArray::SPtr& references);
+		OpcUaStatusCode syncRead(OpcUaNodeId& nodeId, OpcUaDataValue& dataValue, AttributeId attributeId);
+		OpcUaStatusCode syncWrite(OpcUaNodeId& nodeId, OpcUaDataValue&  dataValue);
 
 		void sessionName(std::string& sessionName);
 		std::string sessionName(void);
@@ -43,11 +75,7 @@ namespace OpcUaClientModul
 		std::string endpointUrl_;
 
 		VBIClient client_;
-
-		bool connectToServer(void);
-		bool disconnectFromServer(void);
-
 	};
 }
 
-#endif /* __OpcUaClientModul_OpcUaClientApp_h__ */
+#endif /* __OpcUaClientModul_OpcUaClientProvider_h__ */

@@ -20,11 +20,14 @@
 #include <QMainWindow>
 #include <QIcon>
 
+using namespace OpcUaClientModul;
+
 namespace OpcUaNodeSet
 {
 
 	Library::Library(void)
 	: OpcUaGui::ModulLibraryInterface()
+	, client_(new OpcUaClientProvider())
 	{
 	}
 
@@ -41,23 +44,62 @@ namespace OpcUaNodeSet
 	bool
 	Library::startApplication(uint32_t& handle)
 	{
-		// FIXME: todo
 		std::cout << "start application..." << std::endl;
+
+		// open connection dialog
+		ConnectionDialog* dialog = new ConnectionDialog();
+
+		if (!dialog->isAccept())
+		{
+			return false;
+		}
+
+		// create connection to OPC UA server
+		// set endpointUrl and sessionName
+		std::string endpointUrlStr = dialog->getEndpointAddress();
+		client_->endpointUrl(endpointUrlStr);
+		std::string sessionNameStr = dialog->getSessionName();
+		client_->sessionName(sessionNameStr);
+
+		// connect to server
+		if (!client_->connectToServer())
+		{
+			return false;
+		}
+
+		// create main window
+		ModulMainWindow* modulMainWindow = new ModulMainWindow(parentMainWindow(), client_);
+		modulMainWindow->modulName("ModulMainWindow");
+
+		if (!modulMainWindow->create())
+		{
+			delete modulMainWindow;
+			client_->disconnectFromServer();
+			return false;
+		}
+
+		// show main window
+		modulMainWindow->resize(400, 600);
+		modulMainWindow->show();
+
 		return true;
 	}
 
 	bool
 	Library::stopApplication(uint32_t handle)
 	{
-		// FIXME: todo
 		std::cout << "stop application..." << std::endl;
+
+		client_->disconnectFromServer();
+
 		return true;
 	}
 
 	bool
 	Library::getValue(uint32_t handle, Value value, QVariant& variant)
 	{
-		// FIXME: todo
+		// TODO andere value vergabe
+		variant.setValue(QString("OpcUaClientModul"));
 		return true;
 	}
 
