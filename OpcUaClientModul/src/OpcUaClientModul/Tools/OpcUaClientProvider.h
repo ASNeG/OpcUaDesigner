@@ -18,12 +18,15 @@
 #ifndef __OpcUaClientModul_OpcUaClientProvider_h__
 #define __OpcUaClientModul_OpcUaClientProvider_h__
 
+#include <QWidget>
+
 #include "OpcUaStackClient/ValueBasedInterface/VBIClient.h"
 
 using namespace OpcUaStackClient;
 
 namespace OpcUaClientModul
 {
+
 	enum AttributeId
 	{
 		NodeId = 1,
@@ -51,7 +54,10 @@ namespace OpcUaClientModul
 	};
 
 	class OpcUaClientProvider
+	: public QWidget
 	{
+		Q_OBJECT
+
 	  public:
 		OpcUaClientProvider();
 		virtual ~OpcUaClientProvider();
@@ -65,14 +71,26 @@ namespace OpcUaClientModul
 		OpcUaStatusCode syncRead(OpcUaNodeId& nodeId, OpcUaDataValue& dataValue, AttributeId attributeId);
 		OpcUaStatusCode syncWrite(OpcUaNodeId& nodeId, OpcUaDataValue&  dataValue);
 
+		OpcUaStatusCode syncCreateSubscription(void);
+
+		OpcUaStatusCode syncCreateMonitorItem(OpcUaNodeId& nodeId, uint32_t clientHandle, uint32_t& monitoredItemId);
+		OpcUaStatusCode syncDeleteMonitorItem(uint32_t monitoredItemId);
+
+		void dataChangeCallback(OpcUaUInt32 clientHandle, OpcUaDataValue& dataValue);
+
 		void sessionName(std::string& sessionName);
 		std::string sessionName(void);
 		void endpointUrl(std::string& endpointURL);
 		std::string endpointUrl(void);
 
+	  signals:
+		void signalUpdateMonitoredItem(OpcUaUInt32 clientHandle, OpcUaDataValue& dataValue);
+
 	  private:
 		std::string sessionName_;
 		std::string endpointUrl_;
+
+		uint32_t subscriptionId_;
 
 		VBIClient client_;
 	};

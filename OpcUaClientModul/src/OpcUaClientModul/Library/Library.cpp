@@ -88,13 +88,17 @@ namespace OpcUaNodeSet
 		monitorItemWindow_ = new MonitorItemWindow(client_);
 
 		// show main window
-		monitorItemWindow_->resize(400, 600);
+		monitorItemWindow_->resize(700, 400);
 		monitorItemWindow_->show();
 
 		// set connections
 		connect(
 				modulMainWindow_, SIGNAL(createNewMonitorItem(NodeInfo*)),
 				monitorItemWindow_, SLOT(createNewMonitorItem(NodeInfo*))
+		);
+		connect(
+				client_, SIGNAL(signalUpdateMonitoredItem(OpcUaUInt32, OpcUaDataValue&)),
+				monitorItemWindow_, SLOT(updateMonitoredItem(OpcUaUInt32, OpcUaDataValue&))
 		);
 
 		return true;

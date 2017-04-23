@@ -22,8 +22,10 @@
 #include <QString>
 #include <QDockWidget>
 #include <QStatusBar>
-#include <QScrollArea>
+#include <QStringList>
 #include <QLabel>
+#include <QTableWidget>
+#include <QTableWidgetItem>
 
 #include "OpcUaClientModul/Tools/OpcUaClientProvider.h"
 #include "OpcUaClientModul/ModulWindow/NodeInfo.h"
@@ -45,11 +47,18 @@ namespace OpcUaClientModul
 
 	  public slots:
 		void createNewMonitorItem(NodeInfo* nodeInfo);
+		void updateMonitoredItem(OpcUaUInt32 clientHandle, OpcUaDataValue& dataValue);
 
 	  private:
+		void setDisplayName(NodeInfo* nodeInfo, uint32_t row);
+		void setNodeId(NodeInfo* nodeInfo, uint32_t row);
+		void setValue(NodeInfo* nodeInfo, uint32_t row);
+		void setSourceTimestamp(NodeInfo* nodeInfo, uint32_t row);
+		void setServerTimestamp(NodeInfo* nodeInfo, uint32_t row);
+
 		OpcUaClientProvider* client_;
 
-
+		QTableWidget* monitorTable_;
 	};
 
 } /* namespace OpcUaClientModul */

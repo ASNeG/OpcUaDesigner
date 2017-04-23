@@ -22,10 +22,14 @@ using namespace OpcUaStackClient;
 namespace OpcUaClientModul
 {
 	OpcUaClientProvider::OpcUaClientProvider()
-	: client_()
+	: QWidget()
+	, client_()
 	, sessionName_("")
 	, endpointUrl_("")
+	, subscriptionId_(0)
 	{
+		qRegisterMetaType<OpcUaUInt32>("OpcUaUInt32");
+		qRegisterMetaType<OpcUaDataValue>("OpcUaDataValue&");
 	}
 
 	OpcUaClientProvider::~OpcUaClientProvider()
@@ -36,13 +40,20 @@ namespace OpcUaClientModul
 	OpcUaClientProvider::test(void)
 	{
 		OpcUaNodeId nodeId;
-		nodeId.set((OpcUaInt32) 84);
-		OpcUaDataValue dataValue;
+		nodeId.set((OpcUaInt32) 204, (OpcUaInt16) 1);
+		uint32_t clientHandle = 1111;
+		uint32_t monitoredItemId;
 
-		ReadContext readContext;
-		readContext.attributeId_ = 14;
+		std::cout << "sid " << subscriptionId_ << std::endl;
 
-		client_.syncRead(nodeId, dataValue, readContext);
+		if (syncCreateMonitorItem(nodeId, clientHandle, monitoredItemId) != Success)
+		{
+			std::cout << "no monitor item" << std::endl;
+			return false;
+		}
+
+		std::cout << "mid " << monitoredItemId << std::endl;
+
 		return true;
 	}
 
@@ -61,6 +72,13 @@ namespace OpcUaClientModul
 	    if (statusCode != Success) {
 	        std::cout << std::endl << "**** connect to opc ua server error ****" << statusCode << std::endl;
 	        return false;
+	    }
+
+	    statusCode = syncCreateSubscription();
+	    if (statusCode != Success)
+	    {
+	    	std::cout << std::endl << "**** connect to opc ua server error ****" << statusCode << std::endl;
+	    	return false;
 	    }
 
 	    std::cout << std::endl << "**** connect to opc ua server success ****" << std::endl;
@@ -103,6 +121,37 @@ namespace OpcUaClientModul
 	OpcUaClientProvider::syncWrite(OpcUaNodeId& nodeId, OpcUaDataValue& dataValue)
 	{
 		return client_.syncWrite(nodeId, dataValue);
+	}
+
+	OpcUaStatusCode
+	OpcUaClientProvider::syncCreateSubscription(void)
+	{
+		// set data change callback
+		client_.setDataChangeCallback(
+			boost::bind(&OpcUaClientProvider::dataChangeCallback, this, _1, _2)
+		);
+
+		// create subscription
+		return client_.syncCreateSubscription(subscriptionId_);
+	}
+
+	void
+	OpcUaClientProvider::dataChangeCallback(OpcUaUInt32 clientHandle, OpcUaDataValue& dataValue)
+	{
+		std::cout << "dataChangeCallback " << clientHandle << std::endl;
+		emit signalUpdateMonitoredItem(clientHandle, dataValue);
+	}
+
+	OpcUaStatusCode
+	OpcUaClientProvider::syncCreateMonitorItem(OpcUaNodeId& nodeId, uint32_t clientHandle, uint32_t& monitoredItemId)
+	{
+		return client_.syncCreateMonitoredItem(nodeId, subscriptionId_, clientHandle, monitoredItemId);
+	}
+
+	OpcUaStatusCode
+	OpcUaClientProvider::syncDeleteMonitorItem(uint32_t monitoredItemId)
+	{
+		return client_.syncDeleteMonitoredItem(subscriptionId_, monitoredItemId);
 	}
 
 	void
