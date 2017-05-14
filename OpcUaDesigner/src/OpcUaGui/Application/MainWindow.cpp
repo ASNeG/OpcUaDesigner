@@ -40,6 +40,7 @@ namespace OpcUaGui
 	MainWindow::MainWindow(void)
 	: QMainWindow()
 	, newProjectAction_(NULL)
+	, openProjectAction_(NULL)
 	, application_(new Application())
 	, modul_(new Modul())
 	{
@@ -280,11 +281,13 @@ namespace OpcUaGui
 			fileName.append(".OpcUaDesigner.xml");
 		}
 
+		// create data model
+		dataModel_.create(fileName.toStdString());
+
 		// create project window
 		projectWindow_ = new ProjectWindow(NULL);
 		projectWindow_->modul(modul_);
 		projectWindow_->dataModel(&dataModel_);
-		dataModel_.create(fileName.toStdString());
 
 		// create dock widget
 		QDockWidget* dockWidget = new QDockWidget(fileName);
@@ -303,12 +306,51 @@ namespace OpcUaGui
 	void
 	MainWindow::openProjectAction(void)
 	{
+		// input of the project name
+		QString fileName = QFileDialog::getSaveFileName(
+			NULL, tr("Set Project File Name"), QDir::homePath(), "Project (*.OpcUaDesigner.xml)"
+		);
+		if (fileName.isNull()) {
+			return;
+		}
+
+		if (!fileName.endsWith(".OpcUaDesigner.xmll")) {
+			fileName.append(".OpcUaDesigner.xml");
+		}
+
+		// create data model
+		bool success = dataModel_.open(fileName.toStdString());
+		if (!success) {
+			QMessageBox::critical(this,
+				tr("open project error"),
+				tr("open file %1 error").arg(fileName)
+			);
+			return;
+		}
+
+		// create project window
+		projectWindow_ = new ProjectWindow(NULL);
+		projectWindow_->modul(modul_);
+		projectWindow_->dataModel(&dataModel_);
+
+		// create dock widget
+		QDockWidget* dockWidget = new QDockWidget(fileName);
+		dockWidget->setObjectName("ProjectName");
+		dockWidget->setWidget(projectWindow_);
+		dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+		this->addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
+
+		newProjectAction_->setDisabled(true);
+		openProjectAction_->setDisabled(true);
+		saveProjectAction_->setDisabled(false);
+		saveAsProjectAction_->setDisabled(false);
+		closeProjectAction_->setDisabled(false);
 	}
 
     void
     MainWindow::saveProjectAction(void)
     {
-    	// FIXME: todo
+       	// FIXME: todo
     }
 
     void
