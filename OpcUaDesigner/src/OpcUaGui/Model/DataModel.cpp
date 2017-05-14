@@ -18,6 +18,7 @@
 #include "OpcUaStackCore/Base/Log.h"
 #include "OpcUaStackCore/Base/Config.h"
 #include "OpcUaStackCore/Base/ConfigXml.h"
+#include "OpcUaStackCore/Base/ObjectPool.h"
 #include "OpcUaGui/Model/DataModel.h"
 
 using namespace OpcUaStackCore;
@@ -84,21 +85,86 @@ namespace OpcUaGui
 	bool
 	DataModel::open(const std::string& fileName)
 	{
-		// FIXME: todo
+		fileName_ = fileName;
+
+		// read project file
+		Config config;
+		ConfigXml configXml;
+		if (!configXml.read(fileName)) {
+			Log(Error, "read project file error")
+				.parameter("FileName", fileName_)
+				.parameter("ErrorMessage", configXml.errorMessage());
+			return false;
+		}
+		config.child(configXml.ptree());
+
+		// decode project configuration
+		boost::optional<Config> cfg = config.getChild("OpcUaDesigner");
+		if (!cfg) {
+			Log(Error, "element missing in project file")
+				.parameter("Element", "OpcUaDesigner")
+				.parameter("FileName", fileName_);
+			return false;
+		}
+
+		std::vector<Config>::iterator it;
+		std::vector<Config> projectConfigVec;
+		config.getChilds("OpcUaDesigner.Project", projectConfigVec);
+		for (it = projectConfigVec.begin(); it != projectConfigVec.end(); it++) {
+			ProjectData::SPtr projectData = constructSPtr<ProjectData>();
+			if (!projectData->decode(*it)) {
+				Log(Error, "decode project file error")
+					.parameter("FileName", fileName_);
+				return false;
+			}
+			setProjectData(projectData->projectName(), projectData);
+		}
+
 		return true;
 	}
 
 	bool
 	DataModel::save(void)
 	{
-		// FIXME: todo
+		Config config;
+
+		// encode project configuration
+		ProjectData::Map::iterator it;
+		for (it = projectDataMap_.begin(); it != projectDataMap_.end(); it++) {
+			ProjectData::SPtr projectData = it->second;
+			Config projectDataConfig;
+
+			 if (!projectData->encode(projectDataConfig)) {
+				Log(Error, "decode project file error")
+					.parameter("FileName", fileName_);
+				return false;
+			 }
+
+			 config.addChild("OpcUaDesigner.Project", projectDataConfig);
+		}
+
+		// write data
+		ConfigXml configXml;
+		configXml.ptree(config.child());
+		if (!configXml.write(fileName_)) {
+			Log(Error, "write project file error")
+				.parameter("FileName", fileName_)
+				.parameter("ErrorMessage", configXml.errorMessage());
+			return false;
+		}
+
 		return true;
 	}
 
 	bool
 	DataModel::saveAs(const std::string& fileName)
 	{
-		// FIXME: todo
+		std::string oldFileName = fileName_;
+		fileName_ = fileName;
+		if (!save()) {
+			fileName_ = oldFileName;
+			return false;
+		}
 		return true;
 	}
 
