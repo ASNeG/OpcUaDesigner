@@ -15,7 +15,12 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
+#include "OpcUaStackCore/Base/Log.h"
+#include "OpcUaStackCore/Base/Config.h"
+#include "OpcUaStackCore/Base/ConfigXml.h"
 #include "OpcUaGui/Model/DataModel.h"
+
+using namespace OpcUaStackCore;
 
 namespace OpcUaGui
 {
@@ -71,7 +76,8 @@ namespace OpcUaGui
 	bool
 	DataModel::create(const std::string& fileName)
 	{
-		// FIXME: todo
+		fileName_ = fileName;
+		projectDataMap_.clear();
 		return true;
 	}
 
