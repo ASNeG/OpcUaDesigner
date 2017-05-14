@@ -36,6 +36,13 @@ namespace OpcUaGui
 	{
 	}
 
+	void
+	DataModel::clear(void)
+	{
+		fileName_ = "";
+		projectDataMap_.clear();
+	}
+
 	std::string&
 	DataModel::fileName(void)
 	{

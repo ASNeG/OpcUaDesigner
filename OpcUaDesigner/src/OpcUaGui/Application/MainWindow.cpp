@@ -401,7 +401,15 @@ namespace OpcUaGui
     void
     MainWindow::closeProjectAction(void)
     {
-    	//dataModel_.
+    	dataModel_.clear();
+    	delete projectWindow_;
+    	projectWindow_ = NULL;
+
+		newProjectAction_->setDisabled(false);
+		openProjectAction_->setDisabled(false);
+		saveProjectAction_->setDisabled(true);
+		saveAsProjectAction_->setDisabled(true);
+		closeProjectAction_->setDisabled(true);
     }
 
 	// ------------------------------------------------------------------------
