@@ -268,10 +268,6 @@ namespace OpcUaGui
 	void
 	MainWindow::newProjectAction(void)
 	{
-		// create project window
-		projectWindow_ = new ProjectWindow(NULL);
-		projectWindow_->modul(modul_);
-
 		// input of the project name
 		QString fileName = QFileDialog::getSaveFileName(
 			NULL, tr("Set Project File Name"), QDir::homePath(), "Project (*.OpcUaDesigner.xml)"
@@ -283,6 +279,12 @@ namespace OpcUaGui
 		if (!fileName.endsWith(".OpcUaDesigner.xmll")) {
 			fileName.append(".OpcUaDesigner.xml");
 		}
+
+		// create project window
+		projectWindow_ = new ProjectWindow(NULL);
+		projectWindow_->modul(modul_);
+		projectWindow_->dataModel(&dataModel_);
+		dataModel_.create(fileName.toStdString());
 
 		// create dock widget
 		QDockWidget* dockWidget = new QDockWidget(fileName);
@@ -301,7 +303,6 @@ namespace OpcUaGui
 	void
 	MainWindow::openProjectAction(void)
 	{
-		// FIXME: todo
 	}
 
     void

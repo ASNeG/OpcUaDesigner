@@ -20,6 +20,7 @@
 
 #include <QWidget>
 #include <QMetaType>
+#include "OpcUaGui/Model/DataModel.h"
 
 #include <stdint.h>
 
@@ -55,6 +56,7 @@ namespace OpcUaGui
 		virtual ~ProjectWindow(void);
 
 		void modul(Modul* modul);
+		bool dataModel(DataModel* dataModel);
 
       private slots:
         void onCustomContextMenuRequested(const QPoint& pos);
@@ -71,6 +73,7 @@ namespace OpcUaGui
 
 	  private:
 		Modul* modul_;
+		DataModel* dataModel_;
 		QTreeWidget* projectTree_;
 		QTreeWidgetItem* rootItem_;
 		QTreeWidgetItem* actItem_;

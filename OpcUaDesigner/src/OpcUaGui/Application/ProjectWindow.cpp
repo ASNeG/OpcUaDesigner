@@ -59,6 +59,7 @@ namespace OpcUaGui
 	, modul_(NULL)
 	, rootItem_(NULL)
 	, actItem_(NULL)
+	, dataModel_(NULL)
 	{
 		// create project tree
 		projectTree_ = new QTreeWidget();
@@ -94,6 +95,13 @@ namespace OpcUaGui
 	ProjectWindow::modul(Modul* modul)
 	{
 		modul_ = modul;
+	}
+
+	bool
+	ProjectWindow::dataModel(DataModel* dataModel)
+	{
+		dataModel_ = dataModel;
+		return true;
 	}
 
     void

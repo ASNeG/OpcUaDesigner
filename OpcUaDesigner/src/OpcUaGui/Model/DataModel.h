@@ -28,6 +28,7 @@ namespace OpcUaGui
 		DataModel(void);
 		~DataModel(void);
 
+		std::string& fileName(void);
 		bool existProjectData(const std::string& name);
 		bool getProjectData(const std::string& name, ProjectData::SPtr& projectData);
 		bool setProjectData(const std::string& name, ProjectData::SPtr& projectData);

@@ -19,10 +19,10 @@
 #define __OpcUaGui_MainWindow_h__
 
 #include <QMainWindow>
+#include "OpcUaGui/Model/DataModel.h"
 
 class QAction;
 class QMenu;
-
 
 namespace OpcUaGui
 {
@@ -79,6 +79,7 @@ namespace OpcUaGui
 		//
 		Application* application_;
 		Modul* modul_;
+		DataModel dataModel_;
 
 		//
 		// Menu

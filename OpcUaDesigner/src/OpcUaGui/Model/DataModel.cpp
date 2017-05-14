@@ -36,6 +36,12 @@ namespace OpcUaGui
 	{
 	}
 
+	std::string&
+	DataModel::fileName(void)
+	{
+		return fileName_;
+	}
+
 	bool
 	DataModel::existProjectData(const std::string& name)
 	{
