@@ -18,13 +18,21 @@
 #ifndef __OpcUaGui_ProjectData_h__
 #define __OpcUaGui_ProjectData_h__
 
+#include <boost/shared_ptr.hpp>
 #include <string>
+#include <map>
+#include "OpcUaStackCore/Base/Config.h"
+
+using namespace OpcUaStackCore;
 
 namespace OpcUaGui
 {
 	class ProjectData
 	{
 	  public:
+		typedef boost::shared_ptr<ProjectData> SPtr;
+		typedef std::map<std::string, ProjectData::SPtr> Map;
+
 		ProjectData(void);
 		~ProjectData(void);
 
@@ -32,6 +40,9 @@ namespace OpcUaGui
 		std::string& projectName(void);
 		void projectFile(const std::string& projectFile);
 		std::string& projectFile(void);
+
+		bool encode(Config& config);
+		bool decode(Config& config);
 
 	  private:
 		std::string projectName_;

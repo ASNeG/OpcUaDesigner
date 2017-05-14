@@ -15,7 +15,10 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
+#include "OpcUaStackCore/Base/Log.h"
 #include "OpcUaGui/Model/ProjectData.h"
+
+using namespace OpcUaStackCore;
 
 namespace OpcUaGui
 {
@@ -52,6 +55,34 @@ namespace OpcUaGui
 	ProjectData::projectFile(void)
 	{
 		return projectFile_;
+	}
+
+	bool
+	ProjectData::encode(Config& config)
+	{
+		config.setValue("<xmlattr>.Name", projectName_);
+		config.setValue("<xmlattr>.File", projectFile_);
+		return true;
+	}
+
+	bool
+	ProjectData::decode(Config& config)
+	{
+		// get name
+		if (!config.getConfigParameter("<xmlattr>.Name", projectName_)) {
+			Log(Error, "element missing in project data")
+				.parameter("Element", "Name");
+			return false;
+		}
+
+		// get file
+		if (!config.getConfigParameter("<xmlattr>.File", projectFile_)) {
+			Log(Error, "element missing in project data")
+				.parameter("Element", "File");
+			return false;
+		}
+
+		return true;
 	}
 
 }
