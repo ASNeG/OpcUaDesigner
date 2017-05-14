@@ -18,13 +18,29 @@
 #ifndef __OpcUaGui_DataModel_h__
 #define __OpcUaGui_DataModel_h__
 
+#include "OpcUaGui/Model/ProjectData.h"
+
 namespace OpcUaGui
 {
 	class DataModel
 	{
 	  public:
 		DataModel(void);
-		virtual ~DataModel(void);
+		~DataModel(void);
+
+		bool existProjectData(const std::string& name);
+		bool getProjectData(const std::string& name, ProjectData::SPtr& projectData);
+		bool setProjectData(const std::string& name, ProjectData::SPtr& projectData);
+		void getProjectNameVec(std::vector<std::string>& projectNameVec);
+
+		bool create(const std::string& fileName);
+		bool open(const std::string& fileName);
+		bool save(void);
+		bool saveAs(const std::string& fileName);
+
+	  private:
+		std::string fileName_;
+		ProjectData::Map projectDataMap_;
 	};
 
 }
