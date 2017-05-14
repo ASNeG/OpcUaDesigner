@@ -350,7 +350,7 @@ namespace OpcUaGui
     void
     MainWindow::saveProjectAction(void)
     {
-		// create data model
+		// save data model
 		bool success = dataModel_.save();
 		if (!success) {
 			QMessageBox::critical(this,
@@ -359,18 +359,49 @@ namespace OpcUaGui
 			);
 			return;
 		}
+
+		QMessageBox::information(this,
+			tr("save project success"),
+			tr("save project file %1 done").arg(dataModel_.fileName().c_str())
+		);
     }
 
     void
     MainWindow::saveAsProjectAction(void)
     {
-    	// FIXME: todo
+		// input of the project name
+		QString fileName = QFileDialog::getSaveFileName(
+			NULL, tr("Set Project File Name"), QDir::homePath(), "Project (*.OpcUaDesigner.xml)"
+		);
+		if (fileName.isNull()) {
+			return;
+		}
+
+		// save data model
+		bool success = dataModel_.saveAs(fileName.toStdString());
+		if (!success) {
+			QMessageBox::critical(this,
+				tr("save project error"),
+				tr("save file %1 error").arg(dataModel_.fileName().c_str())
+			);
+			return;
+		}
+
+		if (!fileName.endsWith(".OpcUaDesigner.xmll")) {
+			fileName.append(".OpcUaDesigner.xml");
+		}
+
+		QMessageBox::information(this,
+			tr("save project success"),
+			tr("save project file %1 done").arg(dataModel_.fileName().c_str())
+		);
+
     }
 
     void
     MainWindow::closeProjectAction(void)
     {
-    	// FIXME: todo
+    	//dataModel_.
     }
 
 	// ------------------------------------------------------------------------
