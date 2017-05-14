@@ -307,14 +307,14 @@ namespace OpcUaGui
 	MainWindow::openProjectAction(void)
 	{
 		// input of the project name
-		QString fileName = QFileDialog::getSaveFileName(
+		QString fileName = QFileDialog::getOpenFileName(
 			NULL, tr("Set Project File Name"), QDir::homePath(), "Project (*.OpcUaDesigner.xml)"
 		);
 		if (fileName.isNull()) {
 			return;
 		}
 
-		if (!fileName.endsWith(".OpcUaDesigner.xmll")) {
+		if (!fileName.endsWith(".OpcUaDesigner.xml")) {
 			fileName.append(".OpcUaDesigner.xml");
 		}
 
