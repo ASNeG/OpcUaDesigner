@@ -291,6 +291,7 @@ namespace OpcUaGui
 
 		// create dock widget
 		dockWidget_ = new QDockWidget(fileName);
+	  	dockWidget_->setFeatures(dockWidget_->features() & ~QDockWidget::DockWidgetClosable);
 		dockWidget_->setObjectName("ProjectName");
 		dockWidget_->setWidget(projectWindow_);
 		dockWidget_->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
@@ -335,6 +336,7 @@ namespace OpcUaGui
 
 		// create dock widget
 		dockWidget_ = new QDockWidget(fileName);
+		dockWidget_->setFeatures(dockWidget_->features() & ~QDockWidget::DockWidgetClosable);
 		dockWidget_->setObjectName("ProjectName");
 		dockWidget_->setWidget(projectWindow_);
 		dockWidget_->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
