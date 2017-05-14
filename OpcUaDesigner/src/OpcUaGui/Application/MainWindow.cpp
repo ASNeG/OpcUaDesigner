@@ -156,6 +156,12 @@ namespace OpcUaGui
 		saveAsProjectAction_->setEnabled(false);
 		connect(saveAsProjectAction_, SIGNAL(triggered()), this, SLOT(saveAsProjectAction()));
 
+		closeProjectAction_ = new QAction(tr("&Close"), this);
+		closeProjectAction_->setIcon(QIcon(":images/Close.png"));
+		closeProjectAction_->setStatusTip(tr("close the project"));
+		closeProjectAction_->setEnabled(false);
+		connect(closeProjectAction_, SIGNAL(triggered()), this, SLOT(closeProjectAction()));
+
 		//
 		// application actions
 		//
@@ -226,6 +232,7 @@ namespace OpcUaGui
 		projectToolBar_->addAction(openProjectAction_);
 		projectToolBar_->addAction(saveProjectAction_);
 		projectToolBar_->addAction(saveAsProjectAction_);
+		projectToolBar_->addAction(closeProjectAction_);
 	}
 
 	void
@@ -247,6 +254,7 @@ namespace OpcUaGui
 	{
 		saveProjectAction_->setDisabled(false);
 		saveAsProjectAction_->setDisabled(false);
+		closeProjectAction_->setDisabled(false);
 	}
 
 
@@ -287,6 +295,7 @@ namespace OpcUaGui
 		openProjectAction_->setDisabled(true);
 		saveProjectAction_->setDisabled(false);
 		saveAsProjectAction_->setDisabled(false);
+		closeProjectAction_->setDisabled(false);
 	}
 
 	void
@@ -303,6 +312,12 @@ namespace OpcUaGui
 
     void
     MainWindow::saveAsProjectAction(void)
+    {
+    	// FIXME: todo
+    }
+
+    void
+    MainWindow::closeProjectAction(void)
     {
     	// FIXME: todo
     }
