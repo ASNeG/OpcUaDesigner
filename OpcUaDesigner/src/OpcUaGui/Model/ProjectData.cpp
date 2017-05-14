@@ -21,11 +21,37 @@ namespace OpcUaGui
 {
 
 	ProjectData::ProjectData(void)
+	: projectName_("")
+	, projectFile_("")
 	{
 	}
 
 	ProjectData::~ProjectData(void)
 	{
+	}
+
+	void
+	ProjectData::projectName(const std::string& projectName)
+	{
+		projectName_ = projectName;
+	}
+
+	std::string&
+	ProjectData::projectName(void)
+	{
+		return projectName_;
+	}
+
+	void
+	ProjectData::projectFile(const std::string& projectFile)
+	{
+		projectFile_ = projectFile;
+	}
+
+	std::string&
+	ProjectData::projectFile(void)
+	{
+		return projectFile_;
 	}
 
 }

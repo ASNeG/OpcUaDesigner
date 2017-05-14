@@ -18,13 +18,24 @@
 #ifndef __OpcUaGui_ProjectData_h__
 #define __OpcUaGui_ProjectData_h__
 
+#include <string>
+
 namespace OpcUaGui
 {
 	class ProjectData
 	{
 	  public:
 		ProjectData(void);
-		virtual ~ProjectData(void);
+		~ProjectData(void);
+
+		void projectName(const std::string& projectName);
+		std::string& projectName(void);
+		void projectFile(const std::string& projectFile);
+		std::string& projectFile(void);
+
+	  private:
+		std::string projectName_;
+		std::string projectFile_;
 	};
 
 }
