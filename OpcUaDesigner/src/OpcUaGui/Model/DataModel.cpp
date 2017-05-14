@@ -132,7 +132,10 @@ namespace OpcUaGui
 	bool
 	DataModel::save(void)
 	{
+		Config tmpConfig;
 		Config config;
+
+		config.addChild("OpcUaDesigner", tmpConfig);
 
 		// encode project configuration
 		ProjectData::Map::iterator it;

@@ -350,7 +350,15 @@ namespace OpcUaGui
     void
     MainWindow::saveProjectAction(void)
     {
-       	// FIXME: todo
+		// create data model
+		bool success = dataModel_.save();
+		if (!success) {
+			QMessageBox::critical(this,
+				tr("save project error"),
+				tr("save file %1 error").arg(dataModel_.fileName().c_str())
+			);
+			return;
+		}
     }
 
     void
