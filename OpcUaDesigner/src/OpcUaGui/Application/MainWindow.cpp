@@ -290,11 +290,11 @@ namespace OpcUaGui
 		projectWindow_->dataModel(&dataModel_);
 
 		// create dock widget
-		QDockWidget* dockWidget = new QDockWidget(fileName);
-		dockWidget->setObjectName("ProjectName");
-		dockWidget->setWidget(projectWindow_);
-		dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
-		this->addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
+		dockWidget_ = new QDockWidget(fileName);
+		dockWidget_->setObjectName("ProjectName");
+		dockWidget_->setWidget(projectWindow_);
+		dockWidget_->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+		this->addDockWidget(Qt::LeftDockWidgetArea, dockWidget_);
 
 		newProjectAction_->setDisabled(true);
 		openProjectAction_->setDisabled(true);
@@ -334,11 +334,11 @@ namespace OpcUaGui
 		projectWindow_->dataModel(&dataModel_);
 
 		// create dock widget
-		QDockWidget* dockWidget = new QDockWidget(fileName);
-		dockWidget->setObjectName("ProjectName");
-		dockWidget->setWidget(projectWindow_);
-		dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
-		this->addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
+		dockWidget_ = new QDockWidget(fileName);
+		dockWidget_->setObjectName("ProjectName");
+		dockWidget_->setWidget(projectWindow_);
+		dockWidget_->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+		this->addDockWidget(Qt::LeftDockWidgetArea, dockWidget_);
 
 		newProjectAction_->setDisabled(true);
 		openProjectAction_->setDisabled(true);
@@ -402,8 +402,9 @@ namespace OpcUaGui
     MainWindow::closeProjectAction(void)
     {
     	dataModel_.clear();
-    	delete projectWindow_;
-    	projectWindow_ = NULL;
+    	dockWidget_->close();
+    	this->removeDockWidget(dockWidget_);
+    	delete dockWidget_;
 
 		newProjectAction_->setDisabled(false);
 		openProjectAction_->setDisabled(false);

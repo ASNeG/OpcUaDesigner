@@ -23,6 +23,7 @@
 
 class QAction;
 class QMenu;
+class QDockWidget;
 
 namespace OpcUaGui
 {
@@ -112,6 +113,7 @@ namespace OpcUaGui
 		//
 		// project window
 		//
+		QDockWidget* dockWidget_;
 		ProjectWindow* projectWindow_;
 	};
 
