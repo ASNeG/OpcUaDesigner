@@ -66,6 +66,9 @@ namespace OpcUaGui
         void projectOpenAction(void);
         void projectDeleteAction(void);
 
+      signals:
+        void update(void);
+
 	  private:
 		Modul* modul_;
 		QTreeWidget* projectTree_;

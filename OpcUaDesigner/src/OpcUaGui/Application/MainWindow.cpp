@@ -32,6 +32,7 @@
 #include <QDockWidget>
 #include <QTreeWidget>
 #include <QMessageBox>
+#include <QFileDialog>
 
 namespace OpcUaGui
 {
@@ -118,7 +119,6 @@ namespace OpcUaGui
 	void
 	MainWindow::closeEvent(QCloseEvent* event)
 	{
-		std::cout << "STOP" << std::endl;
 		shutdown();
 		event->accept();
 	}
@@ -133,24 +133,27 @@ namespace OpcUaGui
 		newProjectAction_->setIcon(QIcon(":images/New.png"));
 		newProjectAction_->setShortcut(QKeySequence::New);
 		newProjectAction_->setStatusTip(tr("create a new project"));
+		newProjectAction_->setEnabled(true);
 		connect(newProjectAction_, SIGNAL(triggered()), this, SLOT(newProjectAction()));
 
 		openProjectAction_ = new QAction(tr("&Open"), this);
 		openProjectAction_->setIcon(QIcon(":images/Open.png"));
 		openProjectAction_->setShortcut(QKeySequence::Open);
 		openProjectAction_->setStatusTip(tr("open an existing project"));
+		openProjectAction_->setEnabled(true);
 		connect(openProjectAction_, SIGNAL(triggered()), this, SLOT(openProjectAction()));
 
 		saveProjectAction_ = new QAction(tr("&Save"), this);
 		saveProjectAction_->setIcon(QIcon(":images/Save.png"));
 		saveProjectAction_->setShortcut(QKeySequence::Save);
 		saveProjectAction_->setStatusTip(tr("save the project"));
+		saveProjectAction_->setEnabled(false);
 		connect(saveProjectAction_, SIGNAL(triggered()), this, SLOT(saveProjectAction()));
 
 		saveAsProjectAction_ = new QAction(tr("Save&As"), this);
 		saveAsProjectAction_->setIcon(QIcon(":images/SaveAs.png"));
-		saveAsProjectAction_->setShortcut(QKeySequence::Save);
 		saveAsProjectAction_->setStatusTip(tr("save the project"));
+		saveAsProjectAction_->setEnabled(false);
 		connect(saveAsProjectAction_, SIGNAL(triggered()), this, SLOT(saveAsProjectAction()));
 
 		//
@@ -222,6 +225,7 @@ namespace OpcUaGui
 		projectToolBar_->addAction(newProjectAction_);
 		projectToolBar_->addAction(openProjectAction_);
 		projectToolBar_->addAction(saveProjectAction_);
+		projectToolBar_->addAction(saveAsProjectAction_);
 	}
 
 	void
@@ -229,6 +233,22 @@ namespace OpcUaGui
 	{
 		statusBar()->addWidget(new QLabel("status bar"));
 	}
+
+
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// windows slots
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	void
+	MainWindow::projectUpdate(void)
+	{
+		saveProjectAction_->setDisabled(false);
+		saveAsProjectAction_->setDisabled(false);
+	}
+
 
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
@@ -244,12 +264,29 @@ namespace OpcUaGui
 		projectWindow_ = new ProjectWindow(NULL);
 		projectWindow_->modul(modul_);
 
+		// input of the project name
+		QString fileName = QFileDialog::getSaveFileName(
+			NULL, tr("Set Project File Name"), QDir::homePath(), "Project (*.OpcUaDesigner.xml)"
+		);
+		if (fileName.isNull()) {
+			return;
+		}
+
+		if (!fileName.endsWith(".OpcUaDesigner.xmll")) {
+			fileName.append(".OpcUaDesigner.xml");
+		}
+
 		// create dock widget
-		QDockWidget* dockWidget = new QDockWidget(tr("Project"));
+		QDockWidget* dockWidget = new QDockWidget(fileName);
 		dockWidget->setObjectName("ProjectName");
 		dockWidget->setWidget(projectWindow_);
 		dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
 		this->addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
+
+		newProjectAction_->setDisabled(true);
+		openProjectAction_->setDisabled(true);
+		saveProjectAction_->setDisabled(false);
+		saveAsProjectAction_->setDisabled(false);
 	}
 
 	void
@@ -295,8 +332,6 @@ namespace OpcUaGui
 
 int main(int argc, char**argv)
 {
-	std::cout << "ARGC:" << argc << std::endl;
-
 	QApplication app(argc, argv);
 	OpcUaGui::MainWindow mainWindow;
 	if (!mainWindow.startup(argc, argv)) {

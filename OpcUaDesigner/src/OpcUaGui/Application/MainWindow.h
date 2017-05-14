@@ -47,6 +47,11 @@ namespace OpcUaGui
 		void closeEvent(QCloseEvent* event);
 
 	  private slots:
+	  	//
+	    // window slots
+	    //
+	    void projectUpdate(void);
+
 	    //
 	    // project actions
 	    //

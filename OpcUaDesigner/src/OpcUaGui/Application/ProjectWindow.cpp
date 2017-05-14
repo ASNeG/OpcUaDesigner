@@ -230,6 +230,8 @@ namespace OpcUaGui
 		item->setData(0, Qt::UserRole, v);
 		item->setIcon(0, *modulConfig->modulLibraryInterface_->libModulIcon());
 		actItem_->setExpanded(true);
+
+		emit update();
     }
 
     void
@@ -265,6 +267,8 @@ namespace OpcUaGui
 		item->setData(0, Qt::UserRole, v);
 		item->setIcon(0, *modulConfig->modulLibraryInterface_->libModulIcon());
 		actItem_->setExpanded(true);
+
+		emit update();
     }
 
     void
@@ -286,6 +290,7 @@ namespace OpcUaGui
     	delete modulInfo;
     	delete actItem_->parent()->takeChild(actItem_->parent()->indexOfChild(actItem_));
 
+    	emit update();
     }
 
 }
