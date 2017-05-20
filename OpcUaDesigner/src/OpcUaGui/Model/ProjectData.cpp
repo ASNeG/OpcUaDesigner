@@ -41,7 +41,7 @@ namespace OpcUaGui
 	}
 
 	uint32_t
-	ProjectData::handle(handle)
+	ProjectData::handle(void)
 	{
 		return handle_;
 	}
