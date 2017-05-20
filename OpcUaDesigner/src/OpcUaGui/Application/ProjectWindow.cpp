@@ -465,10 +465,33 @@ namespace OpcUaGui
     	ModulInfo* modulInfo = (ModulInfo*)a.value<void*>();
     	ModulConfig* modulConfig = modulInfo->modulConfig_;
 
-    	std::cout << "project saveAs..." << std::endl;
+    	// get modul file name
+    	QString dialogText = QString("Save project: select %1 file").arg(modulConfig->modulName_.c_str());
+    	QString fileExtension = QString("Dokumente (*.%1)").arg(modulConfig->modulLibraryInterface_->getFileExtension().c_str());
+		QString fileName = QFileDialog::getSaveFileName(
+			NULL, dialogText, QDir::homePath(), fileExtension
+		);
+		if (fileName.isNull()) {
+			return;
+		}
 
+		// use file name as project name
+		QStringList parts1 = fileName.split("/");
+		QString projectName = parts1.at(parts1.size()-1);
+		projectName.replace(modulConfig->modulLibraryInterface_->getFileExtension().c_str(), "");
 
-    	// FIXME: todo
+        // save project
+        bool rc = modulConfig->modulLibraryInterface_->projectSaveAs(modulInfo->handle_, fileName);
+        if (!rc) {
+			QMessageBox msgBox;
+			msgBox.setText("saveAs project error");
+			msgBox.exec();
+        	return;
+        }
+
+		// update project data
+		ProjectData::SPtr projectData = modulInfo->projectData_;
+		projectData->projectFile(fileName);
     }
 
     void
