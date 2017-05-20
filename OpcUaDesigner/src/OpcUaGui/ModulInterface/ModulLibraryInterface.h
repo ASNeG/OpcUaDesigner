@@ -62,6 +62,10 @@ namespace OpcUaGui
 		virtual QIcon* libModulIcon(void) = 0;
 		virtual void libStartup(void) {}
 		virtual void libShutdown(void) {}
+
+		//virtual bool projectNew(uint32_t& handle, const std::string& projectName, const std::string& projectFile) = 0;
+		//virtual bool projectOpen(uint32_t& handle, const std::string& projectName, const std::string& projectFile) = 0;
+
 		virtual bool startApplication(uint32_t& handle) = 0;
 		virtual bool openApplication(uint32_t& handle) = 0;
 		virtual bool stopApplication(uint32_t handle) = 0;

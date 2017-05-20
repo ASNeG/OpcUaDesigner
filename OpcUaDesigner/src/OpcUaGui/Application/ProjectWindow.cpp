@@ -140,6 +140,9 @@ namespace OpcUaGui
         // create menu
         createNewMenu(menu, modulConfig.get());
         createOpenMenu(menu, modulConfig.get());
+        createSaveMenu(menu, modulInfo);
+        createSaveAsMenu(menu, modulInfo);
+        createRenameMenu(menu, modulInfo);
         createDeleteMenu(menu, modulInfo);
 
         // show menu
@@ -202,6 +205,66 @@ namespace OpcUaGui
         		connect(action, SIGNAL(triggered()), this, SLOT(projectOpenAction()));
         	}
         }
+    }
+
+    void
+    ProjectWindow::createSaveMenu(QMenu& menu, ModulInfo* modulInfo)
+    {
+    	if (modulInfo->handle_ == 0) return;
+
+    	QVariant v;
+    	v.setValue((void*)modulInfo);
+
+    	QAction* action = new QAction("Save", this);
+    	action->setIcon(QIcon(":images/Save.png"));
+    	action->setData(v);
+    	menu.addAction(action);
+    	connect(action, SIGNAL(triggered()), this, SLOT(projectSaveAction()));
+    }
+
+    void
+    ProjectWindow::createSaveAsMenu(QMenu& menu, ModulInfo* modulInfo)
+    {
+    	if (modulInfo->handle_ == 0) return;
+
+    	QVariant v;
+    	v.setValue((void*)modulInfo);
+
+    	QAction* action = new QAction("SaveAs", this);
+    	action->setIcon(QIcon(":images/SaveAs.png"));
+    	action->setData(v);
+    	menu.addAction(action);
+    	connect(action, SIGNAL(triggered()), this, SLOT(projectSaveAsAction()));
+    }
+
+    void
+    ProjectWindow::createRenameMenu(QMenu& menu, ModulInfo* modulInfo)
+    {
+       	if (modulInfo->handle_ == 0) return;
+
+        	QVariant v;
+        	v.setValue((void*)modulInfo);
+
+        	QAction* action = new QAction("Rename", this);
+        	action->setIcon(QIcon(":images/Edit.png"));
+        	action->setData(v);
+        	menu.addAction(action);
+        	connect(action, SIGNAL(triggered()), this, SLOT(projectRenameAction()));
+    }
+
+    void
+    ProjectWindow::createCloseMenu(QMenu& menu, ModulInfo* modulInfo)
+    {
+       	if (modulInfo->handle_ == 0) return;
+
+        	QVariant v;
+        	v.setValue((void*)modulInfo);
+
+        	QAction* action = new QAction("Close", this);
+        	action->setIcon(QIcon(":images/Close.png"));
+        	action->setData(v);
+        	menu.addAction(action);
+        	connect(action, SIGNAL(triggered()), this, SLOT(projectCloseAction()));
     }
 
     void
@@ -291,6 +354,65 @@ namespace OpcUaGui
 		actItem_->setExpanded(true);
 
 		emit update();
+    }
+
+    void
+    ProjectWindow::projectSaveAction(void)
+    {
+    	// find modul configuration
+    	QAction* action = (QAction*)sender();
+    	QVariant a = action->data();
+    	ModulInfo* modulInfo = (ModulInfo*)a.value<void*>();
+    	ModulConfig* modulConfig = modulInfo->modulConfig_;
+
+    	std::cout << "project save..." << std::endl;
+
+    	// FXME: todo
+    }
+
+    void
+    ProjectWindow::projectSaveAsAction(void)
+    {
+    	// find modul configuration
+    	QAction* action = (QAction*)sender();
+    	QVariant a = action->data();
+    	ModulInfo* modulInfo = (ModulInfo*)a.value<void*>();
+    	ModulConfig* modulConfig = modulInfo->modulConfig_;
+
+    	std::cout << "project saveAs..." << std::endl;
+
+
+    	// FIXME: todo
+    }
+
+    void
+    ProjectWindow::projectRenameAction(void)
+    {
+    	// find modul configuration
+    	QAction* action = (QAction*)sender();
+    	QVariant a = action->data();
+    	ModulInfo* modulInfo = (ModulInfo*)a.value<void*>();
+    	ModulConfig* modulConfig = modulInfo->modulConfig_;
+
+    	std::cout << "project rename..." << std::endl;
+
+
+    	// FIXME: todo
+    }
+
+    void
+    ProjectWindow::projectCloseAction(void)
+    {
+    	// find modul configuration
+    	QAction* action = (QAction*)sender();
+    	QVariant a = action->data();
+    	ModulInfo* modulInfo = (ModulInfo*)a.value<void*>();
+    	ModulConfig* modulConfig = modulInfo->modulConfig_;
+
+    	std::cout << "project close..." << std::endl;
+
+
+    	// FIXME: todo
     }
 
     void

@@ -62,11 +62,19 @@ namespace OpcUaGui
         void onCustomContextMenuRequested(const QPoint& pos);
         void createNewMenu(QMenu& menu, ModulConfig* modulConfig);
         void createOpenMenu(QMenu& menu, ModulConfig* modulConfig);
+        void createSaveMenu(QMenu& menu, ModulInfo* modulInfo);
+        void createSaveAsMenu(QMenu& menu, ModulInfo* modulInfo);
+        void createRenameMenu(QMenu& menu, ModulInfo* modulInfo);
+        void createCloseMenu(QMenu& menu, ModulInfo* modulInfo);
         void createDeleteMenu(QMenu& menu, ModulInfo* modulInfo);
         void onItemDoubleClicked(QTreeWidgetItem* treeWidgetItem, int column);
 
         void projectNewAction(void);
         void projectOpenAction(void);
+        void projectSaveAction(void);
+        void projectSaveAsAction(void);
+        void projectRenameAction(void);
+        void projectCloseAction(void);
         void projectDeleteAction(void);
 
       signals:

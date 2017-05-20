@@ -2,7 +2,7 @@
 
     <qresource>
       <file>images/BHIMatlabSimulink.png</file>
-      
+      <file>images/Project.png</file>
       <file>images/DataType.png</file>
       <file>images/Folder.png</file>
       <file>images/Function.png</file>
