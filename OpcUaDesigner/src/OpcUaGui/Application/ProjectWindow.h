@@ -44,6 +44,7 @@ namespace OpcUaGui
     	ModulConfig* modulConfig_;
     	std::string modulName_;
     	uint32_t handle_;
+    	ProjectData::SPtr projectData_;
     };
 
 	class ProjectWindow
@@ -76,9 +77,6 @@ namespace OpcUaGui
         void projectRenameAction(void);
         void projectCloseAction(void);
         void projectDeleteAction(void);
-
-      signals:
-        void update(void);
 
 	  private:
         //

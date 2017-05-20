@@ -15,6 +15,7 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
+#include "OpcUaStackCore/Base/ObjectPool.h"
 #include "OpcUaGui/Application/ProjectWindow.h"
 #include "OpcUaGui/Application/Modul.h"
 
@@ -25,6 +26,9 @@
 #include <QVBoxLayout>
 #include <QMenu>
 #include <QAction>
+#include <QFileDialog>
+
+using namespace OpcUaStackCore;
 
 namespace OpcUaGui
 {
@@ -37,9 +41,10 @@ namespace OpcUaGui
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	ModulInfo::ModulInfo(void)
-	: modulName_("")
-	, modulConfig_(NULL)
+	: modulConfig_(NULL)
+	, projectData_()
 	, handle_(0)
+	, modulName_("")
 	{
 	}
 
@@ -293,36 +298,71 @@ namespace OpcUaGui
 
     	std::cout << "project new..." << modulConfig->modulName_ << std::endl;
 
-    	// create modul window and read modul information
-    	uint32_t handle;
-    	bool rc = modulConfig->modulLibraryInterface_->startApplication(handle);
-    	if (!rc) return;
+    	// get modul file name
+    	QString dialogText = QString("Create new project: select %1 file").arg(modulConfig->modulName_.c_str());
+    	QString fileExtension = QString("Dokumente (*.%1)").arg(modulConfig->modulLibraryInterface_->getFileExtension().c_str());
+		QString fileName = QFileDialog::getSaveFileName(
+			NULL, dialogText, QDir::homePath(), fileExtension
+		);
+		if (fileName.isNull()) {
+			return;
+		}
 
-    	QVariant modulNameVariant;
-    	modulConfig->modulLibraryInterface_->getValue(handle, ModulLibraryInterface::V_ModulName, modulNameVariant);
-    	QString modulName = modulNameVariant.value<QString>();
+		// use file name as project name
+		QStringList parts1 = fileName.split("/");
+		QString projectName = parts1.at(parts1.size()-1);
+		projectName.replace(modulConfig->modulLibraryInterface_->getFileExtension().c_str(), "");
+
+		// check if project already exist
+		if (dataModel_->existProjectData(projectName.toStdString())) {
+			uint32_t idx = 1;
+			do {
+				QString newProjectName = QString("%1_%2").arg(projectName).arg(idx);
+				if (!dataModel_->existProjectData(newProjectName.toStdString())) {
+					projectName = newProjectName;
+					break;
+				}
+				idx++;
+			} while (true);
+		}
+
+		// open modul window
+		uint32_t handle;
+		bool success = modulConfig->modulLibraryInterface_->projectNew(
+			handle,
+			projectName.toStdString(),
+			fileName.toStdString()
+		);
+		if (!success) return;
+
+		// create new data model entry
+		ProjectData::SPtr projectData = constructSPtr<ProjectData>();
+		projectData->handle(handle);
+		projectData->projectName(projectName.toStdString());
+		projectData->projectFile(fileName.toStdString());
+		dataModel_->setProjectData(projectName.toStdString(), projectData);
 
     	// insert new modul window item into project window
 		ModulInfo* modulInfo = new ModulInfo();
 		modulInfo->modulName_ = modulConfig->modulName_;
 		modulInfo->modulConfig_ = modulConfig;
 		modulInfo->handle_ = handle;
+		modulInfo->projectData_ = projectData;
 		QVariant v;
 		v.setValue(modulInfo);
 
 		QTreeWidgetItem* item;
 		item = new QTreeWidgetItem(actItem_);
-		item->setText(0, modulName);
+		item->setText(0, projectName);
 		item->setData(0, Qt::UserRole, v);
 		item->setIcon(0, *modulConfig->modulLibraryInterface_->libModulIcon());
 		actItem_->setExpanded(true);
-
-		emit update();
     }
 
     void
     ProjectWindow::projectOpenAction(void)
     {
+#if 0
     	// find modul configuration
     	QAction* action = (QAction*)sender();
     	QVariant a = action->data();
@@ -355,6 +395,7 @@ namespace OpcUaGui
 		actItem_->setExpanded(true);
 
 		emit update();
+#endif
     }
 
     void
@@ -419,6 +460,7 @@ namespace OpcUaGui
     void
     ProjectWindow::projectDeleteAction(void)
     {
+#if 0
     	// find modul configuration
     	QAction* action = (QAction*)sender();
     	QVariant a = action->data();
@@ -436,6 +478,7 @@ namespace OpcUaGui
     	delete actItem_->parent()->takeChild(actItem_->parent()->indexOfChild(actItem_));
 
     	emit update();
+#endif
     }
 
     void

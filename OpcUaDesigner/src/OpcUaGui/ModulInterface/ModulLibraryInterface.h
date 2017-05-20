@@ -60,6 +60,7 @@ namespace OpcUaGui
 		QMainWindow* parentMainWindow(void) { return parentMainWindow_; }
 
 		virtual QIcon* libModulIcon(void) = 0;
+		virtual std::string getFileExtension(void) = 0;
 		virtual void libStartup(void) {}
 		virtual void libShutdown(void) {}
 
@@ -70,8 +71,13 @@ namespace OpcUaGui
 		virtual bool projectRename(uint32_t handle, const std::string& projectName) = 0;
 		virtual bool projectClose(uint32_t handle, const std::string& projectName) = 0;
 
+      public slots:
+	    void startupLibrary(void) { libStartup(); }
+	    void shutdownLibrary(void) { libShutdown(); }
+
       signals:
-        void close(uint32_t handle);
+        void projectClose(uint32_t handle);
+        void projectUpdate(uint32_t handle);
 
       private:
         Config* config_;
