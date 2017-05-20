@@ -29,6 +29,8 @@
 #include <QAction>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QLineEdit>
+#include <QInputDialog>
 using namespace OpcUaStackCore;
 
 namespace OpcUaGui
@@ -502,6 +504,32 @@ namespace OpcUaGui
     	ModulConfig* modulConfig = modulInfo->modulConfig_;
     	ProjectData::SPtr projectData = modulInfo->projectData_;
 
+    	// input project name
+    	bool ok;
+    	QString newProjectName = QInputDialog::getText(
+    		this,
+    		"Project Name Dialog",
+    	    "Set new project name:",
+    	    QLineEdit::Normal,
+    	    QDir::home().dirName(),
+    	    &ok
+    	);
+    	if (!ok || newProjectName.isEmpty()) {
+    		return;
+    	}
+
+		// check if project already exist
+		if (dataModel_->existProjectData(newProjectName.toStdString())) {
+			QMessageBox msgBox;
+			msgBox.setText("Project name already exist in data model");
+			msgBox.exec();
+			return;
+		}
+
+		// update project data
+		dataModel_->delProjectData(projectData->projectName());
+		projectData->projectName(newProjectName.toStdString());
+		dataModel_->setProjectData(projectData->projectName(), projectData);
     }
 
     void
