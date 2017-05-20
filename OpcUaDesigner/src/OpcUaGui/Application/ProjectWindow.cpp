@@ -485,8 +485,10 @@ namespace OpcUaGui
 
     	std::cout << "project close..." << std::endl;
 
-
-    	// FIXME: todo
+        // close modul
+        bool rc = modulConfig->modulLibraryInterface_->projectClose(modulInfo->handle_);
+        if (!rc) return;
+        modulInfo->handle_ = 0;
     }
 
     void
@@ -518,6 +520,12 @@ namespace OpcUaGui
     {
     	// FIXME: todo
     	std::cout << "double click..." << std::endl;
+
+    	// find modul configuration
+    	QAction* action = (QAction*)sender();
+    	QVariant a = action->data();
+    	ModulInfo* modulInfo = (ModulInfo*)a.value<void*>();
+    	ModulConfig* modulConfig = modulInfo->modulConfig_;
     }
 
 }
