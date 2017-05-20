@@ -297,8 +297,6 @@ namespace OpcUaGui
     	QVariant a = action->data();
     	ModulConfig* modulConfig = (ModulConfig*)a.value<void*>();
 
-    	std::cout << "project new..." << modulConfig->modulName_ << std::endl;
-
     	// get modul file name
     	QString dialogText = QString("Create new project: select %1 file").arg(modulConfig->modulName_.c_str());
     	QString fileExtension = QString("Dokumente (*.%1)").arg(modulConfig->modulLibraryInterface_->getFileExtension().c_str());
@@ -334,7 +332,12 @@ namespace OpcUaGui
 			projectName.toStdString(),
 			fileName.toStdString()
 		);
-		if (!success) return;
+		if (!success) {
+			QMessageBox msgBox;
+			msgBox.setText("create new project error");
+			msgBox.exec();
+			return;
+		}
 
 		// create new data model entry
 		ProjectData::SPtr projectData = constructSPtr<ProjectData>();
@@ -367,8 +370,6 @@ namespace OpcUaGui
     	QAction* action = (QAction*)sender();
     	QVariant a = action->data();
     	ModulConfig* modulConfig = (ModulConfig*)a.value<void*>();
-
-    	std::cout << "project open..." << modulConfig->modulName_ << std::endl;
 
     	// get modul file name
     	QString dialogText = QString("Open existing project: select %1 file").arg(modulConfig->modulName_.c_str());
@@ -405,7 +406,12 @@ namespace OpcUaGui
 			projectName.toStdString(),
 			fileName.toStdString()
 		);
-		if (!success) return;
+		if (!success) {
+			QMessageBox msgBox;
+			msgBox.setText("open existing project error");
+			msgBox.exec();
+			return;
+		}
 
 		// create new data model entry
 		ProjectData::SPtr projectData = constructSPtr<ProjectData>();
@@ -440,9 +446,14 @@ namespace OpcUaGui
     	ModulInfo* modulInfo = (ModulInfo*)a.value<void*>();
     	ModulConfig* modulConfig = modulInfo->modulConfig_;
 
-    	std::cout << "project save..." << std::endl;
-
-    	// FXME: todo
+        // save project
+        bool rc = modulConfig->modulLibraryInterface_->projectSave(modulInfo->handle_);
+        if (!rc) {
+			QMessageBox msgBox;
+			msgBox.setText("save project error");
+			msgBox.exec();
+        	return;
+        }
     }
 
     void
