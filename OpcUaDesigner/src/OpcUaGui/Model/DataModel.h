@@ -33,6 +33,7 @@ namespace OpcUaGui
 		bool existProjectData(const std::string& name);
 		bool getProjectData(const std::string& name, ProjectData::SPtr& projectData);
 		bool setProjectData(const std::string& name, ProjectData::SPtr& projectData);
+		bool delProjectData(const std::string& name);
 		void getProjectNameVec(std::vector<std::string>& projectNameVec);
 
 		bool create(const std::string& fileName);

@@ -16,6 +16,7 @@
  */
 
 #include "OpcUaStackCore/Base/ObjectPool.h"
+#include "OpcUaStackCore/Base/Log.h"
 #include "OpcUaGui/Application/ProjectWindow.h"
 #include "OpcUaGui/Application/Modul.h"
 
@@ -27,7 +28,7 @@
 #include <QMenu>
 #include <QAction>
 #include <QFileDialog>
-
+#include <QMessageBox>
 using namespace OpcUaStackCore;
 
 namespace OpcUaGui
@@ -483,8 +484,6 @@ namespace OpcUaGui
     	ModulInfo* modulInfo = (ModulInfo*)a.value<void*>();
     	ModulConfig* modulConfig = modulInfo->modulConfig_;
 
-    	std::cout << "project close..." << std::endl;
-
         // close modul
         bool rc = modulConfig->modulLibraryInterface_->projectClose(modulInfo->handle_);
         if (!rc) return;
@@ -494,38 +493,49 @@ namespace OpcUaGui
     void
     ProjectWindow::projectDeleteAction(void)
     {
-#if 0
     	// find modul configuration
     	QAction* action = (QAction*)sender();
     	QVariant a = action->data();
     	ModulInfo* modulInfo = (ModulInfo*)a.value<void*>();
     	ModulConfig* modulConfig = modulInfo->modulConfig_;
 
-    	std::cout << "project delete..." << std::endl;
-
-    	// delete modul
-    	bool rc = modulConfig->modulLibraryInterface_->stopApplication(modulInfo->handle_);
-    	if (!rc) return;
+        // close modul
+        modulConfig->modulLibraryInterface_->projectClose(modulInfo->handle_);
 
     	// delete item
+        dataModel_->delProjectData(modulInfo->projectData_->projectName());
     	delete modulInfo;
     	delete actItem_->parent()->takeChild(actItem_->parent()->indexOfChild(actItem_));
-
-    	emit update();
-#endif
     }
 
     void
     ProjectWindow::onItemDoubleClicked(QTreeWidgetItem* treeWidgetItem, int column)
     {
-    	// FIXME: todo
-    	std::cout << "double click..." << std::endl;
-
     	// find modul configuration
-    	QAction* action = (QAction*)sender();
-    	QVariant a = action->data();
-    	ModulInfo* modulInfo = (ModulInfo*)a.value<void*>();
+	    QVariant v = actItem_->data(0, Qt::UserRole);
+    	ModulInfo* modulInfo = v.value<ModulInfo*>();
+    	if (modulInfo == NULL) {
+    		Log(Error, "onItemDoubleClicked: modulInfo == NULL");
+    		return;
+    	}
     	ModulConfig* modulConfig = modulInfo->modulConfig_;
+    	if (modulInfo->handle_ != 0) {
+    		Log(Error, "onItemDoubleClicked: modulInfo->handle_ != 0");
+    		return;
+    	}
+
+		// open modul window
+		uint32_t handle;
+		bool success = modulConfig->modulLibraryInterface_->projectOpen(
+			handle,
+			modulInfo->projectData_->projectName(),
+			modulInfo->projectData_->projectFile()
+		);
+		if (!success) {
+	   		Log(Error, "onItemDoubleClicked: projectOpen error");
+			return;
+		}
+		modulInfo->handle_ = handle;
     }
 
 }

@@ -78,6 +78,16 @@ namespace OpcUaGui
 		return true;
 	}
 
+	bool
+	DataModel::delProjectData(const std::string& name)
+	{
+		ProjectData::Map::iterator it;
+		it = projectDataMap_.find(name);
+		if (it == projectDataMap_.end()) return false;
+		projectDataMap_.erase(it);
+		return true;
+	}
+
 	void
 	DataModel::getProjectNameVec(std::vector<std::string>& projectNameVec)
 	{
