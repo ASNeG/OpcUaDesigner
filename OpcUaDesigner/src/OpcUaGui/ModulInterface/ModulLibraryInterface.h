@@ -63,20 +63,15 @@ namespace OpcUaGui
 		virtual void libStartup(void) {}
 		virtual void libShutdown(void) {}
 
-		//virtual bool projectNew(uint32_t& handle, const std::string& projectName, const std::string& projectFile) = 0;
-		//virtual bool projectOpen(uint32_t& handle, const std::string& projectName, const std::string& projectFile) = 0;
-
-		virtual bool startApplication(uint32_t& handle) = 0;
-		virtual bool openApplication(uint32_t& handle) = 0;
-		virtual bool stopApplication(uint32_t handle) = 0;
-		virtual bool getValue(uint32_t handle, Value name, QVariant& value) = 0;
-
-      public slots:
-        void startupSlot(void) { libStartup(); }
-        void shutdownSlot(void) { libShutdown(); }
+		virtual bool projectNew(uint32_t& handle, const std::string& projectName, const std::string& projectFile) = 0;
+		virtual bool projectOpen(uint32_t& handle, const std::string& projectName, const std::string& projectFile) = 0;
+		virtual bool projectSave(uint32_t handle) = 0;
+		virtual bool projectSaveAs(uint32_t handle, const std::string& projectFile) = 0;
+		virtual bool projectRename(uint32_t handle, const std::string& projectName) = 0;
+		virtual bool projectClose(uint32_t handle, const std::string& projectName) = 0;
 
       signals:
-        void updateValue(uint32_t handle, Value value, QVariant& variant);
+        void close(uint32_t handle);
 
       private:
         Config* config_;

@@ -143,6 +143,7 @@ namespace OpcUaGui
         createSaveMenu(menu, modulInfo);
         createSaveAsMenu(menu, modulInfo);
         createRenameMenu(menu, modulInfo);
+        createCloseMenu(menu, modulInfo);
         createDeleteMenu(menu, modulInfo);
 
         // show menu
