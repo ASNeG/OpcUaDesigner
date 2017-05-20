@@ -61,12 +61,16 @@ namespace OpcUaGui
 	, actItem_(NULL)
 	, dataModel_(NULL)
 	{
+		//
 		// create project tree
+		//
 		projectTree_ = new QTreeWidget();
 		projectTree_->header()->close();
 		projectTree_->setContextMenuPolicy(Qt::CustomContextMenu);
 
+		//
 		// added root item
+		//
 		ModulInfo* modulInfo = new ModulInfo();
 		modulInfo->modulName_ = "Project";
 		QVariant v;
@@ -76,12 +80,22 @@ namespace OpcUaGui
 		rootItem_->setText(0, "Project");
 		rootItem_->setData(0, Qt::UserRole, v);
 		rootItem_->setIcon(0, QIcon(":images/Project.png"));
+
+		//
+		// connections
+		//
 		connect(
 		    projectTree_, SIGNAL(customContextMenuRequested(const QPoint&)),
 		    this, SLOT(onCustomContextMenuRequested(const QPoint&))
 		);
+		connect(
+			projectTree_, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),
+			this, SLOT(onItemDoubleClicked(QTreeWidgetItem*, int))
+		);
 
+		//
 		// show project tree
+		//
 		QVBoxLayout* layout_ = new QVBoxLayout();
 		layout_->addWidget(projectTree_);
 		setLayout(layout_);
@@ -299,6 +313,13 @@ namespace OpcUaGui
     	delete actItem_->parent()->takeChild(actItem_->parent()->indexOfChild(actItem_));
 
     	emit update();
+    }
+
+    void
+    ProjectWindow::onItemDoubleClicked(QTreeWidgetItem* treeWidgetItem, int column)
+    {
+    	// FIXME: todo
+    	std::cout << "double click..." << std::endl;
     }
 
 }

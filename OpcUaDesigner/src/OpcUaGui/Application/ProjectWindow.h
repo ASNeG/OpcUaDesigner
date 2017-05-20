@@ -63,6 +63,7 @@ namespace OpcUaGui
         void createNewMenu(QMenu& menu, ModulConfig* modulConfig);
         void createOpenMenu(QMenu& menu, ModulConfig* modulConfig);
         void createDeleteMenu(QMenu& menu, ModulInfo* modulInfo);
+        void onItemDoubleClicked(QTreeWidgetItem* treeWidgetItem, int column);
 
         void projectNewAction(void);
         void projectOpenAction(void);
@@ -72,6 +73,10 @@ namespace OpcUaGui
         void update(void);
 
 	  private:
+        //
+        // private functions
+        //
+
 		Modul* modul_;
 		DataModel* dataModel_;
 		QTreeWidget* projectTree_;
