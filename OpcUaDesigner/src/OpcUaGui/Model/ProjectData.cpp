@@ -24,26 +24,13 @@ namespace OpcUaGui
 {
 
 	ProjectData::ProjectData(void)
-	: handle_(0)
-	, projectName_("")
+	: projectName_("")
 	, projectFile_("")
 	{
 	}
 
 	ProjectData::~ProjectData(void)
 	{
-	}
-
-	void
-	ProjectData::handle(uint32_t handle)
-	{
-		handle_ = handle;
-	}
-
-	uint32_t
-	ProjectData::handle(void)
-	{
-		return handle_;
 	}
 
 	void

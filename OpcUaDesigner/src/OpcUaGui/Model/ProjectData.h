@@ -36,8 +36,6 @@ namespace OpcUaGui
 		ProjectData(void);
 		~ProjectData(void);
 
-		void handle(uint32_t handle);
-		uint32_t handle(void);
 		void projectName(const std::string& projectName);
 		std::string& projectName(void);
 		void projectFile(const std::string& projectFile);
@@ -47,7 +45,6 @@ namespace OpcUaGui
 		bool decode(Config& config);
 
 	  private:
-		uint32_t handle_;
 		std::string projectName_;
 		std::string projectFile_;
 	};

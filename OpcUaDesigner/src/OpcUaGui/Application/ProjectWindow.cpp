@@ -341,7 +341,6 @@ namespace OpcUaGui
 
 		// create new data model entry
 		ProjectData::SPtr projectData = constructSPtr<ProjectData>();
-		projectData->handle(handle);
 		projectData->projectName(projectName.toStdString());
 		projectData->projectFile(fileName.toStdString());
 		dataModel_->setProjectData(projectName.toStdString(), projectData);
@@ -415,7 +414,6 @@ namespace OpcUaGui
 
 		// create new data model entry
 		ProjectData::SPtr projectData = constructSPtr<ProjectData>();
-		projectData->handle(handle);
 		projectData->projectName(projectName.toStdString());
 		projectData->projectFile(fileName.toStdString());
 		dataModel_->setProjectData(projectName.toStdString(), projectData);
@@ -481,7 +479,7 @@ namespace OpcUaGui
 		projectName.replace(modulConfig->modulLibraryInterface_->getFileExtension().c_str(), "");
 
         // save project
-        bool rc = modulConfig->modulLibraryInterface_->projectSaveAs(modulInfo->handle_, fileName);
+        bool rc = modulConfig->modulLibraryInterface_->projectSaveAs(modulInfo->handle_, fileName.toStdString());
         if (!rc) {
 			QMessageBox msgBox;
 			msgBox.setText("saveAs project error");
@@ -491,7 +489,7 @@ namespace OpcUaGui
 
 		// update project data
 		ProjectData::SPtr projectData = modulInfo->projectData_;
-		projectData->projectFile(fileName);
+		projectData->projectFile(fileName.toStdString());
     }
 
     void
@@ -502,11 +500,8 @@ namespace OpcUaGui
     	QVariant a = action->data();
     	ModulInfo* modulInfo = (ModulInfo*)a.value<void*>();
     	ModulConfig* modulConfig = modulInfo->modulConfig_;
+    	ProjectData::SPtr projectData = modulInfo->projectData_;
 
-    	std::cout << "project rename..." << std::endl;
-
-
-    	// FIXME: todo
     }
 
     void
