@@ -301,18 +301,22 @@ namespace OpcUaGui
 
     	// get modul file name
     	QString dialogText = QString("Create new project: select %1 file").arg(modulConfig->modulName_.c_str());
-    	QString fileExtension = QString("Dokumente (*.%1)").arg(modulConfig->modulLibraryInterface_->getFileExtension().c_str());
-		QString fileName = QFileDialog::getSaveFileName(
+    	QString fileSuffix = modulConfig->modulLibraryInterface_->getFileExtension().c_str();
+    	QString fileExtension = QString("Dokumente (*.%1)").arg(fileSuffix);
+    	QString fileName = QFileDialog::getSaveFileName(
 			NULL, dialogText, QDir::homePath(), fileExtension
 		);
 		if (fileName.isNull()) {
 			return;
 		}
+		if (!fileName.endsWith(fileSuffix)) {
+			fileName = QString("%1.%2").arg(fileName).arg(fileSuffix);
+		}
 
 		// use file name as project name
-		QStringList parts1 = fileName.split("/");
-		QString projectName = parts1.at(parts1.size()-1);
-		projectName.replace(modulConfig->modulLibraryInterface_->getFileExtension().c_str(), "");
+		QStringList parts = fileName.split("/");
+		QString projectName = parts.at(parts.size()-1);
+		projectName.replace(QString(".%1").arg(fileSuffix), "");
 
 		// check if project already exist
 		if (dataModel_->existProjectData(projectName.toStdString())) {
@@ -374,7 +378,8 @@ namespace OpcUaGui
 
     	// get modul file name
     	QString dialogText = QString("Open existing project: select %1 file").arg(modulConfig->modulName_.c_str());
-    	QString fileExtension = QString("Dokumente (*.%1)").arg(modulConfig->modulLibraryInterface_->getFileExtension().c_str());
+    	QString fileSuffix = modulConfig->modulLibraryInterface_->getFileExtension().c_str();
+    	QString fileExtension = QString("Dokumente (*.%1)").arg(fileSuffix);
 		QString fileName = QFileDialog::getOpenFileName(
 			NULL, dialogText, QDir::homePath(), fileExtension
 		);
@@ -383,9 +388,9 @@ namespace OpcUaGui
 		}
 
 		// use file name as project name
-		QStringList parts1 = fileName.split("/");
-		QString projectName = parts1.at(parts1.size()-1);
-		projectName.replace(modulConfig->modulLibraryInterface_->getFileExtension().c_str(), "");
+		QStringList part = fileName.split("/");
+		QString projectName = part.at(part.size()-1);
+		projectName.replace(QString(".%1").arg(fileSuffix), "");
 
 		// check if project already exist
 		if (dataModel_->existProjectData(projectName.toStdString())) {
@@ -467,18 +472,22 @@ namespace OpcUaGui
 
     	// get modul file name
     	QString dialogText = QString("Save project: select %1 file").arg(modulConfig->modulName_.c_str());
-    	QString fileExtension = QString("Dokumente (*.%1)").arg(modulConfig->modulLibraryInterface_->getFileExtension().c_str());
+    	QString fileSuffix = modulConfig->modulLibraryInterface_->getFileExtension().c_str();
+    	QString fileExtension = QString("Dokumente (*.%1)").arg(fileSuffix);
 		QString fileName = QFileDialog::getSaveFileName(
 			NULL, dialogText, QDir::homePath(), fileExtension
 		);
 		if (fileName.isNull()) {
 			return;
 		}
+		if (!fileName.endsWith(fileSuffix)) {
+			fileName = QString("%1.%2").arg(fileName).arg(fileSuffix);
+		}
 
 		// use file name as project name
 		QStringList parts1 = fileName.split("/");
 		QString projectName = parts1.at(parts1.size()-1);
-		projectName.replace(modulConfig->modulLibraryInterface_->getFileExtension().c_str(), "");
+		projectName.replace(QString(".%1").arg(fileSuffix), "");
 
         // save project
         bool rc = modulConfig->modulLibraryInterface_->projectSaveAs(modulInfo->handle_, fileName.toStdString());
