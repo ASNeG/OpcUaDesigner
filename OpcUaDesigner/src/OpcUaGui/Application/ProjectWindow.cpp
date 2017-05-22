@@ -43,7 +43,7 @@ namespace OpcUaGui
 	//
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
-	ModulInfo::ModulInfo(void)
+	NodeInfo::NodeInfo(void)
 	: modulConfig_(NULL)
 	, applicationData_()
 	, handle_(0)
@@ -51,7 +51,7 @@ namespace OpcUaGui
 	{
 	}
 
-	ModulInfo::~ModulInfo(void)
+	NodeInfo::~NodeInfo(void)
 	{
 	}
 
@@ -80,10 +80,10 @@ namespace OpcUaGui
 		//
 		// added root item
 		//
-		ModulInfo* modulInfo = new ModulInfo();
-		modulInfo->modulName_ = "Project";
+		NodeInfo* nodeInfo = new NodeInfo();
+		nodeInfo->modulName_ = "Project";
 		QVariant v;
-		v.setValue(modulInfo);
+		v.setValue(nodeInfo);
 
 		rootItem_ = new QTreeWidgetItem(projectTree_);
 		rootItem_->setText(0, "Project");
@@ -141,8 +141,8 @@ namespace OpcUaGui
 
         // get modul configuration
         QVariant v = actItem_->data(0, Qt::UserRole);
-        ModulInfo* modulInfo = v.value<ModulInfo*>();
-        ModulConfig::SPtr modulConfig = modul_->getModulConfig(modulInfo->modulName_);
+        NodeInfo* nodeInfo = v.value<NodeInfo*>();
+        ModulConfig::SPtr modulConfig = modul_->getModulConfig(nodeInfo->modulName_);
         if (modulConfig.get() == NULL) {
         	return;
         }
@@ -150,11 +150,11 @@ namespace OpcUaGui
         // create menu
         createNewMenu(menu, modulConfig.get());
         createOpenMenu(menu, modulConfig.get());
-        createSaveMenu(menu, modulInfo);
-        createSaveAsMenu(menu, modulInfo);
-        createRenameMenu(menu, modulInfo);
-        createCloseMenu(menu, modulInfo);
-        createDeleteMenu(menu, modulInfo);
+        createSaveMenu(menu, nodeInfo);
+        createSaveAsMenu(menu, nodeInfo);
+        createRenameMenu(menu, nodeInfo);
+        createCloseMenu(menu, nodeInfo);
+        createDeleteMenu(menu, nodeInfo);
 
         // show menu
         menu.exec(projectTree_->viewport()->mapToGlobal(pos));
@@ -219,12 +219,12 @@ namespace OpcUaGui
     }
 
     void
-    ProjectWindow::createSaveMenu(QMenu& menu, ModulInfo* modulInfo)
+    ProjectWindow::createSaveMenu(QMenu& menu, NodeInfo* nodeInfo)
     {
-    	if (modulInfo->handle_ == 0) return;
+    	if (nodeInfo->handle_ == 0) return;
 
     	QVariant v;
-    	v.setValue((void*)modulInfo);
+    	v.setValue((void*)nodeInfo);
 
     	QAction* action = new QAction("Save", this);
     	action->setIcon(QIcon(":images/Save.png"));
@@ -234,12 +234,12 @@ namespace OpcUaGui
     }
 
     void
-    ProjectWindow::createSaveAsMenu(QMenu& menu, ModulInfo* modulInfo)
+    ProjectWindow::createSaveAsMenu(QMenu& menu, NodeInfo* nodeInfo)
     {
-    	if (modulInfo->handle_ == 0) return;
+    	if (nodeInfo->handle_ == 0) return;
 
     	QVariant v;
-    	v.setValue((void*)modulInfo);
+    	v.setValue((void*)nodeInfo);
 
     	QAction* action = new QAction("SaveAs", this);
     	action->setIcon(QIcon(":images/SaveAs.png"));
@@ -249,12 +249,12 @@ namespace OpcUaGui
     }
 
     void
-    ProjectWindow::createRenameMenu(QMenu& menu, ModulInfo* modulInfo)
+    ProjectWindow::createRenameMenu(QMenu& menu, NodeInfo* nodeInfo)
     {
-       	if (modulInfo->handle_ == 0) return;
+       	if (nodeInfo->handle_ == 0) return;
 
         	QVariant v;
-        	v.setValue((void*)modulInfo);
+        	v.setValue((void*)nodeInfo);
 
         	QAction* action = new QAction("Rename", this);
         	action->setIcon(QIcon(":images/Edit.png"));
@@ -264,12 +264,12 @@ namespace OpcUaGui
     }
 
     void
-    ProjectWindow::createCloseMenu(QMenu& menu, ModulInfo* modulInfo)
+    ProjectWindow::createCloseMenu(QMenu& menu, NodeInfo* nodeInfo)
     {
-       	if (modulInfo->handle_ == 0) return;
+       	if (nodeInfo->handle_ == 0) return;
 
         	QVariant v;
-        	v.setValue((void*)modulInfo);
+        	v.setValue((void*)nodeInfo);
 
         	QAction* action = new QAction("Close", this);
         	action->setIcon(QIcon(":images/Close.png"));
@@ -279,12 +279,12 @@ namespace OpcUaGui
     }
 
     void
-    ProjectWindow::createDeleteMenu(QMenu& menu, ModulInfo* modulInfo)
+    ProjectWindow::createDeleteMenu(QMenu& menu, NodeInfo* nodeInfo)
     {
-    	if (modulInfo->handle_ == 0) return;
+    	if (nodeInfo->handle_ == 0) return;
 
     	QVariant v;
-    	v.setValue((void*)modulInfo);
+    	v.setValue((void*)nodeInfo);
 
     	QAction* action = new QAction("Delete", this);
     	action->setIcon(QIcon(":images/Delete.png"));
@@ -354,13 +354,13 @@ namespace OpcUaGui
 		dataModel_->setApplicationData(applicationName.toStdString(), applicationData);
 
     	// insert new modul window item into project window
-		ModulInfo* modulInfo = new ModulInfo();
-		modulInfo->modulName_ = modulConfig->modulName_;
-		modulInfo->modulConfig_ = modulConfig;
-		modulInfo->handle_ = handle_;
-		modulInfo->applicationData_ = applicationData;
+		NodeInfo* nodeInfo = new NodeInfo();
+		nodeInfo->modulName_ = modulConfig->modulName_;
+		nodeInfo->modulConfig_ = modulConfig;
+		nodeInfo->handle_ = handle_;
+		nodeInfo->applicationData_ = applicationData;
 		QVariant v;
-		v.setValue(modulInfo);
+		v.setValue(nodeInfo);
 
 		QTreeWidgetItem* item;
 		item = new QTreeWidgetItem(actItem_);
@@ -428,13 +428,13 @@ namespace OpcUaGui
 		dataModel_->setApplicationData(applicationName.toStdString(), applicationData);
 
     	// insert new modul window item into project window
-		ModulInfo* modulInfo = new ModulInfo();
-		modulInfo->modulName_ = modulConfig->modulName_;
-		modulInfo->modulConfig_ = modulConfig;
-		modulInfo->handle_ = handle_;
-		modulInfo->applicationData_ = applicationData;
+		NodeInfo* nodeInfo = new NodeInfo();
+		nodeInfo->modulName_ = modulConfig->modulName_;
+		nodeInfo->modulConfig_ = modulConfig;
+		nodeInfo->handle_ = handle_;
+		nodeInfo->applicationData_ = applicationData;
 		QVariant v;
-		v.setValue(modulInfo);
+		v.setValue(nodeInfo);
 
 		QTreeWidgetItem* item;
 		item = new QTreeWidgetItem(actItem_);
@@ -450,11 +450,11 @@ namespace OpcUaGui
     	// find modul configuration
     	QAction* action = (QAction*)sender();
     	QVariant a = action->data();
-    	ModulInfo* modulInfo = (ModulInfo*)a.value<void*>();
-    	ModulConfig* modulConfig = modulInfo->modulConfig_;
+    	NodeInfo* nodeInfo = (NodeInfo*)a.value<void*>();
+    	ModulConfig* modulConfig = nodeInfo->modulConfig_;
 
         // save project
-        bool rc = modulConfig->modulLibraryInterface_->projectSave(modulInfo->handle_);
+        bool rc = modulConfig->modulLibraryInterface_->projectSave(nodeInfo->handle_);
         if (!rc) {
 			QMessageBox msgBox;
 			msgBox.setText("save project error");
@@ -469,8 +469,8 @@ namespace OpcUaGui
     	// find modul configuration
     	QAction* action = (QAction*)sender();
     	QVariant a = action->data();
-    	ModulInfo* modulInfo = (ModulInfo*)a.value<void*>();
-    	ModulConfig* modulConfig = modulInfo->modulConfig_;
+    	NodeInfo* nodeInfo = (NodeInfo*)a.value<void*>();
+    	ModulConfig* modulConfig = nodeInfo->modulConfig_;
 
     	// get modul file name
     	QString dialogText = QString("Save project: select %1 file").arg(modulConfig->modulName_.c_str());
@@ -492,7 +492,7 @@ namespace OpcUaGui
 		applicationName.replace(QString(".%1").arg(fileSuffix), "");
 
         // save project
-        bool rc = modulConfig->modulLibraryInterface_->projectSaveAs(modulInfo->handle_, fileName.toStdString());
+        bool rc = modulConfig->modulLibraryInterface_->projectSaveAs(nodeInfo->handle_, fileName.toStdString());
         if (!rc) {
 			QMessageBox msgBox;
 			msgBox.setText("saveAs project error");
@@ -501,7 +501,7 @@ namespace OpcUaGui
         }
 
 		// update project data
-		ApplicationData::SPtr applicationData = modulInfo->applicationData_;
+		ApplicationData::SPtr applicationData = nodeInfo->applicationData_;
 		applicationData->projectFile(fileName.toStdString());
     }
 
@@ -511,9 +511,9 @@ namespace OpcUaGui
     	// find modul configuration
     	QAction* action = (QAction*)sender();
     	QVariant a = action->data();
-    	ModulInfo* modulInfo = (ModulInfo*)a.value<void*>();
-    	ModulConfig* modulConfig = modulInfo->modulConfig_;
-    	ApplicationData::SPtr applicationData = modulInfo->applicationData_;
+    	NodeInfo* nodeInfo = (NodeInfo*)a.value<void*>();
+    	ModulConfig* modulConfig = nodeInfo->modulConfig_;
+    	ApplicationData::SPtr applicationData = nodeInfo->applicationData_;
 
     	// input project name
     	bool ok;
@@ -549,13 +549,13 @@ namespace OpcUaGui
     	// find modul configuration
     	QAction* action = (QAction*)sender();
     	QVariant a = action->data();
-    	ModulInfo* modulInfo = (ModulInfo*)a.value<void*>();
-    	ModulConfig* modulConfig = modulInfo->modulConfig_;
+    	NodeInfo* nodeInfo = (NodeInfo*)a.value<void*>();
+    	ModulConfig* modulConfig = nodeInfo->modulConfig_;
 
         // close modul
-        bool rc = modulConfig->modulLibraryInterface_->projectClose(modulInfo->handle_);
+        bool rc = modulConfig->modulLibraryInterface_->projectClose(nodeInfo->handle_);
         if (!rc) return;
-        modulInfo->handle_ = 0;
+        nodeInfo->handle_ = 0;
     }
 
     void
@@ -564,15 +564,15 @@ namespace OpcUaGui
     	// find modul configuration
     	QAction* action = (QAction*)sender();
     	QVariant a = action->data();
-    	ModulInfo* modulInfo = (ModulInfo*)a.value<void*>();
-    	ModulConfig* modulConfig = modulInfo->modulConfig_;
+    	NodeInfo* nodeInfo = (NodeInfo*)a.value<void*>();
+    	ModulConfig* modulConfig = nodeInfo->modulConfig_;
 
         // close modul
-        modulConfig->modulLibraryInterface_->projectClose(modulInfo->handle_);
+        modulConfig->modulLibraryInterface_->projectClose(nodeInfo->handle_);
 
     	// delete item
-        dataModel_->delApplicationData(modulInfo->applicationData_->applicationName());
-    	delete modulInfo;
+        dataModel_->delApplicationData(nodeInfo->applicationData_->applicationName());
+    	delete nodeInfo;
     	delete actItem_->parent()->takeChild(actItem_->parent()->indexOfChild(actItem_));
     }
 
@@ -581,14 +581,14 @@ namespace OpcUaGui
     {
     	// find modul configuration
 	    QVariant v = actItem_->data(0, Qt::UserRole);
-    	ModulInfo* modulInfo = v.value<ModulInfo*>();
-    	if (modulInfo == NULL) {
-    		Log(Error, "onItemDoubleClicked: modulInfo == NULL");
+    	NodeInfo* nodeInfo = v.value<NodeInfo*>();
+    	if (nodeInfo == NULL) {
+    		Log(Error, "onItemDoubleClicked: nodeInfo == NULL");
     		return;
     	}
-    	ModulConfig* modulConfig = modulInfo->modulConfig_;
-    	if (modulInfo->handle_ != 0) {
-    		Log(Error, "onItemDoubleClicked: modulInfo->handle_ != 0");
+    	ModulConfig* modulConfig = nodeInfo->modulConfig_;
+    	if (nodeInfo->handle_ != 0) {
+    		Log(Error, "onItemDoubleClicked: nodeInfo->handle_ != 0");
     		return;
     	}
 
@@ -596,14 +596,14 @@ namespace OpcUaGui
 		handle_++;
 		bool success = modulConfig->modulLibraryInterface_->projectOpen(
 			handle_,
-			modulInfo->applicationData_->applicationName(),
-			modulInfo->applicationData_->projectFile()
+			nodeInfo->applicationData_->applicationName(),
+			nodeInfo->applicationData_->projectFile()
 		);
 		if (!success) {
 	   		Log(Error, "onItemDoubleClicked: projectOpen error");
 			return;
 		}
-		modulInfo->handle_ = handle_;
+		nodeInfo->handle_ = handle_;
     }
 
     // ------------------------------------------------------------------------
@@ -628,13 +628,13 @@ namespace OpcUaGui
 
         	// insert new modul window item into project window
 #if 0
-    		ModulInfo* modulInfo = new ModulInfo();
-    		modulInfo->modulName_ = modulConfig->modulName_;
-    		modulInfo->modulConfig_ = modulConfig;
-    		modulInfo->handle_ = handle_;
-    		modulInfo->applicationData_ = applicationData;
+    		NodeInfo* nodeInfo = new NodeInfo();
+    		nodeInfo->modulName_ = modulConfig->modulName_;
+    		nodeInfo->modulConfig_ = modulConfig;
+    		nodeInfo->handle_ = handle_;
+    		nodeInfo->applicationData_ = applicationData;
     		QVariant v;
-    		v.setValue(modulInfo);
+    		v.setValue(nodeInfo);
 
     		QTreeWidgetItem* item;
     		item = new QTreeWidgetItem(actItem_);

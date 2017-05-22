@@ -35,11 +35,11 @@ namespace OpcUaGui
     class Modul;
     class ModulConfig;
 
-    class ModulInfo
+    class NodeInfo
     {
       public:
-    	ModulInfo(void);
-    	~ModulInfo(void);
+    	NodeInfo(void);
+    	~NodeInfo(void);
 
     	ModulConfig* modulConfig_;
     	std::string modulName_;
@@ -63,11 +63,11 @@ namespace OpcUaGui
         void onCustomContextMenuRequested(const QPoint& pos);
         void createNewMenu(QMenu& menu, ModulConfig* modulConfig);
         void createOpenMenu(QMenu& menu, ModulConfig* modulConfig);
-        void createSaveMenu(QMenu& menu, ModulInfo* modulInfo);
-        void createSaveAsMenu(QMenu& menu, ModulInfo* modulInfo);
-        void createRenameMenu(QMenu& menu, ModulInfo* modulInfo);
-        void createCloseMenu(QMenu& menu, ModulInfo* modulInfo);
-        void createDeleteMenu(QMenu& menu, ModulInfo* modulInfo);
+        void createSaveMenu(QMenu& menu, NodeInfo* modulInfo);
+        void createSaveAsMenu(QMenu& menu, NodeInfo* modulInfo);
+        void createRenameMenu(QMenu& menu, NodeInfo* modulInfo);
+        void createCloseMenu(QMenu& menu, NodeInfo* modulInfo);
+        void createDeleteMenu(QMenu& menu, NodeInfo* modulInfo);
         void onItemDoubleClicked(QTreeWidgetItem* treeWidgetItem, int column);
 
         void projectNewAction(void);
@@ -94,6 +94,6 @@ namespace OpcUaGui
 
 }
 
-Q_DECLARE_METATYPE(OpcUaGui::ModulInfo*);
+Q_DECLARE_METATYPE(OpcUaGui::NodeInfo*);
 
 #endif
