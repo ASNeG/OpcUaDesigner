@@ -82,6 +82,8 @@ namespace OpcUaGui
         //
         // private functions
         //
+        void showModel(void);
+
         uint32_t handle_;
 		Modul* modul_;
 		DataModel* dataModel_;

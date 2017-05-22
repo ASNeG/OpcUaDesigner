@@ -124,6 +124,7 @@ namespace OpcUaGui
 	ProjectWindow::dataModel(DataModel* dataModel)
 	{
 		dataModel_ = dataModel;
+		showModel();
 		return true;
 	}
 
@@ -603,6 +604,46 @@ namespace OpcUaGui
 			return;
 		}
 		modulInfo->handle_ = handle_;
+    }
+
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+    //
+    // private functions
+    //
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+    void
+    ProjectWindow::showModel(void)
+    {
+    	std::vector<std::string>::iterator it;
+    	std::vector<std::string> projectNameVec;
+    	dataModel_->getProjectNameVec(projectNameVec);
+
+    	for (it = projectNameVec.begin(); it != projectNameVec.end(); it++) {
+    		std::string projectName = *it;
+
+    		ProjectData::SPtr projectData;
+    		dataModel_->getProjectData(projectName, projectData);
+
+        	// insert new modul window item into project window
+#if 0
+    		ModulInfo* modulInfo = new ModulInfo();
+    		modulInfo->modulName_ = modulConfig->modulName_;
+    		modulInfo->modulConfig_ = modulConfig;
+    		modulInfo->handle_ = handle_;
+    		modulInfo->projectData_ = projectData;
+    		QVariant v;
+    		v.setValue(modulInfo);
+
+    		QTreeWidgetItem* item;
+    		item = new QTreeWidgetItem(actItem_);
+    		item->setText(0, projectName);
+    		item->setData(0, Qt::UserRole, v);
+    		item->setIcon(0, *modulConfig->modulLibraryInterface_->libModulIcon());
+    		actItem_->setExpanded(true);
+#endif
+    	}
     }
 
 }
