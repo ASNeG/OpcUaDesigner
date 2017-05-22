@@ -18,7 +18,7 @@
 #ifndef __OpcUaGui_DataModel_h__
 #define __OpcUaGui_DataModel_h__
 
-#include "OpcUaGui/Model/ProjectData.h"
+#include "OpcUaGui/Model/ApplicationData.h"
 
 namespace OpcUaGui
 {
@@ -30,11 +30,11 @@ namespace OpcUaGui
 
 		void clear(void);
 		std::string& fileName(void);
-		bool existProjectData(const std::string& name);
-		bool getProjectData(const std::string& name, ProjectData::SPtr& projectData);
-		bool setProjectData(const std::string& name, ProjectData::SPtr& projectData);
-		bool delProjectData(const std::string& name);
-		void getProjectNameVec(std::vector<std::string>& projectNameVec);
+		bool existApplicationData(const std::string& name);
+		bool getApplicationData(const std::string& name, ApplicationData::SPtr& applicationData);
+		bool setApplicationData(const std::string& name, ApplicationData::SPtr& applicationData);
+		bool delApplicationData(const std::string& name);
+		void getApplicationNameVec(std::vector<std::string>& applicationNAmeVec);
 
 		bool create(const std::string& fileName);
 		bool open(const std::string& fileName);
@@ -43,7 +43,7 @@ namespace OpcUaGui
 
 	  private:
 		std::string fileName_;
-		ProjectData::Map projectDataMap_;
+		ApplicationData::Map applicationDataMap_;
 	};
 
 }

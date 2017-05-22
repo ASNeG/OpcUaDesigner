@@ -44,7 +44,7 @@ namespace OpcUaGui
     	ModulConfig* modulConfig_;
     	std::string modulName_;
     	uint32_t handle_;
-    	ProjectData::SPtr projectData_;
+    	ApplicationData::SPtr applicationData_;
     };
 
 	class ProjectWindow

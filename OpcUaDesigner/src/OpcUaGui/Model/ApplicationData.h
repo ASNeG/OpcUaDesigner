@@ -27,17 +27,17 @@ using namespace OpcUaStackCore;
 
 namespace OpcUaGui
 {
-	class ProjectData
+	class ApplicationData
 	{
 	  public:
-		typedef boost::shared_ptr<ProjectData> SPtr;
-		typedef std::map<std::string, ProjectData::SPtr> Map;
+		typedef boost::shared_ptr<ApplicationData> SPtr;
+		typedef std::map<std::string, ApplicationData::SPtr> Map;
 
-		ProjectData(void);
-		~ProjectData(void);
+		ApplicationData(void);
+		~ApplicationData(void);
 
-		void projectName(const std::string& projectName);
-		std::string& projectName(void);
+		void applicationName(const std::string& applicationName);
+		std::string& applicationName(void);
 		void projectFile(const std::string& projectFile);
 		std::string& projectFile(void);
 
@@ -45,7 +45,7 @@ namespace OpcUaGui
 		bool decode(Config& config);
 
 	  private:
-		std::string projectName_;
+		std::string applicationName_;
 		std::string projectFile_;
 	};
 

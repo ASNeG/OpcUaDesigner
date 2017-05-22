@@ -28,7 +28,7 @@ namespace OpcUaGui
 
 	DataModel::DataModel(void)
 	: fileName_("")
-	, projectDataMap_()
+	, applicationDataMap_()
 	{
 	}
 
@@ -40,7 +40,7 @@ namespace OpcUaGui
 	DataModel::clear(void)
 	{
 		fileName_ = "";
-		projectDataMap_.clear();
+		applicationDataMap_.clear();
 	}
 
 	std::string&
@@ -50,50 +50,50 @@ namespace OpcUaGui
 	}
 
 	bool
-	DataModel::existProjectData(const std::string& name)
+	DataModel::existApplicationData(const std::string& name)
 	{
-		ProjectData::Map::iterator it;
-		it = projectDataMap_.find(name);
-		if (it == projectDataMap_.end()) return false;
+		ApplicationData::Map::iterator it;
+		it = applicationDataMap_.find(name);
+		if (it == applicationDataMap_.end()) return false;
 		return true;
 	}
 
 	bool
-	DataModel::getProjectData(const std::string& name, ProjectData::SPtr& projectData)
+	DataModel::getApplicationData(const std::string& name, ApplicationData::SPtr& applicationData)
 	{
-		ProjectData::Map::iterator it;
-		it = projectDataMap_.find(name);
-		if (it == projectDataMap_.end()) return false;
-		projectData = it->second;
+		ApplicationData::Map::iterator it;
+		it = applicationDataMap_.find(name);
+		if (it == applicationDataMap_.end()) return false;
+		applicationData = it->second;
 		return true;
 	}
 
 	bool
-	DataModel::setProjectData(const std::string& name, ProjectData::SPtr& projectData)
+	DataModel::setApplicationData(const std::string& name, ApplicationData::SPtr& applicationData)
 	{
-		ProjectData::Map::iterator it;
-		it = projectDataMap_.find(name);
-		if (it != projectDataMap_.end()) return false;
-		projectDataMap_.insert(std::make_pair(name, projectData));
+		ApplicationData::Map::iterator it;
+		it = applicationDataMap_.find(name);
+		if (it != applicationDataMap_.end()) return false;
+		applicationDataMap_.insert(std::make_pair(name, applicationData));
 		return true;
 	}
 
 	bool
-	DataModel::delProjectData(const std::string& name)
+	DataModel::delApplicationData(const std::string& name)
 	{
-		ProjectData::Map::iterator it;
-		it = projectDataMap_.find(name);
-		if (it == projectDataMap_.end()) return false;
-		projectDataMap_.erase(it);
+		ApplicationData::Map::iterator it;
+		it = applicationDataMap_.find(name);
+		if (it == applicationDataMap_.end()) return false;
+		applicationDataMap_.erase(it);
 		return true;
 	}
 
 	void
-	DataModel::getProjectNameVec(std::vector<std::string>& projectNameVec)
+	DataModel::getApplicationNameVec(std::vector<std::string>& applicationNameVec)
 	{
-		ProjectData::Map::iterator it;
-		for (it = projectDataMap_.begin(); it != projectDataMap_.end(); it++) {
-			projectNameVec.push_back(it->first);
+		ApplicationData::Map::iterator it;
+		for (it = applicationDataMap_.begin(); it != applicationDataMap_.end(); it++) {
+			applicationNameVec.push_back(it->first);
 		}
 	}
 
@@ -101,7 +101,7 @@ namespace OpcUaGui
 	DataModel::create(const std::string& fileName)
 	{
 		fileName_ = fileName;
-		projectDataMap_.clear();
+		applicationDataMap_.clear();
 		return true;
 	}
 
@@ -110,11 +110,11 @@ namespace OpcUaGui
 	{
 		fileName_ = fileName;
 
-		// read project file
+		// read application file
 		Config config;
 		ConfigXml configXml;
 		if (!configXml.read(fileName)) {
-			Log(Error, "read project file error")
+			Log(Error, "read application file error")
 				.parameter("FileName", fileName_)
 				.parameter("ErrorMessage", configXml.errorMessage());
 			return false;
@@ -124,7 +124,7 @@ namespace OpcUaGui
 		// decode project configuration
 		boost::optional<Config> cfg = config.getChild("OpcUaDesigner");
 		if (!cfg) {
-			Log(Error, "element missing in project file")
+			Log(Error, "element missing in application file")
 				.parameter("Element", "OpcUaDesigner")
 				.parameter("FileName", fileName_);
 			return false;
@@ -132,15 +132,15 @@ namespace OpcUaGui
 
 		std::vector<Config>::iterator it;
 		std::vector<Config> projectConfigVec;
-		config.getChilds("OpcUaDesigner.Project", projectConfigVec);
+		config.getChilds("OpcUaDesigner.Application", projectConfigVec);
 		for (it = projectConfigVec.begin(); it != projectConfigVec.end(); it++) {
-			ProjectData::SPtr projectData = constructSPtr<ProjectData>();
-			if (!projectData->decode(*it)) {
-				Log(Error, "decode project file error")
+			ApplicationData::SPtr applicationData = constructSPtr<ApplicationData>();
+			if (!applicationData->decode(*it)) {
+				Log(Error, "decode application file error")
 					.parameter("FileName", fileName_);
 				return false;
 			}
-			setProjectData(projectData->projectName(), projectData);
+			setApplicationData(applicationData->applicationName(), applicationData);
 		}
 
 		return true;
@@ -155,25 +155,25 @@ namespace OpcUaGui
 		config.addChild("OpcUaDesigner", tmpConfig);
 
 		// encode project configuration
-		ProjectData::Map::iterator it;
-		for (it = projectDataMap_.begin(); it != projectDataMap_.end(); it++) {
-			ProjectData::SPtr projectData = it->second;
-			Config projectDataConfig;
+		ApplicationData::Map::iterator it;
+		for (it = applicationDataMap_.begin(); it != applicationDataMap_.end(); it++) {
+			ApplicationData::SPtr applicationData = it->second;
+			Config applicationDataConfig;
 
-			 if (!projectData->encode(projectDataConfig)) {
-				Log(Error, "decode project file error")
+			 if (!applicationData->encode(applicationDataConfig)) {
+				Log(Error, "decode application file error")
 					.parameter("FileName", fileName_);
 				return false;
 			 }
 
-			 config.addChild("OpcUaDesigner.Project", projectDataConfig);
+			 config.addChild("OpcUaDesigner.Application", applicationDataConfig);
 		}
 
 		// write data
 		ConfigXml configXml;
 		configXml.ptree(config.child());
 		if (!configXml.write(fileName_)) {
-			Log(Error, "write project file error")
+			Log(Error, "write application file error")
 				.parameter("FileName", fileName_)
 				.parameter("ErrorMessage", configXml.errorMessage());
 			return false;

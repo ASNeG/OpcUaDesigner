@@ -45,7 +45,7 @@ namespace OpcUaGui
 	// ------------------------------------------------------------------------
 	ModulInfo::ModulInfo(void)
 	: modulConfig_(NULL)
-	, projectData_()
+	, applicationData_()
 	, handle_(0)
 	, modulName_("")
 	{
@@ -317,16 +317,16 @@ namespace OpcUaGui
 
 		// use file name as project name
 		QStringList parts = fileName.split("/");
-		QString projectName = parts.at(parts.size()-1);
-		projectName.replace(QString(".%1").arg(fileSuffix), "");
+		QString applicationName = parts.at(parts.size()-1);
+		applicationName.replace(QString(".%1").arg(fileSuffix), "");
 
 		// check if project already exist
-		if (dataModel_->existProjectData(projectName.toStdString())) {
+		if (dataModel_->existApplicationData(applicationName.toStdString())) {
 			uint32_t idx = 1;
 			do {
-				QString newProjectName = QString("%1_%2").arg(projectName).arg(idx);
-				if (!dataModel_->existProjectData(newProjectName.toStdString())) {
-					projectName = newProjectName;
+				QString newProjectName = QString("%1_%2").arg(applicationName).arg(idx);
+				if (!dataModel_->existApplicationData(newProjectName.toStdString())) {
+					applicationName = newProjectName;
 					break;
 				}
 				idx++;
@@ -337,7 +337,7 @@ namespace OpcUaGui
 		handle_++;
 		bool success = modulConfig->modulLibraryInterface_->projectNew(
 			handle_,
-			projectName.toStdString(),
+			applicationName.toStdString(),
 			fileName.toStdString()
 		);
 		if (!success) {
@@ -348,23 +348,23 @@ namespace OpcUaGui
 		}
 
 		// create new data model entry
-		ProjectData::SPtr projectData = constructSPtr<ProjectData>();
-		projectData->projectName(projectName.toStdString());
-		projectData->projectFile(fileName.toStdString());
-		dataModel_->setProjectData(projectName.toStdString(), projectData);
+		ApplicationData::SPtr applicationData = constructSPtr<ApplicationData>();
+		applicationData->applicationName(applicationName.toStdString());
+		applicationData->projectFile(fileName.toStdString());
+		dataModel_->setApplicationData(applicationName.toStdString(), applicationData);
 
     	// insert new modul window item into project window
 		ModulInfo* modulInfo = new ModulInfo();
 		modulInfo->modulName_ = modulConfig->modulName_;
 		modulInfo->modulConfig_ = modulConfig;
 		modulInfo->handle_ = handle_;
-		modulInfo->projectData_ = projectData;
+		modulInfo->applicationData_ = applicationData;
 		QVariant v;
 		v.setValue(modulInfo);
 
 		QTreeWidgetItem* item;
 		item = new QTreeWidgetItem(actItem_);
-		item->setText(0, projectName);
+		item->setText(0, applicationName);
 		item->setData(0, Qt::UserRole, v);
 		item->setIcon(0, *modulConfig->modulLibraryInterface_->libModulIcon());
 		actItem_->setExpanded(true);
@@ -391,16 +391,16 @@ namespace OpcUaGui
 
 		// use file name as project name
 		QStringList part = fileName.split("/");
-		QString projectName = part.at(part.size()-1);
-		projectName.replace(QString(".%1").arg(fileSuffix), "");
+		QString applicationName = part.at(part.size()-1);
+		applicationName.replace(QString(".%1").arg(fileSuffix), "");
 
 		// check if project already exist
-		if (dataModel_->existProjectData(projectName.toStdString())) {
+		if (dataModel_->existApplicationData(applicationName.toStdString())) {
 			uint32_t idx = 1;
 			do {
-				QString newProjectName = QString("%1_%2").arg(projectName).arg(idx);
-				if (!dataModel_->existProjectData(newProjectName.toStdString())) {
-					projectName = newProjectName;
+				QString newProjectName = QString("%1_%2").arg(applicationName).arg(idx);
+				if (!dataModel_->existApplicationData(newProjectName.toStdString())) {
+					applicationName = newProjectName;
 					break;
 				}
 				idx++;
@@ -411,7 +411,7 @@ namespace OpcUaGui
 		handle_++;
 		bool success = modulConfig->modulLibraryInterface_->projectOpen(
 			handle_,
-			projectName.toStdString(),
+			applicationName.toStdString(),
 			fileName.toStdString()
 		);
 		if (!success) {
@@ -422,23 +422,23 @@ namespace OpcUaGui
 		}
 
 		// create new data model entry
-		ProjectData::SPtr projectData = constructSPtr<ProjectData>();
-		projectData->projectName(projectName.toStdString());
-		projectData->projectFile(fileName.toStdString());
-		dataModel_->setProjectData(projectName.toStdString(), projectData);
+		ApplicationData::SPtr applicationData = constructSPtr<ApplicationData>();
+		applicationData->applicationName(applicationName.toStdString());
+		applicationData->projectFile(fileName.toStdString());
+		dataModel_->setApplicationData(applicationName.toStdString(), applicationData);
 
     	// insert new modul window item into project window
 		ModulInfo* modulInfo = new ModulInfo();
 		modulInfo->modulName_ = modulConfig->modulName_;
 		modulInfo->modulConfig_ = modulConfig;
 		modulInfo->handle_ = handle_;
-		modulInfo->projectData_ = projectData;
+		modulInfo->applicationData_ = applicationData;
 		QVariant v;
 		v.setValue(modulInfo);
 
 		QTreeWidgetItem* item;
 		item = new QTreeWidgetItem(actItem_);
-		item->setText(0, projectName);
+		item->setText(0, applicationName);
 		item->setData(0, Qt::UserRole, v);
 		item->setIcon(0, *modulConfig->modulLibraryInterface_->libModulIcon());
 		actItem_->setExpanded(true);
@@ -488,8 +488,8 @@ namespace OpcUaGui
 
 		// use file name as project name
 		QStringList parts1 = fileName.split("/");
-		QString projectName = parts1.at(parts1.size()-1);
-		projectName.replace(QString(".%1").arg(fileSuffix), "");
+		QString applicationName = parts1.at(parts1.size()-1);
+		applicationName.replace(QString(".%1").arg(fileSuffix), "");
 
         // save project
         bool rc = modulConfig->modulLibraryInterface_->projectSaveAs(modulInfo->handle_, fileName.toStdString());
@@ -501,8 +501,8 @@ namespace OpcUaGui
         }
 
 		// update project data
-		ProjectData::SPtr projectData = modulInfo->projectData_;
-		projectData->projectFile(fileName.toStdString());
+		ApplicationData::SPtr applicationData = modulInfo->applicationData_;
+		applicationData->projectFile(fileName.toStdString());
     }
 
     void
@@ -513,7 +513,7 @@ namespace OpcUaGui
     	QVariant a = action->data();
     	ModulInfo* modulInfo = (ModulInfo*)a.value<void*>();
     	ModulConfig* modulConfig = modulInfo->modulConfig_;
-    	ProjectData::SPtr projectData = modulInfo->projectData_;
+    	ApplicationData::SPtr applicationData = modulInfo->applicationData_;
 
     	// input project name
     	bool ok;
@@ -530,7 +530,7 @@ namespace OpcUaGui
     	}
 
 		// check if project already exist
-		if (dataModel_->existProjectData(newProjectName.toStdString())) {
+		if (dataModel_->existApplicationData(newProjectName.toStdString())) {
 			QMessageBox msgBox;
 			msgBox.setText("Project name already exist in data model");
 			msgBox.exec();
@@ -538,9 +538,9 @@ namespace OpcUaGui
 		}
 
 		// update project data
-		dataModel_->delProjectData(projectData->projectName());
-		projectData->projectName(newProjectName.toStdString());
-		dataModel_->setProjectData(projectData->projectName(), projectData);
+		dataModel_->delApplicationData(applicationData->applicationName());
+		applicationData->applicationName(newProjectName.toStdString());
+		dataModel_->setApplicationData(applicationData->applicationName(), applicationData);
     }
 
     void
@@ -571,7 +571,7 @@ namespace OpcUaGui
         modulConfig->modulLibraryInterface_->projectClose(modulInfo->handle_);
 
     	// delete item
-        dataModel_->delProjectData(modulInfo->projectData_->projectName());
+        dataModel_->delApplicationData(modulInfo->applicationData_->applicationName());
     	delete modulInfo;
     	delete actItem_->parent()->takeChild(actItem_->parent()->indexOfChild(actItem_));
     }
@@ -596,8 +596,8 @@ namespace OpcUaGui
 		handle_++;
 		bool success = modulConfig->modulLibraryInterface_->projectOpen(
 			handle_,
-			modulInfo->projectData_->projectName(),
-			modulInfo->projectData_->projectFile()
+			modulInfo->applicationData_->applicationName(),
+			modulInfo->applicationData_->projectFile()
 		);
 		if (!success) {
 	   		Log(Error, "onItemDoubleClicked: projectOpen error");
@@ -617,14 +617,14 @@ namespace OpcUaGui
     ProjectWindow::showModel(void)
     {
     	std::vector<std::string>::iterator it;
-    	std::vector<std::string> projectNameVec;
-    	dataModel_->getProjectNameVec(projectNameVec);
+    	std::vector<std::string> applicationNameVec;
+    	dataModel_->getApplicationNameVec(applicationNameVec);
 
-    	for (it = projectNameVec.begin(); it != projectNameVec.end(); it++) {
-    		std::string projectName = *it;
+    	for (it = applicationNameVec.begin(); it != applicationNameVec.end(); it++) {
+    		std::string applicationName = *it;
 
-    		ProjectData::SPtr projectData;
-    		dataModel_->getProjectData(projectName, projectData);
+    		ApplicationData::SPtr applicationData;
+    		dataModel_->getApplicationData(applicationName, applicationData);
 
         	// insert new modul window item into project window
 #if 0
@@ -632,13 +632,13 @@ namespace OpcUaGui
     		modulInfo->modulName_ = modulConfig->modulName_;
     		modulInfo->modulConfig_ = modulConfig;
     		modulInfo->handle_ = handle_;
-    		modulInfo->projectData_ = projectData;
+    		modulInfo->applicationData_ = applicationData;
     		QVariant v;
     		v.setValue(modulInfo);
 
     		QTreeWidgetItem* item;
     		item = new QTreeWidgetItem(actItem_);
-    		item->setText(0, projectName);
+    		item->setText(0, applicationName);
     		item->setData(0, Qt::UserRole, v);
     		item->setIcon(0, *modulConfig->modulLibraryInterface_->libModulIcon());
     		actItem_->setExpanded(true);
