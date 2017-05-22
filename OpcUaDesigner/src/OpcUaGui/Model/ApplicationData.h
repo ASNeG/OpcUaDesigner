@@ -40,6 +40,8 @@ namespace OpcUaGui
 		std::string& applicationName(void);
 		void projectFile(const std::string& projectFile);
 		std::string& projectFile(void);
+		void modulName(const std::string& modulName);
+		std::string& modulName(void);
 
 		bool encode(Config& config);
 		bool decode(Config& config);
@@ -47,6 +49,7 @@ namespace OpcUaGui
 	  private:
 		std::string applicationName_;
 		std::string projectFile_;
+		std::string modulName_;
 	};
 
 }

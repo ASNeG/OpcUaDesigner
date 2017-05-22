@@ -26,6 +26,7 @@ namespace OpcUaGui
 	ApplicationData::ApplicationData(void)
 	: applicationName_("")
 	, projectFile_("")
+	, modulName_("")
 	{
 	}
 
@@ -55,6 +56,18 @@ namespace OpcUaGui
 	ApplicationData::projectFile(void)
 	{
 		return projectFile_;
+	}
+
+	void
+	ApplicationData::modulName(const std::string& modulName)
+	{
+		modulName_ = modulName;
+	}
+
+	std::string&
+	ApplicationData::modulName(void)
+	{
+		return modulName_;
 	}
 
 	bool
