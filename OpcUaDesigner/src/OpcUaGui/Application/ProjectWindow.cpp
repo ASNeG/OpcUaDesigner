@@ -64,6 +64,7 @@ namespace OpcUaGui
 	// ------------------------------------------------------------------------
 	ProjectWindow::ProjectWindow(QWidget* parent)
 	: QWidget()
+	, handle_(0)
 	, modul_(NULL)
 	, rootItem_(NULL)
 	, actItem_(NULL)
@@ -332,9 +333,9 @@ namespace OpcUaGui
 		}
 
 		// open modul window
-		uint32_t handle;
+		handle_++;
 		bool success = modulConfig->modulLibraryInterface_->projectNew(
-			handle,
+			handle_,
 			projectName.toStdString(),
 			fileName.toStdString()
 		);
@@ -355,7 +356,7 @@ namespace OpcUaGui
 		ModulInfo* modulInfo = new ModulInfo();
 		modulInfo->modulName_ = modulConfig->modulName_;
 		modulInfo->modulConfig_ = modulConfig;
-		modulInfo->handle_ = handle;
+		modulInfo->handle_ = handle_;
 		modulInfo->projectData_ = projectData;
 		QVariant v;
 		v.setValue(modulInfo);
@@ -406,9 +407,9 @@ namespace OpcUaGui
 		}
 
 		// open modul window
-		uint32_t handle;
+		handle_++;
 		bool success = modulConfig->modulLibraryInterface_->projectOpen(
-			handle,
+			handle_,
 			projectName.toStdString(),
 			fileName.toStdString()
 		);
@@ -429,7 +430,7 @@ namespace OpcUaGui
 		ModulInfo* modulInfo = new ModulInfo();
 		modulInfo->modulName_ = modulConfig->modulName_;
 		modulInfo->modulConfig_ = modulConfig;
-		modulInfo->handle_ = handle;
+		modulInfo->handle_ = handle_;
 		modulInfo->projectData_ = projectData;
 		QVariant v;
 		v.setValue(modulInfo);
@@ -591,9 +592,9 @@ namespace OpcUaGui
     	}
 
 		// open modul window
-		uint32_t handle;
+		handle_++;
 		bool success = modulConfig->modulLibraryInterface_->projectOpen(
-			handle,
+			handle_,
 			modulInfo->projectData_->projectName(),
 			modulInfo->projectData_->projectFile()
 		);
@@ -601,7 +602,7 @@ namespace OpcUaGui
 	   		Log(Error, "onItemDoubleClicked: projectOpen error");
 			return;
 		}
-		modulInfo->handle_ = handle;
+		modulInfo->handle_ = handle_;
     }
 
 }

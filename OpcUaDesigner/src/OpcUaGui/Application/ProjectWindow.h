@@ -82,7 +82,7 @@ namespace OpcUaGui
         //
         // private functions
         //
-
+        uint32_t handle_;
 		Modul* modul_;
 		DataModel* dataModel_;
 		QTreeWidget* projectTree_;
