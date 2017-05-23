@@ -21,6 +21,8 @@
 #include <QWidget>
 #include <QMetaType>
 #include "OpcUaGui/Model/DataModel.h"
+#include "OpcUaGui/Application/Modul.h"
+#include "OpcUaGui/Application/NodeInfo.h"
 
 #include <stdint.h>
 
@@ -31,21 +33,6 @@ class QMainWindow;
 
 namespace OpcUaGui
 {
-
-    class Modul;
-    class ModulConfig;
-
-    class NodeInfo
-    {
-      public:
-    	NodeInfo(void);
-    	~NodeInfo(void);
-
-    	ModulConfig* modulConfig_;
-    	std::string modulName_;
-    	uint32_t handle_;
-    	ApplicationData::SPtr applicationData_;
-    };
 
 	class ProjectWindow
 	: public QWidget
@@ -93,7 +80,5 @@ namespace OpcUaGui
 	};
 
 }
-
-Q_DECLARE_METATYPE(OpcUaGui::NodeInfo*);
 
 #endif
