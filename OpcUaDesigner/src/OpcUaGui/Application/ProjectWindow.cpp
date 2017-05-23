@@ -545,6 +545,8 @@ namespace OpcUaGui
     	NodeInfo* nodeInfo = (NodeInfo*)a.value<void*>();
     	ModulConfig::SPtr modulConfig = nodeInfo->modulConfig();
 
+    	// FIXME: we must save the open application at this point...
+
         // close modul
         bool rc = modulConfig->modulLibraryInterface_->projectClose(nodeInfo->handle());
         if (!rc) return;
@@ -567,6 +569,8 @@ namespace OpcUaGui
          if (modulConfig.get() == NULL) {
          	return;
          }
+
+         // FIXME: we must save the open application at this point...
 
          // close modul
          bool rc = modulConfig->modulLibraryInterface_->projectClose(nodeInfo->handle());
