@@ -25,6 +25,7 @@ namespace OpcUaGui
 
 	ApplicationData::ApplicationData(void)
 	: applicationName_("")
+	, parentApplicationName_("")
 	, projectFile_("")
 	, modulName_("")
 	{
@@ -44,6 +45,18 @@ namespace OpcUaGui
 	ApplicationData::applicationName(void)
 	{
 		return applicationName_;
+	}
+
+	void
+	ApplicationData::parentApplicationName(const std::string& parentApplicationName)
+	{
+		parentApplicationName_ = parentApplicationName;
+	}
+
+	std::string&
+	ApplicationData::parentApplicationName(void)
+	{
+		return parentApplicationName_;
 	}
 
 	void
@@ -74,7 +87,9 @@ namespace OpcUaGui
 	ApplicationData::encode(Config& config)
 	{
 		config.setValue("<xmlattr>.Name", applicationName_);
+		config.setValue("<xmlattr>.Parent", parentApplicationName_);
 		config.setValue("<xmlattr>.File", projectFile_);
+		config.setValue("<xmlattr>.Modul", modulName_);
 		return true;
 	}
 
@@ -88,10 +103,24 @@ namespace OpcUaGui
 			return false;
 		}
 
+		// get parent
+		if (!config.getConfigParameter("<xmlattr>.Parent", parentApplicationName_)) {
+			Log(Error, "element missing in application data")
+				.parameter("Element", "Parent");
+			return false;
+		}
+
 		// get file
 		if (!config.getConfigParameter("<xmlattr>.File", projectFile_)) {
 			Log(Error, "element missing in application data")
 				.parameter("Element", "File");
+			return false;
+		}
+
+		// get modul
+		if (!config.getConfigParameter("<xmlattr>.Modul", modulName_)) {
+			Log(Error, "element missing in application data")
+				.parameter("Element", "Modul");
 			return false;
 		}
 

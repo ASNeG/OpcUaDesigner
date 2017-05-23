@@ -38,6 +38,8 @@ namespace OpcUaGui
 
 		void applicationName(const std::string& applicationName);
 		std::string& applicationName(void);
+		void parentApplicationName(const std::string& parentApplicationName);
+		std::string& parentApplicationName(void);
 		void projectFile(const std::string& projectFile);
 		std::string& projectFile(void);
 		void modulName(const std::string& modulName);
@@ -48,6 +50,7 @@ namespace OpcUaGui
 
 	  private:
 		std::string applicationName_;
+		std::string parentApplicationName_;
 		std::string projectFile_;
 		std::string modulName_;
 	};
