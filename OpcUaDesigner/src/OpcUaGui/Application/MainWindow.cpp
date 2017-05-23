@@ -278,7 +278,7 @@ namespace OpcUaGui
 			return;
 		}
 
-		if (!fileName.endsWith(".OpcUaDesigner.xmll")) {
+		if (!fileName.endsWith(".OpcUaDesigner.xml")) {
 			fileName.append(".OpcUaDesigner.xml");
 		}
 

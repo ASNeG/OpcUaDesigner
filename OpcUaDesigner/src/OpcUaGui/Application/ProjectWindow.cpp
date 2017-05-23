@@ -270,7 +270,7 @@ namespace OpcUaGui
     void
     ProjectWindow::createDeleteMenu(QMenu& menu, NodeInfo* nodeInfo)
     {
-    	if (nodeInfo->handle() == 0) return;
+    	if (nodeInfo->handle() == 0 && nodeInfo->applicationData().get() == NULL) return;
 
     	QVariant v;
     	v.setValue((void*)nodeInfo);
