@@ -609,26 +609,45 @@ namespace OpcUaGui
     	for (it = applicationNameVec.begin(); it != applicationNameVec.end(); it++) {
     		std::string applicationName = *it;
 
+    		// get application data
     		ApplicationData::SPtr applicationData;
     		dataModel_->getApplicationData(applicationName, applicationData);
 
+      		// find modul configuration
+        	ModulConfig::SPtr modulConfig;
+        	modulConfig = modul_->getModulConfig(applicationData->modulName());
+        	if (modulConfig.get() == NULL) {
+        		Log(Error, "cannot show project, because modul not loaded")
+        			.parameter("ModulName", applicationData->modulName())
+        			.parameter("ApplicationName", applicationName);
+        		continue;
+        	}
+
+        	// find parent item
+        	QList<QTreeWidgetItem*> items;
+        	items = projectTree_->findItems(QString(applicationData->parentApplicationName().c_str()), Qt::MatchExactly);
+        	if (items.size() < 1) {
+        		Log(Error, "no parent item exist")
+        			.parameter("Item", applicationData->applicationName())
+        			.parameter("ParentItem", applicationData->parentApplicationName());
+        		continue;
+        	}
+        	actItem_ = items.at(0);
+
         	// insert new modul window item into project window
-#if 0
     		NodeInfo* nodeInfo = new NodeInfo();
-    		nodeInfo->modulName_ = modulConfig->modulName_;
-    		nodeInfo->modulConfig_ = modulConfig;
-    		nodeInfo->handle_ = handle_;
-    		nodeInfo->applicationData_ = applicationData;
+    		nodeInfo->modulConfig(modulConfig);
+    		nodeInfo->handle(0);
+    		nodeInfo->applicationData(applicationData);
     		QVariant v;
     		v.setValue(nodeInfo);
 
     		QTreeWidgetItem* item;
     		item = new QTreeWidgetItem(actItem_);
-    		item->setText(0, applicationName);
+    		item->setText(0, QString(applicationData->applicationName().c_str()));
     		item->setData(0, Qt::UserRole, v);
     		item->setIcon(0, *modulConfig->modulLibraryInterface_->libModulIcon());
     		actItem_->setExpanded(true);
-#endif
     	}
     }
 
