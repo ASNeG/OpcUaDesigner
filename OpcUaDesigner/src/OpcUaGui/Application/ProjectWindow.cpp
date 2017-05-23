@@ -333,6 +333,7 @@ namespace OpcUaGui
 		// create new data model entry
 		ApplicationData::SPtr applicationData = constructSPtr<ApplicationData>();
 		applicationData->applicationName(applicationName.toStdString());
+		applicationData->parentApplicationName(actItem_->text(0).toStdString());
 		applicationData->projectFile(fileName.toStdString());
 		applicationData->modulName(modulConfig->modulName_);
 		dataModel_->setApplicationData(applicationName.toStdString(), applicationData);
@@ -408,6 +409,7 @@ namespace OpcUaGui
 		// create new data model entry
 		ApplicationData::SPtr applicationData = constructSPtr<ApplicationData>();
 		applicationData->applicationName(applicationName.toStdString());
+		applicationData->parentApplicationName(actItem_->text(0).toStdString());
 		applicationData->projectFile(fileName.toStdString());
 		applicationData->modulName(modulConfig->modulName_);
 		dataModel_->setApplicationData(applicationName.toStdString(), applicationData);
