@@ -57,8 +57,8 @@ namespace OpcUaNodeSet
 	  private:
 		LibraryConfig* libraryConfig_;
 		QMainWindow* parentMainWindow_;
-		std::string modulName_;
-		std::string modulFile_;
+		std::string projectName_;
+		std::string projectFile_;
 
 		OpcUaTreeWindow* opcUaTreeWindow_;
 		OpcUaAttributeWindow* opcUaAttributeWindow_;

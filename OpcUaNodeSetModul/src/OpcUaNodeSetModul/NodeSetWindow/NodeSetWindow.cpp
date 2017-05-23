@@ -30,8 +30,8 @@ namespace OpcUaNodeSet
 
 	NodeSetWindow::NodeSetWindow(QMainWindow* parentMainWindow)
 	: QMainWindow()
-	, modulName_("")
-	, modulFile_("")
+	, projectName_("")
+	, projectFile_("")
 	, parentMainWindow_(parentMainWindow)
 	, libraryConfig_(NULL)
 	{
@@ -50,6 +50,8 @@ namespace OpcUaNodeSet
 	bool
 	NodeSetWindow::projectNew(uint32_t handle, const std::string& projectName, const std::string& projectFile)
 	{
+		projectName_ = projectName;
+		projectFile_ = projectFile;
 
 		bool rc;
 
