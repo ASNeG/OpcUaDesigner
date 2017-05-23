@@ -565,6 +565,9 @@ namespace OpcUaGui
     void
     ProjectWindow::onItemDoubleClicked(QTreeWidgetItem* treeWidgetItem, int column)
     {
+    	// set actual item
+    	actItem_ = treeWidgetItem;
+
     	// find modul configuration
 	    QVariant v = actItem_->data(0, Qt::UserRole);
     	NodeInfo* nodeInfo = v.value<NodeInfo*>();
