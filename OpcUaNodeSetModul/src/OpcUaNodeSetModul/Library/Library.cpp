@@ -34,7 +34,6 @@ namespace OpcUaNodeSet
 	Library::Library(void)
 	: OpcUaGui::ModulLibraryInterface()
 	, mainWindowMap_()
-	, handle_(1)
 	, libraryConfig_()
 	{
 	}
@@ -47,6 +46,12 @@ namespace OpcUaNodeSet
 	Library::libModulIcon(void)
 	{
 		return new QIcon(":images/OpcUaNodeSet.png");
+	}
+
+	std::string
+	Library::getFileExtension(void)
+	{
+		return "NodeSet.xml";
 	}
 
 	void
@@ -68,136 +73,133 @@ namespace OpcUaNodeSet
 		mainWindowMap_.clear();
 	}
 
-	bool
-	Library::startApplication(uint32_t& handle)
-	{
-		// FIXME: todo
-		std::cout << "start application..." << std::endl;
 
+	bool
+	Library::projectNew(uint32_t handle, const std::string& projectName, const std::string& projectFile)
+	{
 		// read modul configuration
 		if (!libraryConfig_.readLibraryConfig(config())) {
 			return false;
 		}
 
-		// get node set file name
-		QString fileName = QFileDialog::getSaveFileName(
-			NULL, tr("Erstelle neue NodeSet Datei"), QDir::homePath(), tr("Dokumente (*.xml)")
-		);
-		if (fileName.isNull()) {
-			return false;
-		}
-
-		// use file name as project name
-		QStringList parts1 = fileName.split("/");
-		QString name = parts1.at(parts1.size()-1);
-		name.replace(".xml", "");
-
-		std::cout << name.toStdString() << std::endl;
-
 		// create main window
 		NodeSetWindow* nodeSetWindow = new NodeSetWindow(parentMainWindow());
-		nodeSetWindow->modulFile(fileName.toStdString());
-		nodeSetWindow->modulName(name.toStdString());
 		nodeSetWindow->libraryConfig(&libraryConfig_);
 
-		if (!nodeSetWindow->create()) {
+		if (!nodeSetWindow->projectNew(handle, projectName, projectFile)) {
 			delete nodeSetWindow;
 			return false;
 		}
 
 		// show main window
-		nodeSetWindow->resize(400,600);
+		nodeSetWindow->resize(1200,600);
 		nodeSetWindow->show();
 
 		// insert new main window into main window map
-		handle = handle_;
-		handle_++;
 		mainWindowMap_.insert(std::make_pair(handle, nodeSetWindow));
 
 		return true;
 	}
 
 	bool
-	Library::openApplication(uint32_t& handle)
+	Library::projectOpen(uint32_t handle, const std::string& projectName, const std::string& projectFile)
 	{
-		// FIXME: todo
-		std::cout << "open application..." << std::endl;
-
 		// read modul configuration
 		if (!libraryConfig_.readLibraryConfig(config())) {
 			return false;
 		}
 
-		// get node set file name
-		QString fileName = QFileDialog::getOpenFileName(
-			NULL, tr("Lade NodeSet Datei"), QDir::homePath(), tr("Dokumente (*.xml)")
-		);
-		if (fileName.isNull()) {
-			return false;
-		}
-
-		// use file name as project name
-		QStringList parts1 = fileName.split("/");
-		QString name = parts1.at(parts1.size()-1);
-		name.replace(".xml", "");
-
-		std::cout << name.toStdString() << std::endl;
-
 		// create main window
 		NodeSetWindow* nodeSetWindow = new NodeSetWindow(parentMainWindow());
-		nodeSetWindow->modulFile(fileName.toStdString());
-		nodeSetWindow->modulName(name.toStdString());
 		nodeSetWindow->libraryConfig(&libraryConfig_);
 
-		if (!nodeSetWindow->open()) {
+		if (!nodeSetWindow->projectOpen(handle, projectName, projectFile)) {
 			delete nodeSetWindow;
 			return false;
 		}
 
 		// show main window
-		nodeSetWindow->resize(400,600);
+		nodeSetWindow->resize(1200,600);
 		nodeSetWindow->show();
 
 		// insert new main window into main window map
-		handle = handle_;
-		handle_++;
 		mainWindowMap_.insert(std::make_pair(handle, nodeSetWindow));
 
 		return true;
 	}
 
 	bool
-	Library::stopApplication(uint32_t handle)
+	Library::projectSave(uint32_t handle)
 	{
-		// FIXME: todo
-		std::cout << "stop application..." << std::endl;
-		return true;
+		// find main window
+		NodeSetWindow::Map::iterator it;
+		it = mainWindowMap_.find(handle);
+		if (it == mainWindowMap_.end()) return false;
+		NodeSetWindow* mainWindow = it->second;
+
+		// save
+		return mainWindow->projectSave(handle);
 	}
 
 	bool
-	Library::getValue(uint32_t handle, Value name, QVariant& value)
+	Library::projectSaveAs(uint32_t handle, const std::string& projectFile)
+	{
+		// find main window
+		NodeSetWindow::Map::iterator it;
+		it = mainWindowMap_.find(handle);
+		if (it == mainWindowMap_.end()) return false;
+		NodeSetWindow* mainWindow = it->second;
+
+		// saveAS
+		return mainWindow->projectSaveAs(handle, projectFile);
+	}
+
+	bool
+	Library::projectRename(uint32_t handle, const std::string& projectName)
+	{
+		// find main window
+		NodeSetWindow::Map::iterator it;
+		it = mainWindowMap_.find(handle);
+		if (it == mainWindowMap_.end()) return false;
+		NodeSetWindow* mainWindow = it->second;
+
+		// rename
+		return mainWindow->projectRename(handle, projectName);
+	}
+
+	bool
+	Library::projectReadyToClose(uint32_t handle)
+	{
+		// find main window
+		NodeSetWindow::Map::iterator it;
+		it = mainWindowMap_.find(handle);
+		if (it == mainWindowMap_.end()) return true;
+		NodeSetWindow* mainWindow = it->second;
+
+		return mainWindow->projectReadyToClose(handle);
+	}
+
+	bool
+	Library::projectClose(uint32_t handle)
 	{
 		NodeSetWindow::Map::iterator it;
 		it = mainWindowMap_.find(handle);
 		if (it == mainWindowMap_.end()) return false;
 		NodeSetWindow* mainWindow = it->second;
 
-		if (name == ModulLibraryInterface::V_ModulName) {
-			value.setValue(QString(mainWindow->modulName().c_str()));
-			return true;
-		}
-		else if (name == ModulLibraryInterface::V_ModulFile) {
-			value.setValue(QString(mainWindow->modulFile().c_str()));
-			return true;
-		}
-		return false;
+		// remove element from main window map
+		mainWindowMap_.erase(it);
+
+		// close main window
+		delete mainWindow;
+		return true;
+		//return mainWindow->close();
 	}
 
 }
 
 extern "C" MYSHAREDLIB_EXPORT void  init(OpcUaGui::ModulLibraryInterface** modulLibraryInterface) {
     *modulLibraryInterface = new OpcUaNodeSet::Library();
-    std::cout << "xxx..." << std::endl;
 }
 
 
