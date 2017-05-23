@@ -69,6 +69,7 @@ namespace OpcUaGui
 		virtual bool projectSave(uint32_t handle) = 0;
 		virtual bool projectSaveAs(uint32_t handle, const std::string& projectFile) = 0;
 		virtual bool projectRename(uint32_t handle, const std::string& projectName) = 0;
+		virtual bool projectReadyToClose(uint32_t handle) = 0;
 		virtual bool projectClose(uint32_t handle) = 0;
 
       public slots:
