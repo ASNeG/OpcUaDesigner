@@ -16,9 +16,13 @@
  */
 
 #include "OpcUaStackCore/Base/ObjectPool.h"
+#include "OpcUaStackCore/Base/ConfigXml.h"
+#include "OpcUaStackServer/NodeSet/NodeSetXmlParser.h"
+#include "OpcUaStackServer/InformationModel/InformationModelNodeSet.h"
 #include "OpcUaNodeSetModul/Model/DataModel.h"
 
 using namespace OpcUaStackCore;
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -36,6 +40,46 @@ namespace OpcUaNodeSet
 	DataModel::informationModel(void)
 	{
 		return informationModel_;
+	}
+
+	bool
+	DataModel::loadStandardNodeSet(const std::string& standardNodeSetFileName)
+	{
+		bool rc;
+
+		// parse node set file
+		ConfigXml configXml;
+		rc = configXml.parse(standardNodeSetFileName);
+		if (!rc) {
+			Log(Error, "parse node set file error")
+			    .parameter("NodeSetFile", standardNodeSetFileName)
+			    .parameter("ErrorMessage", configXml.errorMessage());
+			return false;
+		}
+
+		// decode node set
+	    NodeSetXmlParser nodeSetXmlParser;
+	    rc = nodeSetXmlParser.decode(configXml.ptree());
+		if (!rc) {
+			Log(Error, "decode node set file error")
+			    .parameter("NodeSetFile", standardNodeSetFileName);
+			return false;
+		}
+
+		// create opc ua information model
+		if (informationModel_.get() == nullptr) {
+			informationModel_ = constructSPtr<InformationModel>();
+		}
+		rc = InformationModelNodeSet::initial(informationModel_, nodeSetXmlParser);
+		if (!rc) {
+			Log(Error, "create node set error")
+			    .parameter("NodeSetFile", standardNodeSetFileName);
+			return false;
+		}
+
+		informationModel_->checkForwardReferences();
+
+		return true;
 	}
 
 }
