@@ -17,6 +17,7 @@
 
 #include <QString>
 #include <QDockWidget>
+#include <QCloseEvent>
 
 #include "OpcUaStackCore/Base/Config.h"
 #include "OpcUaStackCore/Base/Log.h"
@@ -40,6 +41,62 @@ namespace OpcUaNodeSet
 	{
 	}
 
+	void
+	NodeSetWindow::closeEvent(QCloseEvent* event)
+	{
+		event->ignore();
+	}
+
+	bool
+	NodeSetWindow::projectNew(uint32_t handle, const std::string& projectName, const std::string& projectFile)
+	{
+		// FIXME:
+		return true;
+	}
+
+    bool
+    NodeSetWindow::projectOpen(uint32_t handle, const std::string& projectName, const std::string& projectFile)
+    {
+    	// FIXME:
+    	return true;
+    }
+
+	bool
+	NodeSetWindow::projectSave(uint32_t handle)
+	{
+		// FIXME:
+		return true;
+	}
+
+	bool
+	NodeSetWindow::projectSaveAs(uint32_t handle, const std::string& projectFile)
+	{
+		// FIXME:
+		return true;
+	}
+
+	bool
+	NodeSetWindow::projectRename(uint32_t handle, const std::string& projectName)
+	{
+		// FIXME:
+		return true;
+	}
+
+	bool
+	NodeSetWindow::projectReadyToClose(uint32_t handle)
+	{
+		// FIXME:
+		return true;
+	}
+
+	bool
+	NodeSetWindow::projectClose(uint32_t handle)
+	{
+		// FIXME:
+		return true;
+	}
+
+#if 0
 	bool
 	NodeSetWindow::create(void)
 	{
@@ -143,35 +200,12 @@ namespace OpcUaNodeSet
 
 		return true;
 	}
+#endif
 
 	void
 	NodeSetWindow::libraryConfig(LibraryConfig* libraryConfig)
 	{
 		libraryConfig_ = libraryConfig;
-	}
-
-	void
-	NodeSetWindow::modulName(const std::string& modulName)
-	{
-		modulName_ = modulName;
-	}
-
-	std::string
-	NodeSetWindow::modulName(void)
-	{
-		return modulName_;
-	}
-
-	void
-	NodeSetWindow::modulFile(const std::string& modulFile)
-	{
-		modulFile_ = modulFile;
-	}
-
-	std::string
-	NodeSetWindow::modulFile(void)
-	{
-		return modulFile_;
 	}
 
 }

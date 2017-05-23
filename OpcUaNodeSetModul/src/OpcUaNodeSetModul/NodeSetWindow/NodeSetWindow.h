@@ -42,14 +42,17 @@ namespace OpcUaNodeSet
 		NodeSetWindow(QMainWindow* parentMainWindow);
 		virtual ~NodeSetWindow(void);
 
-		bool create(void);
-		bool open(void);
+		void closeEvent(QCloseEvent* event);
+
+		bool projectNew(uint32_t handle, const std::string& projectName, const std::string& projectFile);
+	    bool projectOpen(uint32_t handle, const std::string& projectName, const std::string& projectFile);
+		bool projectSave(uint32_t handle);
+		bool projectSaveAs(uint32_t handle, const std::string& projectFile);
+		bool projectRename(uint32_t handle, const std::string& projectName);
+		bool projectReadyToClose(uint32_t handle);
+		bool projectClose(uint32_t handle);
 
 		void libraryConfig(LibraryConfig* libraryConfig);
-		void modulName(const std::string& modulName);
-		std::string modulName(void);
-		void modulFile(const std::string& modulFile);
-		std::string modulFile(void);
 
 	  private:
 		LibraryConfig* libraryConfig_;
