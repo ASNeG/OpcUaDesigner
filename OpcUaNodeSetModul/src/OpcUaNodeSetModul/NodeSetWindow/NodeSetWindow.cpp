@@ -48,21 +48,9 @@ namespace OpcUaNodeSet
 	}
 
 	bool
-	NodeSetWindow::projectNew(uint32_t handle, const std::string& projectName, const std::string& projectFile)
+	NodeSetWindow::createWindow(void)
 	{
-		projectName_ = projectName;
-		projectFile_ = projectFile;
-
-		bool rc;
-
-		setWindowTitle(QString("OpcUaNodeSet - %1").arg(QString(projectName.c_str())));
-
-
-		// --------------------------------------------------------------------
-		//
-		// opc ua tree window
-		//
-		// --------------------------------------------------------------------
+		setWindowTitle(QString("OpcUaNodeSet - %1").arg(QString(projectName_.c_str())));
 
 		// create opc ua tree window
 		opcUaTreeWindow_ = new OpcUaTreeWindow(NULL);
@@ -75,29 +63,36 @@ namespace OpcUaNodeSet
 		dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
 		this->addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
 
-		rc = opcUaTreeWindow_->create(projectFile);
-		if (!rc) {
-			delete dockWidget;
-			return false;
-		}
 
-		// --------------------------------------------------------------------
-		//
 		// opc ua attribute window
-		//
-		// --------------------------------------------------------------------
 		opcUaAttributeWindow_ = new OpcUaAttributeWindow(NULL);
 		this->setCentralWidget(opcUaAttributeWindow_);
 
-		// --------------------------------------------------------------------
-		//
+
 		// signals
-		//
-		// --------------------------------------------------------------------
 		connect(
 			opcUaTreeWindow_, SIGNAL(nodeChanged(NodeInfo*)),
 			opcUaAttributeWindow_, SLOT(onNodeChanged(NodeInfo*))
 		);
+
+		return true;
+	}
+
+	bool
+	NodeSetWindow::projectNew(uint32_t handle, const std::string& projectName, const std::string& projectFile)
+	{
+		bool rc;
+
+		projectName_ = projectName;
+		projectFile_ = projectFile;
+
+		if (!createWindow()) {
+			return false;
+		}
+
+		if (!opcUaTreeWindow_->create(projectFile_)) {
+			return false;
+		}
 
 		return true;
 	}

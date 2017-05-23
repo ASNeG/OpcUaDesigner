@@ -19,6 +19,7 @@
 #define __OpcUaNodeSetModul_NodeSetWindow_h__
 
 #include <QMainWindow>
+#include <QCloseEvent>
 
 #include <map>
 #include <stdint.h>
@@ -55,6 +56,8 @@ namespace OpcUaNodeSet
 		void libraryConfig(LibraryConfig* libraryConfig);
 
 	  private:
+		bool createWindow(void);
+
 		LibraryConfig* libraryConfig_;
 		QMainWindow* parentMainWindow_;
 		std::string projectName_;
