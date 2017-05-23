@@ -80,8 +80,12 @@ namespace OpcUaGui
 		//
 		// added root item
 		//
+		// create new data model entry
+		ApplicationData::SPtr applicationData = constructSPtr<ApplicationData>();
+
 		NodeInfo* nodeInfo = new NodeInfo();
 		nodeInfo->modulName_ = "Project";
+		nodeInfo->applicationData_ = applicationData;
 		QVariant v;
 		v.setValue(nodeInfo);
 
