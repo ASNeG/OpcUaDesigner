@@ -18,6 +18,10 @@
 #ifndef __OpcUaNodeSetModul_DataModel_h__
 #define __OpcUaNodeSetModul_DataModel_h__
 
+#include "OpcUaStackServer/InformationModel/InformationModel.h"
+
+using namespace OpcUaStackServer;
+
 namespace OpcUaNodeSet
 {
 
@@ -26,6 +30,11 @@ namespace OpcUaNodeSet
 	  public:
 		DataModel(void);
 		~DataModel(void);
+
+		InformationModel::SPtr& informationModel(void);
+
+	  private:
+		InformationModel::SPtr informationModel_;
 	};
 
 }

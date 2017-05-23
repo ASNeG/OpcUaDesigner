@@ -15,17 +15,27 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
+#include "OpcUaStackCore/Base/ObjectPool.h"
 #include "OpcUaNodeSetModul/Model/DataModel.h"
+
+using namespace OpcUaStackCore;
 
 namespace OpcUaNodeSet
 {
 
 	DataModel::DataModel(void)
+	: informationModel_(constructSPtr<InformationModel>())
 	{
 	}
 
 	DataModel::~DataModel(void)
 	{
+	}
+
+	InformationModel::SPtr&
+	DataModel::informationModel(void)
+	{
+		return informationModel_;
 	}
 
 }
