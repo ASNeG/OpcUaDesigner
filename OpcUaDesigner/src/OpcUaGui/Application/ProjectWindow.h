@@ -45,6 +45,7 @@ namespace OpcUaGui
 
 		void modul(Modul* modul);
 		bool dataModel(DataModel* dataModel);
+		void closeModel(void);
 
       private slots:
         void onCustomContextMenuRequested(const QPoint& pos);
@@ -63,6 +64,7 @@ namespace OpcUaGui
         void projectSaveAsAction(void);
         void projectRenameAction(void);
         void projectCloseAction(void);
+        void projectCloseAllAction(QTreeWidgetItem* item);
         void projectDeleteAction(void);
 
 	  private:

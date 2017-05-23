@@ -120,6 +120,7 @@ namespace OpcUaGui
 	void
 	MainWindow::closeEvent(QCloseEvent* event)
 	{
+		projectWindow_->closeModel();
 		shutdown();
 		event->accept();
 	}

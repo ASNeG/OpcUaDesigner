@@ -106,6 +106,13 @@ namespace OpcUaGui
 		return true;
 	}
 
+	void
+	ProjectWindow::closeModel(void)
+	{
+		actItem_ = NULL;
+		projectCloseAllAction(rootItem_);
+	}
+
     void
     ProjectWindow::onCustomContextMenuRequested(const QPoint& pos)
     {
@@ -542,6 +549,29 @@ namespace OpcUaGui
         bool rc = modulConfig->modulLibraryInterface_->projectClose(nodeInfo->handle());
         if (!rc) return;
         nodeInfo->handle(0);
+    }
+
+    void
+    ProjectWindow::projectCloseAllAction(QTreeWidgetItem* item)
+    {
+    	uint32_t childCount = item->childCount();
+    	for (uint32_t idx=0; idx<childCount; idx++) {
+    		projectCloseAllAction(item->child(idx));
+    	}
+
+        // get modul configuration
+         QVariant v = item->data(0, Qt::UserRole);
+         NodeInfo* nodeInfo = v.value<NodeInfo*>();
+         if (nodeInfo->handle() == 0) return;
+         ModulConfig::SPtr modulConfig = modul_->getModulConfig(nodeInfo->applicationData()->modulName());
+         if (modulConfig.get() == NULL) {
+         	return;
+         }
+
+         // close modul
+         bool rc = modulConfig->modulLibraryInterface_->projectClose(nodeInfo->handle());
+         if (!rc) return;
+         nodeInfo->handle(0);
     }
 
     void
