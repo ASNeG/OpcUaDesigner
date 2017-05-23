@@ -27,6 +27,7 @@
 #include "OpcUaNodeSetModul/Base/LibraryConfig.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaTreeWindow.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeWindow.h"
+#include "OpcUaNodeSetModul/Model/DataModel.h"
 
 namespace OpcUaNodeSet
 {
@@ -57,6 +58,8 @@ namespace OpcUaNodeSet
 
 	  private:
 		bool createWindow(void);
+
+		DataModel dataModel_;
 
 		LibraryConfig* libraryConfig_;
 		QMainWindow* parentMainWindow_;

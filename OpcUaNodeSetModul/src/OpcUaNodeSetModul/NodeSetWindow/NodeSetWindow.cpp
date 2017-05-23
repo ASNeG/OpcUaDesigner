@@ -18,6 +18,7 @@
 #include <QString>
 #include <QDockWidget>
 #include <QCloseEvent>
+#include <QMessageBox>
 
 #include "OpcUaStackCore/Base/Config.h"
 #include "OpcUaStackCore/Base/Log.h"
@@ -86,9 +87,20 @@ namespace OpcUaNodeSet
 		projectName_ = projectName;
 		projectFile_ = projectFile;
 
+		// create window
 		if (!createWindow()) {
 			return false;
 		}
+
+		// create empty node set
+		if (!dataModel_.loadStandardNodeSet(libraryConfig_->standardNodeSetFile_)) {
+			QMessageBox msgBox;
+			msgBox.setText(QString("read standard nodeset file %1 error").arg(libraryConfig_->standardNodeSetFile_.c_str()));
+			msgBox.exec();
+			return false;
+		}
+
+		// save empty node set
 
 		if (!opcUaTreeWindow_->create(projectFile_)) {
 			return false;
