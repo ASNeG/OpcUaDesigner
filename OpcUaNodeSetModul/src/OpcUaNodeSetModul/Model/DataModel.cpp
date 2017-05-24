@@ -83,6 +83,48 @@ namespace OpcUaNodeSet
 	}
 
 	bool
+	DataModel::loadNodeSet(
+		const std::string& nodeSetFileName
+	)
+	{
+		bool rc;
+
+		// parse node set file
+		ConfigXml configXml;
+		rc = configXml.parse(nodeSetFileName);
+		if (!rc) {
+			Log(Error, "parse node set file error")
+			    .parameter("NodeSetFile", nodeSetFileName)
+			    .parameter("ErrorMessage", configXml.errorMessage());
+			return false;
+		}
+
+		// decode node set
+	    NodeSetXmlParser nodeSetXmlParser;
+	    rc = nodeSetXmlParser.decode(configXml.ptree());
+		if (!rc) {
+			Log(Error, "decode node set file error")
+			    .parameter("NodeSetFile", nodeSetFileName);
+			return false;
+		}
+
+		// create opc ua information model
+		if (informationModel_.get() == nullptr) {
+			informationModel_ = constructSPtr<InformationModel>();
+		}
+		rc = InformationModelNodeSet::initial(informationModel_, nodeSetXmlParser);
+		if (!rc) {
+			Log(Error, "create node set error")
+			    .parameter("NodeSetFile", nodeSetFileName);
+			return false;
+		}
+
+		informationModel_->checkForwardReferences();
+
+		return true;
+	}
+
+	bool
 	DataModel::writeNodeSet(
 		const std::string& nodeSetFile,
 		std::vector<std::string>& namespaceVec,

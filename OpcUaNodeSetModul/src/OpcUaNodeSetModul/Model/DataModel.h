@@ -35,6 +35,9 @@ namespace OpcUaNodeSet
 		bool loadStandardNodeSet(
 			const std::string& standardNodeSetFileName
 		);
+		bool loadNodeSet(
+			const std::string& nodeSetFileName
+		);
 		bool writeNodeSet(
 			const std::string& nodeSetFile,
 			std::vector<std::string>& namespaceVec,

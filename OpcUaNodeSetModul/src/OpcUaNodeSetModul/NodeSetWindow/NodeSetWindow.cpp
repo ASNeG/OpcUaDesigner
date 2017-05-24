@@ -83,8 +83,6 @@ namespace OpcUaNodeSet
 	bool
 	NodeSetWindow::projectNew(uint32_t handle, const std::string& projectName, const std::string& projectFile)
 	{
-		bool rc;
-
 		projectName_ = projectName;
 		projectFile_ = projectFile;
 
@@ -120,8 +118,36 @@ namespace OpcUaNodeSet
     bool
     NodeSetWindow::projectOpen(uint32_t handle, const std::string& projectName, const std::string& projectFile)
     {
-    	// FIXME:
-    	return true;
+		projectName_ = projectName;
+		projectFile_ = projectFile;
+
+		// create window
+		if (!createWindow()) {
+			return false;
+		}
+
+		// create empty node set
+		if (!dataModel_.loadStandardNodeSet(libraryConfig_->standardNodeSetFile_)) {
+			QMessageBox msgBox;
+			msgBox.setText(QString("read standard nodeset file %1 error").arg(libraryConfig_->standardNodeSetFile_.c_str()));
+			msgBox.exec();
+			return false;
+		}
+
+		// read node set file
+		if (!dataModel_.loadNodeSet(projectFile)) {
+			QMessageBox msgBox;
+			msgBox.setText(QString("read nodeset file %1 error").arg(projectFile.c_str()));
+			msgBox.exec();
+			return false;
+		}
+
+		// show nodeset
+		if (!opcUaTreeWindow_->show()) {
+			return false;
+		}
+
+		return true;
     }
 
 	bool
