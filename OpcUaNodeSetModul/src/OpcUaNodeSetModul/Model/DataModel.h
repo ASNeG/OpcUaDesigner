@@ -32,8 +32,14 @@ namespace OpcUaNodeSet
 		~DataModel(void);
 
 		InformationModel::SPtr& informationModel(void);
-		bool loadStandardNodeSet(const std::string& standardNodeSetFileName);
-		bool writeNodeSet(const std::string& nodeSetFile);
+		bool loadStandardNodeSet(
+			const std::string& standardNodeSetFileName
+		);
+		bool writeNodeSet(
+			const std::string& nodeSetFile,
+			std::vector<std::string>& namespaceVec,
+			bool empty = false
+		);
 
 	  private:
 		InformationModel::SPtr informationModel_;
