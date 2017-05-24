@@ -93,40 +93,6 @@ namespace OpcUaNodeSet
 	}
 
 	bool
-	OpcUaTreeWindow::create(const std::string& fileName)
-	{
-		bool rc;
-
-		fileName_ = fileName;
-
-		// create standard opc ua node set
-		nodeSet_.standardNodeSetFileName(standardNodeSetFileName_);
-		rc = nodeSet_.create(fileName);
-		if (!rc) {
-			QMessageBox msgBox;
-			msgBox.setText(QString("The nodeset %1 can not be created").arg(fileName.c_str()));
-			msgBox.exec();
-			return false;
-		}
-
-		// get opc ua information model
-		InformationModel::SPtr informationModel = nodeSet_.informationModel();
-
-		// get root element and create tree
-		OpcUaNodeId rootNodeId(OpcUaId_RootFolder);
-		BaseNodeClass::SPtr rootNode = informationModel->find(rootNodeId);
-		if (rootNode.get() == nullptr) {
-			QMessageBox msgBox;
-			msgBox.setText("The information model can not be displayed");
-			msgBox.exec();
-			return false;
-		}
-		addNode(informationModel, NULL, rootNode);
-
-		return true;
-	}
-
-	bool
 	OpcUaTreeWindow::open(const std::string& fileName)
 	{
 		bool rc;
