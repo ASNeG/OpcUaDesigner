@@ -85,7 +85,37 @@ namespace OpcUaNodeSet
 	bool
 	DataModel::writeNodeSet(const std::string& nodeSetFile)
 	{
-		// FIXME: todo
+		bool success;
+
+		// write nodes from information model into node set file
+		NodeSetXmlParser nodeSetXmlParserWrite;
+
+		std::vector<std::string> namespaceVec;
+		success = InformationModelNodeSet::initial(
+			nodeSetXmlParserWrite,
+			informationModel_,
+			namespaceVec
+		);
+		if (!success) {
+			Log(Error, "write node set file error - preprocessing")
+				.parameter("NodeSetFile", nodeSetFile);
+		}
+
+		ConfigXml configXmlWrite;
+		success = nodeSetXmlParserWrite.encode(configXmlWrite.ptree());
+		if (!success) {
+			Log(Error, "write node set file error - encode")
+				.parameter("NodeSetFile", nodeSetFile);
+		}
+
+		// write node set file
+		success = configXmlWrite.write(nodeSetFile);
+		if (!success) {
+			Log(Error, "write node set file error")
+				.parameter("NodeSetFile", nodeSetFile);
+		}
+
+	    //nodeSetXmlParser.nodeSetNamespace().clearGlobal();
 		return true;
 	}
 

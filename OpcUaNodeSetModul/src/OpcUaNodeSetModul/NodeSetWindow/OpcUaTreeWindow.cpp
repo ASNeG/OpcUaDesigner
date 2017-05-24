@@ -88,6 +88,8 @@ namespace OpcUaNodeSet
 			msgBox.exec();
 			return false;
 		}
+
+		// show nodes
 		addNode(dataModel_->informationModel(), NULL, rootNode);
 		return true;
 	}
