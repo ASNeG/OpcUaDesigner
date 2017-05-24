@@ -12,6 +12,47 @@
       <file>images/ReferenceType.png</file>
       <file>images/Value.png</file>
       <file>images/ValueType.png</file>
+       <file>images/Add.png</file>
+	  <file>images/Delete.png</file>
+	  <file>images/Edit.png</file>
+	  <file>images/Export.png</file>
+	  <file>images/Import.png</file>
+	  <file>images/New.png</file>
+	  <file>images/Ok.png</file>
+	  <file>images/Open.png</file>
+	  <file>images/Save.png</file>
+	  <file>images/SaveAs.png</file>
+	  <file>images/Trash.png</file>
+	  <file>images/Undo.png</file>
+	  <file>images/Left.png</file>
+	  <file>images/Right.png</file>
+	  <file>images/DocListAdd.png</file>
+	  <file>images/DocListDelete.png</file>
+	  <file>images/DocTableSettings.png</file>
+	  <file>images/DocTable.png</file>
+  	  <file>images/DocTableAdd.png</file>
+	  <file>images/DocTableDelete.png</file>
+	  <file>images/DocTableEdit.png</file>
+	  <file>images/DocTableNew.png</file>
+	  <file>images/DocTableRemove.png</file>
+	  <file>images/DocTableSettings.png</file>
+	  <file>images/DocListAdd.png</file>
+	  <file>images/DocListDelete.png</file>
+	  <file>images/Filter.png</file>
+	  <file>images/FilterAdd.png</file>
+	  <file>images/FilterDelete.png</file>
+	  <file>images/FilterEdit.png</file>
+	  <file>images/FilterNew.png</file>
+	  <file>images/FilterRemove.png</file>
+	  <file>images/TaskAdd.png</file>
+	  <file>images/TaskDelete.png</file>
+	  <file>images/TaskEdit.png</file>
+	  <file>images/TaskNew.png</file>
+	  <file>images/TaskRemove.png</file>
+	  <file>images/Down.png</file>
+	  <file>images/Up.png</file>
+	  <file>images/ZoomIn.png</file>
+	  <file>images/ZoomOut.png</file>
     </qresource>
 
 </RCC>
