@@ -42,8 +42,6 @@ namespace OpcUaNodeSet
 		virtual ~OpcUaTreeWindow(void);
 
 		void dataModel(DataModel* dataModel);
-		void standardNodeSetFileName(const std::string& standardNodeSetFileName);
-
 		bool show(void);
 
 	  public slots:
