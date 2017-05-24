@@ -109,9 +109,7 @@ namespace OpcUaNodeSet
 		}
 
 		// show nodeset
-		// FIXME: todo
-
-		if (!opcUaTreeWindow_->create(projectFile_)) {
+		if (!opcUaTreeWindow_->show()) {
 			return false;
 		}
 

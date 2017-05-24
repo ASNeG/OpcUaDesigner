@@ -45,6 +45,7 @@ namespace OpcUaNodeSet
 		void dataModel(DataModel* dataModel);
 		void standardNodeSetFileName(const std::string& standardNodeSetFileName);
 
+		bool show(void);
 		bool create(const std::string& fileName);
 		bool open(const std::string& fileName);
 

@@ -77,6 +77,22 @@ namespace OpcUaNodeSet
 	}
 
 	bool
+	OpcUaTreeWindow::show(void)
+	{
+		// get root element and create tree
+		OpcUaNodeId rootNodeId(OpcUaId_RootFolder);
+		BaseNodeClass::SPtr rootNode = dataModel_->informationModel()->find(rootNodeId);
+		if (rootNode.get() == nullptr) {
+			QMessageBox msgBox;
+			msgBox.setText("The information model can not be displayed");
+			msgBox.exec();
+			return false;
+		}
+		addNode(dataModel_->informationModel(), NULL, rootNode);
+		return true;
+	}
+
+	bool
 	OpcUaTreeWindow::create(const std::string& fileName)
 	{
 		bool rc;
