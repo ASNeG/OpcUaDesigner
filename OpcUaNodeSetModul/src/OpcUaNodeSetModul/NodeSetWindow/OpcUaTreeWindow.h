@@ -46,7 +46,6 @@ namespace OpcUaNodeSet
 		void standardNodeSetFileName(const std::string& standardNodeSetFileName);
 
 		bool show(void);
-		bool open(const std::string& fileName);
 
 	  public slots:
 	    void onCurrentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previos);
@@ -64,14 +63,9 @@ namespace OpcUaNodeSet
 
 		DataModel* dataModel_;
 
-		std::string standardNodeSetFileName_;
-		std::string fileName_;
-
 		QTreeWidget* opcUaTree_;
 		QTreeWidgetItem* rootItem_;
 		QTreeWidgetItem* actItem_;
-
-		NodeSet nodeSet_;
 	};
 
 }
