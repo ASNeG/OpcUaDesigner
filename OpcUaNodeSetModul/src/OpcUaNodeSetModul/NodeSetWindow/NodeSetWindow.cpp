@@ -101,6 +101,14 @@ namespace OpcUaNodeSet
 		}
 
 		// save empty node set
+		if (!dataModel_.writeNodeSet(projectFile_)) {
+			QMessageBox msgBox;
+			msgBox.setText(QString("cannot create node set file %1").arg(projectFile_.c_str()));
+			msgBox.exec();
+		}
+
+		// show nodeset
+		// FIXME: todo
 
 		if (!opcUaTreeWindow_->create(projectFile_)) {
 			return false;

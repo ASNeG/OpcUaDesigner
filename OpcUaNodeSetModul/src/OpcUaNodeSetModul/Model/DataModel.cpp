@@ -82,5 +82,12 @@ namespace OpcUaNodeSet
 		return true;
 	}
 
+	bool
+	DataModel::writeNodeSet(const std::string& nodeSetFile)
+	{
+		// FIXME: todo
+		return true;
+	}
+
 }
 
