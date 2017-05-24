@@ -55,6 +55,7 @@ namespace OpcUaNodeSet
 
 		// create opc ua tree window
 		opcUaTreeWindow_ = new OpcUaTreeWindow(NULL);
+		opcUaTreeWindow_->dataModel(&dataModel_);
 		opcUaTreeWindow_->standardNodeSetFileName(libraryConfig_->standardNodeSetFile_);
 
 		// create dock widget

@@ -23,6 +23,7 @@
 #include "OpcUaStackServer/AddressSpaceModel/BaseNodeClass.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeSet.h"
+#include "OpcUaNodeSetModul/Model/DataModel.h"
 
 class QTreeWidget;
 class QTreeWidgetItem;
@@ -41,6 +42,7 @@ namespace OpcUaNodeSet
 		OpcUaTreeWindow(QWidget* parent = 0);
 		virtual ~OpcUaTreeWindow(void);
 
+		void dataModel(DataModel* dataModel);
 		void standardNodeSetFileName(const std::string& standardNodeSetFileName);
 
 		bool create(const std::string& fileName);
@@ -60,8 +62,11 @@ namespace OpcUaNodeSet
 		);
 		void removeNode(QTreeWidgetItem* item);
 
+		DataModel* dataModel_;
+
 		std::string standardNodeSetFileName_;
 		std::string fileName_;
+
 		QTreeWidget* opcUaTree_;
 		QTreeWidgetItem* rootItem_;
 		QTreeWidgetItem* actItem_;

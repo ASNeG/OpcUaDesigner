@@ -40,6 +40,7 @@ namespace OpcUaNodeSet
 	: QWidget()
 	, rootItem_(NULL)
 	, actItem_(NULL)
+	, dataModel_(NULL)
 	, fileName_("")
 	, nodeSet_()
 	{
@@ -61,6 +62,12 @@ namespace OpcUaNodeSet
 
 	OpcUaTreeWindow::~OpcUaTreeWindow(void)
 	{
+	}
+
+	void
+	OpcUaTreeWindow::dataModel(DataModel* dataModel)
+	{
+		dataModel_ = dataModel;
 	}
 
 	void
