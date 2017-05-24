@@ -18,7 +18,6 @@
 #include "OpcUaStackCore/BuildInTypes/OpcUaIdentifier.h"
 #include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaTreeWindow.h"
-#include "OpcUaNodeSetModul/NodeSetWindow/NodeSet.h"
 
 #include <QString>
 #include <QWidget>
