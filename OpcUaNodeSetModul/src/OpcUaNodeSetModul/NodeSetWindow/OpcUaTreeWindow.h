@@ -26,6 +26,7 @@
 
 class QTreeWidget;
 class QTreeWidgetItem;
+class QMenu;
 
 using namespace OpcUaStackServer;
 
@@ -47,10 +48,23 @@ namespace OpcUaNodeSet
 	  public slots:
 	    void onCurrentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previos);
 
+	    //
+	  	// context menu
+	    //
+	    void onCustomContextMenuRequested(const QPoint& pos);
+	    void onNewAction(void);
+	    void onDeleteAction(void);
+
 	  signals:
 	    void nodeChanged(NodeInfo* nodeInfo);
 
 	  private:
+	    //
+	    // context menu
+	    //
+	    void createNewMenu(QMenu& menu, NodeInfo* nodeInfo);
+	    void createDeleteMenu(QMenu& menu, NodeInfo* nodeInfo);
+
 		void addNode(
 			InformationModel::SPtr& informationModel,
 			QTreeWidgetItem* parentItem,

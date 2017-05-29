@@ -27,6 +27,7 @@
 #include <QVBoxLayout>
 #include <QMessageBox>
 #include <QVariant>
+#include <QMenu>
 
 using namespace OpcUaStackCore;
 using namespace OpcUaStackServer;
@@ -41,14 +42,27 @@ namespace OpcUaNodeSet
 	, actItem_(NULL)
 	, dataModel_(NULL)
 	{
+		//
 		// create opc ua tree
+		//
 		opcUaTree_ = new QTreeWidget();
 		opcUaTree_->setMinimumWidth(300);
 		opcUaTree_->header()->close();
 		opcUaTree_->setContextMenuPolicy(Qt::CustomContextMenu);
+
+		//
+		// create actions
+		//
 		connect(
 			opcUaTree_, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)),
 			this, SLOT(onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*))
+		);
+		//
+		// actions
+		//
+		connect(
+			opcUaTree_, SIGNAL(customContextMenuRequested(const QPoint&)),
+		    this, SLOT(onCustomContextMenuRequested(const QPoint&))
 		);
 
 		// show opc ua tree
@@ -226,6 +240,70 @@ namespace OpcUaNodeSet
 		NodeInfo* nodeInfo = v.value<NodeInfo*>();
 		emit nodeChanged(nodeInfo);
 	}
+
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// context menu
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	void
+	OpcUaTreeWindow::onCustomContextMenuRequested(const QPoint& pos)
+	{
+	    QMenu menu;
+
+	    // get and check tree widget item
+	    actItem_ = opcUaTree_->itemAt(pos);
+	    if (actItem_ == NULL) {
+	        return;
+	    }
+
+	    // get node information
+	    QVariant v = actItem_->data(0, Qt::UserRole);
+	    NodeInfo* nodeInfo = v.value<NodeInfo*>();
+
+	    // create menu
+	    createNewMenu(menu, nodeInfo);
+	    createDeleteMenu(menu, nodeInfo);
+
+	    // show menu
+	    menu.exec(opcUaTree_->viewport()->mapToGlobal(pos));
+	}
+
+    void
+    OpcUaTreeWindow::createNewMenu(QMenu& menu, NodeInfo* nodeInfo)
+    {
+    	if (nodeInfo->baseNode_.get() == NULL) return;
+
+		// create modul config value
+		QVariant v;
+		v.setValue((void*)nodeInfo);
+
+		QAction* action = new QAction("New", this);
+		action->setIcon(QIcon(":images/New.png"));
+		action->setData(v);
+		menu.addAction(action);
+		connect(action, SIGNAL(triggered()), this, SLOT(onNewAction()));
+    }
+
+    void
+    OpcUaTreeWindow::createDeleteMenu(QMenu& menu, NodeInfo* nodeInfo)
+    {
+    	// FIXME: todo
+    }
+
+    void
+    OpcUaTreeWindow::onNewAction(void)
+    {
+    	// FIXME: todo
+    }
+
+    void
+    OpcUaTreeWindow::onDeleteAction(void)
+    {
+    	// FIXME: todo
+    }
 
 }
 
