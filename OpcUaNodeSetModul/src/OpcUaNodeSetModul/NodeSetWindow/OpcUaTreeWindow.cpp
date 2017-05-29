@@ -288,6 +288,40 @@ namespace OpcUaNodeSet
     }
 
     void
+    OpcUaTreeWindow::onNewAction(void)
+    {
+	    // get node information
+	    QVariant v1 = actItem_->data(0, Qt::UserRole);
+	    NodeInfo* nodeInfo = v1.value<NodeInfo*>();
+	    BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+
+	    InformationModelAccess ima(nodeInfo->informationModel_);
+	    OpcUaNodeId dataType;
+	    baseNode->getDataType(dataType);
+
+	    // handle Structure
+	    if (ima.isDataTypeStructure(baseNode)) {
+	    	// FIXME: todo
+	    	std::cout << "Structure..." << std::endl;
+	    	return;
+	    }
+
+	    // handle Enum
+	    if (ima.isDataTypeEnum(baseNode)) {
+	    	// FIXME: todo
+	    	std::cout << "Enum..." << std::endl;
+	    	return;
+	    }
+
+	    // handle BaseDataType
+	    if (ima.isDataType(baseNode)) {
+	    	// FIXME: todo
+	    	std::cout << "DataType..." << std::endl;
+	    	return;
+	    }
+    }
+
+    void
     OpcUaTreeWindow::createDeleteMenu(QMenu& menu, NodeInfo* nodeInfo)
     {
     	if (nodeInfo->baseNode_.get() == NULL) return;
@@ -305,12 +339,6 @@ namespace OpcUaNodeSet
 		action->setData(v);
 		menu.addAction(action);
 		connect(action, SIGNAL(triggered()), this, SLOT(onDeleteAction()));
-    }
-
-    void
-    OpcUaTreeWindow::onNewAction(void)
-    {
-    	// FIXME: todo
     }
 
     void
