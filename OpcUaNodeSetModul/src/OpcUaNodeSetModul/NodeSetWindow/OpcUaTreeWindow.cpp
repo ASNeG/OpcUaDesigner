@@ -356,28 +356,36 @@ namespace OpcUaNodeSet
     //
     // ------------------------------------------------------------------------
     // ------------------------------------------------------------------------
+    std::string
+    OpcUaTreeWindow::displayName(const std::string& prefix)
+    {
+       	uint32_t idx = 0;
+        std::stringstream ss;
+        do
+        {
+        	ss.str("");
+        	ss << prefix << idx;
+
+        	BaseNodeClass::SPtr baseNode;
+        	baseNode = dataModel_->informationModel()->find(OpcUaNodeId(ss.str(),1));
+        	if (baseNode.get() == NULL) {
+        		return ss.str();
+        	}
+
+        	idx++;
+        } while (true);
+    }
+
     void
     OpcUaTreeWindow::createNewDataType(NodeInfo* parentNodeInfo)
     {
     	//
     	// find new data type name
     	//
-    	uint32_t idx = 0;
-    	std::stringstream ss;
-    	do
-    	{
-    		ss.str("");
-    		ss << "DataType" << idx;
-
-    		BaseNodeClass::SPtr baseNode;
-    		baseNode = dataModel_->informationModel()->find(OpcUaNodeId(ss.str(),1));
-    		if (baseNode.get() == NULL) break;
-
-    		idx++;
-    	} while (true);
-    	OpcUaNodeId nodeId(ss.str(), 1);
-    	OpcUaQualifiedName browseName(ss.str(), 1);
-    	OpcUaLocalizedText displayName("en", ss.str());
+    	std::string dataTypeName = displayName("DataType");
+    	OpcUaNodeId nodeId(dataTypeName, 1);
+    	OpcUaQualifiedName browseName(dataTypeName, 1);
+    	OpcUaLocalizedText displayName("en", dataTypeName);
     	OpcUaLocalizedText description("en", "");
 
     	//

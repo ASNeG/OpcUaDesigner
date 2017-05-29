@@ -68,6 +68,7 @@ namespace OpcUaNodeSet
 	    //
 	    // private function
 	    //
+	    std::string displayName(const std::string& prefix);
 	    void createNewDataType(NodeInfo* nodeInfo);
 
 		void addNode(
