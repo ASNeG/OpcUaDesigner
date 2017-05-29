@@ -65,6 +65,11 @@ namespace OpcUaNodeSet
 	    void createNewMenu(QMenu& menu, NodeInfo* nodeInfo);
 	    void createDeleteMenu(QMenu& menu, NodeInfo* nodeInfo);
 
+	    //
+	    // private function
+	    //
+	    void createNewDataType(void);
+
 		void addNode(
 			InformationModel::SPtr& informationModel,
 			QTreeWidgetItem* parentItem,

@@ -299,6 +299,7 @@ namespace OpcUaNodeSet
 	    OpcUaNodeId dataType;
 	    baseNode->getDataType(dataType);
 
+#if 0
 	    // handle Structure
 	    if (ima.isDataTypeStructure(baseNode)) {
 	    	// FIXME: todo
@@ -312,11 +313,11 @@ namespace OpcUaNodeSet
 	    	std::cout << "Enum..." << std::endl;
 	    	return;
 	    }
+#endif
 
 	    // handle BaseDataType
 	    if (ima.isDataType(baseNode)) {
-	    	// FIXME: todo
-	    	std::cout << "DataType..." << std::endl;
+	        createNewDataType();
 	    	return;
 	    }
     }
@@ -343,6 +344,19 @@ namespace OpcUaNodeSet
 
     void
     OpcUaTreeWindow::onDeleteAction(void)
+    {
+    	// FIXME: todo
+    }
+
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+    //
+    // private function
+    //
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+    void
+    OpcUaTreeWindow::createNewDataType(void)
     {
     	// FIXME: todo
     }
