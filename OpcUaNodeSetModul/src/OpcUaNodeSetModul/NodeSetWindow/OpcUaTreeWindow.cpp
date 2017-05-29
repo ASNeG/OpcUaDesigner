@@ -17,6 +17,7 @@
 
 #include "OpcUaStackCore/BuildInTypes/OpcUaIdentifier.h"
 #include "OpcUaStackServer/AddressSpaceModel/DataTypeNodeClass.h"
+#include "OpcUaStackServer/AddressSpaceModel/ObjectTypeNodeClass.h"
 #include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaTreeWindow.h"
 
@@ -305,6 +306,12 @@ namespace OpcUaNodeSet
 	        createNewDataType(nodeInfo);
 	    	return;
 	    }
+
+	    // handle BaseObjectType
+	    if (ima.isObjectType(baseNode)) {
+	        createNewObjectType(nodeInfo);
+	    	return;
+	    }
     }
 
     void
@@ -373,14 +380,13 @@ namespace OpcUaNodeSet
     	OpcUaLocalizedText description("en", "");
 
     	//
-    	// create data type node
+    	// create object type node
     	//
        	DataTypeNodeClass::SPtr dataTypeNodeClass = constructSPtr<DataTypeNodeClass>();
        	dataTypeNodeClass->setNodeId(nodeId);
        	dataTypeNodeClass->setBrowseName(browseName);
        	dataTypeNodeClass->setDisplayName(displayName);
        	dataTypeNodeClass->setDescription(description);
-
     	dataTypeNodeClass->setWriteMask(0);
     	dataTypeNodeClass->setUserWriteMask(0);
 
@@ -400,6 +406,62 @@ namespace OpcUaNodeSet
         //
 		NodeInfo* nodeInfo = new NodeInfo();
 		nodeInfo->baseNode_ = dataTypeNodeClass;
+		nodeInfo->informationModel_ = dataModel_->informationModel();
+		QVariant v;
+		v.setValue(nodeInfo);
+
+		QTreeWidgetItem* item = new QTreeWidgetItem();
+		item->setText(0, displayName.text().value().c_str());
+		item->setData(0, Qt::UserRole, v);
+		item->setIcon(0, QIcon(":images/DataType.png"));
+		actItem_->addChild(item);
+
+		//
+		// activate new item
+		//
+		opcUaTree_->setCurrentItem(item);
+		actItem_ = item;
+    }
+
+    void
+    OpcUaTreeWindow::createNewObjectType(NodeInfo* parentNodeInfo)
+    {
+    	//
+    	// find new data type name
+    	//
+    	std::string objectTypeName = displayName("ObjectType");
+    	OpcUaNodeId nodeId(objectTypeName, 1);
+    	OpcUaQualifiedName browseName(objectTypeName, 1);
+    	OpcUaLocalizedText displayName("en", objectTypeName);
+    	OpcUaLocalizedText description("en", "");
+
+    	//
+    	// create object type node
+    	//
+       	ObjectTypeNodeClass::SPtr objectTypeNodeClass = constructSPtr<ObjectTypeNodeClass>();
+       	objectTypeNodeClass->setNodeId(nodeId);
+       	objectTypeNodeClass->setBrowseName(browseName);
+       	objectTypeNodeClass->setDisplayName(displayName);
+       	objectTypeNodeClass->setDescription(description);
+       	objectTypeNodeClass->setWriteMask(0);
+       	objectTypeNodeClass->setUserWriteMask(0);
+
+    	bool isAbstract = true;
+    	objectTypeNodeClass->setIsAbstract(isAbstract);
+
+        //
+        // insert data type node into information model
+        //
+        OpcUaNodeId parentNodeId;
+        parentNodeInfo->baseNode_->getNodeId(parentNodeId);
+        objectTypeNodeClass->referenceItemMap().add(ReferenceType_HasSubtype, true, parentNodeId);
+        dataModel_->informationModel()->insert(objectTypeNodeClass);
+
+        //
+        // added new item
+        //
+		NodeInfo* nodeInfo = new NodeInfo();
+		nodeInfo->baseNode_ = objectTypeNodeClass;
 		nodeInfo->informationModel_ = dataModel_->informationModel();
 		QVariant v;
 		v.setValue(nodeInfo);
