@@ -300,22 +300,6 @@ namespace OpcUaNodeSet
 	    OpcUaNodeId dataType;
 	    baseNode->getDataType(dataType);
 
-#if 0
-	    // handle Structure
-	    if (ima.isDataTypeStructure(baseNode)) {
-	    	// FIXME: todo
-	    	std::cout << "Structure..." << std::endl;
-	    	return;
-	    }
-
-	    // handle Enum
-	    if (ima.isDataTypeEnum(baseNode)) {
-	    	// FIXME: todo
-	    	std::cout << "Enum..." << std::endl;
-	    	return;
-	    }
-#endif
-
 	    // handle BaseDataType
 	    if (ima.isDataType(baseNode)) {
 	        createNewDataType(nodeInfo);
