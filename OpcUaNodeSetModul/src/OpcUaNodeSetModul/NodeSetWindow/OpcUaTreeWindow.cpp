@@ -418,7 +418,8 @@ namespace OpcUaNodeSet
         //
         OpcUaNodeId parentNodeId;
         parentNodeInfo->baseNode_->getNodeId(parentNodeId);
-        dataTypeNodeClass->referenceItemMap().add(ReferenceType_HasSubtype, true, parentNodeId);
+        dataTypeNodeClass->referenceItemMap().add(ReferenceType_HasSubtype, false, parentNodeId);
+        parentNodeInfo->baseNode_->referenceItemMap().add(ReferenceType_HasSubtype, true, nodeId);
         dataModel_->informationModel()->insert(dataTypeNodeClass);
 
         //
@@ -474,7 +475,8 @@ namespace OpcUaNodeSet
         //
         OpcUaNodeId parentNodeId;
         parentNodeInfo->baseNode_->getNodeId(parentNodeId);
-        objectTypeNodeClass->referenceItemMap().add(ReferenceType_HasSubtype, true, parentNodeId);
+        objectTypeNodeClass->referenceItemMap().add(ReferenceType_HasSubtype, false, parentNodeId);
+        parentNodeInfo->baseNode_->referenceItemMap().add(ReferenceType_HasSubtype, true, nodeId);
         dataModel_->informationModel()->insert(objectTypeNodeClass);
 
         //
@@ -533,7 +535,8 @@ namespace OpcUaNodeSet
         //
         OpcUaNodeId parentNodeId;
         parentNodeInfo->baseNode_->getNodeId(parentNodeId);
-        variableTypeNodeClass->referenceItemMap().add(ReferenceType_HasSubtype, true, parentNodeId);
+        variableTypeNodeClass->referenceItemMap().add(ReferenceType_HasSubtype, false, parentNodeId);
+        parentNodeInfo->baseNode_->referenceItemMap().add(ReferenceType_HasSubtype, true, nodeId);
         dataModel_->informationModel()->insert(variableTypeNodeClass);
 
         //
@@ -591,7 +594,8 @@ namespace OpcUaNodeSet
         //
         OpcUaNodeId parentNodeId;
         parentNodeInfo->baseNode_->getNodeId(parentNodeId);
-        referenceTypeNodeClass->referenceItemMap().add(ReferenceType_HasSubtype, true, parentNodeId);
+        referenceTypeNodeClass->referenceItemMap().add(ReferenceType_HasSubtype, false, parentNodeId);
+        parentNodeInfo->baseNode_->referenceItemMap().add(ReferenceType_HasSubtype, true, nodeId);
         dataModel_->informationModel()->insert(referenceTypeNodeClass);
 
         //
