@@ -326,6 +326,12 @@ namespace OpcUaNodeSet
 	        createNewReferences(nodeInfo);
 	    	return;
 	    }
+
+	    // handle BaseEventType
+	    if (ima.isBaseEventType(baseNode)) {
+	    	createNewObjectType(nodeInfo);
+	    	return;
+	    }
     }
 
     void
