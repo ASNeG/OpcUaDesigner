@@ -72,6 +72,7 @@ namespace OpcUaNodeSet
 	    void createNewDataType(NodeInfo* nodeInfo);
 	    void createNewObjectType(NodeInfo* nodeInfo);
 	    void createNewVariableType(NodeInfo* nodeInfo);
+	    void createNewReferences(NodeInfo* nodeInfo);
 
 		void addNode(
 			InformationModel::SPtr& informationModel,

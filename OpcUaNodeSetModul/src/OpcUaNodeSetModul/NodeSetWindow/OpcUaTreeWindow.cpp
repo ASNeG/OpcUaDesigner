@@ -19,6 +19,7 @@
 #include "OpcUaStackServer/AddressSpaceModel/DataTypeNodeClass.h"
 #include "OpcUaStackServer/AddressSpaceModel/ObjectTypeNodeClass.h"
 #include "OpcUaStackServer/AddressSpaceModel/VariableTypeNodeClass.h"
+#include "OpcUaStackServer/AddressSpaceModel/ReferenceTypeNodeClass.h"
 #include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaTreeWindow.h"
 
@@ -319,6 +320,12 @@ namespace OpcUaNodeSet
 	        createNewVariableType(nodeInfo);
 	    	return;
 	    }
+
+	    // handle References
+	    if (ima.isReferences(baseNode)) {
+	        createNewReferences(nodeInfo);
+	    	return;
+	    }
     }
 
     void
@@ -536,6 +543,64 @@ namespace OpcUaNodeSet
     	item->setText(0, displayName.text().value().c_str());
     	item->setData(0, Qt::UserRole, v);
     	item->setIcon(0, QIcon(":images/ValueType.png"));
+    	actItem_->addChild(item);
+
+    	//
+    	// activate new item
+    	//
+    	opcUaTree_->setCurrentItem(item);
+    	actItem_ = item;
+    }
+
+    void
+    OpcUaTreeWindow::createNewReferences(NodeInfo* parentNodeInfo)
+    {
+       	//
+        // find new data type name
+        //
+        std::string referencesName = displayName("References");
+        OpcUaNodeId nodeId(referencesName, 1);
+        OpcUaQualifiedName browseName(referencesName, 1);
+        OpcUaLocalizedText displayName("en", referencesName);
+        OpcUaLocalizedText description("en", "");
+
+        //
+        // create reference node
+        //
+        ReferenceTypeNodeClass::SPtr referenceTypeNodeClass = constructSPtr<ReferenceTypeNodeClass>();
+        referenceTypeNodeClass->setNodeId(nodeId);
+        referenceTypeNodeClass->setBrowseName(browseName);
+        referenceTypeNodeClass->setDisplayName(displayName);
+        referenceTypeNodeClass->setDescription(description);
+        referenceTypeNodeClass->setWriteMask(0);
+        referenceTypeNodeClass->setUserWriteMask(0);
+
+        bool isAbstract = true;
+        referenceTypeNodeClass->setIsAbstract(isAbstract);
+        bool symmetric = true;
+        referenceTypeNodeClass->setSymmetric(symmetric);
+
+        //
+        // insert data type node into information model
+        //
+        OpcUaNodeId parentNodeId;
+        parentNodeInfo->baseNode_->getNodeId(parentNodeId);
+        referenceTypeNodeClass->referenceItemMap().add(ReferenceType_HasSubtype, true, parentNodeId);
+        dataModel_->informationModel()->insert(referenceTypeNodeClass);
+
+        //
+        // added new item
+        //
+    	NodeInfo* nodeInfo = new NodeInfo();
+    	nodeInfo->baseNode_ = referenceTypeNodeClass;
+    	nodeInfo->informationModel_ = dataModel_->informationModel();
+    	QVariant v;
+    	v.setValue(nodeInfo);
+
+    	QTreeWidgetItem* item = new QTreeWidgetItem();
+    	item->setText(0, displayName.text().value().c_str());
+    	item->setData(0, Qt::UserRole, v);
+    	item->setIcon(0, QIcon(":images/ReferenceType.png"));
     	actItem_->addChild(item);
 
     	//
