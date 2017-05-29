@@ -16,6 +16,7 @@
  */
 
 #include "OpcUaStackCore/BuildInTypes/OpcUaIdentifier.h"
+#include "OpcUaStackServer/AddressSpaceModel/DataTypeNodeClass.h"
 #include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaTreeWindow.h"
 
@@ -317,7 +318,7 @@ namespace OpcUaNodeSet
 
 	    // handle BaseDataType
 	    if (ima.isDataType(baseNode)) {
-	        createNewDataType();
+	        createNewDataType(nodeInfo);
 	    	return;
 	    }
     }
@@ -356,9 +357,72 @@ namespace OpcUaNodeSet
     // ------------------------------------------------------------------------
     // ------------------------------------------------------------------------
     void
-    OpcUaTreeWindow::createNewDataType(void)
+    OpcUaTreeWindow::createNewDataType(NodeInfo* parentNodeInfo)
     {
-    	// FIXME: todo
+    	//
+    	// find new data type name
+    	//
+    	uint32_t idx = 0;
+    	std::stringstream ss;
+    	do
+    	{
+    		ss.str("");
+    		ss << "DataType" << idx;
+
+    		BaseNodeClass::SPtr baseNode;
+    		baseNode = dataModel_->informationModel()->find(OpcUaNodeId(ss.str(),1));
+    		if (baseNode.get() == NULL) break;
+
+    		idx++;
+    	} while (true);
+    	OpcUaNodeId nodeId(ss.str(), 1);
+    	OpcUaQualifiedName browseName(ss.str(), 1);
+    	OpcUaLocalizedText displayName("en", ss.str());
+    	OpcUaLocalizedText description("en", "");
+
+    	//
+    	// create data type node
+    	//
+       	DataTypeNodeClass::SPtr dataTypeNodeClass = constructSPtr<DataTypeNodeClass>();
+       	dataTypeNodeClass->setNodeId(nodeId);
+       	dataTypeNodeClass->setBrowseName(browseName);
+       	dataTypeNodeClass->setDisplayName(displayName);
+       	dataTypeNodeClass->setDescription(description);
+
+    	dataTypeNodeClass->setWriteMask(0);
+    	dataTypeNodeClass->setUserWriteMask(0);
+
+    	bool isAbstract = true;
+        dataTypeNodeClass->setIsAbstract(isAbstract);
+
+        //
+        // insert data type node into information model
+        //
+        OpcUaNodeId parentNodeId;
+        parentNodeInfo->baseNode_->getNodeId(parentNodeId);
+        dataTypeNodeClass->referenceItemMap().add(ReferenceType_HasSubtype, true, parentNodeId);
+        dataModel_->informationModel()->insert(dataTypeNodeClass);
+
+        //
+        // added new item
+        //
+		NodeInfo* nodeInfo = new NodeInfo();
+		nodeInfo->baseNode_ = dataTypeNodeClass;
+		nodeInfo->informationModel_ = dataModel_->informationModel();
+		QVariant v;
+		v.setValue(nodeInfo);
+
+		QTreeWidgetItem* item = new QTreeWidgetItem();
+		item->setText(0, displayName.text().value().c_str());
+		item->setData(0, Qt::UserRole, v);
+		item->setIcon(0, QIcon(":images/DataType.png"));
+		actItem_->addChild(item);
+
+		//
+		// activate new item
+		//
+		opcUaTree_->setCurrentItem(item);
+		actItem_ = item;
     }
 
 }

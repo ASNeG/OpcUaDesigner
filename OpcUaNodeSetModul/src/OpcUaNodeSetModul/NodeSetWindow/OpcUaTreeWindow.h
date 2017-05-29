@@ -68,7 +68,7 @@ namespace OpcUaNodeSet
 	    //
 	    // private function
 	    //
-	    void createNewDataType(void);
+	    void createNewDataType(NodeInfo* nodeInfo);
 
 		void addNode(
 			InformationModel::SPtr& informationModel,
