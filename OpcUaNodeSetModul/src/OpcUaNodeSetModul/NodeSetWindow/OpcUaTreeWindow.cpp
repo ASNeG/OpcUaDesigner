@@ -469,7 +469,7 @@ namespace OpcUaNodeSet
 		QTreeWidgetItem* item = new QTreeWidgetItem();
 		item->setText(0, displayName.text().value().c_str());
 		item->setData(0, Qt::UserRole, v);
-		item->setIcon(0, QIcon(":images/DataType.png"));
+		item->setIcon(0, QIcon(":images/ObjectType.png"));
 		actItem_->addChild(item);
 
 		//
