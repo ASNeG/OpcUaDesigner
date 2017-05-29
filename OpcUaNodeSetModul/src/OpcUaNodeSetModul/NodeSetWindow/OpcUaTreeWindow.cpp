@@ -290,7 +290,21 @@ namespace OpcUaNodeSet
     void
     OpcUaTreeWindow::createDeleteMenu(QMenu& menu, NodeInfo* nodeInfo)
     {
-    	// FIXME: todo
+    	if (nodeInfo->baseNode_.get() == NULL) return;
+
+    	OpcUaNodeId nodeId;
+    	nodeInfo->baseNode_->getNodeId(nodeId);
+    	if (nodeId.namespaceIndex() == 0) return;
+
+		// create modul config value
+		QVariant v;
+		v.setValue((void*)nodeInfo);
+
+		QAction* action = new QAction("Delete", this);
+		action->setIcon(QIcon(":images/Delete.png"));
+		action->setData(v);
+		menu.addAction(action);
+		connect(action, SIGNAL(triggered()), this, SLOT(onDeleteAction()));
     }
 
     void
