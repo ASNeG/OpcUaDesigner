@@ -53,6 +53,7 @@
 	  <file>images/Up.png</file>
 	  <file>images/ZoomIn.png</file>
 	  <file>images/ZoomOut.png</file>
+	  <file>images/Eye.png</file>
     </qresource>
 
 </RCC>
