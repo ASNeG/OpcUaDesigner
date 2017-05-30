@@ -16,19 +16,19 @@
  */
 
 
-#include "OpcUaNodeSetModul/Dialog/NamespaceDialog.h"
+#include "OpcUaNodeSetModul/Dialog/NamespaceManagerDialog.h"
 
 namespace OpcUaNodeSet
 {
 
 
-	NamespaceDialog::NamespaceDialog(DataModel* dataModel)
+	NamespaceManagerDialog::NamespaceManagerDialog(DataModel* dataModel)
 	: QDialog()
 	, dataModel_(dataModel)
 	{
 	}
 
-	NamespaceDialog::~NamespaceDialog(void)
+	NamespaceManagerDialog::~NamespaceManagerDialog(void)
 	{
 	}
 

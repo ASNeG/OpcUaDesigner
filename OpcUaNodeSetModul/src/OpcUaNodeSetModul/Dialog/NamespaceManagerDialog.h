@@ -15,8 +15,8 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#ifndef __BHIMatlabSimulink_NamespaceDialog_h__
-#define __BHIMatlabSimulink_NamespaceDialog_h__
+#ifndef __BHIMatlabSimulink_NamespaceManagerDialog_h__
+#define __BHIMatlabSimulink_NamespaceManagerDialog_h__
 
 #include <QDialog>
 #include <QWidget>
@@ -25,14 +25,14 @@
 namespace OpcUaNodeSet
 {
 
-	class NamespaceDialog
+	class NamespaceManagerDialog
 	: public QDialog
 	{
 		Q_OBJECT
 
 	  public:
-		NamespaceDialog(DataModel* dataModel);
-		virtual ~NamespaceDialog(void);
+		NamespaceManagerDialog(DataModel* dataModel);
+		virtual ~NamespaceManagerDialog(void);
 
 	  public slots:
 
