@@ -32,6 +32,7 @@
 #include <QMessageBox>
 #include <QVariant>
 #include <QMenu>
+#include <QToolBar>
 
 using namespace OpcUaStackCore;
 using namespace OpcUaStackServer;
@@ -46,6 +47,18 @@ namespace OpcUaNodeSet
 	, actItem_(NULL)
 	, dataModel_(NULL)
 	{
+		QVBoxLayout* layout_ = new QVBoxLayout();
+
+		//
+		// create toolbar menu
+		//
+		createToolBarActions();
+		tableToolBar_ = new QToolBar();
+		tableToolBar_->addAction(manageNamespaceAction_);
+		tableToolBar_->addAction(importAction_);
+		tableToolBar_->addAction(exportAction_);
+		layout_->addWidget(tableToolBar_);
+
 		//
 		// create opc ua tree
 		//
@@ -53,6 +66,7 @@ namespace OpcUaNodeSet
 		opcUaTree_->setMinimumWidth(300);
 		opcUaTree_->header()->close();
 		opcUaTree_->setContextMenuPolicy(Qt::CustomContextMenu);
+		layout_->addWidget(opcUaTree_);
 
 		//
 		// create actions
@@ -70,8 +84,6 @@ namespace OpcUaNodeSet
 		);
 
 		// show opc ua tree
-		QVBoxLayout* layout_ = new QVBoxLayout();
-		layout_->addWidget(opcUaTree_);
 		setLayout(layout_);
 	}
 
@@ -243,6 +255,47 @@ namespace OpcUaNodeSet
 		QVariant v = current->data(0, Qt::UserRole);
 		NodeInfo* nodeInfo = v.value<NodeInfo*>();
 		emit nodeChanged(nodeInfo);
+	}
+
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// toolbar menu
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	void
+	OpcUaTreeWindow::createToolBarActions(void)
+	{
+		manageNamespaceAction_ = new QAction("Manage namespace", this);
+		manageNamespaceAction_->setIcon(QIcon(":images/Eye.png"));
+		connect(manageNamespaceAction_, SIGNAL(triggered()), this, SLOT(onManageNamespaceAction()));
+
+		importAction_ = new QAction("Import nodeset", this);
+		importAction_->setIcon(QIcon(":images/Import.png"));
+		connect(importAction_, SIGNAL(triggered()), this, SLOT(onImportAction()));
+
+		exportAction_ = new QAction("Export nodeset", this);
+		exportAction_->setIcon(QIcon(":images/Export.png"));
+		connect(exportAction_, SIGNAL(triggered()), this, SLOT(onExportAction()));
+	}
+
+	void
+	OpcUaTreeWindow::onManageNamespaceAction(void)
+	{
+		// FIXME: todo
+	}
+
+    void
+    OpcUaTreeWindow::onImportAction(void)
+	{
+		// FIXME: todo
+	}
+
+    void
+    OpcUaTreeWindow::onExportAction(void)
+	{
+		// FIXME: todo
 	}
 
 	// ------------------------------------------------------------------------

@@ -27,6 +27,8 @@
 class QTreeWidget;
 class QTreeWidgetItem;
 class QMenu;
+class QToolBar;
+class QAction;
 
 using namespace OpcUaStackServer;
 
@@ -49,6 +51,13 @@ namespace OpcUaNodeSet
 	    void onCurrentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previos);
 
 	    //
+	    // toolbar menu
+	    //
+	    void onManageNamespaceAction(void);
+	    void onImportAction(void);
+	    void onExportAction(void);
+
+	    //
 	  	// context menu
 	    //
 	    void onCustomContextMenuRequested(const QPoint& pos);
@@ -59,6 +68,11 @@ namespace OpcUaNodeSet
 	    void nodeChanged(NodeInfo* nodeInfo);
 
 	  private:
+	    //
+	    // toolbar menu
+	    //
+	    void createToolBarActions(void);
+
 	    //
 	    // context menu
 	    //
@@ -82,6 +96,11 @@ namespace OpcUaNodeSet
 		void removeNode(QTreeWidgetItem* item);
 
 		DataModel* dataModel_;
+
+		QToolBar* tableToolBar_;
+		QAction* manageNamespaceAction_;
+		QAction* importAction_;
+		QAction* exportAction_;
 
 		QTreeWidget* opcUaTree_;
 		QTreeWidgetItem* rootItem_;
