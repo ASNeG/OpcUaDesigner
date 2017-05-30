@@ -22,6 +22,7 @@
 #include "OpcUaStackServer/AddressSpaceModel/ReferenceTypeNodeClass.h"
 #include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaTreeWindow.h"
+#include "OpcUaNodeSetModul/Dialog/NamespaceManagerDialog.h"
 
 #include <QString>
 #include <QWidget>
@@ -283,7 +284,9 @@ namespace OpcUaNodeSet
 	void
 	OpcUaTreeWindow::onManageNamespaceAction(void)
 	{
-		// FIXME: todo
+		NamespaceManagerDialog namespaceManagerDialog(dataModel_);
+		namespaceManagerDialog.exec();
+
 	}
 
     void

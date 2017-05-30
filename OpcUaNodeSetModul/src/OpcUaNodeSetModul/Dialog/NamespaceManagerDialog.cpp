@@ -15,6 +15,8 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
+#include <QLabel>
+#include <QVBoxLayout>
 
 #include "OpcUaNodeSetModul/Dialog/NamespaceManagerDialog.h"
 
@@ -26,6 +28,13 @@ namespace OpcUaNodeSet
 	: QDialog()
 	, dataModel_(dataModel)
 	{
+		this->setWindowTitle(QString("Namespace Manager"));
+
+		QVBoxLayout* vBoxLayout = new QVBoxLayout();
+
+		vBoxLayout->addWidget(new QLabel("todo"));
+
+		setLayout(vBoxLayout);
 	}
 
 	NamespaceManagerDialog::~NamespaceManagerDialog(void)
