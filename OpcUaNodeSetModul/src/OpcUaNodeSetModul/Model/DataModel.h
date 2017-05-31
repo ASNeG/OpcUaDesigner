@@ -29,11 +29,15 @@ namespace OpcUaNodeSet
 	class DataModel
 	{
 	  public:
+		typedef std::set<std::string> VisibleNamespaceSet;
+
 		DataModel(void);
 		~DataModel(void);
 
 		InformationModel::SPtr& informationModel(void);
 		NodeSetNamespace& nodeSetNamespace(void);
+		bool namespaceVisible(const std::string& namespaceName);
+		void namespaceVisible(const std::string& namespaceName, bool visible);
 		bool loadStandardNodeSet(
 			const std::string& standardNodeSetFileName
 		);
@@ -49,6 +53,7 @@ namespace OpcUaNodeSet
 	  private:
 		InformationModel::SPtr informationModel_;
 		NodeSetNamespace nodeSetNamespace_;
+		VisibleNamespaceSet notVisibleNamespaceSet_;
 	};
 
 }

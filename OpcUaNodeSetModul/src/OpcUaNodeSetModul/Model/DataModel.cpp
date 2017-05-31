@@ -30,6 +30,7 @@ namespace OpcUaNodeSet
 	DataModel::DataModel(void)
 	: informationModel_(constructSPtr<InformationModel>())
 	, nodeSetNamespace_()
+	, notVisibleNamespaceSet_()
 	{
 	}
 
@@ -47,6 +48,31 @@ namespace OpcUaNodeSet
 	DataModel::nodeSetNamespace(void)
 	{
 		return nodeSetNamespace_;
+	}
+
+	bool
+	DataModel::namespaceVisible(const std::string& namespaceName)
+	{
+		VisibleNamespaceSet::iterator it;
+		it = notVisibleNamespaceSet_.find(namespaceName);
+		return it == notVisibleNamespaceSet_.end();
+	}
+
+	void
+	DataModel::namespaceVisible(const std::string& namespaceName, bool visible)
+	{
+		VisibleNamespaceSet::iterator it;
+		it = notVisibleNamespaceSet_.find(namespaceName);
+
+		if (visible) {
+			// remove from namespace set
+			if (it == notVisibleNamespaceSet_.end()) return;
+			notVisibleNamespaceSet_.erase(it);
+		}
+		else {
+			// add to namespace set
+			notVisibleNamespaceSet_.insert(namespaceName);
+		}
 	}
 
 	bool
