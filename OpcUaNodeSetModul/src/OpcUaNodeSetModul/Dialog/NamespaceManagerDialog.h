@@ -25,6 +25,7 @@
 #include "OpcUaNodeSetModul/Model/DataModel.h"
 
 class QTableWidget;
+class QTableWidgetItem;
 
 namespace OpcUaNodeSet
 {
@@ -40,6 +41,8 @@ namespace OpcUaNodeSet
 
 	  public slots:
 	  	void onAddRowAction(void);
+	  	void onCellChanged(int row, int column);
+	  	void onCurrentItemChanged(QTableWidgetItem* newItem, QTableWidgetItem* oldItem);
 
       signals:
 
