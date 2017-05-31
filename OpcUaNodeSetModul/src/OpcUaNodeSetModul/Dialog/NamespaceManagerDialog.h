@@ -20,6 +20,8 @@
 
 #include <QDialog>
 #include <QWidget>
+#include <QToolBar>
+#include <QAction>
 #include "OpcUaNodeSetModul/Model/DataModel.h"
 
 class QTableWidget;
@@ -37,6 +39,7 @@ namespace OpcUaNodeSet
 		virtual ~NamespaceManagerDialog(void);
 
 	  public slots:
+	  	void onAddRowAction(void);
 
       signals:
 
@@ -44,8 +47,19 @@ namespace OpcUaNodeSet
       	//
         // private functions
         //
+      	void createTableActions(void);
         void writeHeader(void);
         void writeData(void);
+
+		//
+		// table action
+		//
+		QAction* addRowAction_;
+
+     	//
+      	// widgets
+      	//
+		QToolBar* tableToolBar_;
 
         DataModel* dataModel_;
 

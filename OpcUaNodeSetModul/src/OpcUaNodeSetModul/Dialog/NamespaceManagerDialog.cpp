@@ -20,6 +20,7 @@
 #include <QTableWidget>
 #include <QTableWidgetItem>
 #include <QStringList>
+#include <QToolBar>
 
 #include "OpcUaNodeSetModul/Dialog/NamespaceManagerDialog.h"
 
@@ -31,9 +32,17 @@ namespace OpcUaNodeSet
 	: QDialog()
 	, dataModel_(dataModel)
 	{
-		this->setWindowTitle(QString("Namespace Manager"));
+		setWindowTitle(QString("Namespace Manager"));
 
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
+
+		//
+		// table tool bar
+		//
+		createTableActions();
+		tableToolBar_ = new QToolBar();
+		tableToolBar_->addAction(addRowAction_);
+		vBoxLayout->addWidget(tableToolBar_);
 
 		//
 		// create table widget
@@ -58,6 +67,11 @@ namespace OpcUaNodeSet
 	//
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
+	void
+	NamespaceManagerDialog::onAddRowAction(void)
+	{
+		// FIXME: todo
+	}
 
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
@@ -66,6 +80,14 @@ namespace OpcUaNodeSet
 	//
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
+	void
+	NamespaceManagerDialog::createTableActions(void)
+	{
+		addRowAction_ = new QAction("Add table row", this);
+		addRowAction_->setIcon(QIcon(":images/Add.png"));
+		connect(addRowAction_, SIGNAL(triggered()), this, SLOT(onAddRowAction()));
+	}
+
 	void
 	NamespaceManagerDialog::writeHeader(void)
 	{
@@ -99,9 +121,10 @@ namespace OpcUaNodeSet
 			namespaceTable_->setItem(idx, 0, item);
 
 			// visible
+			bool isVisible = dataModel_->namespaceVisible(namespaceVec[idx]);
 			item = new QTableWidgetItem();
 			item->data(Qt::CheckStateRole);
-			item->setCheckState(Qt::Checked);
+			item->setCheckState(isVisible ? Qt::Checked : Qt::Unchecked);
 			namespaceTable_->setItem(idx, 1, item);
 
 			// namespace name
