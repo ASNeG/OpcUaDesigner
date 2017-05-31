@@ -22,6 +22,8 @@
 #include <QWidget>
 #include "OpcUaNodeSetModul/Model/DataModel.h"
 
+class QTableWidget;
+
 namespace OpcUaNodeSet
 {
 
@@ -39,7 +41,15 @@ namespace OpcUaNodeSet
       signals:
 
 	  private:
+      	//
+        // private functions
+        //
+        void writeHeader(void);
+        void writeData(void);
+
         DataModel* dataModel_;
+
+        QTableWidget* namespaceTable_;
 
 	};
 

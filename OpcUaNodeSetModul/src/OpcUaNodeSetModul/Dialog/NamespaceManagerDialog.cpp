@@ -17,6 +17,9 @@
 
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QTableWidget>
+#include <QTableWidgetItem>
+#include <QStringList>
 
 #include "OpcUaNodeSetModul/Dialog/NamespaceManagerDialog.h"
 
@@ -32,7 +35,14 @@ namespace OpcUaNodeSet
 
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
 
-		vBoxLayout->addWidget(new QLabel("todo"));
+		//
+		// create table widget
+		//
+		namespaceTable_ = new QTableWidget(0,2);
+		namespaceTable_->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+		writeHeader();
+		writeData();
+		vBoxLayout->addWidget(namespaceTable_);
 
 		setLayout(vBoxLayout);
 	}
@@ -56,6 +66,26 @@ namespace OpcUaNodeSet
 	//
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
+	void
+	NamespaceManagerDialog::writeHeader(void)
+	{
+		QStringList headerLabels;
+
+		// reset table
+		namespaceTable_->setColumnCount(0);
+		namespaceTable_->setRowCount(0);
+
+		// create table header
+		namespaceTable_->setColumnCount(3);
+		headerLabels << "Idx" << "Visible" << "Namespace";
+		namespaceTable_->setHorizontalHeaderLabels(headerLabels);
+	}
+
+	void
+	NamespaceManagerDialog::writeData(void)
+	{
+		// FIXME: todo
+	}
 
 }
 
