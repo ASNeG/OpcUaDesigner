@@ -33,6 +33,7 @@ namespace OpcUaNodeSet
 	, dataModel_(dataModel)
 	{
 		setWindowTitle(QString("Namespace Manager"));
+		this->setFixedWidth(900);
 
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
 
@@ -140,31 +141,40 @@ namespace OpcUaNodeSet
 		NamespaceVec& namespaceVec = dataModel_->nodeSetNamespace().globalNamespaceVec();
 
 		for (uint32_t row = 0; row < namespaceVec.size(); row++) {
-			QTableWidgetItem* item;
-
-			// added new row to table
-			namespaceTable_->insertRow(namespaceTable_->rowCount());
-
-			// index
-			item = new QTableWidgetItem();
-			item->setText(QString("%1").arg(row));
-			item->setFlags(item->flags() ^ Qt::ItemIsEditable);
-			namespaceTable_->setItem(row, 0, item);
-
-			// visible
-			bool isVisible = dataModel_->namespaceVisible(namespaceVec[row]);
-			item = new QTableWidgetItem();
-			item->data(Qt::CheckStateRole);
-			item->setCheckState(isVisible ? Qt::Checked : Qt::Unchecked);
-			if (row == 0) item->setFlags(item->flags() ^ Qt::ItemIsEditable);
-			namespaceTable_->setItem(row, 1, item);
-
-			// namespace name
-			item = new QTableWidgetItem();
-			item->setText(QString(namespaceVec[row].c_str()));
-			if (row == 0) item->setFlags(item->flags() ^ Qt::ItemIsEditable);
-			namespaceTable_->setItem(row, 2, item);
+			addRow(row);
 		}
+	}
+
+	void
+	NamespaceManagerDialog::addRow(uint32_t row)
+	{
+		NamespaceVec& namespaceVec = dataModel_->nodeSetNamespace().globalNamespaceVec();
+		QTableWidgetItem* item;
+
+		// added new row to table
+		namespaceTable_->insertRow(namespaceTable_->rowCount());
+
+		// index
+		item = new QTableWidgetItem();
+		item->setText(QString("%1").arg(row));
+		item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+		namespaceTable_->setItem(row, 0, item);
+
+		// visible
+		bool isVisible = dataModel_->namespaceVisible(namespaceVec[row]);
+		item = new QTableWidgetItem();
+		item->data(Qt::CheckStateRole);
+		item->setCheckState(isVisible ? Qt::Checked : Qt::Unchecked);
+		if (row == 0) item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+		namespaceTable_->setItem(row, 1, item);
+
+		// namespace name
+		item = new QTableWidgetItem();
+		item->setText(QString(namespaceVec[row].c_str()));
+		if (row == 0) item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+		namespaceTable_->setItem(row, 2, item);
+
+		namespaceTable_->resizeColumnsToContents();
 	}
 
 }

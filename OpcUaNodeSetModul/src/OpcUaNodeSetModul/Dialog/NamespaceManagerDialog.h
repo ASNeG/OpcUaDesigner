@@ -53,6 +53,7 @@ namespace OpcUaNodeSet
       	void createTableActions(void);
         void writeHeader(void);
         void writeData(void);
+        void addRow(uint32_t row);
 
 		//
 		// table action
