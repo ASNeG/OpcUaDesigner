@@ -29,6 +29,7 @@ namespace OpcUaNodeSet
 
 	DataModel::DataModel(void)
 	: informationModel_(constructSPtr<InformationModel>())
+	, nodeSetNamespace_()
 	{
 	}
 
@@ -40,6 +41,12 @@ namespace OpcUaNodeSet
 	DataModel::informationModel(void)
 	{
 		return informationModel_;
+	}
+
+	NodeSetNamespace&
+	DataModel::nodeSetNamespace(void)
+	{
+		return nodeSetNamespace_;
 	}
 
 	bool

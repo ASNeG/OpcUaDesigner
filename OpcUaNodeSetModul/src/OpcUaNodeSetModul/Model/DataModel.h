@@ -19,6 +19,7 @@
 #define __OpcUaNodeSetModul_DataModel_h__
 
 #include "OpcUaStackServer/InformationModel/InformationModel.h"
+#include "OpcUaStackServer/NodeSet/NodeSetNamespace.h"
 
 using namespace OpcUaStackServer;
 
@@ -32,6 +33,7 @@ namespace OpcUaNodeSet
 		~DataModel(void);
 
 		InformationModel::SPtr& informationModel(void);
+		NodeSetNamespace& nodeSetNamespace(void);
 		bool loadStandardNodeSet(
 			const std::string& standardNodeSetFileName
 		);
@@ -46,6 +48,7 @@ namespace OpcUaNodeSet
 
 	  private:
 		InformationModel::SPtr informationModel_;
+		NodeSetNamespace nodeSetNamespace_;
 	};
 
 }
