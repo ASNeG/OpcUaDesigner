@@ -84,7 +84,31 @@ namespace OpcUaNodeSet
 	void
 	NamespaceManagerDialog::writeData(void)
 	{
-		// FIXME: todo
+		NamespaceVec::iterator it;
+		NamespaceVec& namespaceVec = dataModel_->nodeSetNamespace().globalNamespaceVec();
+
+		for (uint32_t idx = 0; idx < namespaceVec.size(); idx++) {
+			QTableWidgetItem* item;
+
+			// added new row to table
+			namespaceTable_->insertRow(namespaceTable_->rowCount());
+
+			// index
+			item = new QTableWidgetItem();
+			item->setText(QString("%1").arg(idx));
+			namespaceTable_->setItem(idx, 0, item);
+
+			// visible
+			item = new QTableWidgetItem();
+			item->data(Qt::CheckStateRole);
+			item->setCheckState(Qt::Checked);
+			namespaceTable_->setItem(idx, 1, item);
+
+			// namespace name
+			item = new QTableWidgetItem();
+			item->setText(QString(namespaceVec[idx].c_str()));
+			namespaceTable_->setItem(idx, 2, item);
+		}
 	}
 
 }
