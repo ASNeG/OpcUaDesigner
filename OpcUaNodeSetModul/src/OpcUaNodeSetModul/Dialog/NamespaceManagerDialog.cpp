@@ -70,7 +70,9 @@ namespace OpcUaNodeSet
 	void
 	NamespaceManagerDialog::onAddRowAction(void)
 	{
-		// FIXME: todo
+		dataModel_->nodeSetNamespace().addNewGlobalNamespace("NewNamespace");
+		writeHeader();
+		writeData();
 	}
 
 	// ------------------------------------------------------------------------
