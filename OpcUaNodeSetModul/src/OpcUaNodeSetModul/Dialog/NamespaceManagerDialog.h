@@ -63,6 +63,7 @@ namespace OpcUaNodeSet
       	//
 		QToolBar* tableToolBar_;
 
+		uint16_t maxNamespaceIndex_;
 		std::vector<std::string> namespaceVec_;
         DataModel* dataModel_;
 

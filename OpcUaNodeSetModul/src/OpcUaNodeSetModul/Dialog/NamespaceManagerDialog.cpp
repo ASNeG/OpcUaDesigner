@@ -30,9 +30,24 @@ namespace OpcUaNodeSet
 
 	NamespaceManagerDialog::NamespaceManagerDialog(DataModel* dataModel)
 	: QDialog()
+	, maxNamespaceIndex_(0)
 	, dataModel_(dataModel)
 	{
 		namespaceVec_ = dataModel_->nodeSetNamespace().globalNamespaceVec();
+
+		InformationModelMap::iterator it;
+		for (it = dataModel_->informationModel()->informationModelMap().begin();
+			 it != dataModel_->informationModel()->informationModelMap().end();
+			 it++
+			)
+		{
+			OpcUaNodeId nodeId;
+			BaseNodeClass::SPtr baseNode = it->second;
+			baseNode->getNodeId(nodeId);
+			if (nodeId.namespaceIndex() > maxNamespaceIndex_) {
+				maxNamespaceIndex_ = nodeId.namespaceIndex();
+			}
+		}
 
 		setWindowTitle(QString("Namespace Manager"));
 		this->setFixedWidth(900);
