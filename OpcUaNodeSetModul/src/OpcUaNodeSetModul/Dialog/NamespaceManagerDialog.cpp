@@ -32,6 +32,8 @@ namespace OpcUaNodeSet
 	: QDialog()
 	, dataModel_(dataModel)
 	{
+		namespaceVec_ = dataModel_->nodeSetNamespace().globalNamespaceVec();
+
 		setWindowTitle(QString("Namespace Manager"));
 		this->setFixedWidth(900);
 
@@ -54,18 +56,6 @@ namespace OpcUaNodeSet
 		writeData();
 		vBoxLayout->addWidget(namespaceTable_);
 
-		//
-		// signal - slot
-		//
-		connect(
-			namespaceTable_, SIGNAL(cellChanged(int, int)),
-			this, SLOT(onCellChanged(int, int))
-		);
-		connect(
-			namespaceTable_, SIGNAL(currentItemChanged(QTableWidgetItem*, QTableWidgetItem*)),
-			this, SLOT(onCurrentItemChanged(QTableWidgetItem*, QTableWidgetItem*))
-		);
-
 		setLayout(vBoxLayout);
 	}
 
@@ -83,25 +73,33 @@ namespace OpcUaNodeSet
 	void
 	NamespaceManagerDialog::onAddRowAction(void)
 	{
-		dataModel_->nodeSetNamespace().addNewGlobalNamespace("NewNamespace");
-		writeHeader();
-		writeData();
-	}
+		uint32_t counter = 0;
+		std::stringstream ss;
 
-	void
-	NamespaceManagerDialog::onCellChanged(int row, int column)
-	{
-		std::cout << "CellChanged - " << row << " " << column << std::endl;
-	}
+		while (true)
+		{
+			ss.str("");
+			ss << "http://ASNeG.de/New" << counter;
 
-	void
-	NamespaceManagerDialog::onCurrentItemChanged(QTableWidgetItem* newItem, QTableWidgetItem* oldItem)
-	{
-		std::string oldString = "";
-		std::string newString = "";
-		if (oldItem != NULL) oldString = oldItem->text().toStdString();
-		if (newItem != NULL) newString = newItem->text().toStdString();
-		std::cout << "ItemChanged: " << oldString << " - " <<  newString << std::endl;
+			bool exist = false;
+			for (uint32_t idx = 0; idx < namespaceVec_.size(); idx++) {
+				if (ss.str() == namespaceVec_[idx]) {
+					exist = true;
+					continue;
+				}
+			}
+
+			if (exist) {
+				counter++;
+				continue;
+			}
+
+			namespaceVec_.push_back(ss.str());
+			break;
+
+		}
+
+		addRow(namespaceVec_.size()-1);
 	}
 
 	// ------------------------------------------------------------------------
@@ -137,10 +135,7 @@ namespace OpcUaNodeSet
 	void
 	NamespaceManagerDialog::writeData(void)
 	{
-		NamespaceVec::iterator it;
-		NamespaceVec& namespaceVec = dataModel_->nodeSetNamespace().globalNamespaceVec();
-
-		for (uint32_t row = 0; row < namespaceVec.size(); row++) {
+		for (uint32_t row = 0; row < namespaceVec_.size(); row++) {
 			addRow(row);
 		}
 	}
@@ -148,7 +143,6 @@ namespace OpcUaNodeSet
 	void
 	NamespaceManagerDialog::addRow(uint32_t row)
 	{
-		NamespaceVec& namespaceVec = dataModel_->nodeSetNamespace().globalNamespaceVec();
 		QTableWidgetItem* item;
 
 		// added new row to table
@@ -161,7 +155,7 @@ namespace OpcUaNodeSet
 		namespaceTable_->setItem(row, 0, item);
 
 		// visible
-		bool isVisible = dataModel_->namespaceVisible(namespaceVec[row]);
+		bool isVisible = dataModel_->namespaceVisible(namespaceVec_[row]);
 		item = new QTableWidgetItem();
 		item->data(Qt::CheckStateRole);
 		item->setCheckState(isVisible ? Qt::Checked : Qt::Unchecked);
@@ -170,7 +164,7 @@ namespace OpcUaNodeSet
 
 		// namespace name
 		item = new QTableWidgetItem();
-		item->setText(QString(namespaceVec[row].c_str()));
+		item->setText(QString(namespaceVec_[row].c_str()));
 		if (row == 0) item->setFlags(item->flags() ^ Qt::ItemIsEditable);
 		namespaceTable_->setItem(row, 2, item);
 

@@ -41,8 +41,6 @@ namespace OpcUaNodeSet
 
 	  public slots:
 	  	void onAddRowAction(void);
-	  	void onCellChanged(int row, int column);
-	  	void onCurrentItemChanged(QTableWidgetItem* newItem, QTableWidgetItem* oldItem);
 
       signals:
 
@@ -65,6 +63,7 @@ namespace OpcUaNodeSet
       	//
 		QToolBar* tableToolBar_;
 
+		std::vector<std::string> namespaceVec_;
         DataModel* dataModel_;
 
         QTableWidget* namespaceTable_;
