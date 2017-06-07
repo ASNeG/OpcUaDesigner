@@ -44,6 +44,8 @@ namespace OpcUaNodeSet
 	  	void onDeleteRowAction(void);
 	    void onCellChanged(int row, int column);
 	    void onCurrentItemChanged(QTableWidgetItem* newItem, QTableWidgetItem* oldItem);
+	    void onCancelAction(void);
+	    void onOkAction(void);
 
       signals:
 

@@ -17,11 +17,13 @@
 
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QTableWidget>
 #include <QTableWidgetItem>
 #include <QStringList>
 #include <QToolBar>
 #include <QMessageBox>
+#include <QPushButton>
 
 #include "OpcUaNodeSetModul/Dialog/NamespaceManagerDialog.h"
 
@@ -73,6 +75,16 @@ namespace OpcUaNodeSet
 		vBoxLayout->addWidget(namespaceTable_);
 
 		//
+		// create cancel and ok button
+		//
+		QHBoxLayout* buttonLayout = new QHBoxLayout();
+		QPushButton* cancelButton = new QPushButton(tr("Cancel"));
+		buttonLayout->addWidget(cancelButton);
+		QPushButton* okButton = new QPushButton(tr("Ok"));
+		buttonLayout->addWidget(okButton);
+		vBoxLayout->addLayout(buttonLayout);
+
+		//
 		// actions
 		//
 		connect(
@@ -82,6 +94,14 @@ namespace OpcUaNodeSet
 		connect(
 			namespaceTable_, SIGNAL(cellChanged(int, int)),
 			this, SLOT(onCellChanged(int, int))
+		);
+		connect(
+			cancelButton, SIGNAL(clicked()),
+			this, SLOT(onCancelAction())
+		);
+		connect(
+			okButton, SIGNAL(clicked()),
+			this, SLOT(onOkAction())
 		);
 
 		setLayout(vBoxLayout);
@@ -188,8 +208,16 @@ namespace OpcUaNodeSet
        		if (newItem->row() > maxNamespaceIndex_) deleteRowAction_->setEnabled(true);
        		else deleteRowAction_->setEnabled(false);
        	}
+    }
 
-    	// FIXME: todo
+    void
+    NamespaceManagerDialog::onCancelAction(void)
+    {
+    }
+
+    void
+    NamespaceManagerDialog::onOkAction(void)
+    {
     }
 
 	// ------------------------------------------------------------------------
