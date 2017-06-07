@@ -60,6 +60,7 @@ namespace OpcUaNodeSet
 		createTableActions();
 		tableToolBar_ = new QToolBar();
 		tableToolBar_->addAction(addRowAction_);
+		tableToolBar_->addAction(deleteRowAction_);
 		vBoxLayout->addWidget(tableToolBar_);
 
 		//
@@ -70,6 +71,18 @@ namespace OpcUaNodeSet
 		writeHeader();
 		writeData();
 		vBoxLayout->addWidget(namespaceTable_);
+
+		//
+		// actions
+		//
+		connect(
+			namespaceTable_, SIGNAL(currentItemChanged(QTableWidgetItem*, QTableWidgetItem*)),
+			this, SLOT(onCurrentItemChanged(QTableWidgetItem*, QTableWidgetItem*))
+		);
+		connect(
+			namespaceTable_, SIGNAL(cellChanged(int, int)),
+			this, SLOT(onCellChanged(int, int))
+		);
 
 		setLayout(vBoxLayout);
 	}
@@ -117,6 +130,24 @@ namespace OpcUaNodeSet
 		addRow(namespaceVec_.size()-1);
 	}
 
+	void
+	NamespaceManagerDialog::onDeleteRowAction(void)
+	{
+		// FIXME: todo
+	}
+
+    void
+    NamespaceManagerDialog::onCellChanged(int row, int column)
+    {
+    	// FIXME: todo
+    }
+
+    void
+    NamespaceManagerDialog::onCurrentItemChanged(QTableWidgetItem* newItem, QTableWidgetItem* oldItem)
+    {
+    	// FIXME: todo
+    }
+
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	//
@@ -130,6 +161,11 @@ namespace OpcUaNodeSet
 		addRowAction_ = new QAction("Add table row", this);
 		addRowAction_->setIcon(QIcon(":images/Add.png"));
 		connect(addRowAction_, SIGNAL(triggered()), this, SLOT(onAddRowAction()));
+
+		deleteRowAction_ = new QAction("Delete table row", this);
+		deleteRowAction_->setIcon(QIcon(":images/Delete.png"));
+		deleteRowAction_->setEnabled(false);
+		connect(deleteRowAction_, SIGNAL(triggered()), this, SLOT(onDeleteRowAction()));
 	}
 
 	void
@@ -184,6 +220,12 @@ namespace OpcUaNodeSet
 		namespaceTable_->setItem(row, 2, item);
 
 		namespaceTable_->resizeColumnsToContents();
+	}
+
+	void
+	NamespaceManagerDialog::deleteRow(uint32_t row)
+	{
+		// FIXME: todo
 	}
 
 }

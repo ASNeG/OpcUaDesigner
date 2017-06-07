@@ -41,6 +41,9 @@ namespace OpcUaNodeSet
 
 	  public slots:
 	  	void onAddRowAction(void);
+	  	void onDeleteRowAction(void);
+	    void onCellChanged(int row, int column);
+	    void onCurrentItemChanged(QTableWidgetItem* newItem, QTableWidgetItem* oldItem);
 
       signals:
 
@@ -52,11 +55,13 @@ namespace OpcUaNodeSet
         void writeHeader(void);
         void writeData(void);
         void addRow(uint32_t row);
+        void deleteRow(uint32_t row);
 
 		//
 		// table action
 		//
 		QAction* addRowAction_;
+		QAction* deleteRowAction_;
 
      	//
       	// widgets
