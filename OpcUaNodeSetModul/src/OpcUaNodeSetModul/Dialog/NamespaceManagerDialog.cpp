@@ -150,8 +150,6 @@ namespace OpcUaNodeSet
     void
     NamespaceManagerDialog::onCellChanged(int row, int column)
     {
-    	std::cout << "cell changed - " << row << " " << column << std::endl;
-
     	if (column != 2) return;
     	QTableWidgetItem* item = namespaceTable_->item(row, column);
     	std::string value = item->text().toStdString();
@@ -182,14 +180,6 @@ namespace OpcUaNodeSet
     void
     NamespaceManagerDialog::onCurrentItemChanged(QTableWidgetItem* newItem, QTableWidgetItem* oldItem)
     {
-    	std::cout << "on current item changed - NEW ";
-    	if (newItem == NULL) std::cout << "NULL ";
-    	else std::cout << newItem->row() << " " << newItem->column() << " ";
-    	std::cout << " OLD ";
-       	if (oldItem == NULL) std::cout << "NULL ";
-        else std::cout << oldItem->row() << " " << oldItem->column() << " ";
-       	std::cout << std::endl;
-
        	if (newItem == NULL) {
        		deleteRowAction_->setEnabled(false);
        	}
