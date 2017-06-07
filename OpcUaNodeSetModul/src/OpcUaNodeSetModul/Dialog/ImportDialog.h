@@ -22,6 +22,9 @@
 #include <QWidget>
 #include "OpcUaNodeSetModul/Model/DataModel.h"
 
+class QPushButton;
+class QListWidget;
+
 namespace OpcUaNodeSet
 {
 
@@ -39,7 +42,17 @@ namespace OpcUaNodeSet
       signals:
 
 	  private:
+        //
+      	// data model
+        //
         DataModel* dataModel_;
+
+        //
+        // widgets
+        //
+        QPushButton* importButton_;
+        QListWidget* in_;
+        QListWidget* out_;
 
 	};
 
