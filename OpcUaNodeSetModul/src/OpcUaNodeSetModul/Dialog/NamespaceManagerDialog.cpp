@@ -213,11 +213,13 @@ namespace OpcUaNodeSet
     void
     NamespaceManagerDialog::onCancelAction(void)
     {
+    	close();
     }
 
     void
     NamespaceManagerDialog::onOkAction(void)
     {
+    	close();
     }
 
 	// ------------------------------------------------------------------------
