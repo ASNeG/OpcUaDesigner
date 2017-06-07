@@ -139,12 +139,29 @@ namespace OpcUaNodeSet
     void
     NamespaceManagerDialog::onCellChanged(int row, int column)
     {
+    	std::cout << "cell changed - " << row << " " << column << std::endl;
     	// FIXME: todo
     }
 
     void
     NamespaceManagerDialog::onCurrentItemChanged(QTableWidgetItem* newItem, QTableWidgetItem* oldItem)
     {
+    	std::cout << "on current item changed - NEW ";
+    	if (newItem == NULL) std::cout << "NULL ";
+    	else std::cout << newItem->row() << " " << newItem->column() << " ";
+    	std::cout << " OLD ";
+       	if (oldItem == NULL) std::cout << "NULL ";
+        else std::cout << oldItem->row() << " " << oldItem->column() << " ";
+       	std::cout << std::endl;
+
+       	if (newItem == NULL) {
+       		deleteRowAction_->setEnabled(false);
+       	}
+       	else {
+       		if (newItem->row() > maxNamespaceIndex_) deleteRowAction_->setEnabled(true);
+       		else deleteRowAction_->setEnabled(false);
+       	}
+
     	// FIXME: todo
     }
 
