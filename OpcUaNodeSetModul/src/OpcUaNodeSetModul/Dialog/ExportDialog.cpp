@@ -100,7 +100,7 @@ namespace OpcUaNodeSet
 		//
 		// data model
 		//
-		//fillList();
+		fillList();
 
 		setLayout(vBoxLayout);
 	}
@@ -116,6 +116,35 @@ namespace OpcUaNodeSet
 	//
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
+    void
+    ExportDialog::onRightAction(void)
+    {
+    	QList<QListWidgetItem*> items = out_->selectedItems();
+
+    	for (int idx=0; idx<items.size(); idx++) {
+    		QListWidgetItem* oldItem = items.at(idx);
+    		QListWidgetItem* newItem = new QListWidgetItem(oldItem->text());
+
+    		delete oldItem;
+    		in_->addItem(newItem);
+    	}
+    	enableExportButton();
+    }
+
+    void
+    ExportDialog::onLeftAction(void)
+    {
+    }
+
+    void
+    ExportDialog::onExitAction(void)
+    {
+    }
+
+    void
+    ExportDialog::onExportAction(void)
+    {
+    }
 
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
@@ -124,6 +153,28 @@ namespace OpcUaNodeSet
 	//
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
+	void
+	ExportDialog::fillList(void)
+	{
+		NamespaceVec::iterator it;
+		NamespaceVec namespaceVec = dataModel_->nodeSetNamespace().globalNamespaceVec();
+
+		for (it = namespaceVec.begin(); it != namespaceVec.end(); it++) {
+			QListWidgetItem* item = new QListWidgetItem((*it).c_str());
+			out_->addItem(item);
+		}
+	}
+
+	void
+	ExportDialog::enableExportButton(void)
+	{
+		if (in_->count() > 0) {
+			saveButton_->setEnabled(true);
+		}
+		else {
+			saveButton_->setEnabled(false);
+		}
+	}
 
 }
 

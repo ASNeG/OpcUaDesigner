@@ -49,6 +49,9 @@ namespace OpcUaNodeSet
       signals:
 
 	  private:
+    	void fillList(void);
+    	void enableExportButton(void);
+
         DataModel* dataModel_;
 
         //
