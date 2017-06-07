@@ -217,6 +217,7 @@ namespace OpcUaNodeSet
 
 		if (parentItem == NULL) {
 			opcUaTree_->addTopLevelItem(item);
+			rootItem_ = item;
 		}
 		else {
 			parentItem->addChild(item);
@@ -243,18 +244,33 @@ namespace OpcUaNodeSet
 		QTreeWidgetItem* item
 	)
 	{
-		if(!item) return;
+		if(item == NULL) return;
 
+		// delete children of node item
+		while (item->childCount() > 0) {
+			removeNode(item->child(0));
+		}
+
+		// delete node info
 		QVariant v = item->data(0, Qt::UserRole);
 		NodeInfo* nodeInfo = v.value<NodeInfo*>();
 		delete nodeInfo;
 
-		delete item->parent()->takeChild(item->parent()->indexOfChild(item));
+		// delete node
+		if (item == rootItem_) {
+			delete opcUaTree_->takeTopLevelItem(opcUaTree_->indexOfTopLevelItem(item));
+		}
+		else {
+			//opcUaTree_->removeItemWidget(item, 0);
+			delete item->parent()->takeChild(item->parent()->indexOfChild(item));
+		}
 	}
 
 	void
 	OpcUaTreeWindow::onCurrentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previos)
 	{
+		if (current == NULL) return;
+
 		QVariant v = current->data(0, Qt::UserRole);
 		NodeInfo* nodeInfo = v.value<NodeInfo*>();
 		emit nodeChanged(nodeInfo);
@@ -295,6 +311,9 @@ namespace OpcUaNodeSet
 	{
 		ImportDialog importDialog(dataModel_);
 		importDialog.exec();
+
+		removeNode(rootItem_);
+		show();
 	}
 
     void
