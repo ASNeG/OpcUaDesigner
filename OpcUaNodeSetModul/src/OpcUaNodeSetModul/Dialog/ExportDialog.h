@@ -22,6 +22,9 @@
 #include <QWidget>
 #include "OpcUaNodeSetModul/Model/DataModel.h"
 
+class QListWidget;
+class QPushButton;
+
 namespace OpcUaNodeSet
 {
 
@@ -35,11 +38,25 @@ namespace OpcUaNodeSet
 		virtual ~ExportDialog(void);
 
 	  public slots:
+	    //
+	    // dialog slots
+	    //
+	    void onRightAction(void);
+	    void onLeftAction(void);
+	    void onExitAction(void);
+	    void onExportAction(void);
 
       signals:
 
 	  private:
         DataModel* dataModel_;
+
+        //
+         // widgets
+         //
+         QPushButton* saveButton_;
+         QListWidget* in_;
+         QListWidget* out_;
 
 	};
 
