@@ -38,6 +38,20 @@ namespace OpcUaNodeSet
 		virtual ~ImportDialog(void);
 
 	  public slots:
+	    //
+	  	// context menu
+	    //
+	    void onCustomContextMenuRequested(const QPoint& pos);
+	    void onRenameAction(void);
+
+	    //
+	    // dialog slots
+	    //
+	    void onRightAction(void);
+	    void onLeftAction(void);
+	    void onExitAction(void);
+	    void onTakeOverAction(void);
+	    void onImportAction(void);
 
       signals:
 

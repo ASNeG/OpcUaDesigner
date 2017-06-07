@@ -118,10 +118,222 @@ namespace OpcUaNodeSet
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	//
+	// context menu function
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	void
+	ImportDialog::onCustomContextMenuRequested(const QPoint& pos)
+	{
+#if 0
+	    QMenu menu;
+
+		QAction* action = new QAction("Rename", this);
+		action->setIcon(QIcon(":images/Edit.png"));
+		menu.addAction(action);
+		connect(action, SIGNAL(triggered()), this, SLOT(onRenameAction()));
+
+	    // show menu
+	    menu.exec(out_->viewport()->mapToGlobal(pos));
+#endif
+	}
+
+	void
+	ImportDialog::onRenameAction(void)
+	{
+#if 0
+		// get current item from out list
+		QListWidgetItem* item = out_->currentItem();
+
+		// ask new type name
+		bool success;
+		QString newTypeName = QInputDialog::getText(this,
+			"Change Type Name",
+			"Please input new type name:",
+			QLineEdit::Normal,
+			item->text(),
+			&success
+		);
+		if (!success || newTypeName.isEmpty()) {
+			return;
+		}
+
+		// check new type name
+		if (dataModel_->existTypes(newTypeName.toStdString()) ||
+			importDataModel_.existTypes(newTypeName.toStdString())) {
+	    	QMessageBox::critical(this,
+	    		tr("import types error"),
+	    		tr("type %1 already exist in data model").arg(newTypeName)
+	    	);
+			return;
+		}
+
+		// set new type name
+		importDataModel_.changeTypes(item->text().toStdString(), newTypeName.toStdString());
+		item->setText(newTypeName);
+#endif
+	}
+
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
 	// dialog slots
 	//
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
+    void
+    ImportDialog::onRightAction(void)
+    {
+#if 0
+    	QList<QListWidgetItem*> items = out_->selectedItems();
+
+    	for (int idx=0; idx<items.size(); idx++) {
+    		QListWidgetItem* oldItem = items.at(idx);
+
+    		// duplicate check
+    		if (dataModel_->existTypes(oldItem->text().toStdString())) {
+    			QMessageBox::critical(this,
+    				tr("import types error"),
+    				tr("type %1 already exist in data model").arg(oldItem->text())
+    			);
+    			continue;
+    		}
+
+    		// create new item
+    		QListWidgetItem* newItem = new QListWidgetItem(oldItem->text());
+    		newItem->setIcon(QIcon(":images/ObjectType.png"));
+
+    		// delete old item
+    		delete oldItem;
+    		in_->addItem(newItem);
+    	}
+
+    	if (in_->count() > 0) importButton_->setEnabled(true);
+    	else importButton_->setEnabled(false);
+#endif
+    }
+
+    void
+    ImportDialog::onLeftAction(void)
+    {
+#if 0
+    	QList<QListWidgetItem*> items = in_->selectedItems();
+
+    	for (int idx=0; idx<items.size(); idx++) {
+    		QListWidgetItem* oldItem = items.at(idx);
+    		QListWidgetItem* newItem = new QListWidgetItem(oldItem->text());
+    		newItem->setIcon(QIcon(":images/ObjectType.png"));
+
+    		delete oldItem;
+    		out_->addItem(newItem);
+    	}
+
+       	if (in_->count() > 0) importButton_->setEnabled(true);
+        else importButton_->setEnabled(false);
+#endif
+    }
+
+	void
+	ImportDialog::onExitAction(void)
+	{
+#if 0
+		importDataModel_.clearTypes();
+		in_->clear();
+		out_->clear();
+		close();
+#endif
+	}
+
+	void
+	ImportDialog::onTakeOverAction(void)
+	{
+		close();
+	}
+
+	void
+	ImportDialog::onImportAction(void)
+	{
+#if 0
+		importDataModel_.clearTypes();
+		in_->clear();
+		out_->clear();
+
+		// get type file name
+		std::string docs = "Types (*.TypesClient.xml)";
+		if (role_ == Types::Server) docs = "Types (*.TypesServer.xml)";
+		QString fileName = QFileDialog::getOpenFileName(
+			NULL, tr("Set Import Types File"), QDir::homePath(), QString(docs.c_str())
+		);
+		if (fileName.isNull()) {
+			return;
+		}
+
+		// read types file
+		ConfigXml configXml;
+		if (!configXml.read(fileName.toStdString())) {
+			QMessageBox::critical(this,
+				tr("import types error"),
+				tr("read types file %1 error").arg(fileName)
+			);
+			return;
+		}
+
+		// create configuration
+		Config config;
+		config.child(configXml.ptree());
+
+		// create types
+		if (!config.exist("Types")) {
+			QMessageBox::critical(this,
+				tr("import types error"),
+				tr("invalid format in types file %1 - Types element missing").arg(fileName)
+			);
+			return;
+		}
+
+		std::vector<Config> configTypesVec;
+		config.getChilds("Types.DataType", configTypesVec);
+		if (configTypesVec.size() == 0) {
+			QMessageBox::critical(this,
+				tr("import types error"),
+				tr("invalid format in types file %1 -  DataType element missing").arg(fileName)
+			);
+			return;
+		}
+
+		// decode configuration - create types
+		std::vector<Config>::iterator it1;
+		for (it1 = configTypesVec.begin(); it1 != configTypesVec.end(); it1++) {
+			Types::SPtr types = constructSPtr<Types>();
+			if (!types->decode(*it1)) {
+				QMessageBox::critical(this,
+					tr("import types error"),
+					tr("invalid format in types file %1 -  DataType element missing").arg(fileName)
+				);
+				return;
+			}
+			if (importDataModel_.existTypes(types->name())) {
+				QMessageBox::critical(this,
+					tr("import types error"),
+					tr("duplicate type definition in types file %1").arg(fileName)
+				);
+				return;
+			}
+
+			if (role_ != types->role()) continue;
+
+			importDataModel_.insertTypes(types);
+		}
+
+		// fill list
+		Types::Map::iterator it2;
+		for (it2 = importDataModel_.typesMap().begin(); it2 != importDataModel_.typesMap().end(); it2++) {
+			QListWidgetItem* item = new QListWidgetItem(QString(it2->first.c_str()));
+			item->setIcon(QIcon(":images/ObjectType.png"));
+			out_->addItem(item);
+		}
+#endif
+	}
 
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
