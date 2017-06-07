@@ -21,6 +21,7 @@
 #include <QTableWidgetItem>
 #include <QStringList>
 #include <QToolBar>
+#include <QMessageBox>
 
 #include "OpcUaNodeSetModul/Dialog/NamespaceManagerDialog.h"
 
@@ -32,6 +33,7 @@ namespace OpcUaNodeSet
 	: QDialog()
 	, maxNamespaceIndex_(0)
 	, dataModel_(dataModel)
+	, actValue_("")
 	{
 		InformationModelMap::iterator it;
 		for (it = dataModel_->informationModel()->informationModelMap().begin();
@@ -149,7 +151,32 @@ namespace OpcUaNodeSet
     NamespaceManagerDialog::onCellChanged(int row, int column)
     {
     	std::cout << "cell changed - " << row << " " << column << std::endl;
-    	// FIXME: todo
+
+    	if (column != 2) return;
+    	QTableWidgetItem* item = namespaceTable_->item(row, column);
+    	std::string value = item->text().toStdString();
+    	if (actValue_ == value) return;
+
+    	uint32_t found = 0;
+		for (uint32_t idx = 0; idx < namespaceTable_->rowCount(); idx++) {
+			QTableWidgetItem* itemTmp = namespaceTable_->item(idx, column);
+			if (itemTmp->text().toStdString() == value) {
+				found++;
+			}
+		}
+
+		if (found > 1) {
+			QMessageBox::warning(
+				this,
+				tr("Namespace error"),
+				tr("Dupplicate namespace found in table"),
+				QMessageBox::Ok
+		    );
+			item->setText(actValue_.c_str());
+		}
+		else {
+			actValue_ = value;
+		}
     }
 
     void
@@ -167,6 +194,7 @@ namespace OpcUaNodeSet
        		deleteRowAction_->setEnabled(false);
        	}
        	else {
+       		actValue_ = newItem->text().toStdString();
        		if (newItem->row() > maxNamespaceIndex_) deleteRowAction_->setEnabled(true);
        		else deleteRowAction_->setEnabled(false);
        	}

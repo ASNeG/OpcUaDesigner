@@ -71,6 +71,7 @@ namespace OpcUaNodeSet
 		uint16_t maxNamespaceIndex_;
         DataModel* dataModel_;
 
+        std::string actValue_;
         QTableWidget* namespaceTable_;
 
 	};
