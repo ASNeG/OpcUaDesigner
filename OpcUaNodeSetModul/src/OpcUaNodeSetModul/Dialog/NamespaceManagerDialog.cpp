@@ -133,7 +133,18 @@ namespace OpcUaNodeSet
 	void
 	NamespaceManagerDialog::onDeleteRowAction(void)
 	{
-		// FIXME: todo
+		// get current row
+		int row = namespaceTable_->currentRow();
+		if (row < 0) return;
+
+		// delete current row
+		namespaceTable_->removeRow(row);
+
+		// update the following lines
+		for (uint32_t idx = row; idx < namespaceTable_->rowCount()-2; idx++) {
+			QTableWidgetItem* item = namespaceTable_->item(row, 0);
+			item->setText(QString("%1").arg(idx));
+		}
 	}
 
     void
