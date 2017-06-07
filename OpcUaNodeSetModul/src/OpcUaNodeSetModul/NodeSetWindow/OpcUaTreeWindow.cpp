@@ -23,6 +23,8 @@
 #include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaTreeWindow.h"
 #include "OpcUaNodeSetModul/Dialog/NamespaceManagerDialog.h"
+#include "OpcUaNodeSetModul/Dialog/ImportDialog.h"
+#include "OpcUaNodeSetModul/Dialog/ExportDialog.h"
 
 #include <QString>
 #include <QWidget>
@@ -286,19 +288,20 @@ namespace OpcUaNodeSet
 	{
 		NamespaceManagerDialog namespaceManagerDialog(dataModel_);
 		namespaceManagerDialog.exec();
-
 	}
 
     void
     OpcUaTreeWindow::onImportAction(void)
 	{
-		// FIXME: todo
+		ImportDialog importDialog(dataModel_);
+		importDialog.exec();
 	}
 
     void
     OpcUaTreeWindow::onExportAction(void)
 	{
-		// FIXME: todo
+		ExportDialog exportDialog(dataModel_);
+		exportDialog.exec();
 	}
 
 	// ------------------------------------------------------------------------
