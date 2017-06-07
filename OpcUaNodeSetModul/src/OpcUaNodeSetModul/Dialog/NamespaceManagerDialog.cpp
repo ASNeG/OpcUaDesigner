@@ -236,7 +236,7 @@ namespace OpcUaNodeSet
 
 			if (idx < dataModel_->nodeSetNamespace().globalNamespaceVec().size()) {
 				// update existing namespace
-				dataModel_->nodeSetNamespace().globalNamespaceVec()[idx] = value;
+				dataModel_->nodeSetNamespace().updateExistGlobalNamespace(idx, value);
 			}
 			else {
 				// add new namespace
