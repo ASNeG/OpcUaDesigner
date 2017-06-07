@@ -219,34 +219,25 @@ namespace OpcUaNodeSet
     void
     NamespaceManagerDialog::onOkAction(void)
     {
+    	// remove all namespaces
+    	dataModel_->nodeSetNamespace().clearGlobal();
+
 		for (uint32_t idx = 0; idx < namespaceTable_->rowCount(); idx++) {
 			QTableWidgetItem* item;
 
+			// add namesspace
 			item = namespaceTable_->item(idx, 2);
 			std::string value = item->text().toStdString();
+			dataModel_->nodeSetNamespace().addNewGlobalNamespace(value);
 
 			// update visible mode
 			item = namespaceTable_->item(idx, 1);
-			if (item->isSelected()) {
+			if (item->checkState() == Qt::Checked) {
 				dataModel_->namespaceVisible(value, true);
 			}
 			else {
 				dataModel_->namespaceVisible(value, false);
 			}
-
-			if (idx < dataModel_->nodeSetNamespace().globalNamespaceVec().size()) {
-				// update existing namespace
-				dataModel_->nodeSetNamespace().updateExistGlobalNamespace(idx, value);
-			}
-			else {
-				// add new namespace
-				dataModel_->nodeSetNamespace().addNewGlobalNamespace(value);
-			}
-		}
-
-		// delete unused namespaces
-		for (uint32_t idx = namespaceTable_->rowCount(); idx < dataModel_->nodeSetNamespace().globalNamespaceVec().size(); idx++) {
-			// FIXME: todo
 		}
 
     	close();
