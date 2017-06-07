@@ -36,7 +36,6 @@ using namespace OpcUaStackCore;
 namespace OpcUaNodeSet
 {
 
-
 	ImportDialog::ImportDialog(DataModel* dataModel)
 	: QDialog()
 	, dataModel_(dataModel)
@@ -102,10 +101,6 @@ namespace OpcUaNodeSet
 		    this, SLOT(onLeftAction())
 		);
 		connect(
-		    out_, SIGNAL(customContextMenuRequested(const QPoint&)),
-		    this, SLOT(onCustomContextMenuRequested(const QPoint&))
-		);
-		connect(
 			exitButton, SIGNAL(clicked()),
 		    this, SLOT(onExitAction())
 		);
@@ -125,64 +120,6 @@ namespace OpcUaNodeSet
 	{
 	}
 
-	// ------------------------------------------------------------------------
-	// ------------------------------------------------------------------------
-	//
-	// context menu function
-	//
-	// ------------------------------------------------------------------------
-	// ------------------------------------------------------------------------
-	void
-	ImportDialog::onCustomContextMenuRequested(const QPoint& pos)
-	{
-#if 0
-	    QMenu menu;
-
-		QAction* action = new QAction("Rename", this);
-		action->setIcon(QIcon(":images/Edit.png"));
-		menu.addAction(action);
-		connect(action, SIGNAL(triggered()), this, SLOT(onRenameAction()));
-
-	    // show menu
-	    menu.exec(out_->viewport()->mapToGlobal(pos));
-#endif
-	}
-
-	void
-	ImportDialog::onRenameAction(void)
-	{
-#if 0
-		// get current item from out list
-		QListWidgetItem* item = out_->currentItem();
-
-		// ask new type name
-		bool success;
-		QString newTypeName = QInputDialog::getText(this,
-			"Change Type Name",
-			"Please input new type name:",
-			QLineEdit::Normal,
-			item->text(),
-			&success
-		);
-		if (!success || newTypeName.isEmpty()) {
-			return;
-		}
-
-		// check new type name
-		if (dataModel_->existNodeSet(newTypeName.toStdString()) ||
-			importDataModel_.existNodeSet(newTypeName.toStdString())) {
-	    	QMessageBox::critical(this,
-	    		tr("import types error"),
-	    		tr("type %1 already exist in data model").arg(newTypeName)
-	    	);
-			return;
-		}
-
-		// set new type name
-		importDataModel_.changeNodeSet(item->text().toStdString(), newTypeName.toStdString());
-		item->setText(newTypeName);
-#endif
-	}
 
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
@@ -194,20 +131,10 @@ namespace OpcUaNodeSet
     void
     ImportDialog::onRightAction(void)
     {
-#if 0
     	QList<QListWidgetItem*> items = out_->selectedItems();
 
     	for (int idx=0; idx<items.size(); idx++) {
     		QListWidgetItem* oldItem = items.at(idx);
-
-    		// duplicate check
-    		if (dataModel_->existNodeSet(oldItem->text().toStdString())) {
-    			QMessageBox::critical(this,
-    				tr("import types error"),
-    				tr("type %1 already exist in data model").arg(oldItem->text())
-    			);
-    			continue;
-    		}
 
     		// create new item
     		QListWidgetItem* newItem = new QListWidgetItem(oldItem->text());
@@ -220,19 +147,16 @@ namespace OpcUaNodeSet
 
     	if (in_->count() > 0) importButton_->setEnabled(true);
     	else importButton_->setEnabled(false);
-#endif
     }
 
     void
     ImportDialog::onLeftAction(void)
     {
-#if 0
     	QList<QListWidgetItem*> items = in_->selectedItems();
 
     	for (int idx=0; idx<items.size(); idx++) {
     		QListWidgetItem* oldItem = items.at(idx);
     		QListWidgetItem* newItem = new QListWidgetItem(oldItem->text());
-    		newItem->setIcon(QIcon(":images/ObjectType.png"));
 
     		delete oldItem;
     		out_->addItem(newItem);
@@ -240,7 +164,6 @@ namespace OpcUaNodeSet
 
        	if (in_->count() > 0) importButton_->setEnabled(true);
         else importButton_->setEnabled(false);
-#endif
     }
 
 	void
