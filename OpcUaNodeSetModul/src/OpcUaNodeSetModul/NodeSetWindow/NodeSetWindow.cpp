@@ -162,6 +162,7 @@ namespace OpcUaNodeSet
 			QMessageBox msgBox;
 			msgBox.setText(QString("cannot write node set file %1").arg(projectFile_.c_str()));
 			msgBox.exec();
+			return false;
 		}
 
 		return true;

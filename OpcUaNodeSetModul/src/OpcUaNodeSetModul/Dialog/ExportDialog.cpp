@@ -23,6 +23,8 @@
 #include <QLabel>
 #include <QListWidget>
 #include <QPushButton>
+#include <QFileDialog>
+#include <QMessageBox>
 
 namespace OpcUaNodeSet
 {
@@ -32,7 +34,7 @@ namespace OpcUaNodeSet
 	: QDialog()
 	, dataModel_(dataModel)
 	{
-		this->setWindowTitle(QString("Export Nodeset Dialog"));
+		this->setWindowTitle(QString("Export NodeSet Dialog"));
 
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
 
@@ -150,11 +152,43 @@ namespace OpcUaNodeSet
     void
     ExportDialog::onExitAction(void)
     {
+    	close();
     }
 
     void
     ExportDialog::onExportAction(void)
     {
+		// get node set file name
+		std::string docs = "NodeSet (*.NodeSet.xml)";
+		QString fileName = QFileDialog::getSaveFileName(
+			NULL, tr("Set Export NodeSet File"), QDir::homePath(), QString(docs.c_str())
+		);
+		if (fileName.isNull()) {
+			return;
+		}
+
+		if (!fileName.endsWith(".NodeSet.xml")) {
+			fileName.append(".NodeSet.xml");
+		}
+
+		NamespaceVec namespaceVec;
+		for (int idx=0; idx<in_->count(); idx++) {
+			std::string name = in_->item(idx)->text().toStdString();
+			namespaceVec.push_back(name);
+		}
+
+		// save empty node set
+		if (!dataModel_->writeNodeSet(fileName.toStdString(), namespaceVec)) {
+			QMessageBox msgBox;
+			msgBox.setText(QString("cannot write node set file %1").arg(fileName));
+			msgBox.exec();
+			return;
+		}
+
+		QMessageBox::information(this,
+			tr("export nodeset success"),
+			tr("write nodeset file %1 done").arg(fileName)
+		);
     }
 
 	// ------------------------------------------------------------------------
