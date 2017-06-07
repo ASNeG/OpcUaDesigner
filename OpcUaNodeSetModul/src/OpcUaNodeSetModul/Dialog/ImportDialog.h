@@ -50,7 +50,7 @@ namespace OpcUaNodeSet
 	    void onRightAction(void);
 	    void onLeftAction(void);
 	    void onExitAction(void);
-	    void onTakeOverAction(void);
+	    void onMergeAction(void);
 	    void onImportAction(void);
 
       signals:

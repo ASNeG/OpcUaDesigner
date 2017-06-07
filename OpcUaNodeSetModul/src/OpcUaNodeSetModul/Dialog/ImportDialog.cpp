@@ -23,12 +23,14 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QFileDialog>
+#include <QMessageBox>
 
 #include "OpcUaStackCore/Base/ObjectPool.h"
 #include "OpcUaStackCore/Base/ConfigXml.h"
 #include "OpcUaStackCore/Base/Log.h"
 #include "OpcUaStackServer/NodeSet/NodeSetXmlParser.h"
 #include "OpcUaStackServer/InformationModel/InformationModelNodeSet.h"
+#include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/Dialog/ImportDialog.h"
 
 using namespace OpcUaStackCore;
@@ -106,7 +108,7 @@ namespace OpcUaNodeSet
 		);
 		connect(
 			importButton_, SIGNAL(clicked()),
-		    this, SLOT(onTakeOverAction())
+		    this, SLOT(onMergeAction())
 		);
 		connect(
 			loadButton, SIGNAL(clicked()),
@@ -138,7 +140,6 @@ namespace OpcUaNodeSet
 
     		// create new item
     		QListWidgetItem* newItem = new QListWidgetItem(oldItem->text());
-    		newItem->setIcon(QIcon(":images/ObjectType.png"));
 
     		// delete old item
     		delete oldItem;
@@ -169,17 +170,30 @@ namespace OpcUaNodeSet
 	void
 	ImportDialog::onExitAction(void)
 	{
-#if 0
-		importDataModel_.clearNodeSet();
-		in_->clear();
-		out_->clear();
+		importInformationModel_->clear();
 		close();
-#endif
 	}
 
 	void
-	ImportDialog::onTakeOverAction(void)
+	ImportDialog::onMergeAction(void)
 	{
+		InformationModelAccess ima(dataModel_->informationModel());
+
+		// merge all namespaces in list
+		for (uint32_t row = 0; row < in_->count(); row++) {
+			QListWidgetItem* item = in_->item(row);
+
+			uint16_t namespaceIndex = dataModel_->nodeSetNamespace().mapToGlobalNamespaceIndex(item->text().toStdString());
+
+			if (!ima.add(importInformationModel_, namespaceIndex)) {
+				QMessageBox msgBox;
+				msgBox.setText(QString("import namespace %1 error").arg(item->text()));
+				msgBox.exec();
+				return;
+			}
+		}
+
+		importInformationModel_->clear();
 		close();
 	}
 
@@ -203,9 +217,12 @@ namespace OpcUaNodeSet
 		ConfigXml configXml;
 		bool rc = configXml.parse(fileName.toStdString());
 		if (!rc) {
-			Log(Error, "parse node set file error")
-			    .parameter("NodeSetFile", fileName.toStdString())
-			    .parameter("ErrorMessage", configXml.errorMessage());
+			QMessageBox msgBox;
+			msgBox.setText(QString("parse node set file %1 error - %2")
+				.arg(fileName)
+				.arg(configXml.errorMessage().c_str())
+			);
+			msgBox.exec();
 			return;
 		}
 
@@ -213,15 +230,21 @@ namespace OpcUaNodeSet
 	    NodeSetXmlParser nodeSetXmlParser;
 	    rc = nodeSetXmlParser.decode(configXml.ptree());
 		if (!rc) {
-			Log(Error, "decode node set file error")
-			    .parameter("NodeSetFile", fileName.toStdString());
+			QMessageBox msgBox;
+			msgBox.setText(QString("decode node set file %1 error")
+				.arg(fileName)
+			);
+			msgBox.exec();
 			return;
 		}
 
 		rc = InformationModelNodeSet::initial(importInformationModel_, nodeSetXmlParser);
 		if (!rc) {
-			Log(Error, "create node set error")
-			    .parameter("NodeSetFile", fileName.toStdString());
+			QMessageBox msgBox;
+			msgBox.setText(QString("decode node set model error - %1")
+				.arg(fileName)
+			);
+			msgBox.exec();
 			return;
 		}
 
@@ -231,7 +254,7 @@ namespace OpcUaNodeSet
 		NamespaceVec::iterator it;
 		NamespaceVec namespaceVec = nodeSetXmlParser.nodeSetNamespace().localNamespaceVec();
 		for (it = namespaceVec.begin(); it != namespaceVec.end(); it++) {
-			uint32_t namespaceIndex = nodeSetXmlParser.nodeSetNamespace().mapToGlobalNamespaceIndex(*it);
+			uint16_t namespaceIndex = nodeSetXmlParser.nodeSetNamespace().mapToGlobalNamespaceIndex(*it);
 			if (namespaceIndex == 0) continue;
 			QListWidgetItem* item = new QListWidgetItem((*it).c_str());
 			out_->addItem(item);
