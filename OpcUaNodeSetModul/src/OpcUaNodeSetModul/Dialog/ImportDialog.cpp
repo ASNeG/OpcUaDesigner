@@ -21,6 +21,7 @@
 #include <QListWidget>
 #include <QLabel>
 #include <QPushButton>
+#include <QFileDialog>
 
 #include "OpcUaNodeSetModul/Dialog/ImportDialog.h"
 
@@ -159,8 +160,8 @@ namespace OpcUaNodeSet
 		}
 
 		// check new type name
-		if (dataModel_->existTypes(newTypeName.toStdString()) ||
-			importDataModel_.existTypes(newTypeName.toStdString())) {
+		if (dataModel_->existNodeSet(newTypeName.toStdString()) ||
+			importDataModel_.existNodeSet(newTypeName.toStdString())) {
 	    	QMessageBox::critical(this,
 	    		tr("import types error"),
 	    		tr("type %1 already exist in data model").arg(newTypeName)
@@ -169,7 +170,7 @@ namespace OpcUaNodeSet
 		}
 
 		// set new type name
-		importDataModel_.changeTypes(item->text().toStdString(), newTypeName.toStdString());
+		importDataModel_.changeNodeSet(item->text().toStdString(), newTypeName.toStdString());
 		item->setText(newTypeName);
 #endif
 	}
@@ -191,7 +192,7 @@ namespace OpcUaNodeSet
     		QListWidgetItem* oldItem = items.at(idx);
 
     		// duplicate check
-    		if (dataModel_->existTypes(oldItem->text().toStdString())) {
+    		if (dataModel_->existNodeSet(oldItem->text().toStdString())) {
     			QMessageBox::critical(this,
     				tr("import types error"),
     				tr("type %1 already exist in data model").arg(oldItem->text())
@@ -237,7 +238,7 @@ namespace OpcUaNodeSet
 	ImportDialog::onExitAction(void)
 	{
 #if 0
-		importDataModel_.clearTypes();
+		importDataModel_.clearNodeSet();
 		in_->clear();
 		out_->clear();
 		close();
@@ -253,21 +254,20 @@ namespace OpcUaNodeSet
 	void
 	ImportDialog::onImportAction(void)
 	{
-#if 0
-		importDataModel_.clearTypes();
+		//importDataModel_.clearNodeSet();
 		in_->clear();
 		out_->clear();
 
 		// get type file name
-		std::string docs = "Types (*.TypesClient.xml)";
-		if (role_ == Types::Server) docs = "Types (*.TypesServer.xml)";
+		std::string docs = "NodeSet (*.NodeSet.xml)";
 		QString fileName = QFileDialog::getOpenFileName(
-			NULL, tr("Set Import Types File"), QDir::homePath(), QString(docs.c_str())
+			NULL, tr("Set Import NodeSet File"), QDir::homePath(), QString(docs.c_str())
 		);
 		if (fileName.isNull()) {
 			return;
 		}
 
+#if 0
 		// read types file
 		ConfigXml configXml;
 		if (!configXml.read(fileName.toStdString())) {
@@ -283,17 +283,17 @@ namespace OpcUaNodeSet
 		config.child(configXml.ptree());
 
 		// create types
-		if (!config.exist("Types")) {
+		if (!config.exist("NodeSet")) {
 			QMessageBox::critical(this,
 				tr("import types error"),
-				tr("invalid format in types file %1 - Types element missing").arg(fileName)
+				tr("invalid format in types file %1 - NodeSet element missing").arg(fileName)
 			);
 			return;
 		}
 
-		std::vector<Config> configTypesVec;
-		config.getChilds("Types.DataType", configTypesVec);
-		if (configTypesVec.size() == 0) {
+		std::vector<Config> configNodeSetVec;
+		config.getChilds("NodeSet.DataType", configNodeSetVec);
+		if (configNodeSetVec.size() == 0) {
 			QMessageBox::critical(this,
 				tr("import types error"),
 				tr("invalid format in types file %1 -  DataType element missing").arg(fileName)
@@ -303,8 +303,8 @@ namespace OpcUaNodeSet
 
 		// decode configuration - create types
 		std::vector<Config>::iterator it1;
-		for (it1 = configTypesVec.begin(); it1 != configTypesVec.end(); it1++) {
-			Types::SPtr types = constructSPtr<Types>();
+		for (it1 = configNodeSetVec.begin(); it1 != configNodeSetVec.end(); it1++) {
+			NodeSet::SPtr types = constructSPtr<NodeSet>();
 			if (!types->decode(*it1)) {
 				QMessageBox::critical(this,
 					tr("import types error"),
@@ -312,7 +312,7 @@ namespace OpcUaNodeSet
 				);
 				return;
 			}
-			if (importDataModel_.existTypes(types->name())) {
+			if (importDataModel_.existNodeSet(types->name())) {
 				QMessageBox::critical(this,
 					tr("import types error"),
 					tr("duplicate type definition in types file %1").arg(fileName)
@@ -322,11 +322,11 @@ namespace OpcUaNodeSet
 
 			if (role_ != types->role()) continue;
 
-			importDataModel_.insertTypes(types);
+			importDataModel_.insertNodeSet(types);
 		}
 
 		// fill list
-		Types::Map::iterator it2;
+		NodeSet::Map::iterator it2;
 		for (it2 = importDataModel_.typesMap().begin(); it2 != importDataModel_.typesMap().end(); it2++) {
 			QListWidgetItem* item = new QListWidgetItem(QString(it2->first.c_str()));
 			item->setIcon(QIcon(":images/ObjectType.png"));
