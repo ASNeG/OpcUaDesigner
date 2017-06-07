@@ -193,6 +193,7 @@ namespace OpcUaNodeSet
 			}
 		}
 
+		dataModel_->informationModel()->checkForwardReferences();
 		importInformationModel_->clear();
 		close();
 	}
