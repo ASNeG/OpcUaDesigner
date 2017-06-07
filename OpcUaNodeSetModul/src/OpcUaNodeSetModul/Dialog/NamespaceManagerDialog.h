@@ -55,7 +55,6 @@ namespace OpcUaNodeSet
         void writeHeader(void);
         void writeData(void);
         void addRow(uint32_t row, const std::string& namespaceName);
-        void deleteRow(uint32_t row);
 
 		//
 		// table action

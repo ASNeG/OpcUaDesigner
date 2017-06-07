@@ -266,12 +266,6 @@ namespace OpcUaNodeSet
 		namespaceTable_->resizeColumnsToContents();
 	}
 
-	void
-	NamespaceManagerDialog::deleteRow(uint32_t row)
-	{
-		// FIXME: todo
-	}
-
 }
 
 
