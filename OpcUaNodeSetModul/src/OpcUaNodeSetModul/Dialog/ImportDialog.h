@@ -59,6 +59,7 @@ namespace OpcUaNodeSet
         //
       	// data model
         //
+        InformationModel::SPtr importInformationModel_;
         DataModel* dataModel_;
 
         //

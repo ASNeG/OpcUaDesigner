@@ -19,11 +19,19 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QListWidget>
+#include <QListWidgetItem>
 #include <QLabel>
 #include <QPushButton>
 #include <QFileDialog>
 
+#include "OpcUaStackCore/Base/ObjectPool.h"
+#include "OpcUaStackCore/Base/ConfigXml.h"
+#include "OpcUaStackCore/Base/Log.h"
+#include "OpcUaStackServer/NodeSet/NodeSetXmlParser.h"
+#include "OpcUaStackServer/InformationModel/InformationModelNodeSet.h"
 #include "OpcUaNodeSetModul/Dialog/ImportDialog.h"
+
+using namespace OpcUaStackCore;
 
 namespace OpcUaNodeSet
 {
@@ -32,6 +40,7 @@ namespace OpcUaNodeSet
 	ImportDialog::ImportDialog(DataModel* dataModel)
 	: QDialog()
 	, dataModel_(dataModel)
+	, importInformationModel_(constructSPtr<InformationModel>())
 	{
 		this->setWindowTitle(QString("Import NodeSet Dialog"));
 
@@ -267,72 +276,43 @@ namespace OpcUaNodeSet
 			return;
 		}
 
-#if 0
-		// read types file
+		// parse node set file
 		ConfigXml configXml;
-		if (!configXml.read(fileName.toStdString())) {
-			QMessageBox::critical(this,
-				tr("import types error"),
-				tr("read types file %1 error").arg(fileName)
-			);
+		bool rc = configXml.parse(fileName.toStdString());
+		if (!rc) {
+			Log(Error, "parse node set file error")
+			    .parameter("NodeSetFile", fileName.toStdString())
+			    .parameter("ErrorMessage", configXml.errorMessage());
 			return;
 		}
 
-		// create configuration
-		Config config;
-		config.child(configXml.ptree());
-
-		// create types
-		if (!config.exist("NodeSet")) {
-			QMessageBox::critical(this,
-				tr("import types error"),
-				tr("invalid format in types file %1 - NodeSet element missing").arg(fileName)
-			);
+		// decode node set
+	    NodeSetXmlParser nodeSetXmlParser;
+	    rc = nodeSetXmlParser.decode(configXml.ptree());
+		if (!rc) {
+			Log(Error, "decode node set file error")
+			    .parameter("NodeSetFile", fileName.toStdString());
 			return;
 		}
 
-		std::vector<Config> configNodeSetVec;
-		config.getChilds("NodeSet.DataType", configNodeSetVec);
-		if (configNodeSetVec.size() == 0) {
-			QMessageBox::critical(this,
-				tr("import types error"),
-				tr("invalid format in types file %1 -  DataType element missing").arg(fileName)
-			);
+		rc = InformationModelNodeSet::initial(importInformationModel_, nodeSetXmlParser);
+		if (!rc) {
+			Log(Error, "create node set error")
+			    .parameter("NodeSetFile", fileName.toStdString());
 			return;
 		}
 
-		// decode configuration - create types
-		std::vector<Config>::iterator it1;
-		for (it1 = configNodeSetVec.begin(); it1 != configNodeSetVec.end(); it1++) {
-			NodeSet::SPtr types = constructSPtr<NodeSet>();
-			if (!types->decode(*it1)) {
-				QMessageBox::critical(this,
-					tr("import types error"),
-					tr("invalid format in types file %1 -  DataType element missing").arg(fileName)
-				);
-				return;
-			}
-			if (importDataModel_.existNodeSet(types->name())) {
-				QMessageBox::critical(this,
-					tr("import types error"),
-					tr("duplicate type definition in types file %1").arg(fileName)
-				);
-				return;
-			}
-
-			if (role_ != types->role()) continue;
-
-			importDataModel_.insertNodeSet(types);
-		}
+		importInformationModel_->checkForwardReferences();
 
 		// fill list
-		NodeSet::Map::iterator it2;
-		for (it2 = importDataModel_.typesMap().begin(); it2 != importDataModel_.typesMap().end(); it2++) {
-			QListWidgetItem* item = new QListWidgetItem(QString(it2->first.c_str()));
-			item->setIcon(QIcon(":images/ObjectType.png"));
+		NamespaceVec::iterator it;
+		NamespaceVec namespaceVec = nodeSetXmlParser.nodeSetNamespace().localNamespaceVec();
+		for (it = namespaceVec.begin(); it != namespaceVec.end(); it++) {
+			uint32_t namespaceIndex = nodeSetXmlParser.nodeSetNamespace().mapToGlobalNamespaceIndex(*it);
+			if (namespaceIndex == 0) continue;
+			QListWidgetItem* item = new QListWidgetItem((*it).c_str());
 			out_->addItem(item);
 		}
-#endif
 	}
 
 	// ------------------------------------------------------------------------
