@@ -54,7 +54,7 @@ namespace OpcUaNodeSet
       	void createTableActions(void);
         void writeHeader(void);
         void writeData(void);
-        void addRow(uint32_t row);
+        void addRow(uint32_t row, const std::string& namespaceName);
         void deleteRow(uint32_t row);
 
 		//
@@ -69,7 +69,6 @@ namespace OpcUaNodeSet
 		QToolBar* tableToolBar_;
 
 		uint16_t maxNamespaceIndex_;
-		std::vector<std::string> namespaceVec_;
         DataModel* dataModel_;
 
         QTableWidget* namespaceTable_;

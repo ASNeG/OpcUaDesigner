@@ -33,8 +33,6 @@ namespace OpcUaNodeSet
 	, maxNamespaceIndex_(0)
 	, dataModel_(dataModel)
 	{
-		namespaceVec_ = dataModel_->nodeSetNamespace().globalNamespaceVec();
-
 		InformationModelMap::iterator it;
 		for (it = dataModel_->informationModel()->informationModelMap().begin();
 			 it != dataModel_->informationModel()->informationModelMap().end();
@@ -107,11 +105,12 @@ namespace OpcUaNodeSet
 		while (true)
 		{
 			ss.str("");
-			ss << "http://ASNeG.de/New" << counter;
+			ss << "http://ASNeG.de/Namespace" << counter;
 
 			bool exist = false;
-			for (uint32_t idx = 0; idx < namespaceVec_.size(); idx++) {
-				if (ss.str() == namespaceVec_[idx]) {
+			for (uint32_t idx = 0; idx < namespaceTable_->rowCount(); idx++) {
+				QTableWidgetItem* item = namespaceTable_->item(idx, 2);
+				if (ss.str() == item->text().toStdString()) {
 					exist = true;
 					continue;
 				}
@@ -122,12 +121,11 @@ namespace OpcUaNodeSet
 				continue;
 			}
 
-			namespaceVec_.push_back(ss.str());
 			break;
 
 		}
 
-		addRow(namespaceVec_.size()-1);
+		addRow(namespaceTable_->rowCount(), ss.str());
 	}
 
 	void
@@ -141,8 +139,8 @@ namespace OpcUaNodeSet
 		namespaceTable_->removeRow(row);
 
 		// update the following lines
-		for (uint32_t idx = row; idx < namespaceTable_->rowCount()-2; idx++) {
-			QTableWidgetItem* item = namespaceTable_->item(row, 0);
+		for (uint32_t idx = row; idx < namespaceTable_->rowCount(); idx++) {
+			QTableWidgetItem* item = namespaceTable_->item(idx, 0);
 			item->setText(QString("%1").arg(idx));
 		}
 	}
@@ -214,13 +212,13 @@ namespace OpcUaNodeSet
 	void
 	NamespaceManagerDialog::writeData(void)
 	{
-		for (uint32_t row = 0; row < namespaceVec_.size(); row++) {
-			addRow(row);
+		for (uint32_t row = 0; row < dataModel_->nodeSetNamespace().globalNamespaceVec().size(); row++) {
+			addRow(row, dataModel_->nodeSetNamespace().globalNamespaceVec()[row]);
 		}
 	}
 
 	void
-	NamespaceManagerDialog::addRow(uint32_t row)
+	NamespaceManagerDialog::addRow(uint32_t row, const std::string& namespaceName)
 	{
 		QTableWidgetItem* item;
 
@@ -234,7 +232,7 @@ namespace OpcUaNodeSet
 		namespaceTable_->setItem(row, 0, item);
 
 		// visible
-		bool isVisible = dataModel_->namespaceVisible(namespaceVec_[row]);
+		bool isVisible = dataModel_->namespaceVisible(namespaceName);
 		item = new QTableWidgetItem();
 		item->data(Qt::CheckStateRole);
 		item->setCheckState(isVisible ? Qt::Checked : Qt::Unchecked);
@@ -243,7 +241,7 @@ namespace OpcUaNodeSet
 
 		// namespace name
 		item = new QTableWidgetItem();
-		item->setText(QString(namespaceVec_[row].c_str()));
+		item->setText(QString(namespaceName.c_str()));
 		if (row == 0) item->setFlags(item->flags() ^ Qt::ItemIsEditable);
 		namespaceTable_->setItem(row, 2, item);
 
