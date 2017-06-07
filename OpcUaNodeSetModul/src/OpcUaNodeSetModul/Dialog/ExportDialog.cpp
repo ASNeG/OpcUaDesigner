@@ -134,6 +134,17 @@ namespace OpcUaNodeSet
     void
     ExportDialog::onLeftAction(void)
     {
+    	QList<QListWidgetItem*> items = in_->selectedItems();
+
+    	for (int idx=0; idx<items.size(); idx++) {
+    		QListWidgetItem* oldItem = items.at(idx);
+    		QListWidgetItem* newItem = new QListWidgetItem(oldItem->text());
+    		newItem->setIcon(QIcon(":images/ObjectType.png"));
+
+    		delete oldItem;
+    		out_->addItem(newItem);
+    	}
+    	enableExportButton();
     }
 
     void
