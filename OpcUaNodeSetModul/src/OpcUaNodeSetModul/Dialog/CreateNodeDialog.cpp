@@ -21,8 +21,11 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QComboBox>
+#include <QPushButton>
 
 #include "OpcUaNodeSetModul/Dialog/CreateNodeDialog.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/NodeIdWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/BrowseNameWidget.h"
 
 namespace OpcUaNodeSet
 {
@@ -39,6 +42,7 @@ namespace OpcUaNodeSet
 		// base information section
 		//
 		QGridLayout* baseInfoLayout = new QGridLayout();
+		vBoxLayout->addLayout(baseInfoLayout);
 
 		// node class
 		QLabel* nodeClassLabel = new QLabel("NodeClass");
@@ -51,7 +55,42 @@ namespace OpcUaNodeSet
 		nodeClassWidget_->setFixedWidth(120);
 		baseInfoLayout->addWidget(nodeClassWidget_, 0, 1);
 
-		vBoxLayout->addLayout(baseInfoLayout);
+		// node id
+		QLabel* nodeIdLabel = new QLabel("NodeId");
+		baseInfoLayout->addWidget(nodeIdLabel, 1, 0);
+
+		NodeIdWidget* nodeIdWidget = new NodeIdWidget();
+
+		QHBoxLayout* hBoxLayoutInfo = new QHBoxLayout();
+		hBoxLayoutInfo->addWidget(nodeIdWidget);
+		hBoxLayoutInfo->addStretch();
+
+		baseInfoLayout->addLayout(hBoxLayoutInfo, 1, 1);
+
+		// browse name
+		QLabel* browseNameLabel = new QLabel("BrowseName");
+		baseInfoLayout->addWidget(browseNameLabel, 2, 0);
+
+		BrowseNameWidget* browseNameWidget = new BrowseNameWidget();
+
+		hBoxLayoutInfo = new QHBoxLayout();
+		hBoxLayoutInfo->addWidget(browseNameWidget);
+		hBoxLayoutInfo->addStretch();
+
+		baseInfoLayout->addLayout(hBoxLayoutInfo, 2, 1);
+
+
+
+		//
+		// dialog action button
+		//
+		QHBoxLayout* actionButtonLayout = new QHBoxLayout();
+		QPushButton* cancelButton = new QPushButton("Cancel");
+		actionButtonLayout->addWidget(cancelButton);
+		QPushButton* okButton = new QPushButton("Ok");
+		okButton->setEnabled(false);
+		actionButtonLayout->addWidget(okButton);
+		vBoxLayout->addLayout(actionButtonLayout);
 
 		setLayout(vBoxLayout);
 	}
