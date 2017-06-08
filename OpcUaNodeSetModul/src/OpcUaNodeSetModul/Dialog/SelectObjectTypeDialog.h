@@ -21,8 +21,13 @@
 #include <QDialog>
 #include <QWidget>
 #include "OpcUaNodeSetModul/Model/DataModel.h"
+#include "OpcUaStackServer/AddressSpaceModel/BaseNodeClass.h"
+#include "OpcUaNodeSetModul/Base/NodeInfo.h"
 
-class QComboBox;
+class QTreeWidget;
+class QTreeWidgetItem;
+
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -41,6 +46,12 @@ namespace OpcUaNodeSet
       signals:
 
 	  private:
+		void addNode(
+			InformationModel::SPtr& informationModel,
+			QTreeWidgetItem* parentItem,
+			BaseNodeClass::SPtr& baseNode
+		);
+
         //
         // data model
         //
@@ -49,6 +60,9 @@ namespace OpcUaNodeSet
         //
         // widgets
         //
+		QTreeWidget* opcUaTree_;
+		QTreeWidgetItem* rootItem_;
+		QTreeWidgetItem* actItem_;
 	};
 
 }
