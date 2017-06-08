@@ -21,7 +21,7 @@
 #include <QWidget>
 
 #include "OpcUaStackServer/AddressSpaceModel/BaseNodeClass.h"
-#include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
+#include "OpcUaNodeSetModul/Base/NodeInfo.h"
 #include "OpcUaNodeSetModul/Model/DataModel.h"
 
 class QTreeWidget;

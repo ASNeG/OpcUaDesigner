@@ -21,7 +21,7 @@
 #include <QWidget>
 
 #include "OpcUaStackServer/NodeSet/DataTypeDefinition.h"
-#include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
+#include "OpcUaNodeSetModul/Base/NodeInfo.h"
 
 using namespace OpcUaStackServer;
 

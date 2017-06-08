@@ -19,7 +19,7 @@
 #define __OpcUaNodeSet_OpcUaAttributeWindow_h__
 
 #include "OpcUaStackServer/AddressSpaceModel/BaseNodeClass.h"
-#include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
+#include "OpcUaNodeSetModul/Base/NodeInfo.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeBaseTab.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeSpecialTab.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeRefTab.h"

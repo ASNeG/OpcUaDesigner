@@ -18,7 +18,7 @@
 #ifndef __OpcUaNodeSet_BrowseNameWidget_h__
 #define __OpcUaNodeSet_BrowseNameWidget_h__
 
-#include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
+#include "OpcUaNodeSetModul/Base/NodeInfo.h"
 
 #include <QWidget>
 

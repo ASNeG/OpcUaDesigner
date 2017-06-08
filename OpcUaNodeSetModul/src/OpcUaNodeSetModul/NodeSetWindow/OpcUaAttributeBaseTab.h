@@ -20,7 +20,7 @@
 
 #include <QWidget>
 
-#include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
+#include "OpcUaNodeSetModul/Base/NodeInfo.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/NodeIdWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/NodeClassWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/BrowseNameWidget.h"
