@@ -16,19 +16,19 @@
  */
 
 
-#include "OpcUaNodeSetModul/Dialog/CreateObjectNodeDialog.h"
+#include "OpcUaNodeSetModul/Dialog/CreateNodeDialog.h"
 
 namespace OpcUaNodeSet
 {
 
 
-	CreateObjectNodeDialog::CreateObjectNodeDialog(DataModel* dataModel)
+	CreateNodeDialog::CreateNodeDialog(DataModel* dataModel)
 	: QDialog()
 	, dataModel_(dataModel)
 	{
 	}
 
-	CreateObjectNodeDialog::~CreateObjectNodeDialog(void)
+	CreateNodeDialog::~CreateNodeDialog(void)
 	{
 	}
 

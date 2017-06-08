@@ -15,8 +15,8 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#ifndef __BHIMatlabSimulink_CreateObjectNodeDialog_h__
-#define __BHIMatlabSimulink_CreateObjectNodeDialog_h__
+#ifndef __BHIMatlabSimulink_CreateNodeDialog_h__
+#define __BHIMatlabSimulink_CreateNodeDialog_h__
 
 #include <QDialog>
 #include <QWidget>
@@ -25,14 +25,14 @@
 namespace OpcUaNodeSet
 {
 
-	class CreateObjectNodeDialog
+	class CreateNodeDialog
 	: public QDialog
 	{
 		Q_OBJECT
 
 	  public:
-		CreateObjectNodeDialog(DataModel* dataModel);
-		virtual ~CreateObjectNodeDialog(void);
+		CreateNodeDialog(DataModel* dataModel);
+		virtual ~CreateNodeDialog(void);
 
 	  public slots:
 
