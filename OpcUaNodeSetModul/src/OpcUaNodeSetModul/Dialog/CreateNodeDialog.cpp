@@ -32,6 +32,7 @@ namespace OpcUaNodeSet
 	: QDialog()
 	, dataModel_(dataModel)
 	{
+		this->setWindowTitle(QString("Create Node Dialog"));
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
 
 		//
@@ -50,6 +51,7 @@ namespace OpcUaNodeSet
 		nodeClassWidget_->setFixedWidth(120);
 		baseInfoLayout->addWidget(nodeClassWidget_, 0, 1);
 
+		vBoxLayout->addLayout(baseInfoLayout);
 
 		setLayout(vBoxLayout);
 	}

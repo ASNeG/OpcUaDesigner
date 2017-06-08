@@ -25,6 +25,7 @@
 #include "OpcUaNodeSetModul/Dialog/NamespaceManagerDialog.h"
 #include "OpcUaNodeSetModul/Dialog/ImportDialog.h"
 #include "OpcUaNodeSetModul/Dialog/ExportDialog.h"
+#include "OpcUaNodeSetModul/Dialog/CreateNodeDialog.h"
 
 #include <QString>
 #include <QWidget>
@@ -410,6 +411,9 @@ namespace OpcUaNodeSet
 	    	createNewObjectType(nodeInfo);
 	    	return;
 	    }
+
+	    CreateNodeDialog createNodeDialog(dataModel_);
+	    createNodeDialog.exec();
     }
 
     void
