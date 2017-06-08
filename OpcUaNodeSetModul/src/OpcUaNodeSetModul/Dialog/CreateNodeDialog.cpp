@@ -36,6 +36,16 @@ namespace OpcUaNodeSet
 	: QDialog()
 	, dataModel_(dataModel)
 	{
+		createLayout();
+	}
+
+	CreateNodeDialog::~CreateNodeDialog(void)
+	{
+	}
+
+	void
+	CreateNodeDialog::createLayout(void)
+	{
 		this->setWindowTitle(QString("Create Node Dialog"));
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
 
@@ -79,6 +89,9 @@ namespace OpcUaNodeSet
 
 		baseInfoLayout->addLayout(hBoxLayoutInfo, 2, 1);
 
+		//
+		// type specific data
+		//
 
 		//
 		// dialog action button
@@ -94,9 +107,15 @@ namespace OpcUaNodeSet
 		setLayout(vBoxLayout);
 	}
 
-	CreateNodeDialog::~CreateNodeDialog(void)
-	{
-	}
+    void
+    CreateNodeDialog::createObjectLayout(void)
+    {
+    }
+
+    void
+    CreateNodeDialog::createValueLayout(void)
+    {
+    }
 
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------

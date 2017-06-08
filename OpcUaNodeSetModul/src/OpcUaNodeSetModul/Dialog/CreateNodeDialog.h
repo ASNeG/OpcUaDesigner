@@ -41,6 +41,10 @@ namespace OpcUaNodeSet
       signals:
 
 	  private:
+        void createLayout(void);
+        void createObjectLayout(void);
+        void createValueLayout(void);
+
         //
         // data model
         //
