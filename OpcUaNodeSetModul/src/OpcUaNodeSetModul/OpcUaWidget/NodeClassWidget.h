@@ -21,6 +21,7 @@
 #include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
 
 #include <QWidget>
+#include <QStringList>
 
 class QComboBox;
 
@@ -34,11 +35,15 @@ namespace OpcUaNodeSet
 
 	  public:
 		NodeClassWidget(QWidget* parent = 0);
+		NodeClassWidget(QStringList& nodeClassList, QWidget* parent = 0);
 		virtual ~NodeClassWidget(void);
 
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
+		void createLayout(void);
+
+		QStringList nodeClassList_;
 		QComboBox* nodeClassWidget_;
 	};
 

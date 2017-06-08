@@ -28,15 +28,31 @@ namespace OpcUaNodeSet
 
 
 	NodeClassWidget::NodeClassWidget(QWidget* parent)
-	: QWidget()
+	: QWidget(parent)
+	, nodeClassList_()
 	{
-		// widgets
-		QStringList nodeClassList;
-
-		nodeClassList << "Error" <<  "Object" << "Variable" << "Method" << "ObjectType"
+		nodeClassList_ << "Error" <<  "Object" << "Variable" << "Method" << "ObjectType"
 			<< "VariableType" << "ReferenceType" << "DataType" << "View";
+		createLayout();
+
+	}
+
+	NodeClassWidget::NodeClassWidget(QStringList& nodeClassList, QWidget* parent)
+	: QWidget(parent)
+	, nodeClassList_(nodeClassList)
+	{
+		createLayout();
+	}
+
+	NodeClassWidget::~NodeClassWidget(void)
+	{
+	}
+
+	void
+	NodeClassWidget::createLayout(void)
+	{
 		nodeClassWidget_ = new QComboBox();
-		nodeClassWidget_->addItems(nodeClassList);
+		nodeClassWidget_->addItems(nodeClassList_);
 		nodeClassWidget_->setFixedWidth(120);
 
 		// layout
@@ -45,10 +61,6 @@ namespace OpcUaNodeSet
 		hBoxLayout->addWidget(nodeClassWidget_);
 		hBoxLayout->addStretch();
 		setLayout(hBoxLayout);
-	}
-
-	NodeClassWidget::~NodeClassWidget(void)
-	{
 	}
 
 	void

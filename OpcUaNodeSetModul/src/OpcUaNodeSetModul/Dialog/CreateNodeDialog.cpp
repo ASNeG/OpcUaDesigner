@@ -38,6 +38,7 @@ namespace OpcUaNodeSet
 		this->setWindowTitle(QString("Create Node Dialog"));
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
 
+
 		//
 		// base information section
 		//
@@ -78,7 +79,6 @@ namespace OpcUaNodeSet
 		hBoxLayoutInfo->addStretch();
 
 		baseInfoLayout->addLayout(hBoxLayoutInfo, 2, 1);
-
 
 
 		//
