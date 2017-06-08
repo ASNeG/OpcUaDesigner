@@ -23,6 +23,8 @@
 #include "OpcUaNodeSetModul/Model/DataModel.h"
 
 class QComboBox;
+class QStackedWidget;
+class QLayout;
 
 namespace OpcUaNodeSet
 {
@@ -42,8 +44,6 @@ namespace OpcUaNodeSet
 
 	  private:
         void createLayout(void);
-        void createObjectLayout(void);
-        void createValueLayout(void);
 
         //
         // data model
@@ -53,6 +53,7 @@ namespace OpcUaNodeSet
         //
         // widgets
         //
+        QStackedWidget* stackedWidget_;
 	};
 
 }

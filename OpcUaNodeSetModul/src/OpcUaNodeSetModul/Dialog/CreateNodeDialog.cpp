@@ -22,6 +22,7 @@
 #include <QLabel>
 #include <QComboBox>
 #include <QPushButton>
+#include <QStackedWidget>
 
 #include "OpcUaNodeSetModul/Dialog/CreateNodeDialog.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/NodeClassWidget.h"
@@ -92,6 +93,10 @@ namespace OpcUaNodeSet
 		//
 		// type specific data
 		//
+		stackedWidget_ = new QStackedWidget();
+		//stackedWidget_->addWidget();
+		//stackedWidget_->addWidget();
+		vBoxLayout->addWidget(stackedWidget_);
 
 		//
 		// dialog action button
@@ -106,16 +111,6 @@ namespace OpcUaNodeSet
 
 		setLayout(vBoxLayout);
 	}
-
-    void
-    CreateNodeDialog::createObjectLayout(void)
-    {
-    }
-
-    void
-    CreateNodeDialog::createValueLayout(void)
-    {
-    }
 
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
