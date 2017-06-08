@@ -16,10 +16,9 @@
  */
 
 #include <QHBoxLayout>
-#include <QLineEdit>
-#include <QComboBox>
-#include <QStringList>
-#include <QString>
+#include <QVBoxLayout>
+#include <QTreeWidget>
+#include <QPushButton>
 
 #include "OpcUaNodeSetModul/OpcUaWidget/ObjectTypeWidget.h"
 
@@ -30,6 +29,7 @@ namespace OpcUaNodeSet
 	ObjectTypeWidget::ObjectTypeWidget(QWidget* parent)
 	: QWidget(parent)
 	{
+		createLayout();
 	}
 
 	ObjectTypeWidget::~ObjectTypeWidget(void)
@@ -39,18 +39,29 @@ namespace OpcUaNodeSet
 	void
 	ObjectTypeWidget::createLayout(void)
 	{
-#if 0
-		nodeClassWidget_ = new QComboBox();
-		nodeClassWidget_->addItems(nodeClassList_);
-		nodeClassWidget_->setFixedWidth(120);
+		QVBoxLayout* layout = new QVBoxLayout();
+		layout->setMargin(0);
 
-		// layout
-		QHBoxLayout* hBoxLayout = new QHBoxLayout();
-		hBoxLayout->setMargin(0);
-		hBoxLayout->addWidget(nodeClassWidget_);
-		hBoxLayout->addStretch();
-		setLayout(hBoxLayout);
-#endif
+		//
+		// object type tree
+		//
+		objectTypeTree_ = new QTreeWidget();
+		layout->addWidget(objectTypeTree_);
+
+		//
+		// dialog action button
+		//
+		QHBoxLayout* actionButtonLayout = new QHBoxLayout();
+		QPushButton* cancelButton = new QPushButton("Cancel");
+		actionButtonLayout->addWidget(cancelButton);
+		QPushButton* okButton = new QPushButton("Ok");
+		okButton->setEnabled(false);
+		actionButtonLayout->addWidget(okButton);
+		layout->addLayout(actionButtonLayout);
+
+
+		layout->addStretch();
+		setLayout(layout);
 	}
 
 }

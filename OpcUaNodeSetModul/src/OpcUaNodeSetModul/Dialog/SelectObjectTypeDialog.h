@@ -15,29 +15,40 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#ifndef __OpcUaNodeSet_ObjectTypeWidget_h__
-#define __OpcUaNodeSet_ObjectTypeWidget_h__
+#ifndef __BHIMatlabSimulink_SelectObjectTypeDialog_h__
+#define __BHIMatlabSimulink_SelectObjectTypeDialog_h__
 
-#include "OpcUaNodeSetModul/NodeSetWindow/NodeInfo.h"
-
+#include <QDialog>
 #include <QWidget>
+#include "OpcUaNodeSetModul/Model/DataModel.h"
+
+class QComboBox;
 
 namespace OpcUaNodeSet
 {
 
-	class ObjectTypeWidget
-	: public QWidget
+	class SelectObjectTypeDialog
+	: public QDialog
 	{
 		Q_OBJECT
 
 	  public:
-		ObjectTypeWidget(QWidget* parent = 0);
-		virtual ~ObjectTypeWidget(void);
+		SelectObjectTypeDialog(DataModel* dataModel);
+		virtual ~SelectObjectTypeDialog(void);
+
+	  public slots:
+
+      signals:
 
 	  private:
-		void createLayout(void);
+        //
+        // data model
+        //
+        DataModel* dataModel_;
 
-		QTreeWidget* objectTypeTree_;
+        //
+        // widgets
+        //
 	};
 
 }
