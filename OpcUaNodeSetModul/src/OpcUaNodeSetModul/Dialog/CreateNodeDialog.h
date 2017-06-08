@@ -49,7 +49,6 @@ namespace OpcUaNodeSet
         //
         // widgets
         //
-        QComboBox* nodeClassWidget_;
 	};
 
 }

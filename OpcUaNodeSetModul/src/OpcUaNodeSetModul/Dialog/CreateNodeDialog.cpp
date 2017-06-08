@@ -24,6 +24,7 @@
 #include <QPushButton>
 
 #include "OpcUaNodeSetModul/Dialog/CreateNodeDialog.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/NodeClassWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/NodeIdWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/BrowseNameWidget.h"
 
@@ -51,10 +52,8 @@ namespace OpcUaNodeSet
 
 		QStringList nodeClassList;
 		nodeClassList << "Object" << "Variable";
-		nodeClassWidget_ = new QComboBox();
-		nodeClassWidget_->addItems(nodeClassList);
-		nodeClassWidget_->setFixedWidth(120);
-		baseInfoLayout->addWidget(nodeClassWidget_, 0, 1);
+		NodeClassWidget* nodeClassWidget = new NodeClassWidget(nodeClassList);
+		baseInfoLayout->addWidget(nodeClassWidget, 0, 1);
 
 		// node id
 		QLabel* nodeIdLabel = new QLabel("NodeId");
