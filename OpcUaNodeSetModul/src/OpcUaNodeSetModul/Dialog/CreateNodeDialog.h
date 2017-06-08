@@ -22,6 +22,8 @@
 #include <QWidget>
 #include "OpcUaNodeSetModul/Model/DataModel.h"
 
+class QComboBox;
+
 namespace OpcUaNodeSet
 {
 
@@ -39,8 +41,15 @@ namespace OpcUaNodeSet
       signals:
 
 	  private:
+        //
+        // data model
+        //
         DataModel* dataModel_;
 
+        //
+        // widgets
+        //
+        QComboBox* nodeClassWidget_;
 	};
 
 }

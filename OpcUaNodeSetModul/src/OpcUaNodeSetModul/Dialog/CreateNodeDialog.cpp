@@ -16,6 +16,12 @@
  */
 
 
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGridLayout>
+#include <QLabel>
+#include <QComboBox>
+
 #include "OpcUaNodeSetModul/Dialog/CreateNodeDialog.h"
 
 namespace OpcUaNodeSet
@@ -26,6 +32,26 @@ namespace OpcUaNodeSet
 	: QDialog()
 	, dataModel_(dataModel)
 	{
+		QVBoxLayout* vBoxLayout = new QVBoxLayout();
+
+		//
+		// base information section
+		//
+		QGridLayout* baseInfoLayout = new QGridLayout();
+
+		// node class
+		QLabel* nodeClassLabel = new QLabel("NodeClass");
+		baseInfoLayout->addWidget(nodeClassLabel, 0, 0);
+
+		QStringList nodeClassList;
+		nodeClassList << "Object" << "Variable";
+		nodeClassWidget_ = new QComboBox();
+		nodeClassWidget_->addItems(nodeClassList);
+		nodeClassWidget_->setFixedWidth(120);
+		baseInfoLayout->addWidget(nodeClassWidget_, 0, 1);
+
+
+		setLayout(vBoxLayout);
 	}
 
 	CreateNodeDialog::~CreateNodeDialog(void)
