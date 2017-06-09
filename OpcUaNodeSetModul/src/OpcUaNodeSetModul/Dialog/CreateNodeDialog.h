@@ -51,6 +51,7 @@ namespace OpcUaNodeSet
         QWidget* createObjectWidget(void);
         QWidget* createValueWidget(void);
         void createUniqueNodeId(const std::string& prefix);
+        void show(void);
 
         //
         // data model

@@ -54,6 +54,7 @@ namespace OpcUaNodeSet
 	{
 		this->setWindowTitle(QString("Create Node Dialog"));
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
+		createUniqueNodeId("Object");
 
 
 		//
@@ -132,6 +133,7 @@ namespace OpcUaNodeSet
 			this, SLOT(onCurrentIndexChangedNodeClass(int))
 		);
 
+		show();
 		setLayout(vBoxLayout);
 	}
 
@@ -223,7 +225,10 @@ namespace OpcUaNodeSet
 			std::stringstream ss;
 			ss << prefix << idx;
 
-			// FIXME: todo - create unuqie node identifier
+			nodeId_.set(ss.str(), dataModel_->actNamespaceIndex());
+
+			BaseNodeClass::SPtr baseNode = dataModel_->informationModel()->find(nodeId_);
+			if (baseNode.get() == NULL) return;
 
 			idx++;
 		}
@@ -245,14 +250,26 @@ namespace OpcUaNodeSet
 	void
 	CreateNodeDialog::onClickedObjectType(void)
 	{
+		createUniqueNodeId("Object");
+
 		SelectObjectTypeDialog dialog(dataModel_);
 		dialog.exec();
+
+		show();
 	}
 
 	void
 	CreateNodeDialog::onClickedValueType(void)
 	{
+		createUniqueNodeId("Value");
+		show();
 		std::cout << "clicked..." << std::endl;
+	}
+
+	void
+	CreateNodeDialog::show(void)
+	{
+		;
 	}
 
 	// ------------------------------------------------------------------------
