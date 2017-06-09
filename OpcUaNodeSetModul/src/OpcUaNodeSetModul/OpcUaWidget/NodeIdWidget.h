@@ -40,9 +40,13 @@ namespace OpcUaNodeSet
 		void nodeChange(NodeInfo* nodeInfo);
 
 		void setValue(OpcUaNodeId& nodeId, NodeSetNamespace& nodeSetNamespace);
-		void getValue(OpcUaNodeId& nodeId, NodeSetNamespace& nodeSetNamespace);
+		void getValue(OpcUaNodeId& nodeId);
 
 	  private:
+		void show(NodeSetNamespace& nodeSetNamespace);
+
+		OpcUaNodeId nodeId_;
+
 		QComboBox* typeWidget_;
 		QLineEdit* nodeIdWidget_;
 		QComboBox* namespaceWidget_;
