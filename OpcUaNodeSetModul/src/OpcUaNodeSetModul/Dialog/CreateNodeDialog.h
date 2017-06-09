@@ -50,12 +50,14 @@ namespace OpcUaNodeSet
         QWidget* createEmptyWidget(void);
         QWidget* createObjectWidget(void);
         QWidget* createValueWidget(void);
+        void createUniqueNodeId(const std::string& prefix);
 
         //
         // data model
         //
         DataModel* dataModel_;
         BaseNodeClass::SPtr baseNode_;
+        OpcUaNodeId nodeId_;
 
         //
         // widgets

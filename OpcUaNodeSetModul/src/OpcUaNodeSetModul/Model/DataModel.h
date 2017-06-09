@@ -38,6 +38,8 @@ namespace OpcUaNodeSet
 		NodeSetNamespace& nodeSetNamespace(void);
 		bool namespaceVisible(const std::string& namespaceName);
 		void namespaceVisible(const std::string& namespaceName, bool visible);
+		void actNamespaceIndex(uint16_t namespaceIndex);
+		uint16_t actNamespaceIndex(void);
 		bool loadStandardNodeSet(
 			const std::string& standardNodeSetFileName
 		);
@@ -54,6 +56,7 @@ namespace OpcUaNodeSet
 		InformationModel::SPtr informationModel_;
 		NodeSetNamespace nodeSetNamespace_;
 		VisibleNamespaceSet notVisibleNamespaceSet_;
+		uint16_t actNamespaceIndex_;
 	};
 
 }

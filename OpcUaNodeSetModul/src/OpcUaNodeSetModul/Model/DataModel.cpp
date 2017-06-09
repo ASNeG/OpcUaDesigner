@@ -31,6 +31,7 @@ namespace OpcUaNodeSet
 	: informationModel_(constructSPtr<InformationModel>())
 	, nodeSetNamespace_()
 	, notVisibleNamespaceSet_()
+	, actNamespaceIndex_(0)
 	{
 	}
 
@@ -73,6 +74,18 @@ namespace OpcUaNodeSet
 			// add to namespace set
 			notVisibleNamespaceSet_.insert(namespaceName);
 		}
+	}
+
+	void
+	DataModel::actNamespaceIndex(uint16_t actNamespaceIndex)
+	{
+		actNamespaceIndex_ = actNamespaceIndex;
+	}
+
+	uint16_t
+	DataModel::actNamespaceIndex(void)
+	{
+		return actNamespaceIndex_;
 	}
 
 	bool

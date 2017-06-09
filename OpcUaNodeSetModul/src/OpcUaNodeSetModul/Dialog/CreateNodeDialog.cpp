@@ -40,6 +40,7 @@ namespace OpcUaNodeSet
 	: QDialog()
 	, dataModel_(dataModel)
 	, baseNode_(baseNode)
+	, nodeId_()
 	{
 		createLayout();
 	}
@@ -212,6 +213,21 @@ namespace OpcUaNodeSet
 
     	return widget;
     }
+
+	void
+	CreateNodeDialog::createUniqueNodeId(const std::string& prefix)
+	{
+		uint32_t idx = 1;
+		while (true)
+		{
+			std::stringstream ss;
+			ss << prefix << idx;
+
+			// FIXME: todo - create unuqie node identifier
+
+			idx++;
+		}
+	}
 
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
