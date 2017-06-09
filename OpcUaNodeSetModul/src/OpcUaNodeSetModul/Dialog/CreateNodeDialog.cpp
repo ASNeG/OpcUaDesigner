@@ -162,6 +162,26 @@ namespace OpcUaNodeSet
     CreateNodeDialog::createValueWidget(void)
     {
     	QWidget* widget = new QWidget();
+       	QGridLayout* gridLayout = new QGridLayout();
+       	gridLayout->setMargin(0);
+
+       	//
+       	// object type
+       	//
+        QLabel* valueTypeLabel = new QLabel("Value Type    ");
+        gridLayout->addWidget(valueTypeLabel, 0, 0);
+
+        QHBoxLayout* valueTypeLayout = new QHBoxLayout();
+        gridLayout->addLayout(valueTypeLayout, 0, 1);
+
+        QLineEdit* valueTypeLineEdit = new QLineEdit();
+        valueTypeLayout->addWidget(valueTypeLineEdit);
+
+        QPushButton* valueTypePushButton = new QPushButton("...");
+        valueTypePushButton->setFixedWidth(30);
+        valueTypeLayout->addWidget(valueTypePushButton);
+
+        widget->setLayout(gridLayout);
     	return widget;
     }
 
