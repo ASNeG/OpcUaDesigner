@@ -93,7 +93,7 @@ namespace OpcUaNodeSet
 		baseInfoLayout->addLayout(hBoxLayoutInfo, 2, 1);
 
 		//
-		//
+		// diving line
 		//
 	    QFrame* line = new QFrame();
 	    line->setFrameShape(QFrame::HLine);
@@ -120,6 +120,10 @@ namespace OpcUaNodeSet
 		okButton->setEnabled(false);
 		actionButtonLayout->addWidget(okButton);
 		vBoxLayout->addLayout(actionButtonLayout);
+
+		//
+		// actions
+		//
 
 		setLayout(vBoxLayout);
 	}

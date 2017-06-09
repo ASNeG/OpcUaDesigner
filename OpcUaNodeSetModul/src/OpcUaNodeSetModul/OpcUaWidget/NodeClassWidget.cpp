@@ -51,9 +51,20 @@ namespace OpcUaNodeSet
 	void
 	NodeClassWidget::createLayout(void)
 	{
+		//
+		// node class widget
+		//
 		nodeClassWidget_ = new QComboBox();
 		nodeClassWidget_->addItems(nodeClassList_);
 		nodeClassWidget_->setFixedWidth(120);
+
+		//
+		// actions
+		//
+		connect(
+			nodeClassWidget_, SIGNAL(currentIndexChanged(int)),
+			this, SLOT(onCurrentIndexChanged(int))
+		);
 
 		// layout
 		QHBoxLayout* hBoxLayout = new QHBoxLayout();
@@ -75,6 +86,19 @@ namespace OpcUaNodeSet
 		NodeClassType nodeClass;
 		baseNode->getNodeClass(nodeClass);
 		nodeClassWidget_->setCurrentText(NodeClass::toString(nodeClass).c_str());
+	}
+
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// slots
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	void
+	NodeClassWidget::onCurrentIndexChanged(int index)
+	{
+		emit currentIndexChanged(index);
 	}
 
 }

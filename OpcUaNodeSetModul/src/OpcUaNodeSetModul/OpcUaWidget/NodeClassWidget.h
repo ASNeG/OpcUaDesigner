@@ -40,6 +40,12 @@ namespace OpcUaNodeSet
 
 		void nodeChange(NodeInfo* nodeInfo);
 
+	  public slots:
+	    void onCurrentIndexChanged(int index);
+
+	  signals:
+	    void currentIndexChanged(int index);
+
 	  private:
 		void createLayout(void);
 
