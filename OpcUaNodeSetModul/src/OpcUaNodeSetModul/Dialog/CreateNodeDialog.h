@@ -58,7 +58,9 @@ namespace OpcUaNodeSet
         //
         DataModel* dataModel_;
         BaseNodeClass::SPtr baseNode_;
+
         OpcUaNodeId nodeId_;
+        //OpcUaBrowseName browseName_;
 
         //
         // widgets

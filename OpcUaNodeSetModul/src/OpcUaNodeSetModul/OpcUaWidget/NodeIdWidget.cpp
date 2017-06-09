@@ -123,6 +123,57 @@ namespace OpcUaNodeSet
 
 	}
 
+	void
+	NodeIdWidget::setValue(OpcUaNodeId& nodeId, NodeSetNamespace& nodeSetNamespace)
+	{
+		switch (nodeId.nodeIdType())
+		{
+			case OpcUaBuildInType_OpcUaUInt32:
+			{
+				OpcUaUInt16 namespaceIndex;
+				OpcUaUInt32 value;
+				nodeId.get(value, namespaceIndex);
+				typeWidget_->setCurrentIndex(0);
+				nodeIdWidget_->setText(QString("%1").arg(value));
+				break;
+			}
+			case OpcUaBuildInType_OpcUaString:
+			{
+				OpcUaUInt16 namespaceIndex;
+				std::string value;
+				nodeId.get(value, namespaceIndex);
+				typeWidget_->setCurrentIndex(1);
+				nodeIdWidget_->setText(value.c_str());
+				break;
+			}
+			case OpcUaBuildInType_OpcUaGuid:
+			{
+				// FIXME: todo
+				typeWidget_->setCurrentIndex(2);
+				nodeIdWidget_->setText(QString("GUID not supported"));
+				break;
+			}
+			default:
+			{
+				typeWidget_->setCurrentIndex(4);
+				nodeIdWidget_->setText(QString("Type not supported"));
+				break;
+			}
+		}
+
+		// set namespace
+		namespaceWidget_->clear();
+		for (uint32_t idx = 0; idx < nodeSetNamespace.globalNamespaceVec().size(); idx++) {
+			namespaceWidget_->addItem(nodeSetNamespace.globalNamespaceVec()[idx].c_str());
+		}
+		namespaceWidget_->setCurrentIndex(nodeId.namespaceIndex());
+	}
+
+	void
+	NodeIdWidget::getValue(OpcUaNodeId& nodeId, NodeSetNamespace& nodeSetNamespace)
+	{
+	}
+
 }
 
 

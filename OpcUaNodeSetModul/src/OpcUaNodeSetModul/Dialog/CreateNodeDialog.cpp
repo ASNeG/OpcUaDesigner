@@ -52,10 +52,10 @@ namespace OpcUaNodeSet
 	void
 	CreateNodeDialog::createLayout(void)
 	{
-		this->setWindowTitle(QString("Create Node Dialog"));
-		QVBoxLayout* vBoxLayout = new QVBoxLayout();
 		createUniqueNodeId("Object");
 
+		this->setWindowTitle(QString("Create Node Dialog"));
+		QVBoxLayout* vBoxLayout = new QVBoxLayout();
 
 		//
 		// base information section
@@ -234,6 +234,12 @@ namespace OpcUaNodeSet
 		}
 	}
 
+	void
+	CreateNodeDialog::show(void)
+	{
+		;
+	}
+
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	//
@@ -264,12 +270,6 @@ namespace OpcUaNodeSet
 		createUniqueNodeId("Value");
 		show();
 		std::cout << "clicked..." << std::endl;
-	}
-
-	void
-	CreateNodeDialog::show(void)
-	{
-		;
 	}
 
 	// ------------------------------------------------------------------------
