@@ -39,6 +39,7 @@ namespace OpcUaNodeSet
 		virtual ~CreateNodeDialog(void);
 
 	  public slots:
+	    void onCurrentIndexChangedNodeClass(int index);
 
       signals:
 

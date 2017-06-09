@@ -124,6 +124,10 @@ namespace OpcUaNodeSet
 		//
 		// actions
 		//
+		connect(
+			nodeClassWidget, SIGNAL(currentIndexChanged(int)),
+			this, SLOT(onCurrentIndexChangedNodeClass(int))
+		);
 
 		setLayout(vBoxLayout);
 	}
@@ -196,6 +200,11 @@ namespace OpcUaNodeSet
 	//
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
+	void
+	CreateNodeDialog::onCurrentIndexChangedNodeClass(int index)
+	{
+		stackedWidget_->setCurrentIndex(index+1);
+	}
 
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
