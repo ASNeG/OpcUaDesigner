@@ -40,6 +40,8 @@ namespace OpcUaNodeSet
 
 	  public slots:
 	    void onCurrentIndexChangedNodeClass(int index);
+	    void onClickedObjectType(void);
+	    void onClickedValueType(void);
 
       signals:
 

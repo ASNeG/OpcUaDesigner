@@ -145,6 +145,7 @@ namespace OpcUaNodeSet
     	QWidget* widget = new QWidget();
        	QGridLayout* gridLayout = new QGridLayout();
        	gridLayout->setMargin(0);
+       	widget->setLayout(gridLayout);
 
        	//
        	// object type
@@ -156,13 +157,21 @@ namespace OpcUaNodeSet
         gridLayout->addLayout(objectTypeLayout, 0, 1);
 
         QLineEdit* objectTypeLineEdit = new QLineEdit();
+        objectTypeLineEdit->setEnabled(false);
         objectTypeLayout->addWidget(objectTypeLineEdit);
 
         QPushButton* objectTypePushButton = new QPushButton("...");
         objectTypePushButton->setFixedWidth(30);
         objectTypeLayout->addWidget(objectTypePushButton);
 
-        widget->setLayout(gridLayout);
+        //
+        // action
+        //
+        connect(
+        	objectTypePushButton, SIGNAL(clicked()),
+        	this, SLOT(onClickedObjectType())
+        );
+
     	return widget;
     }
 
@@ -172,6 +181,7 @@ namespace OpcUaNodeSet
     	QWidget* widget = new QWidget();
        	QGridLayout* gridLayout = new QGridLayout();
        	gridLayout->setMargin(0);
+        widget->setLayout(gridLayout);
 
        	//
        	// object type
@@ -183,13 +193,21 @@ namespace OpcUaNodeSet
         gridLayout->addLayout(valueTypeLayout, 0, 1);
 
         QLineEdit* valueTypeLineEdit = new QLineEdit();
+        valueTypeLineEdit->setEnabled(false);
         valueTypeLayout->addWidget(valueTypeLineEdit);
 
         QPushButton* valueTypePushButton = new QPushButton("...");
         valueTypePushButton->setFixedWidth(30);
         valueTypeLayout->addWidget(valueTypePushButton);
 
-        widget->setLayout(gridLayout);
+        //
+        // action
+        //
+        connect(
+            valueTypePushButton, SIGNAL(clicked()),
+         	this, SLOT(onClickedValueType())
+         );
+
     	return widget;
     }
 
@@ -204,6 +222,18 @@ namespace OpcUaNodeSet
 	CreateNodeDialog::onCurrentIndexChangedNodeClass(int index)
 	{
 		stackedWidget_->setCurrentIndex(index+1);
+	}
+
+	void
+	CreateNodeDialog::onClickedObjectType(void)
+	{
+		std::cout << "clicked..." << std::endl;
+	}
+
+	void
+	CreateNodeDialog::onClickedValueType(void)
+	{
+		std::cout << "clicked..." << std::endl;
 	}
 
 	// ------------------------------------------------------------------------
