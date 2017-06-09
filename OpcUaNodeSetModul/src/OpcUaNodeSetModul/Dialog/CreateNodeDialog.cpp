@@ -36,9 +36,10 @@ namespace OpcUaNodeSet
 {
 
 
-	CreateNodeDialog::CreateNodeDialog(DataModel* dataModel)
+	CreateNodeDialog::CreateNodeDialog(DataModel* dataModel, BaseNodeClass::SPtr& baseNode)
 	: QDialog()
 	, dataModel_(dataModel)
+	, baseNode_(baseNode)
 	{
 		createLayout();
 	}

@@ -35,7 +35,7 @@ namespace OpcUaNodeSet
 		Q_OBJECT
 
 	  public:
-		CreateNodeDialog(DataModel* dataModel);
+		CreateNodeDialog(DataModel* dataModel, BaseNodeClass::SPtr& baseNode);
 		virtual ~CreateNodeDialog(void);
 
 	  public slots:
@@ -55,6 +55,7 @@ namespace OpcUaNodeSet
         // data model
         //
         DataModel* dataModel_;
+        BaseNodeClass::SPtr baseNode_;
 
         //
         // widgets

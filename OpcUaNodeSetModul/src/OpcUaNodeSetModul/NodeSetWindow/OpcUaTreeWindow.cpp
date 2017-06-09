@@ -412,7 +412,7 @@ namespace OpcUaNodeSet
 	    	return;
 	    }
 
-	    CreateNodeDialog createNodeDialog(dataModel_);
+	    CreateNodeDialog createNodeDialog(dataModel_, baseNode);
 	    createNodeDialog.exec();
     }
 
