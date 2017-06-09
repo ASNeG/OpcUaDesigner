@@ -27,6 +27,7 @@
 #include <QFrame>
 
 #include "OpcUaNodeSetModul/Dialog/CreateNodeDialog.h"
+#include "OpcUaNodeSetModul/Dialog/SelectObjectTypeDialog.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/NodeClassWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/NodeIdWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/BrowseNameWidget.h"
@@ -227,7 +228,8 @@ namespace OpcUaNodeSet
 	void
 	CreateNodeDialog::onClickedObjectType(void)
 	{
-		std::cout << "clicked..." << std::endl;
+		SelectObjectTypeDialog dialog(dataModel_);
+		dialog.exec();
 	}
 
 	void
