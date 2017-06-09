@@ -23,6 +23,8 @@
 #include <QComboBox>
 #include <QPushButton>
 #include <QStackedWidget>
+#include <QLineEdit>
+#include <QFrame>
 
 #include "OpcUaNodeSetModul/Dialog/CreateNodeDialog.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/NodeClassWidget.h"
@@ -91,11 +93,21 @@ namespace OpcUaNodeSet
 		baseInfoLayout->addLayout(hBoxLayoutInfo, 2, 1);
 
 		//
+		//
+		//
+	    QFrame* line = new QFrame();
+	    line->setFrameShape(QFrame::HLine);
+	    line->setFrameShadow(QFrame::Sunken);
+	    vBoxLayout->addWidget(line);
+
+		//
 		// type specific data
 		//
 		stackedWidget_ = new QStackedWidget();
-		//stackedWidget_->addWidget();
-		//stackedWidget_->addWidget();
+		stackedWidget_->addWidget(createEmptyWidget());
+		stackedWidget_->addWidget(createObjectWidget());
+		stackedWidget_->addWidget(createValueWidget());
+		stackedWidget_->setCurrentIndex(1);
 		vBoxLayout->addWidget(stackedWidget_);
 
 		//
@@ -111,6 +123,47 @@ namespace OpcUaNodeSet
 
 		setLayout(vBoxLayout);
 	}
+
+	QWidget*
+    CreateNodeDialog::createEmptyWidget(void)
+    {
+    	QWidget* widget = new QWidget();
+    	return widget;
+    }
+
+	QWidget*
+    CreateNodeDialog::createObjectWidget(void)
+    {
+    	QWidget* widget = new QWidget();
+       	QGridLayout* gridLayout = new QGridLayout();
+       	gridLayout->setMargin(0);
+
+       	//
+       	// object type
+       	//
+        QLabel* objectTypeLabel = new QLabel("Object Type   ");
+        gridLayout->addWidget(objectTypeLabel, 0, 0);
+
+        QHBoxLayout* objectTypeLayout = new QHBoxLayout();
+        gridLayout->addLayout(objectTypeLayout, 0, 1);
+
+        QLineEdit* objectTypeLineEdit = new QLineEdit();
+        objectTypeLayout->addWidget(objectTypeLineEdit);
+
+        QPushButton* objectTypePushButton = new QPushButton("...");
+        objectTypePushButton->setFixedWidth(30);
+        objectTypeLayout->addWidget(objectTypePushButton);
+
+        widget->setLayout(gridLayout);
+    	return widget;
+    }
+
+	QWidget*
+    CreateNodeDialog::createValueWidget(void)
+    {
+    	QWidget* widget = new QWidget();
+    	return widget;
+    }
 
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------

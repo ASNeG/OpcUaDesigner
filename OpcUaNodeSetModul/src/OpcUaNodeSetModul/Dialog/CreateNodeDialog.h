@@ -44,6 +44,9 @@ namespace OpcUaNodeSet
 
 	  private:
         void createLayout(void);
+        QWidget* createEmptyWidget(void);
+        QWidget* createObjectWidget(void);
+        QWidget* createValueWidget(void);
 
         //
         // data model
