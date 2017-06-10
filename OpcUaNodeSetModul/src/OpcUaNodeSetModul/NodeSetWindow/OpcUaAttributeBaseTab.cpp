@@ -142,7 +142,13 @@ namespace OpcUaNodeSet
 	void
 	OpcUaAttributeBaseTab::nodeChange(NodeInfo* nodeInfo)
 	{
-		nodeIdWidget_->nodeChange(nodeInfo);
+		OpcUaNodeId nodeId;
+		nodeInfo->baseNode_->getNodeId(nodeId);
+
+		nodeIdWidget_->setValue(nodeInfo->nodeSetNamespace_);
+		nodeIdWidget_->setValue(nodeInfo->informationModel_);
+		nodeIdWidget_->setValue(nodeId);
+
 		nodeClassWidget_->nodeChange(nodeInfo);
 		browseNameWidget_->nodeChange(nodeInfo);
 		displayNameWidget_->nodeChange(nodeInfo);

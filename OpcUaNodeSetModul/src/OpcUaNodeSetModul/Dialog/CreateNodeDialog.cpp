@@ -77,7 +77,9 @@ namespace OpcUaNodeSet
 		baseInfoLayout->addWidget(nodeIdLabel, 1, 0);
 
 		NodeIdWidget* nodeIdWidget = new NodeIdWidget();
-		nodeIdWidget->setValue(nodeId_, dataModel_->nodeSetNamespace());
+		nodeIdWidget->setValue(dataModel_->informationModel());
+		nodeIdWidget->setValue(dataModel_->nodeSetNamespace());
+		nodeIdWidget->setValue(nodeId_);
 
 		QHBoxLayout* hBoxLayoutInfo = new QHBoxLayout();
 		hBoxLayoutInfo->addWidget(nodeIdWidget);
