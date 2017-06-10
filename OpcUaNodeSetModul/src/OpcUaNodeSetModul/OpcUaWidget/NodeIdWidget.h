@@ -55,7 +55,9 @@ namespace OpcUaNodeSet
 	    void onTextChanged(const QString& text);
 
 	  private:
-		void show(void);
+		void showValue(void);
+		bool checkValue(void);
+		void styleValue(void);
 
 		OpcUaNodeId nodeId_;
 		InformationModel::SPtr informationModel_;

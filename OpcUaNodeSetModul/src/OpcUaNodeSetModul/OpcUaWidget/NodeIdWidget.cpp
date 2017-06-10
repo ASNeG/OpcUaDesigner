@@ -100,7 +100,9 @@ namespace OpcUaNodeSet
 	NodeIdWidget::setValue(OpcUaNodeId& nodeId)
 	{
 		nodeId_ = nodeId;
-		show();
+		showValue();
+		isValid_ = checkValue();
+		styleValue();
 	}
 
 	void
@@ -110,10 +112,8 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	NodeIdWidget::show(void)
+	NodeIdWidget::showValue(void)
 	{
-		isValid_ = true;
-
 		switch (nodeId_.nodeIdType())
 		{
 			case OpcUaBuildInType_OpcUaUInt32:
@@ -123,7 +123,6 @@ namespace OpcUaNodeSet
 				nodeId_.get(value, namespaceIndex);
 				typeWidget_->setCurrentIndex(0);
 				nodeIdWidget_->setText(QString("%1").arg(value));
-				nodeIdWidget_->setStyleSheet("background-color:none;");
 				break;
 			}
 			case OpcUaBuildInType_OpcUaString:
@@ -133,7 +132,6 @@ namespace OpcUaNodeSet
 				nodeId_.get(value, namespaceIndex);
 				typeWidget_->setCurrentIndex(1);
 				nodeIdWidget_->setText(value.c_str());
-				nodeIdWidget_->setStyleSheet("background-color:none;");
 				break;
 			}
 			case OpcUaBuildInType_OpcUaGuid:
@@ -143,15 +141,12 @@ namespace OpcUaNodeSet
 				nodeId_.get(value, namespaceIndex);
 				typeWidget_->setCurrentIndex(2);
 				nodeIdWidget_->setText(QString(value.c_str()));
-				nodeIdWidget_->setStyleSheet("background-color:none;");
 				break;
 			}
 			default:
 			{
 				typeWidget_->setCurrentIndex(3);
 				nodeIdWidget_->setText(QString("???"));
-				nodeIdWidget_->setStyleSheet("background-color:red;");
-				isValid_ = false;
 				break;
 			}
 		}
@@ -163,11 +158,79 @@ namespace OpcUaNodeSet
 				namespaceWidget_->addItem(nodeSetNamespace_->globalNamespaceVec()[idx].c_str());
 			}
 			namespaceWidget_->setCurrentIndex(nodeId_.namespaceIndex());
-			namespaceWidget_->setStyleSheet("background-color:none;");
+		}
+	}
+
+	bool
+	NodeIdWidget::checkValue(void)
+	{
+		// create node id
+		OpcUaNodeId nodeId;
+
+		// check namespace
+		if (namespaceWidget_->currentIndex() < 0) return false;
+
+		// check type
+		switch (typeWidget_->currentIndex())
+		{
+			case 0: // numeric
+			{
+				QRegExp rx("\\d+");
+				if (!rx.exactMatch(nodeIdWidget_->text())) {
+					return false;
+				}
+
+				uint32_t id = nodeIdWidget_->text().toInt();
+				nodeId.set(id, (uint16_t)namespaceWidget_->currentIndex());
+
+				break;
+			}
+			case 1: // string
+			{
+				std::string id = nodeIdWidget_->text().toStdString();
+				nodeId.set(id, (uint16_t)namespaceWidget_->currentIndex());
+
+				break;
+			}
+			case 2: // guid
+			{  // "12345678-9ABC-DEF0-1234-56789ABCDEF0"
+				QRegExp rx("\\xhhhhhhhh-\\xhhhh-\\xhhhh-\\xhhhh-\\xhhhhhhhhhhhh");
+				if (!rx.exactMatch(nodeIdWidget_->text())) {
+					return false;
+				}
+
+				std::string id = nodeIdWidget_->text().toStdString();
+				nodeId.set(id, (uint16_t)namespaceWidget_->currentIndex());
+
+				break;
+			}
+			default:
+			{
+				return false;
+			}
+		}
+
+		// check if value exist
+		if (informationModel_.get() == NULL) {
+			nodeId_ = nodeId;
+			return true;
+		}
+
+		BaseNodeClass::SPtr baseNode = informationModel_->find(nodeId);
+		if (baseNode.get() != NULL) return false;
+
+		nodeId_ = nodeId;
+		return true;
+	}
+
+	void
+	NodeIdWidget::styleValue(void)
+	{
+		if (isValid_) {
+			nodeIdWidget_->setStyleSheet("background-color:none;");
 		}
 		else {
-			namespaceWidget_->setStyleSheet("background-color:red;");
-			isValid_ = false;
+			nodeIdWidget_->setStyleSheet("background-color:red;");
 		}
 	}
 
@@ -181,19 +244,22 @@ namespace OpcUaNodeSet
 	void
 	NodeIdWidget::onCurrentIndexChangedTypeWidget(int index)
 	{
-		std::cout << "onCurrentIndexChangedTypeWidget..." << std::endl;
+		isValid_ = checkValue();
+		styleValue();
 	}
 
 	void
 	NodeIdWidget::onCurrentIndexChangedNamespaceWidget(int index)
 	{
-		std::cout << "onCurrentIndexChangedNamespaceWidget..." << std::endl;
+		isValid_ = checkValue();
+		styleValue();
 	}
 
 	void
 	NodeIdWidget::onTextChanged(const QString& text)
 	{
-		std::cout << "onTextChanged..." << std::endl;
+		isValid_ = checkValue();
+		styleValue();
 	}
 
 }
