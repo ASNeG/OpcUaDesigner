@@ -169,6 +169,7 @@ namespace OpcUaNodeSet
 
 		// check namespace
 		if (namespaceWidget_->currentIndex() < 0) return false;
+		if (nodeIdWidget_->text().length() == 0) return false;
 
 		// check type
 		switch (typeWidget_->currentIndex())
@@ -193,8 +194,8 @@ namespace OpcUaNodeSet
 				break;
 			}
 			case 2: // guid
-			{  // "12345678-9ABC-DEF0-1234-56789ABCDEF0"
-				QRegExp rx("\\xhhhhhhhh-\\xhhhh-\\xhhhh-\\xhhhh-\\xhhhhhhhhhhhh");
+			{
+				QRegExp rx("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}");
 				if (!rx.exactMatch(nodeIdWidget_->text())) {
 					return false;
 				}
