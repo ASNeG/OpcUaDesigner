@@ -18,12 +18,15 @@
 #ifndef __OpcUaNodeSet_NodeIdWidget_h__
 #define __OpcUaNodeSet_NodeIdWidget_h__
 
-#include "OpcUaNodeSetModul/Base/NodeInfo.h"
+#include "OpcUaStackServer/InformationModel/InformationModel.h"
+#include "OpcUaStackServer/NodeSet/NodeSetNamespace.h"
 
 #include <QWidget>
 
 class QLineEdit;
 class QComboBox;
+
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -37,15 +40,17 @@ namespace OpcUaNodeSet
 		NodeIdWidget(QWidget* parent = 0);
 		virtual ~NodeIdWidget(void);
 
-		void nodeChange(NodeInfo* nodeInfo);
-
-		void setValue(OpcUaNodeId& nodeId, NodeSetNamespace& nodeSetNamespace);
+		void setValue(InformationModel::SPtr& informationModel);
+		void setValue(NodeSetNamespace& nodeSetNamespace);
+		void setValue(OpcUaNodeId& nodeId);
 		void getValue(OpcUaNodeId& nodeId);
 
 	  private:
-		void show(NodeSetNamespace& nodeSetNamespace);
+		void show(void);
 
 		OpcUaNodeId nodeId_;
+		InformationModel::SPtr informationModel_;
+		NodeSetNamespace* nodeSetNamespace_;
 
 		QComboBox* typeWidget_;
 		QLineEdit* nodeIdWidget_;

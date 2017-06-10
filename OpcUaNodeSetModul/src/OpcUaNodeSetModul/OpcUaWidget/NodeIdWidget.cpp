@@ -31,6 +31,8 @@ namespace OpcUaNodeSet
 	NodeIdWidget::NodeIdWidget(QWidget* parent)
 	: QWidget()
 	, nodeId_()
+	, informationModel_()
+	, nodeSetNamespace_(nullptr)
 	{
 		// widgets
 		QStringList typeList;
@@ -66,26 +68,22 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	NodeIdWidget::nodeChange(NodeInfo* nodeInfo)
+	NodeIdWidget::setValue(InformationModel::SPtr& informationModel)
 	{
-		// get base node
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullNodeId()) {
-			typeWidget_->setCurrentIndex(4);
-			nodeIdWidget_->setText(QString(""));
-			return;
-		}
-
-		// set node id
-		baseNode->getNodeId(nodeId_);
-		show(nodeInfo->nodeSetNamespace_);
+		informationModel_ = informationModel;
 	}
 
 	void
-	NodeIdWidget::setValue(OpcUaNodeId& nodeId, NodeSetNamespace& nodeSetNamespace)
+	NodeIdWidget::setValue(NodeSetNamespace& nodeSetNamespace)
+	{
+		nodeSetNamespace_ = &nodeSetNamespace;
+	}
+
+	void
+	NodeIdWidget::setValue(OpcUaNodeId& nodeId)
 	{
 		nodeId_ = nodeId;
-		show(nodeSetNamespace);
+		show();
 	}
 
 	void
@@ -95,7 +93,7 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	NodeIdWidget::show(NodeSetNamespace& nodeSetNamespace)
+	NodeIdWidget::show(void)
 	{
 
 		switch (nodeId_.nodeIdType())
@@ -134,11 +132,13 @@ namespace OpcUaNodeSet
 		}
 
 		// set namespace
-		namespaceWidget_->clear();
-		for (uint32_t idx = 0; idx < nodeSetNamespace.globalNamespaceVec().size(); idx++) {
-			namespaceWidget_->addItem(nodeSetNamespace.globalNamespaceVec()[idx].c_str());
+		if (nodeSetNamespace_ != NULL) {
+			namespaceWidget_->clear();
+			for (uint32_t idx = 0; idx < nodeSetNamespace_->globalNamespaceVec().size(); idx++) {
+				namespaceWidget_->addItem(nodeSetNamespace_->globalNamespaceVec()[idx].c_str());
+			}
+			namespaceWidget_->setCurrentIndex(nodeId_.namespaceIndex());
 		}
-		namespaceWidget_->setCurrentIndex(nodeId_.namespaceIndex());
 	}
 
 }
