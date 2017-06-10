@@ -146,7 +146,6 @@ namespace OpcUaNodeSet
 		nodeInfo->baseNode_->getNodeId(nodeId);
 
 		nodeIdWidget_->setValue(nodeInfo->nodeSetNamespace_);
-		nodeIdWidget_->setValue(nodeInfo->informationModel_);
 		nodeIdWidget_->setValue(nodeId);
 
 		nodeClassWidget_->nodeChange(nodeInfo);
