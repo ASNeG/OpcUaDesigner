@@ -61,6 +61,22 @@ namespace OpcUaNodeSet
 		vBoxLayout->addWidget(namespaceWidget_);
 		vBoxLayout->setMargin(0);
 
+		//
+		// actions
+		//
+		connect(
+			typeWidget_, SIGNAL(currentIndexChanged(int)),
+			this, SLOT(onCurrentIndexChangedTypeWidget(int))
+		);
+		connect(
+			namespaceWidget_, SIGNAL(currentIndexChanged(int)),
+			this, SLOT(onCurrentIndexChangedNamespaceWidget(int))
+		);
+		connect(
+			nodeIdWidget_, SIGNAL(textChanged(const QString&)),
+			this, SLOT(onTextChanged(const QString&))
+		);
+
 		setLayout(vBoxLayout);
 	}
 
@@ -153,6 +169,31 @@ namespace OpcUaNodeSet
 			namespaceWidget_->setStyleSheet("background-color:red;");
 			isValid_ = false;
 		}
+	}
+
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// slots
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	void
+	NodeIdWidget::onCurrentIndexChangedTypeWidget(int index)
+	{
+		std::cout << "onCurrentIndexChangedTypeWidget..." << std::endl;
+	}
+
+	void
+	NodeIdWidget::onCurrentIndexChangedNamespaceWidget(int index)
+	{
+		std::cout << "onCurrentIndexChangedNamespaceWidget..." << std::endl;
+	}
+
+	void
+	NodeIdWidget::onTextChanged(const QString& text)
+	{
+		std::cout << "onTextChanged..." << std::endl;
 	}
 
 }

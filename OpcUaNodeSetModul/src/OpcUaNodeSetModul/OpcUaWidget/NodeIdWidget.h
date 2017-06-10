@@ -50,7 +50,9 @@ namespace OpcUaNodeSet
 	    void valueChanged(OpcUaNodeId& nodeId, bool isValid);
 
 	  private slots:
-
+	    void onCurrentIndexChangedTypeWidget(int index);
+	    void onCurrentIndexChangedNamespaceWidget(int index);
+	    void onTextChanged(const QString& text);
 
 	  private:
 		void show(void);
