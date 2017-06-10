@@ -44,6 +44,13 @@ namespace OpcUaNodeSet
 		void setValue(NodeSetNamespace& nodeSetNamespace);
 		void setValue(OpcUaNodeId& nodeId);
 		void getValue(OpcUaNodeId& nodeId);
+		bool isValid(void);
+
+	  signals:
+	    void valueChanged(OpcUaNodeId& nodeId, bool isValid);
+
+	  private slots:
+
 
 	  private:
 		void show(void);
@@ -51,6 +58,7 @@ namespace OpcUaNodeSet
 		OpcUaNodeId nodeId_;
 		InformationModel::SPtr informationModel_;
 		NodeSetNamespace* nodeSetNamespace_;
+		bool isValid_;
 
 		QComboBox* typeWidget_;
 		QLineEdit* nodeIdWidget_;

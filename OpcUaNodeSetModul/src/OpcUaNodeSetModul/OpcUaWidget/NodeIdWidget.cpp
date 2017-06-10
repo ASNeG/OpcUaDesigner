@@ -33,10 +33,11 @@ namespace OpcUaNodeSet
 	, nodeId_()
 	, informationModel_()
 	, nodeSetNamespace_(nullptr)
+	, isValid_(false)
 	{
 		// widgets
 		QStringList typeList;
-		typeList << "Numeric" << "String" << "Guid" << "Oqaque" << "Unknown";
+		typeList << "Numeric" << "String" << "Guid" << "Unknown";
 		typeWidget_ = new QComboBox();
 		typeWidget_->addItems(typeList);
 		typeWidget_->setFixedWidth(120);
@@ -95,6 +96,7 @@ namespace OpcUaNodeSet
 	void
 	NodeIdWidget::show(void)
 	{
+		isValid_ = true;
 
 		switch (nodeId_.nodeIdType())
 		{
@@ -105,6 +107,7 @@ namespace OpcUaNodeSet
 				nodeId_.get(value, namespaceIndex);
 				typeWidget_->setCurrentIndex(0);
 				nodeIdWidget_->setText(QString("%1").arg(value));
+				nodeIdWidget_->setStyleSheet("background-color:none;");
 				break;
 			}
 			case OpcUaBuildInType_OpcUaString:
@@ -114,19 +117,25 @@ namespace OpcUaNodeSet
 				nodeId_.get(value, namespaceIndex);
 				typeWidget_->setCurrentIndex(1);
 				nodeIdWidget_->setText(value.c_str());
+				nodeIdWidget_->setStyleSheet("background-color:none;");
 				break;
 			}
 			case OpcUaBuildInType_OpcUaGuid:
 			{
-				// FIXME: todo
+				OpcUaUInt16 namespaceIndex;
+				std::string value;
+				nodeId_.get(value, namespaceIndex);
 				typeWidget_->setCurrentIndex(2);
-				nodeIdWidget_->setText(QString("GUID not supported"));
+				nodeIdWidget_->setText(QString(value.c_str()));
+				nodeIdWidget_->setStyleSheet("background-color:none;");
 				break;
 			}
 			default:
 			{
-				typeWidget_->setCurrentIndex(4);
-				nodeIdWidget_->setText(QString("Type not supported"));
+				typeWidget_->setCurrentIndex(3);
+				nodeIdWidget_->setText(QString("???"));
+				nodeIdWidget_->setStyleSheet("background-color:red;");
+				isValid_ = false;
 				break;
 			}
 		}
@@ -138,6 +147,11 @@ namespace OpcUaNodeSet
 				namespaceWidget_->addItem(nodeSetNamespace_->globalNamespaceVec()[idx].c_str());
 			}
 			namespaceWidget_->setCurrentIndex(nodeId_.namespaceIndex());
+			namespaceWidget_->setStyleSheet("background-color:none;");
+		}
+		else {
+			namespaceWidget_->setStyleSheet("background-color:red;");
+			isValid_ = false;
 		}
 	}
 
