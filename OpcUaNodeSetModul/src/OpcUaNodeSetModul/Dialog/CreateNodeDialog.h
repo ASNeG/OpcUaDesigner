@@ -20,6 +20,10 @@
 
 #include <QDialog>
 #include <QWidget>
+#include "OpcUaNodeSetModul/OpcUaWidget/NodeClassWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/NodeIdWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/BrowseNameWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/DisplayNameWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/ObjectTypeWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/VariableTypeWidget.h"
 #include "OpcUaNodeSetModul/Model/DataModel.h"
@@ -53,7 +57,8 @@ namespace OpcUaNodeSet
         QWidget* createObjectWidget(void);
         QWidget* createValueWidget(void);
         void createAttributes(const std::string& prefix);
-        void show(void);
+
+        void showValue(void);
 
         //
         // data model
@@ -68,6 +73,10 @@ namespace OpcUaNodeSet
         //
         // widgets
         //
+        NodeIdWidget* nodeIdWidget_;
+        DisplayNameWidget* displayNameWidget_;
+        BrowseNameWidget* browseNameWidget_;
+
         QStackedWidget* stackedWidget_;
         ObjectTypeWidget* objectTypeWidget_;
         VariableTypeWidget* variableTypeWidget_;

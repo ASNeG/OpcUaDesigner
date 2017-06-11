@@ -29,10 +29,6 @@
 #include "OpcUaNodeSetModul/Dialog/CreateNodeDialog.h"
 #include "OpcUaNodeSetModul/Dialog/SelectObjectTypeDialog.h"
 #include "OpcUaNodeSetModul/Dialog/SelectVariableTypeDialog.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/NodeClassWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/NodeIdWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/BrowseNameWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/DisplayNameWidget.h"
 
 namespace OpcUaNodeSet
 {
@@ -80,13 +76,12 @@ namespace OpcUaNodeSet
 		QLabel* nodeIdLabel = new QLabel("NodeId");
 		baseInfoLayout->addWidget(nodeIdLabel, 1, 0);
 
-		NodeIdWidget* nodeIdWidget = new NodeIdWidget();
-		nodeIdWidget->setValue(dataModel_->informationModel());
-		nodeIdWidget->setValue(dataModel_->nodeSetNamespace());
-		nodeIdWidget->setValue(nodeId_);
+		nodeIdWidget_ = new NodeIdWidget();
+		nodeIdWidget_->setValue(dataModel_->informationModel());
+		nodeIdWidget_->setValue(dataModel_->nodeSetNamespace());
 
 		QHBoxLayout* hBoxLayoutInfo = new QHBoxLayout();
-		hBoxLayoutInfo->addWidget(nodeIdWidget);
+		hBoxLayoutInfo->addWidget(nodeIdWidget_);
 		hBoxLayoutInfo->addStretch();
 
 		baseInfoLayout->addLayout(hBoxLayoutInfo, 1, 1);
@@ -95,18 +90,16 @@ namespace OpcUaNodeSet
 		QLabel* displayNameLabel = new QLabel("DisplayName");
 		baseInfoLayout->addWidget(displayNameLabel, 2, 0);
 
-		DisplayNameWidget* displayNameWidget = new DisplayNameWidget();
-		baseInfoLayout->addWidget(displayNameWidget, 2, 1);
-		displayNameWidget->setValue(displayName_);
+		displayNameWidget_ = new DisplayNameWidget();
+		baseInfoLayout->addWidget(displayNameWidget_, 2, 1);
 
 		// browse name
 		QLabel* browseNameLabel = new QLabel("BrowseName");
 		baseInfoLayout->addWidget(browseNameLabel, 3, 0);
 
-		BrowseNameWidget* browseNameWidget = new BrowseNameWidget();
-		baseInfoLayout->addWidget(browseNameWidget, 3, 1);
-		browseNameWidget->setValue(dataModel_->nodeSetNamespace());
-		browseNameWidget->setValue(browseName_);
+		browseNameWidget_ = new BrowseNameWidget();
+		baseInfoLayout->addWidget(browseNameWidget_, 3, 1);
+		browseNameWidget_->setValue(dataModel_->nodeSetNamespace());
 
 		//
 		// diving line
@@ -145,7 +138,7 @@ namespace OpcUaNodeSet
 			this, SLOT(onCurrentIndexChangedNodeClass(int))
 		);
 
-		show();
+		showValue();
 		setLayout(vBoxLayout);
 	}
 
@@ -217,7 +210,7 @@ namespace OpcUaNodeSet
         // action
         //
  		connect(
- 				variableTypeWidget_, SIGNAL(selectObjectType()),
+ 			variableTypeWidget_, SIGNAL(selectVariableType()),
  			this, SLOT(onClickedVariableType())
  		);
 
@@ -251,9 +244,11 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	CreateNodeDialog::show(void)
+	CreateNodeDialog::showValue(void)
 	{
-		;
+		nodeIdWidget_->setValue(nodeId_);
+		displayNameWidget_->setValue(displayName_);
+		browseNameWidget_->setValue(browseName_);
 	}
 
 	// ------------------------------------------------------------------------
@@ -267,6 +262,14 @@ namespace OpcUaNodeSet
 	CreateNodeDialog::onCurrentIndexChangedNodeClass(int index)
 	{
 		stackedWidget_->setCurrentIndex(index+1);
+
+		if (index == 0) {
+			createAttributes("Object");
+		}
+		else {
+			createAttributes("Variable");
+		}
+		showValue();
 	}
 
 	void
@@ -278,7 +281,7 @@ namespace OpcUaNodeSet
 		dialog.exec();
 
 		objectTypeWidget_->setValue(dialog.objectType());
-		show();
+		showValue();
 	}
 
 	void
@@ -290,7 +293,7 @@ namespace OpcUaNodeSet
 		dialog.exec();
 
 		variableTypeWidget_->setValue(dialog.variableType());
-		show();
+		showValue();
 	}
 
 	// ------------------------------------------------------------------------
