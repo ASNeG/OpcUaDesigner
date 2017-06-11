@@ -119,7 +119,10 @@ namespace OpcUaNodeSet
 	void
 	BrowseNameWidget::showValue(void)
 	{
-		browseNameWidget_->setText(QString(browseName_.toString().c_str()));
+		std::string text;
+		OpcUaUInt16 namespaceIndex;
+		browseName_.get(text, namespaceIndex);
+		browseNameWidget_->setText(QString(text.c_str()));
 
 		// set namespace
 		if (nodeSetNamespace_ != NULL) {
