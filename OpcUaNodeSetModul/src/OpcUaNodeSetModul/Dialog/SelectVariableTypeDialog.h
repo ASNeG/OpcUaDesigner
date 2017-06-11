@@ -15,8 +15,8 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#ifndef __BHIMatlabSimulink_SelectValueTypeDialog_h__
-#define __BHIMatlabSimulink_SelectValueTypeDialog_h__
+#ifndef __BHIMatlabSimulink_SelectVariableTypeDialog_h__
+#define __BHIMatlabSimulink_SelectVariableTypeDialog_h__
 
 #include <QDialog>
 #include <QWidget>
@@ -32,16 +32,16 @@ using namespace OpcUaStackServer;
 namespace OpcUaNodeSet
 {
 
-	class SelectValueTypeDialog
+	class SelectVariableTypeDialog
 	: public QDialog
 	{
 		Q_OBJECT
 
 	  public:
-		SelectValueTypeDialog(DataModel* dataModel);
-		virtual ~SelectValueTypeDialog(void);
+		SelectVariableTypeDialog(DataModel* dataModel);
+		virtual ~SelectVariableTypeDialog(void);
 
-		OpcUaNodeId& valueType(void);
+		OpcUaNodeId& variableType(void);
 
 	  public slots:
 	    void onItemDoubleClicked(QTreeWidgetItem* item, int column);
@@ -60,7 +60,7 @@ namespace OpcUaNodeSet
         // data model
         //
         DataModel* dataModel_;
-        OpcUaNodeId valueType_;
+        OpcUaNodeId variableType_;
 
         //
         // widgets

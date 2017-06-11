@@ -24,7 +24,7 @@
 
 #include "OpcUaStackCore/BuildInTypes/OpcUaIdentifier.h"
 #include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
-#include "OpcUaNodeSetModul/Dialog/SelectValueTypeDialog.h"
+#include "OpcUaNodeSetModul/Dialog/SelectVariableTypeDialog.h"
 
 using namespace OpcUaStackCore;
 using namespace OpcUaStackServer;
@@ -33,12 +33,12 @@ namespace OpcUaNodeSet
 {
 
 
-	SelectValueTypeDialog::SelectValueTypeDialog(DataModel* dataModel)
+	SelectVariableTypeDialog::SelectVariableTypeDialog(DataModel* dataModel)
 	: QDialog()
 	, dataModel_(dataModel)
-	, valueType_(62)
+	, variableType_(62)
 	{
-		this->setWindowTitle(QString("Select Value Type Dialog"));
+		this->setWindowTitle(QString("Select Variable Type Dialog"));
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
 
 		//
@@ -67,14 +67,14 @@ namespace OpcUaNodeSet
 		showModel();
 	}
 
-	SelectValueTypeDialog::~SelectValueTypeDialog(void)
+	SelectVariableTypeDialog::~SelectVariableTypeDialog(void)
 	{
 	}
 
 	OpcUaNodeId&
-	SelectValueTypeDialog::valueType(void)
+	SelectVariableTypeDialog::variableType(void)
 	{
-		return valueType_;
+		return variableType_;
 	}
 
 	// ------------------------------------------------------------------------
@@ -85,7 +85,7 @@ namespace OpcUaNodeSet
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	void
-	SelectValueTypeDialog::onItemDoubleClicked(QTreeWidgetItem* item, int column)
+	SelectVariableTypeDialog::onItemDoubleClicked(QTreeWidgetItem* item, int column)
 	{
 		if(item == NULL) return;
 
@@ -93,7 +93,7 @@ namespace OpcUaNodeSet
 		QVariant v = item->data(0, Qt::UserRole);
 		NodeInfo* nodeInfo = v.value<NodeInfo*>();
 
-		nodeInfo->baseNode_->getNodeId(valueType_);
+		nodeInfo->baseNode_->getNodeId(variableType_);
 		close();
 	}
 
@@ -105,10 +105,10 @@ namespace OpcUaNodeSet
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	void
-	SelectValueTypeDialog::showModel(void)
+	SelectVariableTypeDialog::showModel(void)
 	{
-		OpcUaNodeId valueType(62);
-		BaseNodeClass::SPtr baseNode = dataModel_->informationModel()->find(valueType);
+		OpcUaNodeId variableType(62);
+		BaseNodeClass::SPtr baseNode = dataModel_->informationModel()->find(variableType);
 		addNode(dataModel_->informationModel(), NULL, baseNode);
 
 		if (rootItem_ == NULL) return;
@@ -116,7 +116,7 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	SelectValueTypeDialog::addNode(
+	SelectVariableTypeDialog::addNode(
 		InformationModel::SPtr& informationModel,
 		QTreeWidgetItem* parentItem,
 		BaseNodeClass::SPtr& baseNode
