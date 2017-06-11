@@ -127,6 +127,8 @@ namespace OpcUaNodeSet
 		informationModelAccess.getType(baseNode, typeNodeId);
 		baseNode->getNodeClass(nodeClass);
 
+		if (nodeClass != NodeClassType_ObjectType) return;
+
 		switch (nodeClass)
 		{
 			case NodeClassType_Object:
