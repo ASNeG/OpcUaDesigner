@@ -32,6 +32,7 @@
 #include "OpcUaNodeSetModul/OpcUaWidget/NodeIdWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/BrowseNameWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/DisplayNameWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/ObjectTypeWidget.h"
 
 namespace OpcUaNodeSet
 {
@@ -172,21 +173,15 @@ namespace OpcUaNodeSet
         QHBoxLayout* objectTypeLayout = new QHBoxLayout();
         gridLayout->addLayout(objectTypeLayout, 0, 1);
 
-        QLineEdit* objectTypeLineEdit = new QLineEdit();
-        objectTypeLineEdit->setEnabled(false);
-        objectTypeLayout->addWidget(objectTypeLineEdit);
-
-        QPushButton* objectTypePushButton = new QPushButton("...");
-        objectTypePushButton->setFixedWidth(30);
-        objectTypeLayout->addWidget(objectTypePushButton);
+        OpcUaNodeId objectTypeNodeId(58);
+        ObjectTypeWidget* objectTypeWidget = new ObjectTypeWidget();
+        objectTypeWidget->setValue(dataModel_->informationModel());
+        objectTypeWidget->setValue(objectTypeNodeId);
+        objectTypeLayout->addWidget(objectTypeWidget);
 
         //
         // action
         //
-        connect(
-        	objectTypePushButton, SIGNAL(clicked()),
-        	this, SLOT(onClickedObjectType())
-        );
 
     	return widget;
     }
