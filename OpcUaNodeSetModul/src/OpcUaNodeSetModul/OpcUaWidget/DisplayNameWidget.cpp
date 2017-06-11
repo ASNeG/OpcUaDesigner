@@ -27,6 +27,9 @@ namespace OpcUaNodeSet
 
 	DisplayNameWidget::DisplayNameWidget(QWidget* parent)
 	: QWidget()
+	, displayName_()
+	, isValid_(false)
+	, checkOn_(true)
 	{
 		// widgets
 		localeWidget_ = new QLineEdit();
@@ -46,6 +49,24 @@ namespace OpcUaNodeSet
 
 	DisplayNameWidget::~DisplayNameWidget(void)
 	{
+	}
+
+	void
+	DisplayNameWidget::setValue(OpcUaLocalizedText& displayName)
+	{
+		displayName_ = displayName;
+	}
+
+	void
+	DisplayNameWidget::getValue(OpcUaLocalizedText& displayName)
+	{
+		displayName = displayName_;
+	}
+
+	bool
+	DisplayNameWidget::isValid(void)
+	{
+		return isValid_;
 	}
 
 	void

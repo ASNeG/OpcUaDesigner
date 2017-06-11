@@ -36,9 +36,16 @@ namespace OpcUaNodeSet
 		DisplayNameWidget(QWidget* parent = 0);
 		virtual ~DisplayNameWidget(void);
 
+		void setValue(OpcUaLocalizedText& displayName);
+		void getValue(OpcUaLocalizedText& displayName);
+		bool isValid(void);
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
+		OpcUaLocalizedText displayName_;
+		bool isValid_;
+		bool checkOn_;
+
 		QLineEdit* localeWidget_;
 		QLineEdit* textWidget_;
 	};
