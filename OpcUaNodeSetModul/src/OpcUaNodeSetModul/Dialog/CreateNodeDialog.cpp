@@ -31,6 +31,7 @@
 #include "OpcUaNodeSetModul/OpcUaWidget/NodeClassWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/NodeIdWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/BrowseNameWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/DisplayNameWidget.h"
 
 namespace OpcUaNodeSet
 {
@@ -41,6 +42,7 @@ namespace OpcUaNodeSet
 	, dataModel_(dataModel)
 	, baseNode_(baseNode)
 	, nodeId_()
+	, displayName_()
 	, browseName_()
 	{
 		createLayout();
@@ -88,19 +90,28 @@ namespace OpcUaNodeSet
 
 		baseInfoLayout->addLayout(hBoxLayoutInfo, 1, 1);
 
+		// display name
+		QLabel* displayNameLabel = new QLabel("DisplayName");
+		baseInfoLayout->addWidget(displayNameLabel, 2, 0);
+
+		DisplayNameWidget* displayNameWidget = new DisplayNameWidget();
+		baseInfoLayout->addWidget(displayNameWidget, 2, 1);
+		//displayNameWidget->setValue(displayName_);
+
 		// browse name
 		QLabel* browseNameLabel = new QLabel("BrowseName");
-		baseInfoLayout->addWidget(browseNameLabel, 2, 0);
+		baseInfoLayout->addWidget(browseNameLabel, 3, 0);
 
 		BrowseNameWidget* browseNameWidget = new BrowseNameWidget();
+		baseInfoLayout->addWidget(browseNameWidget, 3, 1);
 		browseNameWidget->setValue(dataModel_->nodeSetNamespace());
 		browseNameWidget->setValue(browseName_);
 
-		hBoxLayoutInfo = new QHBoxLayout();
-		hBoxLayoutInfo->addWidget(browseNameWidget);
-		hBoxLayoutInfo->addStretch();
+		//hBoxLayoutInfo = new QHBoxLayout();
+		//hBoxLayoutInfo->addWidget(browseNameWidget);
+		//hBoxLayoutInfo->addStretch();
 
-		baseInfoLayout->addLayout(hBoxLayoutInfo, 2, 1);
+		//baseInfoLayout->addLayout(hBoxLayoutInfo, 3, 1);
 
 		//
 		// diving line
@@ -242,6 +253,8 @@ namespace OpcUaNodeSet
 
 			idx++;
 		}
+
+		displayName_.set("", prefix);
 
 		browseName_.set(prefix, dataModel_->actNamespaceIndex());
 	}

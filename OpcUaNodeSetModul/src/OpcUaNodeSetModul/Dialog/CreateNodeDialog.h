@@ -60,6 +60,7 @@ namespace OpcUaNodeSet
         BaseNodeClass::SPtr baseNode_;
 
         OpcUaNodeId nodeId_;
+        OpcUaLocalizedText displayName_;
         OpcUaQualifiedName browseName_;
 
         //
