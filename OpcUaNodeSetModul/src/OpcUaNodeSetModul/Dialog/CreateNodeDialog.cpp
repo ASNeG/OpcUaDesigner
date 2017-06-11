@@ -107,12 +107,6 @@ namespace OpcUaNodeSet
 		browseNameWidget->setValue(dataModel_->nodeSetNamespace());
 		browseNameWidget->setValue(browseName_);
 
-		//hBoxLayoutInfo = new QHBoxLayout();
-		//hBoxLayoutInfo->addWidget(browseNameWidget);
-		//hBoxLayoutInfo->addStretch();
-
-		//baseInfoLayout->addLayout(hBoxLayoutInfo, 3, 1);
-
 		//
 		// diving line
 		//
