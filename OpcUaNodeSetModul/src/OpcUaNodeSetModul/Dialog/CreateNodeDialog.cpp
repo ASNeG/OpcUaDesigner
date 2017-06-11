@@ -41,6 +41,7 @@ namespace OpcUaNodeSet
 	, dataModel_(dataModel)
 	, baseNode_(baseNode)
 	, nodeId_()
+	, browseName_()
 	{
 		createLayout();
 	}
@@ -52,7 +53,7 @@ namespace OpcUaNodeSet
 	void
 	CreateNodeDialog::createLayout(void)
 	{
-		createUniqueNodeId("Object");
+		createAttributes("Object");
 
 		this->setWindowTitle(QString("Create Node Dialog"));
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
@@ -92,6 +93,8 @@ namespace OpcUaNodeSet
 		baseInfoLayout->addWidget(browseNameLabel, 2, 0);
 
 		BrowseNameWidget* browseNameWidget = new BrowseNameWidget();
+		browseNameWidget->setValue(dataModel_->nodeSetNamespace());
+		browseNameWidget->setValue(browseName_);
 
 		hBoxLayoutInfo = new QHBoxLayout();
 		hBoxLayoutInfo->addWidget(browseNameWidget);
@@ -220,8 +223,12 @@ namespace OpcUaNodeSet
     }
 
 	void
-	CreateNodeDialog::createUniqueNodeId(const std::string& prefix)
+	CreateNodeDialog::createAttributes(const std::string& prefix)
 	{
+		if (dataModel_->actNamespaceIndex() == 0) {
+			dataModel_->actNamespaceIndex(1);
+		}
+
 		uint32_t idx = 1;
 		while (true)
 		{
@@ -235,6 +242,8 @@ namespace OpcUaNodeSet
 
 			idx++;
 		}
+
+		browseName_.set(prefix, dataModel_->actNamespaceIndex());
 	}
 
 	void
@@ -259,7 +268,7 @@ namespace OpcUaNodeSet
 	void
 	CreateNodeDialog::onClickedObjectType(void)
 	{
-		createUniqueNodeId("Object");
+		createAttributes("Object");
 
 		SelectObjectTypeDialog dialog(dataModel_);
 		dialog.exec();
@@ -270,7 +279,7 @@ namespace OpcUaNodeSet
 	void
 	CreateNodeDialog::onClickedValueType(void)
 	{
-		createUniqueNodeId("Value");
+		createAttributes("Value");
 		show();
 		std::cout << "clicked..." << std::endl;
 	}

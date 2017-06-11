@@ -50,7 +50,7 @@ namespace OpcUaNodeSet
         QWidget* createEmptyWidget(void);
         QWidget* createObjectWidget(void);
         QWidget* createValueWidget(void);
-        void createUniqueNodeId(const std::string& prefix);
+        void createAttributes(const std::string& prefix);
         void show(void);
 
         //
@@ -60,7 +60,7 @@ namespace OpcUaNodeSet
         BaseNodeClass::SPtr baseNode_;
 
         OpcUaNodeId nodeId_;
-        //OpcUaBrowseName browseName_;
+        OpcUaQualifiedName browseName_;
 
         //
         // widgets

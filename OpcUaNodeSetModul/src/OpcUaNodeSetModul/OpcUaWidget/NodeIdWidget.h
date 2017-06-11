@@ -63,6 +63,7 @@ namespace OpcUaNodeSet
 		InformationModel::SPtr informationModel_;
 		NodeSetNamespace* nodeSetNamespace_;
 		bool isValid_;
+		bool checkOn_;
 
 		QComboBox* typeWidget_;
 		QLineEdit* nodeIdWidget_;

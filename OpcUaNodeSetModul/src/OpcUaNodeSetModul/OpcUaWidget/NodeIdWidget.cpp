@@ -34,6 +34,7 @@ namespace OpcUaNodeSet
 	, informationModel_()
 	, nodeSetNamespace_(nullptr)
 	, isValid_(false)
+	, checkOn_(true)
 	{
 		// widgets
 		QStringList typeList;
@@ -100,7 +101,9 @@ namespace OpcUaNodeSet
 	NodeIdWidget::setValue(OpcUaNodeId& nodeId)
 	{
 		nodeId_ = nodeId;
+		checkOn_ = false;
 		showValue();
+		checkOn_ = true;
 		isValid_ = checkValue();
 		styleValue();
 		emit valueChanged(nodeId_, isValid_);
@@ -115,6 +118,7 @@ namespace OpcUaNodeSet
 	void
 	NodeIdWidget::showValue(void)
 	{
+		std::cout << "Nam..." << nodeId_.toString() << std::endl;
 		switch (nodeId_.nodeIdType())
 		{
 			case OpcUaBuildInType_OpcUaUInt32:
@@ -169,6 +173,7 @@ namespace OpcUaNodeSet
 		OpcUaNodeId nodeId;
 
 		// check namespace
+		std::cout << "idx= " << namespaceWidget_->currentIndex() << std::endl;
 		if (namespaceWidget_->currentIndex() < 0) return false;
 		if (nodeIdWidget_->text().length() == 0) return false;
 
@@ -246,6 +251,7 @@ namespace OpcUaNodeSet
 	void
 	NodeIdWidget::onCurrentIndexChangedTypeWidget(int index)
 	{
+		if (!checkOn_) return;
 		isValid_ = checkValue();
 		styleValue();
 		emit valueChanged(nodeId_, isValid_);
@@ -254,6 +260,7 @@ namespace OpcUaNodeSet
 	void
 	NodeIdWidget::onCurrentIndexChangedNamespaceWidget(int index)
 	{
+		if (!checkOn_) return;
 		isValid_ = checkValue();
 		styleValue();
 		emit valueChanged(nodeId_, isValid_);
@@ -262,6 +269,7 @@ namespace OpcUaNodeSet
 	void
 	NodeIdWidget::onTextChanged(const QString& text)
 	{
+		if (!checkOn_) return;
 		isValid_ = checkValue();
 		styleValue();
 		emit valueChanged(nodeId_, isValid_);
