@@ -44,6 +44,18 @@ namespace OpcUaNodeSet
 		hBoxLayout->addWidget(textWidget_);
 		hBoxLayout->setMargin(0);
 
+		//
+		// actions
+		//
+		connect(
+			localeWidget_, SIGNAL(textChanged(const QString&)),
+			this, SLOT(onTextChangedLocale(const QString&))
+		);
+		connect(
+			textWidget_, SIGNAL(textChanged(const QString&)),
+			this, SLOT(onTextChangedText(const QString&))
+		);
+
 		setLayout(hBoxLayout);
 	}
 
@@ -55,6 +67,12 @@ namespace OpcUaNodeSet
 	DisplayNameWidget::setValue(OpcUaLocalizedText& displayName)
 	{
 		displayName_ = displayName;
+		checkOn_ = false;
+		showValue();
+		checkOn_ = true;
+		isValid_ = checkValue();
+		styleValue();
+		emit valueChanged(displayName_, isValid_);
 	}
 
 	void
@@ -83,6 +101,68 @@ namespace OpcUaNodeSet
 		localeWidget_->setText(QString(displayName.locale().value().c_str()));
 		textWidget_->setText(QString(displayName.text().value().c_str()));
 	}
+
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// private functions
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	void
+	DisplayNameWidget::showValue(void)
+	{
+		std::string locale;
+		std::string text;
+		displayName_.get(locale, text);
+
+		localeWidget_->setText(locale.c_str());
+		textWidget_->setText(text.c_str());
+	}
+
+	bool
+	DisplayNameWidget::checkValue(void)
+	{
+		if (textWidget_->text().length() == 0) return false;
+		return true;
+	}
+
+	void
+	DisplayNameWidget::styleValue(void)
+	{
+		if (isValid_) {
+			textWidget_->setStyleSheet("background-color:none;");
+		}
+		else {
+			textWidget_->setStyleSheet("background-color:red;");
+		}
+	}
+
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// added slots
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	void
+	DisplayNameWidget::onTextChangedLocale(const QString& text)
+	{
+		if (!checkOn_) return;
+		isValid_ = checkValue();
+		styleValue();
+		emit valueChanged(displayName_, isValid_);
+	}
+
+	void
+	DisplayNameWidget::onTextChangedText(const QString& text)
+	{
+		if (!checkOn_) return;
+		isValid_ = checkValue();
+		styleValue();
+		emit valueChanged(displayName_, isValid_);
+	}
+
 
 }
 

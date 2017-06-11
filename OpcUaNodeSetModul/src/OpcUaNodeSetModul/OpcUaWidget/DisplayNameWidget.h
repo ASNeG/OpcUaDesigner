@@ -41,7 +41,18 @@ namespace OpcUaNodeSet
 		bool isValid(void);
 		void nodeChange(NodeInfo* nodeInfo);
 
+	  signals:
+		void valueChanged(OpcUaLocalizedText& displayName, bool isValid);
+
+	  private slots:
+		void onTextChangedLocale(const QString& text);
+		void onTextChangedText(const QString& text);
+
 	  private:
+		void showValue(void);
+		bool checkValue(void);
+		void styleValue(void);
+
 		OpcUaLocalizedText displayName_;
 		bool isValid_;
 		bool checkOn_;
