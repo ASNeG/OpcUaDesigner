@@ -50,6 +50,8 @@ namespace OpcUaNodeSet
 		vBoxLayout->addWidget(opcUaTree_);
 
 		setLayout(vBoxLayout);
+
+		showModel();
 	}
 
 	SelectObjectTypeDialog::~SelectObjectTypeDialog(void)
@@ -71,6 +73,14 @@ namespace OpcUaNodeSet
 	//
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
+	void
+	SelectObjectTypeDialog::showModel(void)
+	{
+		OpcUaNodeId objectType(58);
+		BaseNodeClass::SPtr baseNode = dataModel_->informationModel()->find(objectType);
+		addNode(dataModel_->informationModel(), NULL, baseNode);
+	}
+
 	void
 	SelectObjectTypeDialog::addNode(
 		InformationModel::SPtr& informationModel,

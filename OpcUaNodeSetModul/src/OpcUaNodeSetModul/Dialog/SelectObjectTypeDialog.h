@@ -46,6 +46,7 @@ namespace OpcUaNodeSet
       signals:
 
 	  private:
+        void showModel(void);
 		void addNode(
 			InformationModel::SPtr& informationModel,
 			QTreeWidgetItem* parentItem,
