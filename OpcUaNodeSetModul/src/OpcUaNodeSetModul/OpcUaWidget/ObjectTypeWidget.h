@@ -56,6 +56,7 @@ namespace OpcUaNodeSet
 		void showValue(void);
 		bool checkValue(void);
 		void styleValue(void);
+		void findNodeId(const std::string& displayName, OpcUaNodeId& typeNode);
 
 		InformationModel::SPtr informationModel_;
 		OpcUaNodeId objectType_;

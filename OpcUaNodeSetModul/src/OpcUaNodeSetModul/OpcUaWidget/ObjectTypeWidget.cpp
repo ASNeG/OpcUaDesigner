@@ -20,7 +20,10 @@
 #include <QLineEdit>
 #include <QPushButton>
 
+#include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/ObjectTypeWidget.h"
+
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -105,14 +108,81 @@ namespace OpcUaNodeSet
 	void
 	ObjectTypeWidget::showValue(void)
 	{
-		// FIXME: todo
+		if (informationModel_.get() == NULL) {
+			textWidget_->setText(QString(""));
+			return;
+		}
+
+		BaseNodeClass::SPtr baseNode = informationModel_->find(objectType_);
+		if (baseNode.get() == NULL) {
+			textWidget_->setText(QString(""));
+			return;
+		}
+
+		OpcUaLocalizedText displayName;
+		baseNode->getDisplayName(displayName);
+
+		std::string locale;
+		std::string text;
+		displayName.get(locale, text);
+		textWidget_->setText(QString(text.c_str()));
 	}
 
 	bool
 	ObjectTypeWidget::checkValue(void)
 	{
-		// FIXME: todo
+		if (informationModel_.get() == NULL) {
+			return false;
+		}
+
+		BaseNodeClass::SPtr baseNode = informationModel_->find(objectType_);
+		if (baseNode.get() == NULL) {
+			return false;
+		}
+
+		if (textWidget_->text().isEmpty()) {
+			return false;
+		}
+
 		return true;
+	}
+
+	void
+	ObjectTypeWidget::findNodeId(const std::string& displayName, OpcUaNodeId& typeNode)
+	{
+		if (informationModel_.get() == NULL) {
+			return;
+		}
+
+		BaseNodeClass::SPtr baseNode = informationModel_->find(typeNode);
+		if (baseNode.get() == NULL) {
+			return;
+		}
+
+
+		OpcUaLocalizedText tmpDisplayName;
+		baseNode->getDisplayName(tmpDisplayName);
+
+		std::string locale;
+		std::string text;
+		tmpDisplayName.get(locale, text);
+		if (text == displayName) {
+			objectType_ = typeNode;
+			return;
+		}
+
+		// search children elements
+		BaseNodeClass::Vec::iterator it;
+		BaseNodeClass::Vec childBaseNodeClassVec;
+		InformationModelAccess ima(informationModel_);
+		ima.getChildHierarchically(baseNode, childBaseNodeClassVec);
+		for (it = childBaseNodeClassVec.begin(); it != childBaseNodeClassVec.end(); it++) {
+			BaseNodeClass::SPtr child = *it;
+
+			OpcUaNodeId childNodeId;
+			child->getNodeId(childNodeId);
+			findNodeId(displayName, childNodeId);
+		}
 	}
 
 	void
@@ -137,6 +207,12 @@ namespace OpcUaNodeSet
 	ObjectTypeWidget::onTextChanged(const QString& text)
 	{
 		if (!checkOn_) return;
+
+		// find node id from text
+		objectType_.set(0);
+		OpcUaNodeId typeNode(58);
+		findNodeId(text.toStdString(), typeNode);
+
 		isValid_ = checkValue();
 		styleValue();
 		emit valueChanged(objectType_, isValid_);
