@@ -110,6 +110,9 @@ namespace OpcUaNodeSet
 		OpcUaNodeId objectType(58);
 		BaseNodeClass::SPtr baseNode = dataModel_->informationModel()->find(objectType);
 		addNode(dataModel_->informationModel(), NULL, baseNode);
+
+		if (rootItem_ == NULL) return;
+		opcUaTree_->expandItem(rootItem_);
 	}
 
 	void
