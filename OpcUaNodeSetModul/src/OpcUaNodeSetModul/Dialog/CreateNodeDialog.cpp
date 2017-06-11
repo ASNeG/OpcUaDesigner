@@ -32,7 +32,6 @@
 #include "OpcUaNodeSetModul/OpcUaWidget/NodeIdWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/BrowseNameWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/DisplayNameWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/ObjectTypeWidget.h"
 
 namespace OpcUaNodeSet
 {
@@ -174,14 +173,18 @@ namespace OpcUaNodeSet
         gridLayout->addLayout(objectTypeLayout, 0, 1);
 
         OpcUaNodeId objectTypeNodeId(58);
-        ObjectTypeWidget* objectTypeWidget = new ObjectTypeWidget();
-        objectTypeWidget->setValue(dataModel_->informationModel());
-        objectTypeWidget->setValue(objectTypeNodeId);
-        objectTypeLayout->addWidget(objectTypeWidget);
+        objectTypeWidget_ = new ObjectTypeWidget();
+        objectTypeWidget_->setValue(dataModel_->informationModel());
+        objectTypeWidget_->setValue(objectTypeNodeId);
+        objectTypeLayout->addWidget(objectTypeWidget_);
 
         //
         // action
         //
+		connect(
+			objectTypeWidget_, SIGNAL(selectObjectType()),
+			this, SLOT(onClickedObjectType())
+		);
 
     	return widget;
     }

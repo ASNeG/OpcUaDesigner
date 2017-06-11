@@ -40,7 +40,7 @@ namespace OpcUaNodeSet
 		textWidget_ = new QLineEdit();
 		textWidget_->setFixedWidth(370-5);
 
-		buttonWidget_ = new QPushButton();
+		buttonWidget_ = new QPushButton("...");
 		buttonWidget_->setFixedWidth(30);
 
 		// layout

@@ -20,6 +20,7 @@
 
 #include <QDialog>
 #include <QWidget>
+#include "OpcUaNodeSetModul/OpcUaWidget/ObjectTypeWidget.h"
 #include "OpcUaNodeSetModul/Model/DataModel.h"
 
 class QComboBox;
@@ -67,6 +68,7 @@ namespace OpcUaNodeSet
         // widgets
         //
         QStackedWidget* stackedWidget_;
+        ObjectTypeWidget* objectTypeWidget_;
 	};
 
 }
