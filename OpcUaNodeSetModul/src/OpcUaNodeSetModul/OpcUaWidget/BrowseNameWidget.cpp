@@ -29,6 +29,9 @@ namespace OpcUaNodeSet
 
 	BrowseNameWidget::BrowseNameWidget(QWidget* parent)
 	: QWidget()
+	, nodeSetNamespace_(NULL)
+	, browseName_()
+	, isValid_(false)
 	{
 		// widgets
 		browseNameWidget_ = new QLineEdit();
@@ -48,6 +51,30 @@ namespace OpcUaNodeSet
 
 	BrowseNameWidget::~BrowseNameWidget(void)
 	{
+	}
+
+	void
+	BrowseNameWidget::setValue(NodeSetNamespace& nodeSetNamespace)
+	{
+		nodeSetNamespace_ = &nodeSetNamespace;
+	}
+
+	void
+	BrowseNameWidget::setValue(OpcUaQualifiedName& browseName)
+	{
+		browseName_ = browseName;
+	}
+
+	void
+	BrowseNameWidget::getValue(OpcUaQualifiedName& browseName)
+	{
+		browseName = browseName_;
+	}
+
+	bool
+	BrowseNameWidget::isValid(void)
+	{
+		return isValid_;
 	}
 
 	void

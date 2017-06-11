@@ -18,12 +18,16 @@
 #ifndef __OpcUaNodeSet_BrowseNameWidget_h__
 #define __OpcUaNodeSet_BrowseNameWidget_h__
 
+#include "OpcUaStackServer/InformationModel/InformationModel.h"
+#include "OpcUaStackServer/NodeSet/NodeSetNamespace.h"
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
 
 #include <QWidget>
 
 class QLineEdit;
 class QComboBox;
+
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -37,9 +41,18 @@ namespace OpcUaNodeSet
 		BrowseNameWidget(QWidget* parent = 0);
 		virtual ~BrowseNameWidget(void);
 
+		void setValue(NodeSetNamespace& nodeSetNamespace);
+		void setValue(OpcUaQualifiedName& browseName);
+		void getValue(OpcUaQualifiedName& browseName);
+		bool isValid(void);
+
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
+		NodeSetNamespace* nodeSetNamespace_;
+		OpcUaQualifiedName browseName_;
+		bool isValid_;
+
 		QLineEdit* browseNameWidget_;
 		QComboBox* namespaceWidget_;
 	};
