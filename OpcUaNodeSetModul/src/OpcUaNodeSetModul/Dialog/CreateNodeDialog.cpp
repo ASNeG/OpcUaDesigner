@@ -96,7 +96,7 @@ namespace OpcUaNodeSet
 
 		DisplayNameWidget* displayNameWidget = new DisplayNameWidget();
 		baseInfoLayout->addWidget(displayNameWidget, 2, 1);
-		//displayNameWidget->setValue(displayName_);
+		displayNameWidget->setValue(displayName_);
 
 		// browse name
 		QLabel* browseNameLabel = new QLabel("BrowseName");
