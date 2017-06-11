@@ -47,8 +47,18 @@ namespace OpcUaNodeSet
 		bool isValid(void);
 
 		void nodeChange(NodeInfo* nodeInfo);
+	  signals:
+        void valueChanged(OpcUaQualifiedName& browseName, bool isValid);
+
+      private slots:
+		void onCurrentIndexChangedNamespaceWidget(int index);
+		void onTextChanged(const QString& text);
 
 	  private:
+		void showValue(void);
+		bool checkValue(void);
+		void styleValue(void);
+
 		NodeSetNamespace* nodeSetNamespace_;
 		OpcUaQualifiedName browseName_;
 		bool isValid_;

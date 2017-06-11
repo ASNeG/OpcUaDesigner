@@ -63,6 +63,10 @@ namespace OpcUaNodeSet
 	BrowseNameWidget::setValue(OpcUaQualifiedName& browseName)
 	{
 		browseName_ = browseName;
+		showValue();
+		isValid_ = checkValue();
+		styleValue();
+		emit valueChanged(browseName_, isValid_);
 	}
 
 	void
@@ -98,6 +102,71 @@ namespace OpcUaNodeSet
 			namespaceWidget_->addItem(nodeInfo->nodeSetNamespace_.globalNamespaceVec()[idx].c_str());
 		}
 		namespaceWidget_->setCurrentIndex(browseName.namespaceIndex());
+	}
+
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// slots
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	void
+	BrowseNameWidget::onCurrentIndexChangedNamespaceWidget(int index)
+	{
+		isValid_ = checkValue();
+		styleValue();
+		emit valueChanged(browseName_, isValid_);
+	}
+
+	void
+	BrowseNameWidget::onTextChanged(const QString& text)
+	{
+		isValid_ = checkValue();
+		styleValue();
+		emit valueChanged(browseName_, isValid_);
+	}
+
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// private functions
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	void
+	BrowseNameWidget::showValue(void)
+	{
+		browseNameWidget_->setText(QString(browseName_.toString().c_str()));
+
+		// set namespace
+		if (nodeSetNamespace_ != NULL) {
+			namespaceWidget_->clear();
+			for (uint32_t idx = 0; idx < nodeSetNamespace_->globalNamespaceVec().size(); idx++) {
+				namespaceWidget_->addItem(nodeSetNamespace_->globalNamespaceVec()[idx].c_str());
+			}
+			namespaceWidget_->setCurrentIndex(browseName_.namespaceIndex());
+		}
+	}
+
+	bool
+	BrowseNameWidget::checkValue(void)
+	{
+		// check namespace
+		if (namespaceWidget_->currentIndex() < 0) return false;
+		if (browseNameWidget_->text().length() == 0) return false;
+		return true;
+	}
+
+	void
+	BrowseNameWidget::styleValue(void)
+	{
+		if (isValid_) {
+			browseNameWidget_->setStyleSheet("background-color:none;");
+		}
+		else {
+			browseNameWidget_->setStyleSheet("background-color:red;");
+		}
 	}
 
 }
