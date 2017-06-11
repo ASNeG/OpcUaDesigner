@@ -18,11 +18,13 @@
 #ifndef __OpcUaNodeSet_DisplayNameWidget_h__
 #define __OpcUaNodeSet_DisplayNameWidget_h__
 
-#include "OpcUaNodeSetModul/Base/NodeInfo.h"
-
 #include <QWidget>
 
+#include "OpcUaStackCore/BuildInTypes/OpcUaLocalizedText.h"
+
 class QLineEdit;
+
+using namespace OpcUaStackCore;
 
 namespace OpcUaNodeSet
 {
@@ -39,7 +41,6 @@ namespace OpcUaNodeSet
 		void setValue(OpcUaLocalizedText& displayName);
 		void getValue(OpcUaLocalizedText& displayName);
 		bool isValid(void);
-		void nodeChange(NodeInfo* nodeInfo);
 
 	  signals:
 		void valueChanged(OpcUaLocalizedText& displayName, bool isValid);

@@ -87,21 +87,6 @@ namespace OpcUaNodeSet
 		return isValid_;
 	}
 
-	void
-	DisplayNameWidget::nodeChange(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullDisplayName()) {
-			localeWidget_->setText(QString(""));
-			textWidget_->setText(QString(""));
-		}
-
-		OpcUaLocalizedText displayName;
-		baseNode->getDisplayName(displayName);
-		localeWidget_->setText(QString(displayName.locale().value().c_str()));
-		textWidget_->setText(QString(displayName.text().value().c_str()));
-	}
-
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	//
