@@ -81,29 +81,6 @@ namespace OpcUaNodeSet
 		return isValid_;
 	}
 
-	void
-	BrowseNameWidget::nodeChange(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullBrowseName()) {
-			browseNameWidget_->setText(QString(".."));
-			namespaceWidget_->clear();
-			return;
-		}
-
-		// set browse name
-		OpcUaQualifiedName browseName;
-		baseNode->getBrowseName(browseName);
-		browseNameWidget_->setText(QString(browseName.toString().c_str()));
-
-		// set namespace
-		namespaceWidget_->clear();
-		for (uint32_t idx = 0; idx < nodeInfo->nodeSetNamespace_.globalNamespaceVec().size(); idx++) {
-			namespaceWidget_->addItem(nodeInfo->nodeSetNamespace_.globalNamespaceVec()[idx].c_str());
-		}
-		namespaceWidget_->setCurrentIndex(browseName.namespaceIndex());
-	}
-
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	//

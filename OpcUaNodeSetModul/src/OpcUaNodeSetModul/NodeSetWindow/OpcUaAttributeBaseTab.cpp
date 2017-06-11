@@ -144,15 +144,22 @@ namespace OpcUaNodeSet
 	{
 		OpcUaNodeId nodeId;
 		nodeInfo->baseNode_->getNodeId(nodeId);
-
 		nodeIdWidget_->setValue(nodeInfo->nodeSetNamespace_);
 		nodeIdWidget_->setValue(nodeId);
 
 		nodeClassWidget_->nodeChange(nodeInfo);
-		browseNameWidget_->nodeChange(nodeInfo);
+
+		OpcUaQualifiedName browseName;
+		nodeInfo->baseNode_->getBrowseName(browseName);
+		browseNameWidget_->setValue(nodeInfo->nodeSetNamespace_);
+		browseNameWidget_->setValue(browseName);
+
 		displayNameWidget_->nodeChange(nodeInfo);
+
 		descriptionWidget_->nodeChange(nodeInfo);
+
 		setWriteMask(nodeInfo);
+
 		setUserWriteMask(nodeInfo);
 	}
 
