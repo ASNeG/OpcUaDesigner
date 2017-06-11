@@ -46,6 +46,7 @@ namespace OpcUaNodeSet
 		//
 		opcUaTree_ = new QTreeWidget();
 		opcUaTree_->setMinimumWidth(300);
+		opcUaTree_->setMinimumHeight(500);
 		opcUaTree_->header()->close();
 		opcUaTree_->setContextMenuPolicy(Qt::CustomContextMenu);
 		vBoxLayout->addWidget(opcUaTree_);
