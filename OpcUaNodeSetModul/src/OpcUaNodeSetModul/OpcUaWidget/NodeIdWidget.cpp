@@ -103,6 +103,7 @@ namespace OpcUaNodeSet
 		showValue();
 		isValid_ = checkValue();
 		styleValue();
+		emit valueChanged(nodeId_, isValid_);
 	}
 
 	void
@@ -247,6 +248,7 @@ namespace OpcUaNodeSet
 	{
 		isValid_ = checkValue();
 		styleValue();
+		emit valueChanged(nodeId_, isValid_);
 	}
 
 	void
@@ -254,6 +256,7 @@ namespace OpcUaNodeSet
 	{
 		isValid_ = checkValue();
 		styleValue();
+		emit valueChanged(nodeId_, isValid_);
 	}
 
 	void
@@ -261,6 +264,7 @@ namespace OpcUaNodeSet
 	{
 		isValid_ = checkValue();
 		styleValue();
+		emit valueChanged(nodeId_, isValid_);
 	}
 
 }
