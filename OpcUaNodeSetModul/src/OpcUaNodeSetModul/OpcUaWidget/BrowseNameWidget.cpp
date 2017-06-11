@@ -32,6 +32,7 @@ namespace OpcUaNodeSet
 	, nodeSetNamespace_(NULL)
 	, browseName_()
 	, isValid_(false)
+	, checkOn_(true)
 	{
 		// widgets
 		browseNameWidget_ = new QLineEdit();
@@ -63,7 +64,9 @@ namespace OpcUaNodeSet
 	BrowseNameWidget::setValue(OpcUaQualifiedName& browseName)
 	{
 		browseName_ = browseName;
+		checkOn_ = false;
 		showValue();
+		checkOn_ = true;
 		isValid_ = checkValue();
 		styleValue();
 		emit valueChanged(browseName_, isValid_);
@@ -91,6 +94,7 @@ namespace OpcUaNodeSet
 	void
 	BrowseNameWidget::onCurrentIndexChangedNamespaceWidget(int index)
 	{
+		if (!checkOn_) return;
 		isValid_ = checkValue();
 		styleValue();
 		emit valueChanged(browseName_, isValid_);
@@ -99,6 +103,7 @@ namespace OpcUaNodeSet
 	void
 	BrowseNameWidget::onTextChanged(const QString& text)
 	{
+		if (!checkOn_) return;
 		isValid_ = checkValue();
 		styleValue();
 		emit valueChanged(browseName_, isValid_);

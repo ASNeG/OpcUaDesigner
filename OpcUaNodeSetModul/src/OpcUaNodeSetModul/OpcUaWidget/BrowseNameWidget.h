@@ -61,6 +61,7 @@ namespace OpcUaNodeSet
 		NodeSetNamespace* nodeSetNamespace_;
 		OpcUaQualifiedName browseName_;
 		bool isValid_;
+		bool checkOn_;
 
 		QLineEdit* browseNameWidget_;
 		QComboBox* namespaceWidget_;

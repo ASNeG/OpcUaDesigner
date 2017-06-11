@@ -238,7 +238,7 @@ namespace OpcUaNodeSet
 			nodeId_.set(ss.str(), dataModel_->actNamespaceIndex());
 
 			BaseNodeClass::SPtr baseNode = dataModel_->informationModel()->find(nodeId_);
-			if (baseNode.get() == NULL) return;
+			if (baseNode.get() == NULL) break;
 
 			idx++;
 		}

@@ -118,7 +118,6 @@ namespace OpcUaNodeSet
 	void
 	NodeIdWidget::showValue(void)
 	{
-		std::cout << "Nam..." << nodeId_.toString() << std::endl;
 		switch (nodeId_.nodeIdType())
 		{
 			case OpcUaBuildInType_OpcUaUInt32:
@@ -173,7 +172,6 @@ namespace OpcUaNodeSet
 		OpcUaNodeId nodeId;
 
 		// check namespace
-		std::cout << "idx= " << namespaceWidget_->currentIndex() << std::endl;
 		if (namespaceWidget_->currentIndex() < 0) return false;
 		if (nodeIdWidget_->text().length() == 0) return false;
 
