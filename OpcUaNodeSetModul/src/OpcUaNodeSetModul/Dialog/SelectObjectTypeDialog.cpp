@@ -36,6 +36,7 @@ namespace OpcUaNodeSet
 	SelectObjectTypeDialog::SelectObjectTypeDialog(DataModel* dataModel)
 	: QDialog()
 	, dataModel_(dataModel)
+	, objectType_(58)
 	{
 		this->setWindowTitle(QString("Select Object Type Dialog"));
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
@@ -51,11 +52,28 @@ namespace OpcUaNodeSet
 
 		setLayout(vBoxLayout);
 
+		//
+		// actions
+		//
+		connect(
+			opcUaTree_, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),
+			this, SLOT(onItemDoubleClicked(QTreeWidgetItem*, int))
+		);
+
+		//
+		// show model
+		//
 		showModel();
 	}
 
 	SelectObjectTypeDialog::~SelectObjectTypeDialog(void)
 	{
+	}
+
+	OpcUaNodeId&
+	SelectObjectTypeDialog::objectType(void)
+	{
+		return objectType_;
 	}
 
 	// ------------------------------------------------------------------------
@@ -65,6 +83,18 @@ namespace OpcUaNodeSet
 	//
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
+	void
+	SelectObjectTypeDialog::onItemDoubleClicked(QTreeWidgetItem* item, int column)
+	{
+		if(item == NULL) return;
+
+		// get node info
+		QVariant v = item->data(0, Qt::UserRole);
+		NodeInfo* nodeInfo = v.value<NodeInfo*>();
+
+		nodeInfo->baseNode_->getNodeId(objectType_);
+		close();
+	}
 
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------

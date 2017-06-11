@@ -278,6 +278,7 @@ namespace OpcUaNodeSet
 		SelectObjectTypeDialog dialog(dataModel_);
 		dialog.exec();
 
+		objectTypeWidget_->setValue(dialog.objectType());
 		show();
 	}
 

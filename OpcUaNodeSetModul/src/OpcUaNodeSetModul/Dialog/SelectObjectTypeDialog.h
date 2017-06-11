@@ -41,7 +41,10 @@ namespace OpcUaNodeSet
 		SelectObjectTypeDialog(DataModel* dataModel);
 		virtual ~SelectObjectTypeDialog(void);
 
+		OpcUaNodeId& objectType(void);
+
 	  public slots:
+	    void onItemDoubleClicked(QTreeWidgetItem* item, int column);
 
       signals:
 
@@ -57,6 +60,7 @@ namespace OpcUaNodeSet
         // data model
         //
         DataModel* dataModel_;
+        OpcUaNodeId objectType_;
 
         //
         // widgets
