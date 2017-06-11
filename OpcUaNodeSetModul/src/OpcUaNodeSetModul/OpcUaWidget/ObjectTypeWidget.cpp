@@ -18,6 +18,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLineEdit>
+#include <QPushButton>
 
 #include "OpcUaNodeSetModul/OpcUaWidget/ObjectTypeWidget.h"
 
@@ -27,33 +28,34 @@ namespace OpcUaNodeSet
 
 	ObjectTypeWidget::ObjectTypeWidget(QWidget* parent)
 	: QWidget()
-	, displayName_()
+	, informationModel_()
+	, objectType_()
 	, isValid_(false)
 	, checkOn_(true)
 	{
 		// widgets
-		localeWidget_ = new QLineEdit();
-		localeWidget_->setFixedWidth(50);
-
 		textWidget_ = new QLineEdit();
-		textWidget_->setFixedWidth(350-5);
+		textWidget_->setFixedWidth(370-5);
+
+		buttonWidget_ = new QPushButton();
+		buttonWidget_->setFixedWidth(30);
 
 		// layout
 		QHBoxLayout* hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(localeWidget_);
 		hBoxLayout->addWidget(textWidget_);
+		hBoxLayout->addWidget(buttonWidget_);
 		hBoxLayout->setMargin(0);
 
 		//
 		// actions
 		//
 		connect(
-			localeWidget_, SIGNAL(textChanged(const QString&)),
-			this, SLOT(onTextChangedLocale(const QString&))
+			textWidget_, SIGNAL(textChanged(const QString&)),
+			this, SLOT(onTextChanged(const QString&))
 		);
 		connect(
-			textWidget_, SIGNAL(textChanged(const QString&)),
-			this, SLOT(onTextChangedText(const QString&))
+			buttonWidget_, SIGNAL(clicked()),
+			this, SLOT(onClicked())
 		);
 
 		setLayout(hBoxLayout);
@@ -64,21 +66,27 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	ObjectTypeWidget::setValue(OpcUaLocalizedText& displayName)
+	ObjectTypeWidget::setValue(InformationModel::SPtr& informationModel)
 	{
-		displayName_ = displayName;
+		informationModel_ = informationModel;
+	}
+
+	void
+	ObjectTypeWidget::setValue(OpcUaNodeId& objectType)
+	{
+		objectType_ = objectType;
 		checkOn_ = false;
 		showValue();
 		checkOn_ = true;
 		isValid_ = checkValue();
 		styleValue();
-		emit valueChanged(displayName_, isValid_);
+		emit valueChanged(objectType_, isValid_);
 	}
 
 	void
-	ObjectTypeWidget::getValue(OpcUaLocalizedText& displayName)
+	ObjectTypeWidget::getValue(OpcUaNodeId& objectType)
 	{
-		displayName = displayName_;
+		objectType = objectType_;
 	}
 
 	bool
@@ -97,18 +105,13 @@ namespace OpcUaNodeSet
 	void
 	ObjectTypeWidget::showValue(void)
 	{
-		std::string locale;
-		std::string text;
-		displayName_.get(locale, text);
-
-		localeWidget_->setText(locale.c_str());
-		textWidget_->setText(text.c_str());
+		// FIXME: todo
 	}
 
 	bool
 	ObjectTypeWidget::checkValue(void)
 	{
-		if (textWidget_->text().length() == 0) return false;
+		// FIXME: todo
 		return true;
 	}
 
@@ -131,21 +134,18 @@ namespace OpcUaNodeSet
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	void
-	ObjectTypeWidget::onTextChangedLocale(const QString& text)
+	ObjectTypeWidget::onTextChanged(const QString& text)
 	{
 		if (!checkOn_) return;
 		isValid_ = checkValue();
 		styleValue();
-		emit valueChanged(displayName_, isValid_);
+		emit valueChanged(objectType_, isValid_);
 	}
 
 	void
-	ObjectTypeWidget::onTextChangedText(const QString& text)
+	ObjectTypeWidget::onClicked(void)
 	{
-		if (!checkOn_) return;
-		isValid_ = checkValue();
-		styleValue();
-		emit valueChanged(displayName_, isValid_);
+		emit selectObjectType();
 	}
 
 

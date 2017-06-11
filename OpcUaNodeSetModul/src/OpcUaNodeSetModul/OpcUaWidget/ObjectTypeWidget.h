@@ -20,11 +20,12 @@
 
 #include <QWidget>
 
-#include "OpcUaStackCore/BuildInTypes/OpcUaLocalizedText.h"
+#include "OpcUaStackServer/InformationModel/InformationModel.h"
 
 class QLineEdit;
+class QPushButton;
 
-using namespace OpcUaStackCore;
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -38,28 +39,31 @@ namespace OpcUaNodeSet
 		ObjectTypeWidget(QWidget* parent = 0);
 		virtual ~ObjectTypeWidget(void);
 
-		void setValue(OpcUaLocalizedText& displayName);
-		void getValue(OpcUaLocalizedText& displayName);
+		void setValue(InformationModel::SPtr& informationModel);
+		void setValue(OpcUaNodeId& objectType);
+		void getValue(OpcUaNodeId& objectType);
 		bool isValid(void);
 
 	  signals:
-		void valueChanged(OpcUaLocalizedText& displayName, bool isValid);
+		void valueChanged(OpcUaNodeId& objectType, bool isValid);
+		void selectObjectType(void);
 
 	  private slots:
-		void onTextChangedLocale(const QString& text);
-		void onTextChangedText(const QString& text);
+		void onTextChanged(const QString& text);
+		void onClicked(void);
 
 	  private:
 		void showValue(void);
 		bool checkValue(void);
 		void styleValue(void);
 
-		OpcUaLocalizedText displayName_;
+		InformationModel::SPtr informationModel_;
+		OpcUaNodeId objectType_;
 		bool isValid_;
 		bool checkOn_;
 
-		QLineEdit* localeWidget_;
 		QLineEdit* textWidget_;
+		QPushButton* buttonWidget_;
 	};
 
 }
