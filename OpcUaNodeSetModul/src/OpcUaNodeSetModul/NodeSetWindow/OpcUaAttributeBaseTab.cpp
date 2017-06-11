@@ -154,7 +154,9 @@ namespace OpcUaNodeSet
 		browseNameWidget_->setValue(nodeInfo->nodeSetNamespace_);
 		browseNameWidget_->setValue(browseName);
 
-		displayNameWidget_->nodeChange(nodeInfo);
+		OpcUaLocalizedText displayName;
+		nodeInfo->baseNode_->getDisplayName(displayName);
+		displayNameWidget_->setValue(displayName);
 
 		descriptionWidget_->nodeChange(nodeInfo);
 
