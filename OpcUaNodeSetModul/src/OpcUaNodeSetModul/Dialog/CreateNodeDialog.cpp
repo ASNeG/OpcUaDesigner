@@ -28,6 +28,7 @@
 
 #include "OpcUaNodeSetModul/Dialog/CreateNodeDialog.h"
 #include "OpcUaNodeSetModul/Dialog/SelectObjectTypeDialog.h"
+#include "OpcUaNodeSetModul/Dialog/SelectVariableTypeDialog.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/NodeClassWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/NodeIdWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/BrowseNameWidget.h"
@@ -203,24 +204,22 @@ namespace OpcUaNodeSet
         QLabel* valueTypeLabel = new QLabel("Value Type    ");
         gridLayout->addWidget(valueTypeLabel, 0, 0);
 
-        QHBoxLayout* valueTypeLayout = new QHBoxLayout();
-        gridLayout->addLayout(valueTypeLayout, 0, 1);
+        QHBoxLayout* variableTypeLayout = new QHBoxLayout();
+        gridLayout->addLayout(variableTypeLayout, 0, 1);
 
-        QLineEdit* valueTypeLineEdit = new QLineEdit();
-        valueTypeLineEdit->setEnabled(false);
-        valueTypeLayout->addWidget(valueTypeLineEdit);
-
-        QPushButton* valueTypePushButton = new QPushButton("...");
-        valueTypePushButton->setFixedWidth(30);
-        valueTypeLayout->addWidget(valueTypePushButton);
+        OpcUaNodeId variableTypeNodeId(62);
+        variableTypeWidget_ = new VariableTypeWidget();
+        variableTypeWidget_->setValue(dataModel_->informationModel());
+        variableTypeWidget_->setValue(variableTypeNodeId);
+        variableTypeLayout->addWidget(variableTypeWidget_);
 
         //
         // action
         //
-        connect(
-            valueTypePushButton, SIGNAL(clicked()),
-         	this, SLOT(onClickedValueType())
-         );
+ 		connect(
+ 				variableTypeWidget_, SIGNAL(selectObjectType()),
+ 			this, SLOT(onClickedVariableType())
+ 		);
 
     	return widget;
     }
@@ -283,11 +282,15 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	CreateNodeDialog::onClickedValueType(void)
+	CreateNodeDialog::onClickedVariableType(void)
 	{
-		createAttributes("Value");
+		createAttributes("Variable");
+
+		SelectVariableTypeDialog dialog(dataModel_);
+		dialog.exec();
+
+		variableTypeWidget_->setValue(dialog.variableType());
 		show();
-		std::cout << "clicked..." << std::endl;
 	}
 
 	// ------------------------------------------------------------------------

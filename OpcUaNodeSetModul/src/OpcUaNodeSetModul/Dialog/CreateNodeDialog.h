@@ -21,6 +21,7 @@
 #include <QDialog>
 #include <QWidget>
 #include "OpcUaNodeSetModul/OpcUaWidget/ObjectTypeWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/VariableTypeWidget.h"
 #include "OpcUaNodeSetModul/Model/DataModel.h"
 
 class QComboBox;
@@ -42,7 +43,7 @@ namespace OpcUaNodeSet
 	  public slots:
 	    void onCurrentIndexChangedNodeClass(int index);
 	    void onClickedObjectType(void);
-	    void onClickedValueType(void);
+	    void onClickedVariableType(void);
 
       signals:
 
@@ -69,6 +70,7 @@ namespace OpcUaNodeSet
         //
         QStackedWidget* stackedWidget_;
         ObjectTypeWidget* objectTypeWidget_;
+        VariableTypeWidget* variableTypeWidget_;
 	};
 
 }
