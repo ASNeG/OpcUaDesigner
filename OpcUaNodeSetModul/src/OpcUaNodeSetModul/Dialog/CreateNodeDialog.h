@@ -46,6 +46,12 @@ namespace OpcUaNodeSet
 		virtual ~CreateNodeDialog(void);
 
 		bool isValid(void);
+		void getNodeClass(NodeClassType& nodeClassType);
+		void getNodeId(OpcUaNodeId& nodeId);
+		void getDisplayName(OpcUaLocalizedText& displayName);
+		void getBrowseName(OpcUaQualifiedName& browseName);
+		void getObjectType(OpcUaNodeId& objectType);
+		void getVariableType(OpcUaNodeId& variableType);
 
 	  public slots:
 	    void onValueChangedClass(NodeClassType& nodeClassType, bool isValid);

@@ -57,6 +57,42 @@ namespace OpcUaNodeSet
 		return isValid_;
 	}
 
+	void
+	CreateNodeDialog::getNodeClass(NodeClassType& nodeClassType)
+	{
+		nodeClassWidget_->getValue(nodeClassType);
+	}
+
+	void
+	CreateNodeDialog::getNodeId(OpcUaNodeId& nodeId)
+	{
+		nodeIdWidget_->getValue(nodeId);
+	}
+
+	void
+	CreateNodeDialog::getDisplayName(OpcUaLocalizedText& displayName)
+	{
+		displayNameWidget_->getValue(displayName);
+	}
+
+	void
+	CreateNodeDialog::getBrowseName(OpcUaQualifiedName& browseName)
+	{
+		browseNameWidget_->getValue(browseName);
+	}
+
+	void
+	CreateNodeDialog::getObjectType(OpcUaNodeId& objectType)
+	{
+		objectTypeWidget_->getValue(objectType);
+	}
+
+	void
+	CreateNodeDialog::getVariableType(OpcUaNodeId& variableType)
+	{
+		variableTypeWidget_->getValue(variableType);
+	}
+
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	//
@@ -387,11 +423,14 @@ namespace OpcUaNodeSet
     void
     CreateNodeDialog::onClickedOk(void)
     {
+    	close();
     }
 
     void
     CreateNodeDialog::onClickedCancel(void)
     {
+    	isValid_ = false;
+    	close();
     }
 
 }
