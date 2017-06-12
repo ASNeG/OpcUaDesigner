@@ -115,6 +115,12 @@ namespace OpcUaNodeSet
 		nodeId = nodeId_;
 	}
 
+	bool
+	NodeIdWidget::isValid(void)
+	{
+		return isValid_;
+	}
+
 	void
 	NodeIdWidget::showValue(void)
 	{
