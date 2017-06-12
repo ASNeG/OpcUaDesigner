@@ -358,6 +358,7 @@ namespace OpcUaNodeSet
     OpcUaTreeWindow::createNewMenu(QMenu& menu, NodeInfo* nodeInfo)
     {
     	if (nodeInfo->baseNode_.get() == NULL) return;
+    	if (nodeInfo->nodeSetNamespace_.globalNamespaceVec().size() <= 1) return;
 
 		// create modul config value
 		QVariant v;
