@@ -42,6 +42,7 @@ namespace OpcUaNodeSet
 	, nodeId_()
 	, displayName_()
 	, browseName_()
+	, isValid_(false)
 	{
 		createLayout();
 	}
@@ -53,8 +54,6 @@ namespace OpcUaNodeSet
 	void
 	CreateNodeDialog::createLayout(void)
 	{
-		createAttributes("Object");
-
 		this->setWindowTitle(QString("Create Node Dialog"));
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
 
@@ -138,8 +137,20 @@ namespace OpcUaNodeSet
 			nodeClassWidget_, SIGNAL(valueChanged(NodeClassType&, bool)),
 			this, SLOT(onValueChangedClass(NodeClassType&, bool))
 		);
+		connect(
+			nodeIdWidget_, SIGNAL(valueChanged(OpcUaNodeId&, bool)),
+			this, SLOT(onValueChangedNodeId(OpcUaNodeId&, bool))
+		);
+		connect(
+			displayNameWidget_, SIGNAL(valueChanged(OpcUaLocalizedText&, bool)),
+			this, SLOT(onValueChangedDisplayName(OpcUaLocalizedText&, bool))
+		);
+		connect(
+			browseNameWidget_, SIGNAL(valueChanged(OpcUaQualifiedName&, bool)),
+			this, SLOT(onValueChangedBrowseName(OpcUaQualifiedName&, bool))
+		);
 
-		showValue();
+		nodeClassWidget_->setValue(nodeClassType_);
 		setLayout(vBoxLayout);
 	}
 
@@ -247,16 +258,19 @@ namespace OpcUaNodeSet
 	bool
 	CreateNodeDialog::checkValue(void)
 	{
-		// FIXME: todo
-		return true;
-	}
+		if (!nodeIdWidget_->isValid()) return false;
+		if (!displayNameWidget_->isValid()) return false;
+		if (!browseNameWidget_->isValid()) return false;
 
-	void
-	CreateNodeDialog::showValue(void)
-	{
-		nodeIdWidget_->setValue(nodeId_);
-		displayNameWidget_->setValue(displayName_);
-		browseNameWidget_->setValue(browseName_);
+		NodeClassType nodeClassType;
+		nodeClassWidget_->getValue(nodeClassType);
+		if (nodeClassType == NodeClassType_Object) {
+			if (!objectTypeWidget_->isValid()) return false;
+		}
+		else {
+			if (!variableTypeWidget_->isValid()) return false;
+		}
+		return true;
 	}
 
 	// ------------------------------------------------------------------------
@@ -279,7 +293,12 @@ namespace OpcUaNodeSet
 			createAttributes("Variable");
 			stackedWidget_->setCurrentIndex(2);
 		}
-		showValue();
+
+		nodeIdWidget_->setValue(nodeId_);
+		displayNameWidget_->setValue(displayName_);
+		browseNameWidget_->setValue(browseName_);
+
+		isValid_ = checkValue();
 	}
 
 	void
@@ -291,7 +310,8 @@ namespace OpcUaNodeSet
 		dialog.exec();
 
 		objectTypeWidget_->setValue(dialog.objectType());
-		showValue();
+
+		isValid_ = checkValue();
 	}
 
 	void
@@ -303,8 +323,27 @@ namespace OpcUaNodeSet
 		dialog.exec();
 
 		variableTypeWidget_->setValue(dialog.variableType());
-		showValue();
+
+		isValid_ = checkValue();
 	}
+
+    void
+    CreateNodeDialog::onValueChangedNodeId(OpcUaNodeId& nodeId, bool isValid)
+    {
+    	isValid_ = checkValue();
+    }
+
+    void
+    CreateNodeDialog::onValueChangedDisplayName(OpcUaLocalizedText& displayName, bool isValid)
+    {
+    	isValid_ = checkValue();
+    }
+
+    void
+    CreateNodeDialog::onValueChangedBrowseName(OpcUaQualifiedName& browseName, bool isValid)
+    {
+    	isValid_ = checkValue();
+    }
 
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------

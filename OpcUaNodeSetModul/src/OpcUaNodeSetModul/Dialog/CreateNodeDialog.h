@@ -48,6 +48,9 @@ namespace OpcUaNodeSet
 	    void onValueChangedClass(NodeClassType& nodeClassType, bool isValid);
 	    void onClickedObjectType(void);
 	    void onClickedVariableType(void);
+	    void onValueChangedNodeId(OpcUaNodeId& nodeId, bool isValid);
+	    void onValueChangedDisplayName(OpcUaLocalizedText& displayName, bool isValid);
+	    void onValueChangedBrowseName(OpcUaQualifiedName& browseName, bool isValid);
 
       signals:
 
@@ -59,11 +62,11 @@ namespace OpcUaNodeSet
         void createAttributes(const std::string& prefix);
 
         bool checkValue(void);
-        void showValue(void);
 
         //
         // data model
         //
+        bool isValid_;
         DataModel* dataModel_;
         BaseNodeClass::SPtr baseNode_;
 
