@@ -163,6 +163,15 @@ namespace OpcUaNodeSet
 			this, SLOT(onValueChangedBrowseName(OpcUaQualifiedName&, bool))
 		);
 
+		connect(
+			okButton_, SIGNAL(clicked()),
+			this, SLOT(onClickedOk())
+		);
+		connect(
+			cancelButton, SIGNAL(clicked()),
+			this, SLOT(onClickedCancel())
+		);
+
 		nodeClassWidget_->setValue(nodeClassType_);
 		setLayout(vBoxLayout);
 	}
@@ -373,6 +382,16 @@ namespace OpcUaNodeSet
     {
     	isValid_ = checkValue();
     	controlButton();
+    }
+
+    void
+    CreateNodeDialog::onClickedOk(void)
+    {
+    }
+
+    void
+    CreateNodeDialog::onClickedCancel(void)
+    {
     }
 
 }

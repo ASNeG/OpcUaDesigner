@@ -54,6 +54,8 @@ namespace OpcUaNodeSet
 	    void onValueChangedNodeId(OpcUaNodeId& nodeId, bool isValid);
 	    void onValueChangedDisplayName(OpcUaLocalizedText& displayName, bool isValid);
 	    void onValueChangedBrowseName(OpcUaQualifiedName& browseName, bool isValid);
+	    void onClickedOk(void);
+	    void onClickedCancel(void);
 
       signals:
 
