@@ -45,7 +45,7 @@ namespace OpcUaNodeSet
 		virtual ~CreateNodeDialog(void);
 
 	  public slots:
-	    void onCurrentIndexChangedNodeClass(int index);
+	    void onValueChangedClass(NodeClassType& nodeClassType, bool isValid);
 	    void onClickedObjectType(void);
 	    void onClickedVariableType(void);
 
@@ -58,6 +58,7 @@ namespace OpcUaNodeSet
         QWidget* createValueWidget(void);
         void createAttributes(const std::string& prefix);
 
+        bool checkValue(void);
         void showValue(void);
 
         //
@@ -66,6 +67,7 @@ namespace OpcUaNodeSet
         DataModel* dataModel_;
         BaseNodeClass::SPtr baseNode_;
 
+        NodeClassType nodeClassType_;
         OpcUaNodeId nodeId_;
         OpcUaLocalizedText displayName_;
         OpcUaQualifiedName browseName_;
@@ -73,6 +75,7 @@ namespace OpcUaNodeSet
         //
         // widgets
         //
+        NodeClassWidget* nodeClassWidget_;
         NodeIdWidget* nodeIdWidget_;
         DisplayNameWidget* displayNameWidget_;
         BrowseNameWidget* browseNameWidget_;

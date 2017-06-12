@@ -38,6 +38,7 @@ namespace OpcUaNodeSet
 	: QDialog()
 	, dataModel_(dataModel)
 	, baseNode_(baseNode)
+	, nodeClassType_(NodeClassType_Object)
 	, nodeId_()
 	, displayName_()
 	, browseName_()
@@ -69,8 +70,8 @@ namespace OpcUaNodeSet
 
 		QStringList nodeClassList;
 		nodeClassList << "Object" << "Variable";
-		NodeClassWidget* nodeClassWidget = new NodeClassWidget(nodeClassList);
-		baseInfoLayout->addWidget(nodeClassWidget, 0, 1);
+		nodeClassWidget_ = new NodeClassWidget(nodeClassList);
+		baseInfoLayout->addWidget(nodeClassWidget_, 0, 1);
 
 		// node id
 		QLabel* nodeIdLabel = new QLabel("NodeId");
@@ -134,8 +135,8 @@ namespace OpcUaNodeSet
 		// actions
 		//
 		connect(
-			nodeClassWidget, SIGNAL(currentIndexChanged(int)),
-			this, SLOT(onCurrentIndexChangedNodeClass(int))
+			nodeClassWidget_, SIGNAL(valueChanged(NodeClassType&, bool)),
+			this, SLOT(onValueChangedClass(NodeClassType&, bool))
 		);
 
 		showValue();
@@ -243,6 +244,13 @@ namespace OpcUaNodeSet
 		browseName_.set(prefix, dataModel_->actNamespaceIndex());
 	}
 
+	bool
+	CreateNodeDialog::checkValue(void)
+	{
+		// FIXME: todo
+		return true;
+	}
+
 	void
 	CreateNodeDialog::showValue(void)
 	{
@@ -259,15 +267,17 @@ namespace OpcUaNodeSet
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	void
-	CreateNodeDialog::onCurrentIndexChangedNodeClass(int index)
+	CreateNodeDialog::onValueChangedClass(NodeClassType& nodeClassType, bool isValid)
 	{
-		stackedWidget_->setCurrentIndex(index+1);
+		if (!isValid) return;
 
-		if (index == 0) {
+		if (nodeClassType == NodeClassType_Object) {
 			createAttributes("Object");
+			stackedWidget_->setCurrentIndex(1);
 		}
 		else {
 			createAttributes("Variable");
+			stackedWidget_->setCurrentIndex(2);
 		}
 		showValue();
 	}

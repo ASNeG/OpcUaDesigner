@@ -25,6 +25,8 @@
 
 class QComboBox;
 
+using namespace OpcUaStackCore;
+
 namespace OpcUaNodeSet
 {
 
@@ -38,19 +40,31 @@ namespace OpcUaNodeSet
 		NodeClassWidget(QStringList& nodeClassList, QWidget* parent = 0);
 		virtual ~NodeClassWidget(void);
 
+		void setValue(QStringList& nodeClassList);
+		void setValue(NodeClassType nodeClassType);
+		void getValue(NodeClassType& nodeClassType);
+		bool isValid(void);
+
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  public slots:
 	    void onCurrentIndexChanged(int index);
 
 	  signals:
-	    void currentIndexChanged(int index);
+		void valueChanged(NodeClassType& nodeClassType, bool isValid);
 
 	  private:
 		void createLayout(void);
+		void showValue(void);
+		bool checkValue(void);
+		void styleValue(void);
+
+		QComboBox* nodeClassWidget_;
 
 		QStringList nodeClassList_;
-		QComboBox* nodeClassWidget_;
+		NodeClassType nodeClassType_;
+		bool isValid_;
+		bool checkOn_;
 	};
 
 }
