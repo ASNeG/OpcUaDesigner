@@ -31,6 +31,7 @@
 class QComboBox;
 class QStackedWidget;
 class QLayout;
+class QPushButton;
 
 namespace OpcUaNodeSet
 {
@@ -43,6 +44,8 @@ namespace OpcUaNodeSet
 	  public:
 		CreateNodeDialog(DataModel* dataModel, BaseNodeClass::SPtr& baseNode);
 		virtual ~CreateNodeDialog(void);
+
+		bool isValid(void);
 
 	  public slots:
 	    void onValueChangedClass(NodeClassType& nodeClassType, bool isValid);
@@ -62,6 +65,7 @@ namespace OpcUaNodeSet
         void createAttributes(const std::string& prefix);
 
         bool checkValue(void);
+        void controlButton(void);
 
         //
         // data model
@@ -86,6 +90,8 @@ namespace OpcUaNodeSet
         QStackedWidget* stackedWidget_;
         ObjectTypeWidget* objectTypeWidget_;
         VariableTypeWidget* variableTypeWidget_;
+
+        QPushButton* okButton_;
 	};
 
 }

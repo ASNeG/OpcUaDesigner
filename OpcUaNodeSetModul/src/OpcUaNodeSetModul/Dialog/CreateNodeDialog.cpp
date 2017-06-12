@@ -51,6 +51,19 @@ namespace OpcUaNodeSet
 	{
 	}
 
+	bool
+	CreateNodeDialog::isValid(void)
+	{
+		return isValid_;
+	}
+
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// private functions
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 	void
 	CreateNodeDialog::createLayout(void)
 	{
@@ -125,9 +138,9 @@ namespace OpcUaNodeSet
 		QHBoxLayout* actionButtonLayout = new QHBoxLayout();
 		QPushButton* cancelButton = new QPushButton("Cancel");
 		actionButtonLayout->addWidget(cancelButton);
-		QPushButton* okButton = new QPushButton("Ok");
-		okButton->setEnabled(false);
-		actionButtonLayout->addWidget(okButton);
+		okButton_ = new QPushButton("Ok");
+		okButton_->setEnabled(false);
+		actionButtonLayout->addWidget(okButton_);
 		vBoxLayout->addLayout(actionButtonLayout);
 
 		//
@@ -273,6 +286,17 @@ namespace OpcUaNodeSet
 		return true;
 	}
 
+	void
+	CreateNodeDialog::controlButton(void)
+	{
+		if (isValid_) {
+			okButton_->setEnabled(true);
+		}
+		else {
+			okButton_->setEnabled(false);
+		}
+	}
+
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	//
@@ -299,6 +323,7 @@ namespace OpcUaNodeSet
 		browseNameWidget_->setValue(browseName_);
 
 		isValid_ = checkValue();
+		controlButton();
 	}
 
 	void
@@ -312,6 +337,7 @@ namespace OpcUaNodeSet
 		objectTypeWidget_->setValue(dialog.objectType());
 
 		isValid_ = checkValue();
+		controlButton();
 	}
 
 	void
@@ -325,33 +351,29 @@ namespace OpcUaNodeSet
 		variableTypeWidget_->setValue(dialog.variableType());
 
 		isValid_ = checkValue();
+		controlButton();
 	}
 
     void
     CreateNodeDialog::onValueChangedNodeId(OpcUaNodeId& nodeId, bool isValid)
     {
     	isValid_ = checkValue();
+    	controlButton();
     }
 
     void
     CreateNodeDialog::onValueChangedDisplayName(OpcUaLocalizedText& displayName, bool isValid)
     {
     	isValid_ = checkValue();
+    	controlButton();
     }
 
     void
     CreateNodeDialog::onValueChangedBrowseName(OpcUaQualifiedName& browseName, bool isValid)
     {
     	isValid_ = checkValue();
+    	controlButton();
     }
-
-	// ------------------------------------------------------------------------
-	// ------------------------------------------------------------------------
-	//
-	// private functions
-	//
-	// ------------------------------------------------------------------------
-	// ------------------------------------------------------------------------
 
 }
 
