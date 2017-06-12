@@ -147,7 +147,9 @@ namespace OpcUaNodeSet
 		nodeIdWidget_->setValue(nodeInfo->nodeSetNamespace_);
 		nodeIdWidget_->setValue(nodeId);
 
-		nodeClassWidget_->nodeChange(nodeInfo);
+		NodeClassType nodeClassType;
+		nodeInfo->baseNode_->getNodeClass(nodeClassType);
+		nodeClassWidget_->setValue(nodeClassType);
 
 		OpcUaQualifiedName browseName;
 		nodeInfo->baseNode_->getBrowseName(browseName);

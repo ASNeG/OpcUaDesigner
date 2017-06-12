@@ -45,8 +45,6 @@ namespace OpcUaNodeSet
 		void getValue(NodeClassType& nodeClassType);
 		bool isValid(void);
 
-		void nodeChange(NodeInfo* nodeInfo);
-
 	  public slots:
 	    void onCurrentIndexChanged(int index);
 

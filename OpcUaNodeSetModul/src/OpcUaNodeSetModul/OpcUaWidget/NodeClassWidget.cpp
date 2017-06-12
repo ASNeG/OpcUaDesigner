@@ -154,20 +154,6 @@ namespace OpcUaNodeSet
 		setLayout(hBoxLayout);
 	}
 
-	void
-	NodeClassWidget::nodeChange(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullNodeClass()) {
-			nodeClassWidget_->setCurrentText("Error");
-			return;
-		}
-
-		NodeClassType nodeClass;
-		baseNode->getNodeClass(nodeClass);
-		nodeClassWidget_->setCurrentText(NodeClass::toString(nodeClass).c_str());
-	}
-
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	//
