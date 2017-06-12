@@ -51,6 +51,13 @@ namespace OpcUaNodeSet
 	{
 	}
 
+	void
+	CreateNodeDialog::closeEvent(QCloseEvent* event)
+	{
+		isValid_ = false;
+		event->accept();
+	}
+
 	bool
 	CreateNodeDialog::isValid(void)
 	{

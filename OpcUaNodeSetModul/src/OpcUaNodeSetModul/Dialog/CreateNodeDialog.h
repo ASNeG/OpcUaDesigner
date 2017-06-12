@@ -20,6 +20,7 @@
 
 #include <QDialog>
 #include <QWidget>
+#include <QCloseEvent>
 #include "OpcUaNodeSetModul/OpcUaWidget/NodeClassWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/NodeIdWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/BrowseNameWidget.h"
@@ -44,6 +45,8 @@ namespace OpcUaNodeSet
 	  public:
 		CreateNodeDialog(DataModel* dataModel, BaseNodeClass::SPtr& baseNode);
 		virtual ~CreateNodeDialog(void);
+
+		void closeEvent(QCloseEvent* event);
 
 		bool isValid(void);
 		void getNodeClass(NodeClassType& nodeClassType);
