@@ -441,7 +441,7 @@ namespace OpcUaNodeSet
 
 	    // create new node
 	    InformationModelManager imm(dataModel_->informationModel());
-	    if (nodeClassType == nodeClassType) {
+	    if (nodeClassType == NodeClassType_Object) {
 	    	bool success = imm.addObjectNode(
 	    		parentNodeId,
 	    		nodeId,
