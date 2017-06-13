@@ -47,9 +47,7 @@ namespace OpcUaNodeSet
 		CreateNodeDialog(DataModel* dataModel, BaseNodeClass::SPtr& baseNode);
 		virtual ~CreateNodeDialog(void);
 
-		void closeEvent(QCloseEvent* event);
-
-		bool isValid(void);
+		bool isOk(void);
 		void getNodeClass(NodeClassType& nodeClassType);
 		void getNodeId(OpcUaNodeId& nodeId);
 		void getDisplayName(OpcUaLocalizedText& displayName);
@@ -84,6 +82,7 @@ namespace OpcUaNodeSet
         //
         // data model
         //
+        bool isOk_;
         bool isValid_;
         DataModel* dataModel_;
         BaseNodeClass::SPtr baseNode_;

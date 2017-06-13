@@ -44,6 +44,7 @@ namespace OpcUaNodeSet
 	, displayName_()
 	, browseName_()
 	, isValid_(false)
+	, isOk_(false)
 	{
 		createLayout();
 	}
@@ -52,17 +53,10 @@ namespace OpcUaNodeSet
 	{
 	}
 
-	void
-	CreateNodeDialog::closeEvent(QCloseEvent* event)
-	{
-		isValid_ = false;
-		event->accept();
-	}
-
 	bool
-	CreateNodeDialog::isValid(void)
+	CreateNodeDialog::isOk(void)
 	{
-		return isValid_;
+		return isOk_;
 	}
 
 	void
@@ -464,6 +458,7 @@ namespace OpcUaNodeSet
     void
     CreateNodeDialog::onClickedOk(void)
     {
+    	isOk_ = true;
     	close();
     }
 
