@@ -29,6 +29,7 @@
 #include "OpcUaNodeSetModul/Dialog/CreateNodeDialog.h"
 #include "OpcUaNodeSetModul/Dialog/SelectObjectTypeDialog.h"
 #include "OpcUaNodeSetModul/Dialog/SelectVariableTypeDialog.h"
+#include "OpcUaNodeSetModul/Dialog/SelectReferenceTypeDialog.h"
 
 namespace OpcUaNodeSet
 {
@@ -86,6 +87,12 @@ namespace OpcUaNodeSet
 	CreateNodeDialog::getBrowseName(OpcUaQualifiedName& browseName)
 	{
 		browseNameWidget_->getValue(browseName);
+	}
+
+	void
+	CreateNodeDialog::getReferenceType(OpcUaNodeId& referenceType)
+	{
+		referenceTypeWidget_->getValue(referenceType);
 	}
 
 	void
@@ -157,6 +164,14 @@ namespace OpcUaNodeSet
 		baseInfoLayout->addWidget(browseNameWidget_, 3, 1);
 		browseNameWidget_->setValue(dataModel_->nodeSetNamespace());
 
+		// reference type
+		QLabel* referenceTypeLabel = new QLabel("Parent Ref");
+		baseInfoLayout->addWidget(referenceTypeLabel, 4, 0);
+
+		referenceTypeWidget_ = new ReferenceTypeWidget();
+		baseInfoLayout->addWidget(referenceTypeWidget_, 4, 1);
+		browseNameWidget_->setValue(dataModel_->nodeSetNamespace());
+
 		//
 		// diving line
 		//
@@ -204,6 +219,10 @@ namespace OpcUaNodeSet
 		connect(
 			browseNameWidget_, SIGNAL(valueChanged(OpcUaQualifiedName&, bool)),
 			this, SLOT(onValueChangedBrowseName(OpcUaQualifiedName&, bool))
+		);
+		connect(
+			referenceTypeWidget_, SIGNAL(selectReferenceType()),
+			this, SLOT(onClickedReferenceType())
 		);
 
 		connect(
@@ -326,6 +345,7 @@ namespace OpcUaNodeSet
 		if (!nodeIdWidget_->isValid()) return false;
 		if (!displayNameWidget_->isValid()) return false;
 		if (!browseNameWidget_->isValid()) return false;
+		if (!referenceTypeWidget_->isValid()) return false;
 
 		NodeClassType nodeClassType;
 		nodeClassWidget_->getValue(nodeClassType);
@@ -404,6 +424,17 @@ namespace OpcUaNodeSet
 
 		isValid_ = checkValue();
 		controlButton();
+	}
+
+	void
+	CreateNodeDialog::onClickedReferenceType(void)
+	{
+		SelectReferenceTypeDialog dialog(dataModel_);
+		dialog.exec();
+
+		referenceTypeWidget_->setValue(dialog.referenceType());
+
+		isValid_ = checkValue();
 	}
 
     void

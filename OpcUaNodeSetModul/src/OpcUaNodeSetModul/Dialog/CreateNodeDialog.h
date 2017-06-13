@@ -24,6 +24,7 @@
 #include "OpcUaNodeSetModul/OpcUaWidget/NodeClassWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/NodeIdWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/BrowseNameWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/ReferenceTypeWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/DisplayNameWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/ObjectTypeWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/VariableTypeWidget.h"
@@ -53,6 +54,7 @@ namespace OpcUaNodeSet
 		void getNodeId(OpcUaNodeId& nodeId);
 		void getDisplayName(OpcUaLocalizedText& displayName);
 		void getBrowseName(OpcUaQualifiedName& browseName);
+		void getReferenceType(OpcUaNodeId& referenceType);
 		void getObjectType(OpcUaNodeId& objectType);
 		void getVariableType(OpcUaNodeId& variableType);
 
@@ -60,6 +62,7 @@ namespace OpcUaNodeSet
 	    void onValueChangedClass(NodeClassType& nodeClassType, bool isValid);
 	    void onClickedObjectType(void);
 	    void onClickedVariableType(void);
+	    void onClickedReferenceType(void);
 	    void onValueChangedNodeId(OpcUaNodeId& nodeId, bool isValid);
 	    void onValueChangedDisplayName(OpcUaLocalizedText& displayName, bool isValid);
 	    void onValueChangedBrowseName(OpcUaQualifiedName& browseName, bool isValid);
@@ -97,6 +100,7 @@ namespace OpcUaNodeSet
         NodeIdWidget* nodeIdWidget_;
         DisplayNameWidget* displayNameWidget_;
         BrowseNameWidget* browseNameWidget_;
+        ReferenceTypeWidget* referenceTypeWidget_;
 
         QStackedWidget* stackedWidget_;
         ObjectTypeWidget* objectTypeWidget_;
