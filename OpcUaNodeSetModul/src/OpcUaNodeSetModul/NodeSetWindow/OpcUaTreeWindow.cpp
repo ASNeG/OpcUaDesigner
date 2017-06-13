@@ -421,6 +421,7 @@ namespace OpcUaNodeSet
 	    }
 
 	    // get information from dialog class
+	    OpcUaNodeId parentNodeId;
 	    NodeClassType nodeClassType;
 	    OpcUaNodeId nodeId;
 	    OpcUaLocalizedText displayName;
@@ -429,6 +430,7 @@ namespace OpcUaNodeSet
 	    OpcUaNodeId objectType;
 	    OpcUaNodeId variableType;
 
+	    baseNode->getNodeId(parentNodeId);
 	    createNodeDialog.getNodeClass(nodeClassType);
 	    createNodeDialog.getNodeId(nodeId);
 	    createNodeDialog.getDisplayName(displayName);
@@ -439,6 +441,25 @@ namespace OpcUaNodeSet
 
 	    // create new node
 	    InformationModelManager imm(dataModel_->informationModel());
+	    if (nodeClassType == nodeClassType) {
+	    	bool success = imm.addObjectNode(
+	    		parentNodeId,
+	    		nodeId,
+	    		displayName,
+	    		browseName,
+	    		referenceType,
+	    		objectType
+	    	);
+	    	if (!success) {
+				QMessageBox msgBox;
+				msgBox.setText("create object instance error");
+				msgBox.exec();
+				return;
+	    	}
+	    }
+	    else {
+	    	// FIXME: todo
+	    }
 
     }
 
