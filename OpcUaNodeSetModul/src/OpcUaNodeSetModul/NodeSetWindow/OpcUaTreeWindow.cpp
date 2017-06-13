@@ -458,7 +458,20 @@ namespace OpcUaNodeSet
 	    	}
 	    }
 	    else {
-	    	// FIXME: todo
+	    	bool success = imm.addVariableNode(
+	    		parentNodeId,
+	    		nodeId,
+	    		displayName,
+	    		browseName,
+	    		referenceType,
+	    		objectType
+	    	);
+	    	if (!success) {
+				QMessageBox msgBox;
+				msgBox.setText("create variable instance error");
+				msgBox.exec();
+				return;
+	    	}
 	    }
 
 	    // added new node to tree view
