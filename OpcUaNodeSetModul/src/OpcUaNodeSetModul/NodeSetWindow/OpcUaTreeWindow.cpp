@@ -468,6 +468,7 @@ namespace OpcUaNodeSet
 	    	actItem_,
 	    	newBaseNode
 	    );
+	    actItem_->setExpanded(true);
     }
 
     void
