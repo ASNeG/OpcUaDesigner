@@ -416,7 +416,7 @@ namespace OpcUaNodeSet
 
 	    CreateNodeDialog createNodeDialog(dataModel_, baseNode);
 	    createNodeDialog.exec();
-	    if (!createNodeDialog.isValid()) {
+	    if (!createNodeDialog.isOk()) {
 	    	return;
 	    }
 
@@ -461,6 +461,13 @@ namespace OpcUaNodeSet
 	    	// FIXME: todo
 	    }
 
+	    // added new node to tree view
+	    BaseNodeClass::SPtr newBaseNode = dataModel_->informationModel()->find(nodeId);
+	    addNode(
+	    	dataModel_->informationModel(),
+	    	actItem_,
+	    	newBaseNode
+	    );
     }
 
     void
