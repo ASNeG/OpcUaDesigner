@@ -442,7 +442,9 @@ namespace OpcUaNodeSet
 	    // create new node
 	    InformationModelManager imm(dataModel_->informationModel());
 	    if (nodeClassType == NodeClassType_Object) {
+	    	AddNodeRule addNodeRule;
 	    	bool success = imm.addObjectNode(
+	    		addNodeRule,
 	    		parentNodeId,
 	    		nodeId,
 	    		displayName,
@@ -458,7 +460,9 @@ namespace OpcUaNodeSet
 	    	}
 	    }
 	    else {
+	    	AddNodeRule addNodeRule;
 	    	bool success = imm.addVariableNode(
+	    		addNodeRule,
 	    		parentNodeId,
 	    		nodeId,
 	    		displayName,
