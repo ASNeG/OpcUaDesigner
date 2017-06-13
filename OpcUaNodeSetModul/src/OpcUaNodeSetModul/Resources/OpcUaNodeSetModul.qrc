@@ -54,6 +54,7 @@
 	  <file>images/ZoomIn.png</file>
 	  <file>images/ZoomOut.png</file>
 	  <file>images/Eye.png</file>
+	  <file>images/Tree.png</file>
     </qresource>
 
 </RCC>
