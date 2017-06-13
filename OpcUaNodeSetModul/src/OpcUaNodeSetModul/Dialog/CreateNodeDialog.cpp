@@ -168,7 +168,10 @@ namespace OpcUaNodeSet
 		QLabel* referenceTypeLabel = new QLabel("Parent Ref");
 		baseInfoLayout->addWidget(referenceTypeLabel, 4, 0);
 
+		OpcUaNodeId referenceTypeNodeId(35);
 		referenceTypeWidget_ = new ReferenceTypeWidget();
+		referenceTypeWidget_->setValue(dataModel_->informationModel());
+		referenceTypeWidget_->setValue(referenceTypeNodeId);
 		baseInfoLayout->addWidget(referenceTypeWidget_, 4, 1);
 		browseNameWidget_->setValue(dataModel_->nodeSetNamespace());
 

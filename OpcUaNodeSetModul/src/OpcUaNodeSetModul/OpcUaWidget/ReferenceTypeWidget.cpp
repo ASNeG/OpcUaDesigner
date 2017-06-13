@@ -211,7 +211,7 @@ namespace OpcUaNodeSet
 
 		// find node id from text
 		referenceType_.set(0);
-		OpcUaNodeId typeNode(31);
+		OpcUaNodeId typeNode(33);
 		findNodeId(text.toStdString(), typeNode);
 
 		isValid_ = checkValue();

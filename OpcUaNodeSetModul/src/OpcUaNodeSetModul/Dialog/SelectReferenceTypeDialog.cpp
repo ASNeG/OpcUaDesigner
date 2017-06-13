@@ -36,7 +36,7 @@ namespace OpcUaNodeSet
 	SelectReferenceTypeDialog::SelectReferenceTypeDialog(DataModel* dataModel)
 	: QDialog()
 	, dataModel_(dataModel)
-	, referenceType_(31)
+	, referenceType_(33)
 	{
 		this->setWindowTitle(QString("Select Reference Type Dialog"));
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
@@ -107,7 +107,7 @@ namespace OpcUaNodeSet
 	void
 	SelectReferenceTypeDialog::showModel(void)
 	{
-		OpcUaNodeId referenceType(31);
+		OpcUaNodeId referenceType(33);
 		BaseNodeClass::SPtr baseNode = dataModel_->informationModel()->find(referenceType);
 		addNode(dataModel_->informationModel(), NULL, baseNode);
 
