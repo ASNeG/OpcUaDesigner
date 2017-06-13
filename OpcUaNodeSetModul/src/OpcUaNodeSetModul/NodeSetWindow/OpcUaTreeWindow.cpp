@@ -464,7 +464,7 @@ namespace OpcUaNodeSet
 	    		displayName,
 	    		browseName,
 	    		referenceType,
-	    		objectType
+	    		variableType
 	    	);
 	    	if (!success) {
 				QMessageBox msgBox;
