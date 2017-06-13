@@ -20,6 +20,7 @@
 #include "OpcUaStackServer/AddressSpaceModel/ObjectTypeNodeClass.h"
 #include "OpcUaStackServer/AddressSpaceModel/VariableTypeNodeClass.h"
 #include "OpcUaStackServer/AddressSpaceModel/ReferenceTypeNodeClass.h"
+#include "OpcUaStackServer/InformationModel/InformationModelManager.h"
 #include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaTreeWindow.h"
 #include "OpcUaNodeSetModul/Dialog/NamespaceManagerDialog.h"
@@ -415,6 +416,30 @@ namespace OpcUaNodeSet
 
 	    CreateNodeDialog createNodeDialog(dataModel_, baseNode);
 	    createNodeDialog.exec();
+	    if (!createNodeDialog.isValid()) {
+	    	return;
+	    }
+
+	    // get information from dialog class
+	    NodeClassType nodeClassType;
+	    OpcUaNodeId nodeId;
+	    OpcUaLocalizedText displayName;
+	    OpcUaQualifiedName browseName;
+	    OpcUaNodeId referenceType;
+	    OpcUaNodeId objectType;
+	    OpcUaNodeId variableType;
+
+	    createNodeDialog.getNodeClass(nodeClassType);
+	    createNodeDialog.getNodeId(nodeId);
+	    createNodeDialog.getDisplayName(displayName);
+	    createNodeDialog.getBrowseName(browseName);
+	    createNodeDialog.getReferenceType(referenceType);
+	    createNodeDialog.getObjectType(objectType);
+	    createNodeDialog.getVariableType(variableType);
+
+	    // create new node
+	    InformationModelManager imm(dataModel_->informationModel());
+
     }
 
     void
