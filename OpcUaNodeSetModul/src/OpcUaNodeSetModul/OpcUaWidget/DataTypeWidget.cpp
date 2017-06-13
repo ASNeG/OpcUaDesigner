@@ -19,6 +19,7 @@
 #include <QVBoxLayout>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QIcon>
 
 #include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/DataTypeWidget.h"
@@ -38,9 +39,10 @@ namespace OpcUaNodeSet
 	{
 		// widgets
 		textWidget_ = new QLineEdit();
-		textWidget_->setFixedWidth(370-5);
+		textWidget_->setFixedWidth(360-5);
 
-		buttonWidget_ = new QPushButton("...");
+		buttonWidget_ = new QPushButton();
+		buttonWidget_->setIcon(QIcon(":/images/Tree.png"));
 		buttonWidget_->setFixedWidth(30);
 
 		// layout
