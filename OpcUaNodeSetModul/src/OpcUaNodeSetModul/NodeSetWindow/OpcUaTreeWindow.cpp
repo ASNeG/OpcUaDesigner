@@ -226,6 +226,8 @@ namespace OpcUaNodeSet
 		}
 
 		// read childs of base node
+		OpcUaNodeId nodeId;
+		baseNode->getNodeId(nodeId);
 		BaseNodeClass::Vec baseNodeClassVec;
 		if (!informationModelAccess.getChildHierarchically(baseNode, baseNodeClassVec)) {
 			Log(Error, "hierarchical child access error")
