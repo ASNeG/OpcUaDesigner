@@ -25,7 +25,7 @@
 #include <QStringList>
 #include <QString>
 
-#include "OpcUaClientModul/ModulWindow/NodeInfo.h"
+#include "OpcUaClientModul/Base/BaseNode.h"
 
 class QLineEdit;
 class QComboBox;
@@ -42,7 +42,7 @@ namespace OpcUaClientModul
 		NodeIdWidget();
 		virtual ~NodeIdWidget();
 
-		void nodeChange(NodeInfo* nodeInfo);
+		void nodeChange(BaseNode* baseNode);
 
 	  private:
 		QStringList typeList_;

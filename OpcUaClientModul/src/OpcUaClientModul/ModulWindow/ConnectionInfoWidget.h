@@ -23,7 +23,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-#include "OpcUaClientModul/ModulWindow/NodeInfo.h"
+#include "OpcUaClientModul/Base/BaseNode.h"
 
 namespace OpcUaClientModul
 {
@@ -36,7 +36,7 @@ namespace OpcUaClientModul
 		ConnectionInfoWidget();
 		virtual ~ConnectionInfoWidget();
 
-		void nodeChange(NodeInfo* nodeInfo);
+		void nodeChange(BaseNode* baseNode);
 
 	  private:
 		QLabel* connectionInfo_;

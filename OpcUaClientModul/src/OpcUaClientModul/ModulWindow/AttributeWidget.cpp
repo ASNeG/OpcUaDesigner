@@ -145,16 +145,13 @@ namespace OpcUaClientModul
 	}
 
 	void
-	AttributeWidget::readAttributesFromServer(NodeInfo* nodeInfo)
+	AttributeWidget::readAttributesFromServer(BaseNode* baseNode)
 	{
 		std::cout << "readAttributeFromServer" << std::endl;
 
 		OpcUaStatusCode result;
 
-		OpcUaExpandedNodeId::SPtr expNodeId = nodeInfo->reference_->expandedNodeId();
-		OpcUaNodeId nodeId;
-		nodeId.nodeIdValue(expNodeId->nodeIdValue());
-		nodeId.namespaceIndex(expNodeId->namespaceIndex());
+		OpcUaNodeId nodeId = baseNode->nodeId();
 
 		OpcUaDataValue descriptionDataValue;
 		result = client_->syncRead(nodeId, descriptionDataValue, Description);
@@ -162,7 +159,7 @@ namespace OpcUaClientModul
 				&& descriptionDataValue.statusCode() == Success
 				&& descriptionDataValue.variant()->variantType() == OpcUaBuildInType_OpcUaLocalizedText)
 		{
-			nodeInfo->description_ = descriptionDataValue.variant()->variantSPtr<OpcUaLocalizedText>();
+			baseNode->description(descriptionDataValue.variant()->variantSPtr<OpcUaLocalizedText>());
 		}
 
 		OpcUaDataValue writeMaskDataValue;
@@ -171,7 +168,7 @@ namespace OpcUaClientModul
 				&& writeMaskDataValue.statusCode() == Success
 				&& writeMaskDataValue.variant()->variantType() == OpcUaBuildInType_OpcUaUInt32)
 		{
-			nodeInfo->writeMask_ = writeMaskDataValue.variant()->variant<OpcUaUInt32>();
+			baseNode->writeMask(writeMaskDataValue.variant()->variant<OpcUaUInt32>());
 		}
 
 		OpcUaDataValue userWriteMaskDataValue;
@@ -180,62 +177,55 @@ namespace OpcUaClientModul
 				&& userWriteMaskDataValue.statusCode() == Success
 				&& userWriteMaskDataValue.variant()->variantType() == OpcUaBuildInType_OpcUaUInt32)
 		{
-			nodeInfo->userWriteMask_ = userWriteMaskDataValue.variant()->variant<OpcUaUInt32>();
+			baseNode->userWriteMask(userWriteMaskDataValue.variant()->variant<OpcUaUInt32>());
 		}
 
 		OpcUaDataValue dataValue;
 		result = client_->syncRead(nodeId, dataValue, Value);
 		if (result == Success && dataValue.statusCode() == Success)
 		{
-			if (nodeInfo->dataValue_ == nullptr)
-			{
-				nodeInfo->dataValue_ = constructSPtr<OpcUaDataValue>();
-			}
-			nodeInfo->dataValue_->copyFrom(dataValue);
+			baseNode->dataValue()->copyFrom(dataValue);
 		}
 
 		std::cout << "readAttributeFromServer finished" << std::endl;
 	}
 
 	void
-	AttributeWidget::write(NodeInfo* nodeInfo)
+	AttributeWidget::write(BaseNode* baseNode)
 	{
 		std::cout << "write to server" << std::endl;
 
-		OpcUaExpandedNodeId::SPtr expNodeId = nodeInfo->reference_->expandedNodeId();
-		OpcUaNodeId nodeId;
-		nodeId.nodeIdValue(expNodeId->nodeIdValue());
-		nodeId.namespaceIndex(expNodeId->namespaceIndex());
+		OpcUaNodeId nodeId = baseNode->nodeId();
 
 		boost::posix_time::ptime ptime = boost::posix_time::second_clock::local_time();
 		OpcUaDateTime timestamp;
 		timestamp.dateTime(ptime);
 
 		OpcUaDataValue dataValue;
-		dataValue.variant()->copyFrom(*nodeInfo->dataValue_->variant());
+		dataValue.variant()->copyFrom(*baseNode->dataValue()->variant());
 		dataValue.sourceTimestamp(timestamp);
 		dataValue.serverTimestamp(timestamp);
 
 		if (client_->syncWrite(nodeId, dataValue) == Success)
 		{
-			nodeChange(nodeInfo);
+			nodeChange(baseNode);
 		}
 
 		std::cout << "write to server finished" << std::endl;
 	}
 
 	void
-	AttributeWidget::nodeChange(NodeInfo* nodeInfo)
+	AttributeWidget::nodeChange(BaseNode* baseNode)
 	{
-		readAttributesFromServer(nodeInfo);
+		readAttributesFromServer(baseNode);
 
-		nodeIdWidget_->nodeChange(nodeInfo);
-		nodeClassWidget_->nodeChange(nodeInfo);
-		browseNameWidget_->nodeChange(nodeInfo);
-		descriptionWidget_->nodeChange(nodeInfo);
-		writeMaskWidget_->nodeChange(nodeInfo);
-		userWriteMaskWidget_->nodeChange(nodeInfo);
-		valueWidget_->nodeChange(nodeInfo);
+		nodeIdWidget_->nodeChange(baseNode);
+		nodeClassWidget_->nodeChange(baseNode);
+		browseNameWidget_->nodeChange(baseNode);
+		descriptionWidget_->nodeChange(baseNode);
+		writeMaskWidget_->nodeChange(baseNode);
+		userWriteMaskWidget_->nodeChange(baseNode);
+		valueWidget_->nodeChange(baseNode);
 	}
 
 } /* namespace OpcUaClientModul */

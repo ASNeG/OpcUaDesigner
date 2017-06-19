@@ -59,18 +59,16 @@ namespace OpcUaClientModul
 		OpcUaQualifiedName qualifiedName;
 		qualifiedName.set("RootFolder", (OpcUaInt16) 0);
 
-		ReferenceDescription::SPtr refDescription = constructSPtr<ReferenceDescription>();
-		refDescription->expandedNodeId()->set((OpcUaInt32) 84, (OpcUaUInt16) 0);
-		refDescription->displayName(displayName);
-		refDescription->typeDefinition()->set(OpcUaId_FolderType);
-		refDescription->browseName(qualifiedName);
+		BaseNode* baseNode = new BaseNode();
+		baseNode->nodeId().set((OpcUaInt32) 84, (OpcUaUInt16) 0);
+		baseNode->displayName(displayName);
+		baseNode->typeDefinition()->set(OpcUaId_FolderType);
+		baseNode->browseName(qualifiedName);
 
-		NodeInfo* nodeInfo = new NodeInfo();
-		nodeInfo->reference_ = refDescription;
 		QVariant v;
-		v.setValue(nodeInfo);
+		v.setValue(baseNode);
 
-		QIcon icon = createQIcon(NodeClassType_Object, refDescription->typeDefinition());
+		QIcon icon = createQIcon(NodeClassType_Object, baseNode->typeDefinition());
 
 		QTreeWidgetItem* item = new QTreeWidgetItem();
 		item->setText(0, displayName.text().value().c_str());
@@ -105,12 +103,9 @@ namespace OpcUaClientModul
 		std::cout << "browse next elements" << std::endl;
 
 		QVariant v = parentItem->data(0, Qt::UserRole);
-		NodeInfo* nodeInfo = v.value<NodeInfo*>();
+		BaseNode* baseNode = v.value<BaseNode*>();
 
-		OpcUaExpandedNodeId::SPtr expNodeId = nodeInfo->reference_->expandedNodeId();
-		OpcUaNodeId::SPtr nodeId = constructSPtr<OpcUaNodeId>();
-		nodeId->nodeIdValue(expNodeId->nodeIdValue());
-		nodeId->namespaceIndex(expNodeId->namespaceIndex());
+		OpcUaNodeId::SPtr nodeId = baseNode->nodeIdSPtr();
 
 		OpcUaStatusCode sc;
 		ReferenceDescriptionArray::SPtr references;
@@ -137,10 +132,9 @@ namespace OpcUaClientModul
 
 			OpcUaLocalizedText displayName = refDescription->displayName();
 
-			NodeInfo* nodeInfo = new NodeInfo();
-			nodeInfo->reference_ = refDescription;
+			BaseNode* baseNode = new BaseNode(refDescription);
 			QVariant v;
-			v.setValue(nodeInfo);
+			v.setValue(baseNode);
 
 			QIcon icon = createQIcon(refDescription->nodeClass(), refDescription->typeDefinition());
 
@@ -239,8 +233,8 @@ namespace OpcUaClientModul
 	TreeNodeWidget::myItemClicked(QTreeWidgetItem* item, int row)
 	{
 		QVariant v = item->data(0, Qt::UserRole);
-		NodeInfo* nodeInfo = v.value<NodeInfo*>();
-		emit nodeChanged(nodeInfo);
+		BaseNode* baseNode = v.value<BaseNode*>();
+		emit nodeChanged(baseNode);
 	}
 
 	void
@@ -249,7 +243,7 @@ namespace OpcUaClientModul
 		QTreeWidgetItem* item = opcUaTree_->itemAt(pos);
 
 		QVariant v = item->data(0, Qt::UserRole);
-		NodeInfo* nodeInfo = v.value<NodeInfo*>();
+		BaseNode* baseNode = v.value<BaseNode*>();
 
 		QMenu menu(this);
 		TreeMenuHandler* menuHandler = new TreeMenuHandler(pos);
@@ -267,7 +261,7 @@ namespace OpcUaClientModul
 			menu.addAction(browseAction);
 		}
 
-		if (nodeInfo->reference_->nodeClass() == NodeClassType_Variable)
+		if (baseNode->nodeClass() == NodeClassType_Variable)
 		{
 			QAction* monitorAction = new QAction(QIcon(":images/Value.png"), tr("Monitor"), this);
 			connect(monitorAction, SIGNAL(triggered()), menuHandler, SLOT(handleMenuActionMonitor()));
@@ -283,8 +277,8 @@ namespace OpcUaClientModul
 	{
 		QTreeWidgetItem* item = opcUaTree_->itemAt(pos);
 		QVariant v = item->data(0, Qt::UserRole);
-		NodeInfo* nodeInfo = v.value<NodeInfo*>();
-		emit createNewMonitorItem(nodeInfo);
+		BaseNode* baseNode = v.value<BaseNode*>();
+		emit createNewMonitorItem(baseNode);
 	}
 
 	void
@@ -299,8 +293,8 @@ namespace OpcUaClientModul
 	{
 		QTreeWidgetItem* item = opcUaTree_->itemAt(pos);
 		QVariant v = item->data(0, Qt::UserRole);
-		NodeInfo* nodeInfo = v.value<NodeInfo*>();
-		emit nodeChanged(nodeInfo);
+		BaseNode* baseNode = v.value<BaseNode*>();
+		emit nodeChanged(baseNode);
 	}
 
 } /* namespace OpcUaClientModul */

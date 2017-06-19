@@ -22,7 +22,7 @@ namespace OpcUaClientModul
 
 	ValueWidget::ValueWidget()
 	: QWidget()
-	, nodeInfo_(nullptr)
+	, baseNode_(nullptr)
 	{
 		QHBoxLayout* hBoxLayout;
 
@@ -101,25 +101,25 @@ namespace OpcUaClientModul
 	}
 
 	void
-	ValueWidget::nodeChange(NodeInfo* nodeInfo)
+	ValueWidget::nodeChange(BaseNode* baseNode)
 	{
-		if (nodeInfo->dataValue_ != nullptr)
+		if (baseNode->dataValue() != nullptr)
 		{
 			// set ref
-			nodeInfo_ = nodeInfo;
+			baseNode_ = baseNode;
 
 			// set value
 			std::stringstream ss;
-			nodeInfo->dataValue_->variant()->out(ss);
+			baseNode->dataValue()->variant()->out(ss);
 			valueEditWidget_->setText(ss.str().c_str());
 
 			// set source and server time stamp
 			std::stringstream sourceTimeStampSS;
-			sourceTimeStampSS << nodeInfo->dataValue_->sourceTimestamp().dateTime();
+			sourceTimeStampSS << baseNode->dataValue()->sourceTimestamp().dateTime();
 			sourceTimestampWidget_->setText(sourceTimeStampSS.str().c_str());
 
 			std::stringstream serverTimeStampSS;
-			serverTimeStampSS << nodeInfo->dataValue_->serverTimestamp().dateTime();
+			serverTimeStampSS << baseNode->dataValue()->serverTimestamp().dateTime();
 			serverTimestampWidget_->setText(serverTimeStampSS.str().c_str());
 
 			// show the widget
@@ -127,7 +127,7 @@ namespace OpcUaClientModul
 		}
 		else
 		{
-			nodeInfo_ = nullptr;
+			baseNode_ = nullptr;
 
 			// hide the widget
 			hide();
@@ -137,7 +137,7 @@ namespace OpcUaClientModul
 	void
 	ValueWidget::writeSignal()
 	{
-		if (nodeInfo_ == nullptr)
+		if (baseNode_ == nullptr)
 		{
 			return;
 		}
@@ -145,12 +145,12 @@ namespace OpcUaClientModul
 		std::cout << "writeSignal" << std::endl;
 
 		QString valueString = valueEditWidget_->text();
-		OpcUaVariant::SPtr variant = nodeInfo_->dataValue_->variant();
+		OpcUaVariant::SPtr variant = baseNode_->dataValue()->variant();
 		bool result = variant->fromString(variant->variantType(), variant->isArray(), valueString.toStdString());
 
 		if (result)
 		{
-			emit write(nodeInfo_);
+			emit write(baseNode_);
 		}
 		else
 		{

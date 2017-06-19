@@ -49,18 +49,17 @@ namespace OpcUaClientModul
 	{
 	}
 
-	void NodeIdWidget::nodeChange(NodeInfo* nodeInfo)
+	void NodeIdWidget::nodeChange(BaseNode* baseNode)
 	{
-		ReferenceDescription::SPtr refDescription = nodeInfo->reference_;
-		OpcUaExpandedNodeId::SPtr nodeId = refDescription->expandedNodeId();
+		OpcUaNodeId nodeId = baseNode->nodeId();
 
-		switch (nodeId->nodeIdType())
+		switch (nodeId.nodeIdType())
 		{
 			case OpcUaBuildInType_OpcUaUInt32:
 			{
 				OpcUaUInt16 namespaceIndex;
 				OpcUaUInt32 value;
-				nodeId->get(value, namespaceIndex);
+				nodeId.get(value, namespaceIndex);
 				typeWidget_->setText(typeList_[0]);
 				nodeIdWidget_->setText(QString("%1").arg(value));
 				break;
@@ -69,7 +68,7 @@ namespace OpcUaClientModul
 			{
 				OpcUaUInt16 namespaceIndex;
 				std::string value;
-				nodeId->get(value, namespaceIndex);
+				nodeId.get(value, namespaceIndex);
 				typeWidget_->setText(typeList_[1]);
 				nodeIdWidget_->setText(value.c_str());
 				break;

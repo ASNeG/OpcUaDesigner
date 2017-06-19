@@ -17,9 +17,6 @@
 
 #include "OpcUaClientModul/Library/Library.h"
 
-#include <QMainWindow>
-#include <QIcon>
-
 using namespace OpcUaClientModul;
 
 namespace OpcUaNodeSet
@@ -43,11 +40,27 @@ namespace OpcUaNodeSet
 		return new QIcon(":images/OpcUaClient.png");
 	}
 
-	bool
-	Library::startApplication(uint32_t& handle)
+	std::string
+	Library::getFileExtension(void)
 	{
-		std::cout << "start application..." << std::endl;
+		return "OpcUaClientModul.xml";
+	}
 
+	void
+	Library::libStartup(void)
+	{
+		std::cout << "opcua client modul library startup..." << std::endl;
+	}
+
+	void
+	Library::libShutdown(void)
+	{
+		std::cout << "opcua client modul library shutdown..." << std::endl;
+	}
+
+	bool
+	Library::projectNew(uint32_t handle, const std::string& projectName, const std::string& projectFile)
+	{
 		// open connection dialog
 		ConnectionDialog* dialog = new ConnectionDialog();
 
@@ -87,7 +100,7 @@ namespace OpcUaNodeSet
 		// create monitor item window
 		monitorItemWindow_ = new MonitorItemWindow(client_);
 
-		// show main window
+		// show monitor item window
 		monitorItemWindow_->resize(700, 400);
 		monitorItemWindow_->show();
 
@@ -105,31 +118,48 @@ namespace OpcUaNodeSet
 	}
 
 	bool
-	Library::openApplication(uint32_t& handle)
+	Library::projectOpen(uint32_t handle, const std::string& projectName, const std::string& projectFile)
 	{
-		// FIXME: todo
-		std::cout << "open application..." << std::endl;
+		// TODO
 		return false;
 	}
 
 	bool
-	Library::stopApplication(uint32_t handle)
+	Library::projectSave(uint32_t handle)
 	{
-		std::cout << "stop application..." << std::endl;
+		// TODO
+		return false;
+	}
 
+	bool
+	Library::projectSaveAs(uint32_t handle, const std::string& projectFile)
+	{
+		// TODO
+		return false;
+	}
+
+	bool
+	Library::projectRename(uint32_t handle, const std::string& projectName)
+	{
+		// TODO
+		return false;
+	}
+
+	bool
+	Library::projectReadyToClose(uint32_t handle)
+	{
+		// TODO
+		return true;
+	}
+
+	bool
+	Library::projectClose(uint32_t handle)
+	{
 		client_->disconnectFromServer();
 
 		delete modulMainWindow_;
 		delete monitorItemWindow_;
 
-		return true;
-	}
-
-	bool
-	Library::getValue(uint32_t handle, Value value, QVariant& variant)
-	{
-		// TODO andere value vergabe
-		variant.setValue(QString("OpcUaClientModul"));
 		return true;
 	}
 

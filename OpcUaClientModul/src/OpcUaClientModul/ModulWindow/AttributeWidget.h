@@ -18,6 +18,7 @@
 #ifndef __OpcUaClientModul_AttributeWidget_h__
 #define __OpcUaClientModul_AttributeWidget_h__
 
+#include <OpcUaClientModul/Base/BaseNode.h>
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -25,6 +26,7 @@
 #include <QLabel>
 #include <QLineEdit>
 
+#include "OpcUaClientModul/Base/BaseNode.h"
 #include "OpcUaClientModul/Tools/OpcUaClientProvider.h"
 #include "OpcUaClientModul/ModulWindow/NodeIdWidget.h"
 #include "OpcUaClientModul/ModulWindow/NodeClassWidget.h"
@@ -48,11 +50,11 @@ namespace OpcUaClientModul
 		virtual ~AttributeWidget();
 
 	  public slots:
-	  	void write(NodeInfo* nodeInfo);
-		void nodeChange(NodeInfo* nodeInfo);
+	  	void write(BaseNode* baseNode);
+		void nodeChange(BaseNode* baseNode);
 
 	  private:
-		void readAttributesFromServer(NodeInfo* nodeInfo);
+		void readAttributesFromServer(BaseNode* baseNode);
 
 		OpcUaClientProvider* client_;
 

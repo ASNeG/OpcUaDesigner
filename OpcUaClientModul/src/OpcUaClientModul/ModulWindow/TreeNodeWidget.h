@@ -30,7 +30,7 @@
 #include <QAction>
 #include <QMenu>
 
-#include "OpcUaClientModul/ModulWindow/NodeInfo.h"
+#include "OpcUaClientModul/Base/BaseNode.h"
 #include "OpcUaClientModul/ModulWindow/TreeMenuHandler.h"
 
 using namespace OpcUaStackClient;
@@ -58,8 +58,8 @@ namespace OpcUaClientModul
 		void menuActionAttribute(QPoint& pos);
 
 	  signals:
-	  	void nodeChanged(NodeInfo* nodeInfo);
-	  	void createNewMonitorItem(NodeInfo* nodeInfo);
+	  	void nodeChanged(BaseNode* baseNode);
+	  	void createNewMonitorItem(BaseNode* baseNode);
 
 	  private:
 		QIcon createQIcon(NodeClassType nodeClass, OpcUaExpandedNodeId::SPtr typeNodeId);

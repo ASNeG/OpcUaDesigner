@@ -25,7 +25,7 @@
 #include <QString>
 #include <QLabel>
 
-#include "OpcUaClientModul/ModulWindow/NodeInfo.h"
+#include "OpcUaClientModul/Base/BaseNode.h"
 
 class QLabel;
 
@@ -41,7 +41,7 @@ namespace OpcUaClientModul
 		NodeClassWidget();
 		virtual ~NodeClassWidget();
 
-		void nodeChange(NodeInfo* nodeInfo);
+		void nodeChange(BaseNode* baseNode);
 
 	  private:
 		QLabel* nodeClassWidget_;

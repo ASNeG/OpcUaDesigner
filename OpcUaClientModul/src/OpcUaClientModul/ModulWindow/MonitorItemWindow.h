@@ -28,7 +28,7 @@
 #include <QTableWidgetItem>
 
 #include "OpcUaClientModul/Tools/OpcUaClientProvider.h"
-#include "OpcUaClientModul/ModulWindow/NodeInfo.h"
+#include "OpcUaClientModul/Base/BaseNode.h"
 
 namespace OpcUaClientModul
 {
@@ -46,15 +46,15 @@ namespace OpcUaClientModul
 		bool open(void);
 
 	  public slots:
-		void createNewMonitorItem(NodeInfo* nodeInfo);
+		void createNewMonitorItem(BaseNode* baseNode);
 		void updateMonitoredItem(OpcUaUInt32 clientHandle, OpcUaDataValue& dataValue);
 
 	  private:
-		void setDisplayName(NodeInfo* nodeInfo, uint32_t row);
-		void setNodeId(NodeInfo* nodeInfo, uint32_t row);
-		void setValue(NodeInfo* nodeInfo, uint32_t row);
-		void setSourceTimestamp(NodeInfo* nodeInfo, uint32_t row);
-		void setServerTimestamp(NodeInfo* nodeInfo, uint32_t row);
+		void setDisplayName(BaseNode* baseNode, uint32_t row);
+		void setNodeId(BaseNode* baseNode, uint32_t row);
+		void setValue(BaseNode* baseNode, uint32_t row);
+		void setSourceTimestamp(BaseNode* baseNode, uint32_t row);
+		void setServerTimestamp(BaseNode* baseNode, uint32_t row);
 
 		OpcUaClientProvider* client_;
 

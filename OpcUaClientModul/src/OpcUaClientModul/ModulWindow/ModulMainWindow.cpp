@@ -65,12 +65,12 @@ namespace OpcUaClientModul
 
 		// set connections
 		connect(
-			treeNodeWidget_, SIGNAL(nodeChanged(NodeInfo*)),
-			attributeWidget_, SLOT(nodeChange(NodeInfo*))
+			treeNodeWidget_, SIGNAL(nodeChanged(BaseNode*)),
+			attributeWidget_, SLOT(nodeChange(BaseNode*))
 		);
 		connect(
-				treeNodeWidget_, SIGNAL(createNewMonitorItem(NodeInfo*)),
-				this, SIGNAL(createNewMonitorItem(NodeInfo*))
+				treeNodeWidget_, SIGNAL(createNewMonitorItem(BaseNode*)),
+				this, SIGNAL(createNewMonitorItem(BaseNode*))
 		);
 
 		return true;

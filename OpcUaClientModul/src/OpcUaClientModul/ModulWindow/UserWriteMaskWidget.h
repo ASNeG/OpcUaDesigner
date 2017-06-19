@@ -23,7 +23,7 @@
 #include <QVBoxLayout>
 #include <QLabel>
 
-#include "OpcUaClientModul/ModulWindow/NodeInfo.h"
+#include "OpcUaClientModul/Base/BaseNode.h"
 
 namespace OpcUaClientModul
 {
@@ -37,7 +37,7 @@ namespace OpcUaClientModul
 		UserWriteMaskWidget();
 		virtual ~UserWriteMaskWidget();
 
-		void nodeChange(NodeInfo* nodeInfo);
+		void nodeChange(BaseNode* baseNode);
 
 	  private:
 		QLabel* userWriteMaskWidget_;

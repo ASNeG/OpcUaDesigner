@@ -56,25 +56,22 @@ namespace OpcUaClientModul
 	}
 
 	void
-	MonitorItemWindow::createNewMonitorItem(NodeInfo* nodeInfo)
+	MonitorItemWindow::createNewMonitorItem(BaseNode* baseNode)
 	{
 		std::cout << "createNewMonitorItem" << std::endl;
 
 		uint32_t row = monitorTable_->rowCount();
 		monitorTable_->insertRow(row);
 
-		setDisplayName(nodeInfo, row);
-		setNodeId(nodeInfo, row);
-		setValue(nodeInfo, row);
-		setSourceTimestamp(nodeInfo, row);
-		setServerTimestamp(nodeInfo, row);
+		setDisplayName(baseNode, row);
+		setNodeId(baseNode, row);
+		setValue(baseNode, row);
+		setSourceTimestamp(baseNode, row);
+		setServerTimestamp(baseNode, row);
 
 		monitorTable_->resizeColumnsToContents();
 
-		OpcUaExpandedNodeId::SPtr expNodeId = nodeInfo->reference_->expandedNodeId();
-		OpcUaNodeId nodeId;
-		nodeId.nodeIdValue(expNodeId->nodeIdValue());
-		nodeId.namespaceIndex(expNodeId->namespaceIndex());
+		OpcUaNodeId nodeId = baseNode->nodeId();
 
 		// TODO save monitoredItemId
 		// TODO do not use row for clientHanlde -.- only for testing
@@ -106,56 +103,56 @@ namespace OpcUaClientModul
 	}
 
 	void
-	MonitorItemWindow::setDisplayName(NodeInfo* nodeInfo, uint32_t row)
+	MonitorItemWindow::setDisplayName(BaseNode* baseNode, uint32_t row)
 	{
-		std::string displayName = nodeInfo->reference_->displayName().text();
+		std::string displayName = baseNode->displayName().text();
 		QTableWidgetItem* item = new QTableWidgetItem(displayName.c_str());
 		monitorTable_->setItem(row, 0, item);
 	}
 
 	void
-	MonitorItemWindow::setNodeId(NodeInfo* nodeInfo, uint32_t row)
+	MonitorItemWindow::setNodeId(BaseNode* baseNode, uint32_t row)
 	{
 		std::stringstream ss;
-		nodeInfo->reference_->expandedNodeId()->out(ss);
+		baseNode->nodeId().out(ss);
 		QTableWidgetItem* item = new QTableWidgetItem(ss.str().c_str());
 		monitorTable_->setItem(row, 1, item);
 	}
 
 	void
-	MonitorItemWindow::setValue(NodeInfo* nodeInfo, uint32_t row)
+	MonitorItemWindow::setValue(BaseNode* baseNode, uint32_t row)
 	{
 		QTableWidgetItem* item = new QTableWidgetItem("---");
-		if (nodeInfo->dataValue_ != nullptr)
+		if (baseNode->dataValue() != nullptr)
 		{
 			std::stringstream ss;
-			nodeInfo->dataValue_->variant()->out(ss);
+			baseNode->dataValue()->variant()->out(ss);
 			item->setText(ss.str().c_str());
 		}
 		monitorTable_->setItem(row, 2, item);
 	}
 
 	void
-	MonitorItemWindow::setSourceTimestamp(NodeInfo* nodeInfo, uint32_t row)
+	MonitorItemWindow::setSourceTimestamp(BaseNode* baseNode, uint32_t row)
 	{
 		QTableWidgetItem* item = new QTableWidgetItem("---");
-		if (nodeInfo->dataValue_ != nullptr)
+		if (baseNode->dataValue() != nullptr)
 		{
 			std::stringstream ss;
-			ss << nodeInfo->dataValue_->sourceTimestamp().dateTime();
+			ss << baseNode->dataValue()->sourceTimestamp().dateTime();
 			item->setText(ss.str().c_str());
 		}
 		monitorTable_->setItem(row, 3, item);
 	}
 
 	void
-	MonitorItemWindow::setServerTimestamp(NodeInfo* nodeInfo, uint32_t row)
+	MonitorItemWindow::setServerTimestamp(BaseNode* baseNode, uint32_t row)
 	{
 		QTableWidgetItem* item = new QTableWidgetItem("---");
-		if (nodeInfo->dataValue_ != nullptr)
+		if (baseNode->dataValue() != nullptr)
 		{
 			std::stringstream ss;
-			ss << nodeInfo->dataValue_->serverTimestamp().dateTime();
+			ss << baseNode->dataValue()->serverTimestamp().dateTime();
 			item->setText(ss.str().c_str());
 		}
 		monitorTable_->setItem(row, 4, item);

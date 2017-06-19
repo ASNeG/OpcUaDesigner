@@ -40,10 +40,10 @@ namespace OpcUaClientModul
 	}
 
 	void
-	UserWriteMaskWidget::nodeChange(NodeInfo* nodeInfo)
+	UserWriteMaskWidget::nodeChange(BaseNode* baseNode)
 	{
 		std::stringstream ss;
-		ss << nodeInfo->userWriteMask_;
+		ss << baseNode->userWriteMask();
 		userWriteMaskWidget_->setText(ss.str().c_str());
 	}
 

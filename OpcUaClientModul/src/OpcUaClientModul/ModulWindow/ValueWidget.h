@@ -26,7 +26,7 @@
 #include <QString>
 #include <QPushButton>
 
-#include "OpcUaClientModul/ModulWindow/NodeInfo.h"
+#include "OpcUaClientModul/Base/BaseNode.h"
 #include "OpcUaClientModul/ModulWindow/LineWidget.h"
 
 namespace OpcUaClientModul
@@ -41,13 +41,13 @@ namespace OpcUaClientModul
 		ValueWidget();
 		virtual ~ValueWidget();
 
-		void nodeChange(NodeInfo* nodeInfo);
+		void nodeChange(BaseNode* baseNode);
 
 	  public slots:
 		void writeSignal();
 
 	  signals:
-	  	void write(NodeInfo* nodeInfo);
+	  	void write(BaseNode* baseNode);
 
 	  private:
 		QLineEdit* valueEditWidget_;
@@ -55,9 +55,7 @@ namespace OpcUaClientModul
 		QLabel* serverTimestampWidget_;
 		QVBoxLayout* vBoxLayout_;
 
-		NodeInfo* nodeInfo_;
-
-		//		QLabel* statusWidget_;
+		BaseNode* baseNode_;
 	};
 
 } /* namespace OpcUaClientModul */

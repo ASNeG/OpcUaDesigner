@@ -40,11 +40,11 @@ namespace OpcUaClientModul
 	}
 
 	void
-	DescriptionWidget::nodeChange(NodeInfo* nodeInfo)
+	DescriptionWidget::nodeChange(BaseNode* baseNode)
 	{
-		if (nodeInfo->description_ != nullptr)
+		if (baseNode->description() != nullptr)
 		{
-			descriptionWidget_->setText(nodeInfo->description_->text().value().c_str());
+			descriptionWidget_->setText(baseNode->description()->text().value().c_str());
 		}
 	}
 

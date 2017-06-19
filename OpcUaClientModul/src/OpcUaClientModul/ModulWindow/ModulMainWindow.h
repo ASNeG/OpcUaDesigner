@@ -27,7 +27,7 @@
 #include "OpcUaClientModul/ModulWindow/TreeNodeWidget.h"
 #include "OpcUaClientModul/ModulWindow/AttributeWidget.h"
 #include "OpcUaClientModul/ModulWindow/ConnectionInfoWidget.h"
-#include "OpcUaClientModul/ModulWindow/NodeInfo.h"
+#include "OpcUaClientModul/Base/BaseNode.h"
 #include "OpcUaClientModul/ModulWindow/MonitorItemWindow.h"
 
 namespace OpcUaClientModul
@@ -48,10 +48,10 @@ namespace OpcUaClientModul
 		std::string modulName(void);
 
 	  public slots:
-		void nodeChange(NodeInfo* nodeInfo, int raw);
+		void nodeChange(BaseNode* baseNode, int raw);
 
 	  signals:
-		void createNewMonitorItem(NodeInfo* nodeInfo);
+		void createNewMonitorItem(BaseNode* baseNode);
 
 	  private:
 		std::string modulName_;

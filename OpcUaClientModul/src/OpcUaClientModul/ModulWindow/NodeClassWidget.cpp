@@ -40,11 +40,9 @@ namespace OpcUaClientModul
 	}
 
 	void
-	NodeClassWidget::nodeChange(NodeInfo* nodeInfo)
+	NodeClassWidget::nodeChange(BaseNode* baseNode)
 	{
-		ReferenceDescription::SPtr refDescription = nodeInfo->reference_;
-
-		NodeClassType nodeClass = refDescription->nodeClass();
+		NodeClassType nodeClass = baseNode->nodeClass();
 		nodeClassWidget_->setText(NodeClass::toString(nodeClass).c_str());
 	}
 

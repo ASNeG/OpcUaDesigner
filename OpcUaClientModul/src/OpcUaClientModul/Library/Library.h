@@ -26,6 +26,9 @@
 #include "OpcUaClientModul/ModulWindow/MonitorItemWindow.h"
 #include "OpcUaClientModul/ModulWindow/ConnectionDialog.h"
 
+#include <QMainWindow>
+#include <QIcon>
+
 using namespace OpcUaClientModul;
 
 namespace OpcUaNodeSet
@@ -42,10 +45,17 @@ namespace OpcUaNodeSet
 
 		//- ModulInterface ----------------------------------------------------
 		virtual QIcon* libModulIcon(void);
-		virtual bool startApplication(uint32_t& handle);
-		virtual bool openApplication(uint32_t& handle);
-		virtual bool stopApplication(uint32_t handle);
-		virtual bool getValue(uint32_t handle, Value value, QVariant& variant);
+		virtual std::string getFileExtension(void);
+		virtual void libStartup(void);
+		virtual void libShutdown(void);
+
+		virtual bool projectNew(uint32_t handle, const std::string& projectName, const std::string& projectFile);
+		virtual bool projectOpen(uint32_t handle, const std::string& projectName, const std::string& projectFile);
+		virtual bool projectSave(uint32_t handle);
+		virtual bool projectSaveAs(uint32_t handle, const std::string& projectFile);
+		virtual bool projectRename(uint32_t handle, const std::string& projectName);
+		virtual bool projectReadyToClose(uint32_t handle);
+		virtual bool projectClose(uint32_t handle);
 		//- ModulInterface ----------------------------------------------------
 
 	  private:

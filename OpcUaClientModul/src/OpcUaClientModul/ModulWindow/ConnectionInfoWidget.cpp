@@ -62,7 +62,7 @@ namespace OpcUaClientModul
 	}
 
 	void
-	ConnectionInfoWidget::nodeChange(NodeInfo* nodeInfo)
+	ConnectionInfoWidget::nodeChange(BaseNode* baseNode)
 	{
 		/// TODO
 	}

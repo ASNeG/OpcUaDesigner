@@ -58,11 +58,9 @@ namespace OpcUaClientModul
 	}
 
 	void
-	BrowseNameWidget::nodeChange(NodeInfo* nodeInfo)
+	BrowseNameWidget::nodeChange(BaseNode* baseNode)
 	{
-		ReferenceDescription::SPtr refDescription = nodeInfo->reference_;
-
-		OpcUaQualifiedName browseName = refDescription->browseName();
+		OpcUaQualifiedName browseName = baseNode->browseName();
 
 		// set browse name
 		std::stringstream ss1;

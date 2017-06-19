@@ -23,8 +23,6 @@
 #include <QAction>
 #include <QMenu>
 
-#include "OpcUaClientModul/ModulWindow/NodeInfo.h"
-
 namespace OpcUaClientModul
 {
 
