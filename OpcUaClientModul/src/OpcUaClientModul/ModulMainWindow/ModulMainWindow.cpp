@@ -15,7 +15,7 @@
    Autor: Samuel Huebl (samuel@huebl-sgh.de)
  */
 
-#include <OpcUaClientModul/ModulWindow/ModulMainWindow.h>
+#include "OpcUaClientModul/ModulMainWindow/ModulMainWindow.h"
 
 namespace OpcUaClientModul
 {

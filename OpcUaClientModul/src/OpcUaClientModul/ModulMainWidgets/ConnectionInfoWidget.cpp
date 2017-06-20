@@ -15,7 +15,7 @@
  Autor: Samuel Huebl (samuel@huebl-sgh.de)
  */
 
-#include <OpcUaClientModul/ModulWindow/ConnectionInfoWidget.h>
+#include "OpcUaClientModul/ModulMainWidgets/ConnectionInfoWidget.h"
 
 namespace OpcUaClientModul
 {

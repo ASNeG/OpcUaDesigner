@@ -15,37 +15,37 @@
  Autor: Samuel Huebl (samuel@huebl-sgh.de)
  */
 
-#include <OpcUaClientModul/ModulWindow/TreeMenuHandler.h>
+#include "OpcUaClientModul/ModulMainWidgets/DescriptionWidget.h"
 
 namespace OpcUaClientModul
 {
 
-	TreeMenuHandler::TreeMenuHandler(const QPoint& pos)
+	DescriptionWidget::DescriptionWidget()
 	: QWidget()
-	, currentPoint_(pos)
 	{
+		descriptionWidget_ = new QLabel();
+		descriptionWidget_->setFixedWidth(250);
+
+		// layout
+		QHBoxLayout* hBoxLayout = new QHBoxLayout();
+		hBoxLayout->setMargin(0);
+		hBoxLayout->addWidget(descriptionWidget_);
+		hBoxLayout->addStretch();
+
+		setLayout(hBoxLayout);
 	}
 
-	TreeMenuHandler::~TreeMenuHandler()
+	DescriptionWidget::~DescriptionWidget()
 	{
-	}
-
-	void
-	TreeMenuHandler::handleMenuActionMonitor(void)
-	{
-		emit signalMenuActionMonitor(currentPoint_);
-	}
-
-	void
-	TreeMenuHandler::handleMenuActionBrowse(void)
-	{
-		emit signalMenuActionBrowse(currentPoint_);
 	}
 
 	void
-	TreeMenuHandler::handleMenuActionAttribute(void)
+	DescriptionWidget::nodeChange(BaseNode* baseNode)
 	{
-		emit signalMenuActionAttribute(currentPoint_);
+		if (baseNode->description() != nullptr)
+		{
+			descriptionWidget_->setText(baseNode->description()->text().value().c_str());
+		}
 	}
 
 } /* namespace OpcUaClientModul */

@@ -15,7 +15,7 @@
  Autor: Samuel Huebl (samuel@huebl-sgh.de)
  */
 
-#include <OpcUaClientModul/ModulWindow/ValueWidget.h>
+#include "OpcUaClientModul/ModulMainWidgets/ValueWidget.h"
 
 namespace OpcUaClientModul
 {

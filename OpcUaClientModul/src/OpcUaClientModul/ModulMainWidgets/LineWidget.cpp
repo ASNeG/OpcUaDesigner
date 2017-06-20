@@ -15,36 +15,27 @@
  Autor: Samuel Huebl (samuel@huebl-sgh.de)
  */
 
-#include <OpcUaClientModul/ModulWindow/WriteMaskWidget.h>
+#include "OpcUaClientModul/ModulMainWidgets/LineWidget.h"
 
 namespace OpcUaClientModul
 {
 
-	WriteMaskWidget::WriteMaskWidget()
+	LineWidget::LineWidget()
 	: QWidget()
 	{
-		writeMaskWidget_ = new QLabel();
-		writeMaskWidget_->setFixedWidth(200);
+		QWidget* lineWidget = new QWidget();
+		lineWidget->setFixedHeight(2);
+		lineWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+		lineWidget->setStyleSheet(QString("background-color: #c0c0c0;"));
 
-		// layout
-		QHBoxLayout* hBoxLayout = new QHBoxLayout();
-		hBoxLayout->setMargin(0);
-		hBoxLayout->addWidget(writeMaskWidget_);
-		hBoxLayout->addStretch();
+		QVBoxLayout* vBoxLayout = new QVBoxLayout();
+		vBoxLayout->addWidget(lineWidget);
 
-		setLayout(hBoxLayout);
+		setLayout(vBoxLayout);
 	}
 
-	WriteMaskWidget::~WriteMaskWidget()
+	LineWidget::~LineWidget()
 	{
-	}
-
-	void
-	WriteMaskWidget::nodeChange(BaseNode* baseNode)
-	{
-		std::stringstream ss;
-		ss << baseNode->writeMask();
-		writeMaskWidget_->setText(ss.str().c_str());
 	}
 
 } /* namespace OpcUaClientModul */

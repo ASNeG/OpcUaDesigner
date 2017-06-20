@@ -18,7 +18,6 @@
 #ifndef __OpcUaClientModul_AttributeWidget_h__
 #define __OpcUaClientModul_AttributeWidget_h__
 
-#include <OpcUaClientModul/Base/BaseNode.h>
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -28,14 +27,15 @@
 
 #include "OpcUaClientModul/Base/BaseNode.h"
 #include "OpcUaClientModul/Tools/OpcUaClientProvider.h"
-#include "OpcUaClientModul/ModulWindow/NodeIdWidget.h"
-#include "OpcUaClientModul/ModulWindow/NodeClassWidget.h"
-#include "OpcUaClientModul/ModulWindow/BrowseNameWidget.h"
-#include "OpcUaClientModul/ModulWindow/DescriptionWidget.h"
-#include "OpcUaClientModul/ModulWindow/WriteMaskWidget.h"
-#include "OpcUaClientModul/ModulWindow/UserWriteMaskWidget.h"
-#include "OpcUaClientModul/ModulWindow/LineWidget.h"
-#include "OpcUaClientModul/ModulWindow/ValueWidget.h"
+#include "OpcUaClientModul/Base/BaseNode.h"
+#include "OpcUaClientModul/ModulMainWidgets/BrowseNameWidget.h"
+#include "OpcUaClientModul/ModulMainWidgets/DescriptionWidget.h"
+#include "OpcUaClientModul/ModulMainWidgets/LineWidget.h"
+#include "OpcUaClientModul/ModulMainWidgets/NodeClassWidget.h"
+#include "OpcUaClientModul/ModulMainWidgets/NodeIdWidget.h"
+#include "OpcUaClientModul/ModulMainWidgets/UserWriteMaskWidget.h"
+#include "OpcUaClientModul/ModulMainWidgets/ValueWidget.h"
+#include "OpcUaClientModul/ModulMainWidgets/WriteMaskWidget.h"
 
 namespace OpcUaClientModul
 {

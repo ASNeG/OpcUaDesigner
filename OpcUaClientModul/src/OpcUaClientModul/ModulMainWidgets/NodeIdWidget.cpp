@@ -15,7 +15,7 @@
  Autor: Samuel Huebl (samuel@huebl-sgh.de)
  */
 
-#include <OpcUaClientModul/ModulWindow/NodeIdWidget.h>
+#include "OpcUaClientModul/ModulMainWidgets/NodeIdWidget.h"
 
 namespace OpcUaClientModul
 {

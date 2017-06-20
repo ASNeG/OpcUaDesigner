@@ -15,7 +15,7 @@
  Autor: Samuel Huebl (samuel@huebl-sgh.de)
  */
 
-#include <OpcUaClientModul/ModulWindow/MonitorItemWindow.h>
+#include "OpcUaClientModul/ModulMonitorWindow/MonitorItemWindow.h"
 
 namespace OpcUaClientModul
 {

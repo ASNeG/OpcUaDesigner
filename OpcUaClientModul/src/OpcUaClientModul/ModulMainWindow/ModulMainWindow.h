@@ -18,17 +18,17 @@
 #ifndef __OpcUaClientModul_ModulMainWindow_h__
 #define __OpcUaClientModul_ModulMainWindow_h__
 
+
 #include <QMainWindow>
 #include <QString>
 #include <QDockWidget>
 #include <QStatusBar>
 
 #include "OpcUaClientModul/Tools/OpcUaClientProvider.h"
-#include "OpcUaClientModul/ModulWindow/TreeNodeWidget.h"
-#include "OpcUaClientModul/ModulWindow/AttributeWidget.h"
-#include "OpcUaClientModul/ModulWindow/ConnectionInfoWidget.h"
 #include "OpcUaClientModul/Base/BaseNode.h"
-#include "OpcUaClientModul/ModulWindow/MonitorItemWindow.h"
+#include "OpcUaClientModul/ModulMainWidgets/AttributeWidget.h"
+#include "OpcUaClientModul/ModulMainWidgets/ConnectionInfoWidget.h"
+#include "OpcUaClientModul/ModulMainWidgets/TreeNodeWidget.h"
 
 namespace OpcUaClientModul
 {

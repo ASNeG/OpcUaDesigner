@@ -15,7 +15,7 @@
  Autor: Samuel Huebl (samuel@huebl-sgh.de)
  */
 
-#include <OpcUaClientModul/ModulWindow/TreeNodeWidget.h>
+#include "OpcUaClientModul/ModulMainWidgets/TreeNodeWidget.h"
 
 namespace OpcUaClientModul
 {

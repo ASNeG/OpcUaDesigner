@@ -15,37 +15,36 @@
  Autor: Samuel Huebl (samuel@huebl-sgh.de)
  */
 
-#include <OpcUaClientModul/ModulWindow/DescriptionWidget.h>
+#include "OpcUaClientModul/ModulMainWidgets/WriteMaskWidget.h"
 
 namespace OpcUaClientModul
 {
 
-	DescriptionWidget::DescriptionWidget()
+	WriteMaskWidget::WriteMaskWidget()
 	: QWidget()
 	{
-		descriptionWidget_ = new QLabel();
-		descriptionWidget_->setFixedWidth(250);
+		writeMaskWidget_ = new QLabel();
+		writeMaskWidget_->setFixedWidth(200);
 
 		// layout
 		QHBoxLayout* hBoxLayout = new QHBoxLayout();
 		hBoxLayout->setMargin(0);
-		hBoxLayout->addWidget(descriptionWidget_);
+		hBoxLayout->addWidget(writeMaskWidget_);
 		hBoxLayout->addStretch();
 
 		setLayout(hBoxLayout);
 	}
 
-	DescriptionWidget::~DescriptionWidget()
+	WriteMaskWidget::~WriteMaskWidget()
 	{
 	}
 
 	void
-	DescriptionWidget::nodeChange(BaseNode* baseNode)
+	WriteMaskWidget::nodeChange(BaseNode* baseNode)
 	{
-		if (baseNode->description() != nullptr)
-		{
-			descriptionWidget_->setText(baseNode->description()->text().value().c_str());
-		}
+		std::stringstream ss;
+		ss << baseNode->writeMask();
+		writeMaskWidget_->setText(ss.str().c_str());
 	}
 
 } /* namespace OpcUaClientModul */

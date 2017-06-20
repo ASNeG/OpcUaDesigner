@@ -15,7 +15,7 @@
  Autor: Samuel Huebl (samuel@huebl-sgh.de)
  */
 
-#include <OpcUaClientModul/ModulWindow/AttributeWidget.h>
+#include "OpcUaClientModul/ModulMainWidgets/AttributeWidget.h"
 
 using namespace OpcUaStackCore;
 

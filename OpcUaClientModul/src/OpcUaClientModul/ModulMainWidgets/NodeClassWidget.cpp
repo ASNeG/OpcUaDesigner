@@ -15,27 +15,35 @@
  Autor: Samuel Huebl (samuel@huebl-sgh.de)
  */
 
-#include <OpcUaClientModul/ModulWindow/LineWidget.h>
+#include "OpcUaClientModul/ModulMainWidgets/NodeClassWidget.h"
 
 namespace OpcUaClientModul
 {
 
-	LineWidget::LineWidget()
+	NodeClassWidget::NodeClassWidget()
 	: QWidget()
 	{
-		QWidget* lineWidget = new QWidget();
-		lineWidget->setFixedHeight(2);
-		lineWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-		lineWidget->setStyleSheet(QString("background-color: #c0c0c0;"));
+		nodeClassWidget_ = new QLabel();
+		nodeClassWidget_->setFixedWidth(200);
 
-		QVBoxLayout* vBoxLayout = new QVBoxLayout();
-		vBoxLayout->addWidget(lineWidget);
+		// layout
+		QHBoxLayout* hBoxLayout = new QHBoxLayout();
+		hBoxLayout->setMargin(0);
+		hBoxLayout->addWidget(nodeClassWidget_);
+		hBoxLayout->addStretch();
 
-		setLayout(vBoxLayout);
+		setLayout(hBoxLayout);
 	}
 
-	LineWidget::~LineWidget()
+	NodeClassWidget::~NodeClassWidget()
 	{
+	}
+
+	void
+	NodeClassWidget::nodeChange(BaseNode* baseNode)
+	{
+		NodeClassType nodeClass = baseNode->nodeClass();
+		nodeClassWidget_->setText(NodeClass::toString(nodeClass).c_str());
 	}
 
 } /* namespace OpcUaClientModul */

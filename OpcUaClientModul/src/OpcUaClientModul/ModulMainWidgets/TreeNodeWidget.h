@@ -18,7 +18,6 @@
 #ifndef __OpcUaClientModul_TreeNodeWidget_h__
 #define __OpcUaClientModul_TreeNodeWidget_h__
 
-#include <OpcUaClientModul/Tools/OpcUaClientProvider.h>
 #include <QWidget>
 #include <QHeaderView>
 #include <QTreeWidget>
@@ -31,7 +30,8 @@
 #include <QMenu>
 
 #include "OpcUaClientModul/Base/BaseNode.h"
-#include "OpcUaClientModul/ModulWindow/TreeMenuHandler.h"
+#include "OpcUaClientModul/ModulMainWidgets/TreeMenuHandler.h"
+#include "OpcUaClientModul/Tools/OpcUaClientProvider.h"
 
 using namespace OpcUaStackClient;
 

@@ -15,36 +15,37 @@
  Autor: Samuel Huebl (samuel@huebl-sgh.de)
  */
 
-#include <OpcUaClientModul/ModulWindow/UserWriteMaskWidget.h>
+#include "OpcUaClientModul/ModulMainWidgets/TreeMenuHandler.h"
 
 namespace OpcUaClientModul
 {
 
-	UserWriteMaskWidget::UserWriteMaskWidget()
+	TreeMenuHandler::TreeMenuHandler(const QPoint& pos)
 	: QWidget()
+	, currentPoint_(pos)
 	{
-		userWriteMaskWidget_ = new QLabel();
-		userWriteMaskWidget_->setFixedWidth(200);
-
-		// layout
-		QHBoxLayout* hBoxLayout = new QHBoxLayout();
-		hBoxLayout->setMargin(0);
-		hBoxLayout->addWidget(userWriteMaskWidget_);
-		hBoxLayout->addStretch();
-
-		setLayout(hBoxLayout);
 	}
 
-	UserWriteMaskWidget::~UserWriteMaskWidget()
+	TreeMenuHandler::~TreeMenuHandler()
 	{
 	}
 
 	void
-	UserWriteMaskWidget::nodeChange(BaseNode* baseNode)
+	TreeMenuHandler::handleMenuActionMonitor(void)
 	{
-		std::stringstream ss;
-		ss << baseNode->userWriteMask();
-		userWriteMaskWidget_->setText(ss.str().c_str());
+		emit signalMenuActionMonitor(currentPoint_);
+	}
+
+	void
+	TreeMenuHandler::handleMenuActionBrowse(void)
+	{
+		emit signalMenuActionBrowse(currentPoint_);
+	}
+
+	void
+	TreeMenuHandler::handleMenuActionAttribute(void)
+	{
+		emit signalMenuActionAttribute(currentPoint_);
 	}
 
 } /* namespace OpcUaClientModul */

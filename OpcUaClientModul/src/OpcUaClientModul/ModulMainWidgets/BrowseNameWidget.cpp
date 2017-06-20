@@ -15,7 +15,7 @@
  Autor: Samuel Huebl (samuel@huebl-sgh.de)
  */
 
-#include <OpcUaClientModul/ModulWindow/BrowseNameWidget.h>
+#include "OpcUaClientModul/ModulMainWidgets/BrowseNameWidget.h"
 
 namespace OpcUaClientModul
 {

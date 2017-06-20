@@ -15,7 +15,7 @@
  Autor: Samuel Huebl (samuel@huebl-sgh.de)
  */
 
-#include <OpcUaClientModul/ModulWindow/ConnectionDialog.h>
+#include "OpcUaClientModul/Dialog/ConnectionDialog.h"
 
 namespace OpcUaClientModul
 {

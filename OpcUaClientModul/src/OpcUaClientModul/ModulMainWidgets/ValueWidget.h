@@ -27,7 +27,7 @@
 #include <QPushButton>
 
 #include "OpcUaClientModul/Base/BaseNode.h"
-#include "OpcUaClientModul/ModulWindow/LineWidget.h"
+#include "OpcUaClientModul/ModulMainWidgets/LineWidget.h"
 
 namespace OpcUaClientModul
 {

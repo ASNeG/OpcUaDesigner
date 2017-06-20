@@ -15,35 +15,36 @@
  Autor: Samuel Huebl (samuel@huebl-sgh.de)
  */
 
-#include <OpcUaClientModul/ModulWindow/NodeClassWidget.h>
+#include "OpcUaClientModul/ModulMainWidgets/UserWriteMaskWidget.h"
 
 namespace OpcUaClientModul
 {
 
-	NodeClassWidget::NodeClassWidget()
+	UserWriteMaskWidget::UserWriteMaskWidget()
 	: QWidget()
 	{
-		nodeClassWidget_ = new QLabel();
-		nodeClassWidget_->setFixedWidth(200);
+		userWriteMaskWidget_ = new QLabel();
+		userWriteMaskWidget_->setFixedWidth(200);
 
 		// layout
 		QHBoxLayout* hBoxLayout = new QHBoxLayout();
 		hBoxLayout->setMargin(0);
-		hBoxLayout->addWidget(nodeClassWidget_);
+		hBoxLayout->addWidget(userWriteMaskWidget_);
 		hBoxLayout->addStretch();
 
 		setLayout(hBoxLayout);
 	}
 
-	NodeClassWidget::~NodeClassWidget()
+	UserWriteMaskWidget::~UserWriteMaskWidget()
 	{
 	}
 
 	void
-	NodeClassWidget::nodeChange(BaseNode* baseNode)
+	UserWriteMaskWidget::nodeChange(BaseNode* baseNode)
 	{
-		NodeClassType nodeClass = baseNode->nodeClass();
-		nodeClassWidget_->setText(NodeClass::toString(nodeClass).c_str());
+		std::stringstream ss;
+		ss << baseNode->userWriteMask();
+		userWriteMaskWidget_->setText(ss.str().c_str());
 	}
 
 } /* namespace OpcUaClientModul */
