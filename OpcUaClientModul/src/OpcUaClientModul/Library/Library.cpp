@@ -106,8 +106,8 @@ namespace OpcUaNodeSet
 
 		// set connections
 		connect(
-				modulMainWindow_, SIGNAL(createNewMonitorItem(NodeInfo*)),
-				monitorItemWindow_, SLOT(createNewMonitorItem(NodeInfo*))
+				modulMainWindow_, SIGNAL(signalCreateNewMonitorItem(BaseNode*)),
+				monitorItemWindow_, SLOT(slotCreateNewMonitorItem(BaseNode*))
 		);
 		connect(
 				client_, SIGNAL(signalUpdateMonitoredItem(OpcUaUInt32, OpcUaDataValue&)),

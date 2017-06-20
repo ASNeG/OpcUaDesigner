@@ -26,9 +26,14 @@
 #include <QLabel>
 #include <QTableWidget>
 #include <QTableWidgetItem>
+#include <QPushButton>
+#include <QMenu>
+#include <QAction>
 
-#include "OpcUaClientModul/Tools/OpcUaClientProvider.h"
 #include "OpcUaClientModul/Base/BaseNode.h"
+#include "OpcUaClientModul/ModulMonitorWindow/ItemRow.h"
+#include "OpcUaClientModul/ModulMonitorWindow/ItemRowMenuHandler.h"
+#include "OpcUaClientModul/Tools/OpcUaClientProvider.h"
 
 namespace OpcUaClientModul
 {
@@ -46,8 +51,10 @@ namespace OpcUaClientModul
 		bool open(void);
 
 	  public slots:
-		void createNewMonitorItem(BaseNode* baseNode);
+		void slotCreateNewMonitorItem(BaseNode* baseNode);
 		void updateMonitoredItem(OpcUaUInt32 clientHandle, OpcUaDataValue& dataValue);
+		void slotPrepareMenu(const QPoint& pos);
+		void menuActionRemove(QPoint& pos);
 
 	  private:
 		void setDisplayName(BaseNode* baseNode, uint32_t row);
@@ -55,9 +62,18 @@ namespace OpcUaClientModul
 		void setValue(BaseNode* baseNode, uint32_t row);
 		void setSourceTimestamp(BaseNode* baseNode, uint32_t row);
 		void setServerTimestamp(BaseNode* baseNode, uint32_t row);
+		void setRemoveButton(uint32_t row);
+
+		ItemRow* addRowItem(BaseNode* baseNode, uint32_t row);
+		ItemRow* getRowItem(uint32_t clientHandle);
+		void removeRowItem(uint32_t clientHandle);
+		ItemRow* findRowTimeByRowIdx(uint32_t row);
+		uint32_t generateClientHanlde(void);
+
+		std::map<uint32_t, ItemRow*> rowItems_;
+		static const uint32_t MAX_CLIENT_HANDLES = 30;
 
 		OpcUaClientProvider* client_;
-
 		QTableWidget* monitorTable_;
 	};
 

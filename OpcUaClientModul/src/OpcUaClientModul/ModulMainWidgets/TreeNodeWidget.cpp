@@ -29,6 +29,7 @@ namespace OpcUaClientModul
 		opcUaTree_->setMinimumWidth(300);
 		opcUaTree_->header()->close();
 		opcUaTree_->setContextMenuPolicy(Qt::CustomContextMenu);
+
 		connect(
 			opcUaTree_, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),
 			this, SLOT(myItemDoubleClicked(QTreeWidgetItem*, int))
@@ -278,7 +279,7 @@ namespace OpcUaClientModul
 		QTreeWidgetItem* item = opcUaTree_->itemAt(pos);
 		QVariant v = item->data(0, Qt::UserRole);
 		BaseNode* baseNode = v.value<BaseNode*>();
-		emit createNewMonitorItem(baseNode);
+		emit signalCreateNewMonitorItem(baseNode);
 	}
 
 	void

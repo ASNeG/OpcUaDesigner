@@ -59,7 +59,7 @@ namespace OpcUaClientModul
 
 	  signals:
 	  	void nodeChanged(BaseNode* baseNode);
-	  	void createNewMonitorItem(BaseNode* baseNode);
+	  	void signalCreateNewMonitorItem(BaseNode* baseNode);
 
 	  private:
 		QIcon createQIcon(NodeClassType nodeClass, OpcUaExpandedNodeId::SPtr typeNodeId);

@@ -23,6 +23,7 @@ namespace OpcUaClientModul
 	MonitorItemWindow::MonitorItemWindow(OpcUaClientProvider* client)
 	: QMainWindow()
 	, client_(client)
+	, rowItems_()
 	{
 		setWindowTitle(QString("OpcUaClientModul - MonitorItem Window"));
 
@@ -31,6 +32,14 @@ namespace OpcUaClientModul
 
 		monitorTable_ = new QTableWidget(0, 5);
 		monitorTable_->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+		monitorTable_->setEditTriggers(QAbstractItemView::NoEditTriggers);
+		monitorTable_->setSelectionBehavior(QAbstractItemView::SelectRows);
+		monitorTable_->setContextMenuPolicy(Qt::CustomContextMenu);
+
+		connect (
+				monitorTable_, SIGNAL(customContextMenuRequested(const QPoint&)),
+				this, SLOT(slotPrepareMenu(const QPoint&))
+		);
 
 		this->setCentralWidget(monitorTable_);
 
@@ -55,8 +64,14 @@ namespace OpcUaClientModul
 		return false;
 	}
 
+	// ##################################################################
+	//
+	//  Create a new monitored item
+	//
+	// ##################################################################
+
 	void
-	MonitorItemWindow::createNewMonitorItem(BaseNode* baseNode)
+	MonitorItemWindow::slotCreateNewMonitorItem(BaseNode* baseNode)
 	{
 		std::cout << "createNewMonitorItem" << std::endl;
 
@@ -72,35 +87,55 @@ namespace OpcUaClientModul
 		monitorTable_->resizeColumnsToContents();
 
 		OpcUaNodeId nodeId = baseNode->nodeId();
-
-		// TODO save monitoredItemId
-		// TODO do not use row for clientHanlde -.- only for testing
+		ItemRow* itemRow = addRowItem(baseNode, row);
 
 		uint32_t monitoredItemId;
-		if (client_->syncCreateMonitorItem(nodeId, row, monitoredItemId) != Success)
+		if (client_->syncCreateMonitorItem(nodeId, itemRow->clientHandle(), monitoredItemId) != Success)
 		{
 			std::cout << "ERROR by creating monitored item" << std::endl;
 			// TODO error by creating monitored item
 		}
+		itemRow->monitoredItemId(monitoredItemId);
 
 		std::cout << "createNewMonitorItem finished" << std::endl;
 	}
 
+	// ##################################################################
+	//
+	//  Update a variable in the table
+	//
+	// ##################################################################
+
 	void
 	MonitorItemWindow::updateMonitoredItem(OpcUaUInt32 clientHandle, OpcUaDataValue& dataValue)
 	{
+		std::cout << "receive updateMonitoredItem" << std::endl;
+
+		ItemRow* itemRow = getRowItem(clientHandle);
+		if (itemRow == nullptr)
+		{
+			std::cout << "cannot find item for " << clientHandle << std::endl;
+			return;
+		}
+
 		std::stringstream ss;
 		dataValue.variant()->out(ss);
-		monitorTable_->item(clientHandle, 2)->setText(ss.str().c_str());
+		monitorTable_->item(itemRow->rowIdx(), 2)->setText(ss.str().c_str());
 
 		std::stringstream sourceTimeStampSS;
 		sourceTimeStampSS << dataValue.sourceTimestamp().dateTime();
-		monitorTable_->item(clientHandle, 3)->setText(sourceTimeStampSS.str().c_str());
+		monitorTable_->item(itemRow->rowIdx(), 3)->setText(sourceTimeStampSS.str().c_str());
 
 		std::stringstream serverTimeStampSS;
 		serverTimeStampSS << dataValue.serverTimestamp().dateTime();
-		monitorTable_->item(clientHandle, 4)->setText(serverTimeStampSS.str().c_str());
+		monitorTable_->item(itemRow->rowIdx(), 4)->setText(serverTimeStampSS.str().c_str());
 	}
+
+	// ##################################################################
+	//
+	//  Display information from the BaseNode into the table
+	//
+	// ##################################################################
 
 	void
 	MonitorItemWindow::setDisplayName(BaseNode* baseNode, uint32_t row)
@@ -156,6 +191,122 @@ namespace OpcUaClientModul
 			item->setText(ss.str().c_str());
 		}
 		monitorTable_->setItem(row, 4, item);
+	}
+
+	// ##################################################################
+	//
+	//  Handle row menu
+	//
+	// ##################################################################
+
+	void
+	MonitorItemWindow::slotPrepareMenu(const QPoint& pos)
+	{
+		QMenu menu(this);
+		ItemRowMenuHandler* itemRowMenuHandler = new ItemRowMenuHandler(pos);
+
+		QAction* attributeAction = new QAction(QIcon(":images/Delete.png"), tr("Remove Value"), this);
+		connect(attributeAction, SIGNAL(triggered()), itemRowMenuHandler, SLOT(handleMenuActionRemove()));
+		connect(itemRowMenuHandler, SIGNAL(signalMenuActionRemove(QPoint&)), this, SLOT(menuActionRemove(QPoint&)));
+		menu.addAction(attributeAction);
+
+		menu.exec(monitorTable_->mapToGlobal(pos));
+	}
+
+	void
+	MonitorItemWindow::menuActionRemove(QPoint& pos)
+	{
+		QTableWidgetItem* item = monitorTable_->itemAt(pos);
+		uint32_t row = monitorTable_->row(item);
+
+		ItemRow* itemRow = findRowTimeByRowIdx(row);
+		if (itemRow == nullptr)
+		{
+			return;
+		}
+
+		// stop monitoring
+		if (client_->syncDeleteMonitorItem(itemRow->monitoredItemId()) != Success)
+		{
+			std::cout << "ERROR by creating monitored item" << std::endl;
+			// TODO error by creating monitored item
+		}
+
+		// remove row from table
+		monitorTable_->removeRow(row);
+
+		// remove row from item map
+		removeRowItem(itemRow->clientHandle());
+	}
+
+	// ##################################################################
+	//
+	//  Handle row items in a map
+	//
+	// ##################################################################
+
+	ItemRow*
+	MonitorItemWindow::addRowItem(BaseNode* baseNode, uint32_t row)
+	{
+		ItemRow* rowItem = new ItemRow();
+		rowItem->set(row, baseNode);
+
+		uint32_t clientHandle = generateClientHanlde();
+		if (clientHandle == 0)
+		{
+			return nullptr;
+		}
+		rowItem->clientHandle(clientHandle);
+
+		rowItems_.insert(std::make_pair(clientHandle, rowItem));
+		return rowItem;
+	}
+
+	ItemRow*
+	MonitorItemWindow::getRowItem(uint32_t clientHandle)
+	{
+		if (rowItems_.find(clientHandle) != rowItems_.end())
+		{
+			ItemRow* itemRow = rowItems_[clientHandle];
+			return itemRow;
+		}
+		return nullptr;
+	}
+
+	void
+	MonitorItemWindow::removeRowItem(uint32_t clientHandle)
+	{
+		ItemRow* itemRow = getRowItem(clientHandle);
+		delete(itemRow);
+		rowItems_.erase(clientHandle);
+	}
+
+	ItemRow*
+	MonitorItemWindow::findRowTimeByRowIdx(uint32_t row)
+	{
+	    std::map<uint32_t, ItemRow*>::iterator it = rowItems_.begin();
+	    while (it != rowItems_.end())
+	    {
+	        if (it->second->rowIdx() == row)
+	        {
+	        	return it->second;
+	        }
+	        it++;
+	    }
+	    return nullptr;
+	}
+
+	uint32_t
+	MonitorItemWindow::generateClientHanlde(void)
+	{
+		for (uint32_t newClientHandle = 1; newClientHandle <= MAX_CLIENT_HANDLES; newClientHandle++)
+		{
+			if (rowItems_.find(newClientHandle) == rowItems_.end())
+			{
+				return newClientHandle;
+			}
+		}
+		return 0;
 	}
 
 } /* namespace OpcUaClientModul */

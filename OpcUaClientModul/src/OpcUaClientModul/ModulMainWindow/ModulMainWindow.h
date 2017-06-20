@@ -49,9 +49,10 @@ namespace OpcUaClientModul
 
 	  public slots:
 		void nodeChange(BaseNode* baseNode, int raw);
+		void slotCreateNewMonitorItem(BaseNode* baseNode);
 
 	  signals:
-		void createNewMonitorItem(BaseNode* baseNode);
+		void signalCreateNewMonitorItem(BaseNode* baseNode);
 
 	  private:
 		std::string modulName_;

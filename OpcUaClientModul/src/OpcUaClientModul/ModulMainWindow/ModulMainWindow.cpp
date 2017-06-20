@@ -69,8 +69,8 @@ namespace OpcUaClientModul
 			attributeWidget_, SLOT(nodeChange(BaseNode*))
 		);
 		connect(
-				treeNodeWidget_, SIGNAL(createNewMonitorItem(BaseNode*)),
-				this, SIGNAL(createNewMonitorItem(BaseNode*))
+			treeNodeWidget_, SIGNAL(signalCreateNewMonitorItem(BaseNode*)),
+			this, SLOT(slotCreateNewMonitorItem(BaseNode*))
 		);
 
 		return true;
@@ -92,5 +92,12 @@ namespace OpcUaClientModul
 	ModulMainWindow::modulName(void)
 	{
 		return modulName_;
+	}
+
+	void
+	ModulMainWindow::slotCreateNewMonitorItem(BaseNode* baseNode)
+	{
+		std::cout << "ModulMainWindow receive slotCreateNewMonitorItem" << std::endl;
+		emit signalCreateNewMonitorItem(baseNode);
 	}
 }
