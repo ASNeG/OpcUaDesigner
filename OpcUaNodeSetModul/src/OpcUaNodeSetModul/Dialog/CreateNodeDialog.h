@@ -21,6 +21,7 @@
 #include <QDialog>
 #include <QWidget>
 #include <QCloseEvent>
+#include <QStringList>
 #include "OpcUaNodeSetModul/OpcUaWidget/NodeClassWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/NodeIdWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/BrowseNameWidget.h"
@@ -70,6 +71,7 @@ namespace OpcUaNodeSet
       signals:
 
 	  private:
+        void createNodeClassList(void);
         void createLayout(void);
         QWidget* createEmptyWidget(void);
         QWidget* createObjectWidget(void);
@@ -87,6 +89,7 @@ namespace OpcUaNodeSet
         DataModel* dataModel_;
         BaseNodeClass::SPtr baseNode_;
 
+        QStringList nodeClassList_;
         NodeClassType nodeClassType_;
         OpcUaNodeId nodeId_;
         OpcUaLocalizedText displayName_;

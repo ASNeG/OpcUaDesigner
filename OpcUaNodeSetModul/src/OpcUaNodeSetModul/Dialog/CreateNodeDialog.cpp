@@ -45,7 +45,9 @@ namespace OpcUaNodeSet
 	, browseName_()
 	, isValid_(false)
 	, isOk_(false)
+	, nodeClassList_()
 	{
+		createNodeClassList(void);
 		createLayout();
 	}
 
@@ -109,6 +111,64 @@ namespace OpcUaNodeSet
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	void
+	CreateNodeDialog::createNodeClassList(void)
+	{
+		//
+		// get parent information
+		//
+		OpcUaNodeId parentNodeId;
+		NodeClassType parentNodeClassType;
+		baseNode_->getNodeId(parentNodeId);
+		baseNode_->getNodeClass(parentNodeClassType);
+
+		//
+		// check whether object type is allowed
+		//
+		if (parentNodeClassType == NodeClassType_ObjectType) {
+			nodeClassList_ << "ObjectType";
+
+			if (parentNodeId.namespaceIndex() != 0) {
+				nodeClassList_ << "Object" << "Variable" << "Method";
+			}
+			return;
+		}
+
+		//
+		// check wether variable type is allowed
+		//
+		if (parentNodeClassType == NodeClassType_VariableType) {
+			nodeClassList_ << "VariableType";
+
+			if (parentNodeId.namespaceIndex() != 0) {
+				nodeClassList_ << "Object" << "Variable" << "Method";
+			}
+			return;
+		}
+
+		//
+		// check wether data type is allowed
+		//
+		if (parentNodeClassType == NodeClassType_DataType) {
+			nodeClassList_ << "DataType";
+
+			if (parentNodeId.namespaceIndex() != 0) {
+				nodeClassList_ << "Object" << "Variable" << "Method";
+			}
+			return;
+		}
+
+		//
+		// check wether reference type is allowed
+		//
+		if (parentNodeClassType == NodeClassType_ReferenceType) {
+			nodeClassList_ << "ReferenceType";
+			return;
+		}
+
+		nodeClassList_ << "Object" << "Variable" << "Method";
+	}
+
+	void
 	CreateNodeDialog::createLayout(void)
 	{
 		this->setWindowTitle(QString("Create Node Dialog"));
@@ -124,9 +184,7 @@ namespace OpcUaNodeSet
 		QLabel* nodeClassLabel = new QLabel("NodeClass");
 		baseInfoLayout->addWidget(nodeClassLabel, 0, 0);
 
-		QStringList nodeClassList;
-		nodeClassList << "Object" << "Variable";
-		nodeClassWidget_ = new NodeClassWidget(nodeClassList);
+		nodeClassWidget_ = new NodeClassWidget(nodeClassList_);
 		baseInfoLayout->addWidget(nodeClassWidget_, 0, 1);
 
 		// node id
