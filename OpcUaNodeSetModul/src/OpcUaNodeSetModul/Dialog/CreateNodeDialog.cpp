@@ -47,7 +47,7 @@ namespace OpcUaNodeSet
 	, isOk_(false)
 	, nodeClassList_()
 	{
-		createNodeClassList(void);
+		createNodeClassList();
 		createLayout();
 	}
 
@@ -407,7 +407,7 @@ namespace OpcUaNodeSet
 		if (nodeClassType == NodeClassType_Object) {
 			if (!objectTypeWidget_->isValid()) return false;
 		}
-		else {
+		else if (nodeClassType == NodeClassType_Variable){
 			if (!variableTypeWidget_->isValid()) return false;
 		}
 		return true;
