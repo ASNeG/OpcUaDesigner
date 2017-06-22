@@ -62,8 +62,6 @@ namespace OpcUaClientModul
 		OpcUaClientProvider();
 		virtual ~OpcUaClientProvider();
 
-		bool test(void);
-
 		bool connectToServer(void);
 		bool disconnectFromServer(void);
 

@@ -111,7 +111,7 @@ namespace OpcUaNodeSet
 		);
 		connect(
 				client_, SIGNAL(signalUpdateMonitoredItem(OpcUaUInt32, OpcUaDataValue&)),
-				monitorItemWindow_, SLOT(updateMonitoredItem(OpcUaUInt32, OpcUaDataValue&))
+				monitorItemWindow_, SLOT(slotUpdateMonitoredItem(OpcUaUInt32, OpcUaDataValue&))
 		);
 
 		return true;

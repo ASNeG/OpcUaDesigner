@@ -43,11 +43,11 @@ namespace OpcUaClientModul
 
 		void nodeChange(BaseNode* baseNode);
 
-	  public slots:
-		void writeSignal();
-
 	  signals:
-	  	void write(BaseNode* baseNode);
+		void signalWrite(BaseNode* baseNode);
+
+	  public slots:
+		void slotWrite();
 
 	  private:
 		QLineEdit* valueEditWidget_;

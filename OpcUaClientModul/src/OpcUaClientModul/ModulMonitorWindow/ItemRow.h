@@ -18,6 +18,8 @@
 #ifndef __OpcUaClientModul_ItemRow_h__
 #define __OpcUaClientModul_ItemRow_h__
 
+#include <QTableWidgetItem>
+
 #include "OpcUaClientModul/Base/BaseNode.h"
 
 namespace OpcUaClientModul
@@ -26,13 +28,10 @@ namespace OpcUaClientModul
 	class ItemRow
 	{
 	  public:
-		ItemRow();
+		ItemRow(BaseNode* baseNode);
 		virtual ~ItemRow();
 
-		void set(uint32_t rowIdx, BaseNode* baseNode);
-
 		BaseNode* baseNode(void);
-		uint32_t rowIdx(void);
 
 		void clientHandle(uint32_t clientHandle);
 		uint32_t clientHandle(void);
@@ -40,12 +39,28 @@ namespace OpcUaClientModul
 		void monitoredItemId(uint32_t monitorItemId);
 		uint32_t monitoredItemId(void);
 
+		void itemNodeId(QTableWidgetItem* itemNodeId);
+		QTableWidgetItem* itemNodeId(void);
+
+		void itemDataValue(QTableWidgetItem* itemDataValue);
+		QTableWidgetItem* itemDataValue(void);
+
+		void itemSourceTimestamp(QTableWidgetItem* itemSourceTimestamp);
+		QTableWidgetItem* itemSourceTimestamp(void);
+
+		void itemServerTimestamp(QTableWidgetItem* itemServerTimestamp);
+		QTableWidgetItem* itemServerTimestamp(void);
+
 	  private:
 		BaseNode* baseNode_;
 
-		uint32_t rowIdx_;
 		uint32_t clientHandle_;
 		uint32_t monitoredItemId_;
+
+		QTableWidgetItem* itemNodeId_;
+		QTableWidgetItem* itemDataValue_;
+		QTableWidgetItem* itemSourceTimestamp_;
+		QTableWidgetItem* itemServerTimestamp_;
 	};
 
 } /* namespace OpcUaClientModul */

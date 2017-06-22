@@ -20,11 +20,14 @@
 namespace OpcUaClientModul
 {
 
-	ItemRow::ItemRow()
-	: baseNode_(nullptr)
-	, rowIdx_(0)
+	ItemRow::ItemRow(BaseNode* baseNode)
+	: baseNode_(baseNode)
 	, clientHandle_(0)
 	, monitoredItemId_(0)
+	, itemNodeId_(nullptr)
+	, itemDataValue_(nullptr)
+	, itemSourceTimestamp_(nullptr)
+	, itemServerTimestamp_(nullptr)
 	{
 	}
 
@@ -32,23 +35,10 @@ namespace OpcUaClientModul
 	{
 	}
 
-	void
-	ItemRow::set(uint32_t rowIdx, BaseNode* baseNode)
-	{
-		rowIdx_ = rowIdx;
-		baseNode_ = baseNode;
-	}
-
 	BaseNode*
 	ItemRow::baseNode(void)
 	{
 		return baseNode_;
-	}
-
-	uint32_t
-	ItemRow::rowIdx(void)
-	{
-		return rowIdx_;
 	}
 
 	void
@@ -73,6 +63,54 @@ namespace OpcUaClientModul
 	ItemRow::monitoredItemId(void)
 	{
 		return monitoredItemId_;
+	}
+
+	void
+	ItemRow::itemNodeId(QTableWidgetItem* itemNodeId)
+	{
+		itemNodeId_ = itemNodeId;
+	}
+
+	QTableWidgetItem*
+	ItemRow::itemNodeId(void)
+	{
+		return itemNodeId_;
+	}
+
+	void
+	ItemRow::itemDataValue(QTableWidgetItem* itemDataValue)
+	{
+		itemDataValue_ = itemDataValue;
+	}
+
+	QTableWidgetItem*
+	ItemRow::itemDataValue(void)
+	{
+		return itemDataValue_;
+	}
+
+	void
+	ItemRow::itemSourceTimestamp(QTableWidgetItem* itemSourceTimestamp)
+	{
+		itemSourceTimestamp_ = itemSourceTimestamp;
+	}
+
+	QTableWidgetItem*
+	ItemRow::itemSourceTimestamp(void)
+	{
+		return itemSourceTimestamp_;
+	}
+
+	void
+	ItemRow::itemServerTimestamp(QTableWidgetItem* itemServerTimestamp)
+	{
+		itemServerTimestamp_ = itemServerTimestamp;
+	}
+
+	QTableWidgetItem*
+	ItemRow::itemServerTimestamp(void)
+	{
+		return itemServerTimestamp_;
 	}
 
 } /* namespace OpcUaClientModul */

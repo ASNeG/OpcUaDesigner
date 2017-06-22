@@ -37,27 +37,6 @@ namespace OpcUaClientModul
 	}
 
 	bool
-	OpcUaClientProvider::test(void)
-	{
-		OpcUaNodeId nodeId;
-		nodeId.set((OpcUaInt32) 204, (OpcUaInt16) 1);
-		uint32_t clientHandle = 1111;
-		uint32_t monitoredItemId;
-
-		std::cout << "sid " << subscriptionId_ << std::endl;
-
-		if (syncCreateMonitorItem(nodeId, clientHandle, monitoredItemId) != Success)
-		{
-			std::cout << "no monitor item" << std::endl;
-			return false;
-		}
-
-		std::cout << "mid " << monitoredItemId << std::endl;
-
-		return true;
-	}
-
-	bool
 	OpcUaClientProvider::connectToServer(void)
 	{
 	    OpcUaStatusCode statusCode;
@@ -112,6 +91,8 @@ namespace OpcUaClientModul
 	OpcUaStatusCode
 	OpcUaClientProvider::syncRead(OpcUaNodeId& nodeId, OpcUaDataValue& dataValue, AttributeId attributeId)
 	{
+		std::cout << "read" << std::endl;
+
 		ReadContext readContext;
 		readContext.attributeId_ = attributeId;
 		return client_.syncRead(nodeId, dataValue, readContext);

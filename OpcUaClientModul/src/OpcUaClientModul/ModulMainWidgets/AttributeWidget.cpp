@@ -120,8 +120,8 @@ namespace OpcUaClientModul
 		valueWidget_ = new ValueWidget();
 
 		connect(
-				valueWidget_, SIGNAL(write(NodeInfo*)),
-				this, SLOT(write(NodeInfo*))
+				valueWidget_, SIGNAL(signalWrite(BaseNode*)),
+				this, SLOT(slotWrite(BaseNode*))
 		);
 
 		hBoxLayout = new QHBoxLayout();
@@ -191,7 +191,7 @@ namespace OpcUaClientModul
 	}
 
 	void
-	AttributeWidget::write(BaseNode* baseNode)
+	AttributeWidget::slotWrite(BaseNode* baseNode)
 	{
 		std::cout << "write to server" << std::endl;
 

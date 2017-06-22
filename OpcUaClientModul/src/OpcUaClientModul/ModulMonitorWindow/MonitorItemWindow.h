@@ -29,6 +29,7 @@
 #include <QPushButton>
 #include <QMenu>
 #include <QAction>
+#include <QHeaderView>
 
 #include "OpcUaClientModul/Base/BaseNode.h"
 #include "OpcUaClientModul/ModulMonitorWindow/ItemRow.h"
@@ -52,17 +53,16 @@ namespace OpcUaClientModul
 
 	  public slots:
 		void slotCreateNewMonitorItem(BaseNode* baseNode);
-		void updateMonitoredItem(OpcUaUInt32 clientHandle, OpcUaDataValue& dataValue);
+		void slotUpdateMonitoredItem(OpcUaUInt32 clientHandle, OpcUaDataValue& dataValue);
 		void slotPrepareMenu(const QPoint& pos);
 		void menuActionRemove(QPoint& pos);
 
 	  private:
-		void setDisplayName(BaseNode* baseNode, uint32_t row);
-		void setNodeId(BaseNode* baseNode, uint32_t row);
-		void setValue(BaseNode* baseNode, uint32_t row);
-		void setSourceTimestamp(BaseNode* baseNode, uint32_t row);
-		void setServerTimestamp(BaseNode* baseNode, uint32_t row);
-		void setRemoveButton(uint32_t row);
+		void setDisplayName(ItemRow* itemRow, uint32_t row);
+		void setNodeId(ItemRow* itemRow, uint32_t row);
+		void setValue(ItemRow* itemRow, uint32_t row);
+		void setSourceTimestamp(ItemRow* itemRow, uint32_t row);
+		void setServerTimestamp(ItemRow* itemRow, uint32_t row);
 
 		ItemRow* addRowItem(BaseNode* baseNode, uint32_t row);
 		ItemRow* getRowItem(uint32_t clientHandle);

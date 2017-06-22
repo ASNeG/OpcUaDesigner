@@ -50,7 +50,7 @@ namespace OpcUaClientModul
 		virtual ~AttributeWidget();
 
 	  public slots:
-	  	void write(BaseNode* baseNode);
+	  	void slotWrite(BaseNode* baseNode);
 		void nodeChange(BaseNode* baseNode);
 
 	  private:

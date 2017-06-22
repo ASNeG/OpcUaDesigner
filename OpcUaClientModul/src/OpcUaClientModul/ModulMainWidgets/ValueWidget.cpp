@@ -42,7 +42,7 @@ namespace OpcUaClientModul
 
 		connect(
 				valueEditWidget_, SIGNAL(returnPressed()),
-				this, SLOT(writeSignal())
+				this, SLOT(slotWrite())
 		);
 
 		hBoxLayout = new QHBoxLayout();
@@ -135,7 +135,7 @@ namespace OpcUaClientModul
 	}
 
 	void
-	ValueWidget::writeSignal()
+	ValueWidget::slotWrite()
 	{
 		if (baseNode_ == nullptr)
 		{
@@ -150,7 +150,7 @@ namespace OpcUaClientModul
 
 		if (result)
 		{
-			emit write(baseNode_);
+			emit signalWrite(baseNode_);
 		}
 		else
 		{
