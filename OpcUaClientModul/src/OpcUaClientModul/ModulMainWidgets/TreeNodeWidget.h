@@ -30,8 +30,8 @@
 #include <QMenu>
 
 #include "OpcUaClientModul/Base/BaseNode.h"
+#include "OpcUaClientModul/Base/OpcUaClient.h"
 #include "OpcUaClientModul/ModulMainWidgets/TreeMenuHandler.h"
-#include "OpcUaClientModul/Tools/OpcUaClientProvider.h"
 
 using namespace OpcUaStackClient;
 
@@ -43,7 +43,7 @@ namespace OpcUaClientModul
 		Q_OBJECT
 
 	  public:
-		TreeNodeWidget(OpcUaClientProvider* client);
+		TreeNodeWidget(OpcUaClient* client);
 		virtual ~TreeNodeWidget();
 
 		bool create(void);
@@ -68,7 +68,7 @@ namespace OpcUaClientModul
 		void addNode(QTreeWidgetItem* parentItem, ReferenceDescriptionArray::SPtr& references);
 
 		QTreeWidget* opcUaTree_;
-		OpcUaClientProvider* client_;
+		OpcUaClient* client_;
 	};
 } /* namespace OpcUaClientModul */
 

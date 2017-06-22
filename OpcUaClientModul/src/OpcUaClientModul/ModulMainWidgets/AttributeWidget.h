@@ -26,8 +26,7 @@
 #include <QLineEdit>
 
 #include "OpcUaClientModul/Base/BaseNode.h"
-#include "OpcUaClientModul/Tools/OpcUaClientProvider.h"
-#include "OpcUaClientModul/Base/BaseNode.h"
+#include "OpcUaClientModul/Base/OpcUaClient.h"
 #include "OpcUaClientModul/ModulMainWidgets/BrowseNameWidget.h"
 #include "OpcUaClientModul/ModulMainWidgets/DescriptionWidget.h"
 #include "OpcUaClientModul/ModulMainWidgets/LineWidget.h"
@@ -46,7 +45,7 @@ namespace OpcUaClientModul
 	    Q_OBJECT
 
 	  public:
-		AttributeWidget(OpcUaClientProvider* client);
+		AttributeWidget(OpcUaClient* client);
 		virtual ~AttributeWidget();
 
 	  public slots:
@@ -56,7 +55,7 @@ namespace OpcUaClientModul
 	  private:
 		void readAttributesFromServer(BaseNode* baseNode);
 
-		OpcUaClientProvider* client_;
+		OpcUaClient* client_;
 
 		NodeIdWidget* nodeIdWidget_;
 		NodeClassWidget* nodeClassWidget_;

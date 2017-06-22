@@ -24,7 +24,7 @@ namespace OpcUaNodeSet
 
 	Library::Library(void)
 	: OpcUaGui::ModulLibraryInterface()
-	, client_(new OpcUaClientProvider())
+	, client_(new OpcUaClient())
 	, monitorItemWindow_()
 	, modulMainWindow_()
 	{

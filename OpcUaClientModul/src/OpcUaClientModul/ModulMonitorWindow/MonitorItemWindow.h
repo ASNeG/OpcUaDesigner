@@ -32,9 +32,9 @@
 #include <QHeaderView>
 
 #include "OpcUaClientModul/Base/BaseNode.h"
+#include "OpcUaClientModul/Base/OpcUaClient.h"
 #include "OpcUaClientModul/ModulMonitorWindow/ItemRow.h"
 #include "OpcUaClientModul/ModulMonitorWindow/ItemRowMenuHandler.h"
-#include "OpcUaClientModul/Tools/OpcUaClientProvider.h"
 
 namespace OpcUaClientModul
 {
@@ -45,7 +45,7 @@ namespace OpcUaClientModul
 		Q_OBJECT
 
  	  public:
-		MonitorItemWindow(OpcUaClientProvider* client);
+		MonitorItemWindow(OpcUaClient* client);
 		virtual ~MonitorItemWindow();
 
 		bool create(void);
@@ -73,7 +73,7 @@ namespace OpcUaClientModul
 		std::map<uint32_t, ItemRow*> rowItems_;
 		static const uint32_t MAX_CLIENT_HANDLES = 30;
 
-		OpcUaClientProvider* client_;
+		OpcUaClient* client_;
 		QTableWidget* monitorTable_;
 	};
 

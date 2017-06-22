@@ -20,7 +20,7 @@
 namespace OpcUaClientModul
 {
 
-	TreeNodeWidget::TreeNodeWidget(OpcUaClientProvider* client)
+	TreeNodeWidget::TreeNodeWidget(OpcUaClient* client)
 	: QWidget()
 	, client_(client)
 	{

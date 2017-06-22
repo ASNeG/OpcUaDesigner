@@ -15,13 +15,13 @@
    Autor: Samuel Huebl (samuel@huebl-sgh.de)
  */
 
-#include <OpcUaClientModul/Tools/OpcUaClientProvider.h>
+#include "OpcUaClientModul/Base/OpcUaClient.h"
 
 using namespace OpcUaStackClient;
 
 namespace OpcUaClientModul
 {
-	OpcUaClientProvider::OpcUaClientProvider()
+	OpcUaClient::OpcUaClient()
 	: QWidget()
 	, client_()
 	, sessionName_("")
@@ -32,12 +32,12 @@ namespace OpcUaClientModul
 		qRegisterMetaType<OpcUaDataValue>("OpcUaDataValue&");
 	}
 
-	OpcUaClientProvider::~OpcUaClientProvider()
+	OpcUaClient::~OpcUaClient()
 	{
 	}
 
 	bool
-	OpcUaClientProvider::connectToServer(void)
+	OpcUaClient::connectToServer(void)
 	{
 	    OpcUaStatusCode statusCode;
 	    ConnectContext connectContext;
@@ -65,7 +65,7 @@ namespace OpcUaClientModul
 	}
 
 	bool
-	OpcUaClientProvider::disconnectFromServer(void)
+	OpcUaClient::disconnectFromServer(void)
 	{
 	    OpcUaStatusCode statusCode;
 
@@ -83,13 +83,13 @@ namespace OpcUaClientModul
 	}
 
 	OpcUaStatusCode
-	OpcUaClientProvider::syncBrowse(OpcUaNodeId::SPtr& nodeId, ReferenceDescriptionArray::SPtr& references)
+	OpcUaClient::syncBrowse(OpcUaNodeId::SPtr& nodeId, ReferenceDescriptionArray::SPtr& references)
 	{
 		return client_.syncViewServiceBrowse(nodeId, references);
 	}
 
 	OpcUaStatusCode
-	OpcUaClientProvider::syncRead(OpcUaNodeId& nodeId, OpcUaDataValue& dataValue, AttributeId attributeId)
+	OpcUaClient::syncRead(OpcUaNodeId& nodeId, OpcUaDataValue& dataValue, AttributeId attributeId)
 	{
 		std::cout << "read" << std::endl;
 
@@ -99,17 +99,17 @@ namespace OpcUaClientModul
 	}
 
 	OpcUaStatusCode
-	OpcUaClientProvider::syncWrite(OpcUaNodeId& nodeId, OpcUaDataValue& dataValue)
+	OpcUaClient::syncWrite(OpcUaNodeId& nodeId, OpcUaDataValue& dataValue)
 	{
 		return client_.syncWrite(nodeId, dataValue);
 	}
 
 	OpcUaStatusCode
-	OpcUaClientProvider::syncCreateSubscription(void)
+	OpcUaClient::syncCreateSubscription(void)
 	{
 		// set data change callback
 		client_.setDataChangeCallback(
-			boost::bind(&OpcUaClientProvider::dataChangeCallback, this, _1, _2)
+			boost::bind(&OpcUaClient::dataChangeCallback, this, _1, _2)
 		);
 
 		// create subscription
@@ -117,44 +117,44 @@ namespace OpcUaClientModul
 	}
 
 	void
-	OpcUaClientProvider::dataChangeCallback(OpcUaUInt32 clientHandle, OpcUaDataValue& dataValue)
+	OpcUaClient::dataChangeCallback(OpcUaUInt32 clientHandle, OpcUaDataValue& dataValue)
 	{
 		std::cout << "dataChangeCallback " << clientHandle << std::endl;
 		emit signalUpdateMonitoredItem(clientHandle, dataValue);
 	}
 
 	OpcUaStatusCode
-	OpcUaClientProvider::syncCreateMonitorItem(OpcUaNodeId& nodeId, uint32_t clientHandle, uint32_t& monitoredItemId)
+	OpcUaClient::syncCreateMonitorItem(OpcUaNodeId& nodeId, uint32_t clientHandle, uint32_t& monitoredItemId)
 	{
 		return client_.syncCreateMonitoredItem(nodeId, subscriptionId_, clientHandle, monitoredItemId);
 	}
 
 	OpcUaStatusCode
-	OpcUaClientProvider::syncDeleteMonitorItem(uint32_t monitoredItemId)
+	OpcUaClient::syncDeleteMonitorItem(uint32_t monitoredItemId)
 	{
 		return client_.syncDeleteMonitoredItem(subscriptionId_, monitoredItemId);
 	}
 
 	void
-	OpcUaClientProvider::sessionName(std::string& sessionName)
+	OpcUaClient::sessionName(std::string& sessionName)
 	{
 		sessionName_ = sessionName;
 	}
 
 	std::string
-	OpcUaClientProvider::sessionName(void)
+	OpcUaClient::sessionName(void)
 	{
 		return sessionName_;
 	}
 
 	void
-	OpcUaClientProvider::endpointUrl(std::string& endpointURL)
+	OpcUaClient::endpointUrl(std::string& endpointURL)
 	{
 		endpointUrl_ = endpointURL;
 	}
 
 	std::string
-	OpcUaClientProvider::endpointUrl(void)
+	OpcUaClient::endpointUrl(void)
 	{
 		return endpointUrl_;
 	}

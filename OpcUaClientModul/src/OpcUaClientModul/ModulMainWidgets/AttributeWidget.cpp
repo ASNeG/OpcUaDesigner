@@ -22,7 +22,7 @@ using namespace OpcUaStackCore;
 namespace OpcUaClientModul
 {
 
-	AttributeWidget::AttributeWidget(OpcUaClientProvider* client)
+	AttributeWidget::AttributeWidget(OpcUaClient* client)
 	: QWidget()
 	, client_(client)
 	{

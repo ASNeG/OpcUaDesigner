@@ -53,14 +53,14 @@ namespace OpcUaClientModul
 		UserExecutable = 22
 	};
 
-	class OpcUaClientProvider
+	class OpcUaClient
 	: public QWidget
 	{
 		Q_OBJECT
 
 	  public:
-		OpcUaClientProvider();
-		virtual ~OpcUaClientProvider();
+		OpcUaClient();
+		virtual ~OpcUaClient();
 
 		bool connectToServer(void);
 		bool disconnectFromServer(void);

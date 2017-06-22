@@ -18,15 +18,15 @@
 #ifndef __OpcUaNodeSetModul_Library_h__
 #define __OpcUaNodeSetModul_Library_h__
 
-#include "OpcUaGui/ModulInterface/ModulLibraryInterface.h"
 #include <QObject>
 #include <QMainWindow>
 #include <QIcon>
 
+#include "OpcUaGui/ModulInterface/ModulLibraryInterface.h"
+#include "OpcUaClientModul/Base/OpcUaClient.h"
 #include "OpcUaClientModul/Dialog/ConnectionDialog.h"
 #include "OpcUaClientModul/ModulMainWindow/ModulMainWindow.h"
 #include "OpcUaClientModul/ModulMonitorWindow/MonitorItemWindow.h"
-#include "OpcUaClientModul/Tools/OpcUaClientProvider.h"
 
 using namespace OpcUaClientModul;
 
@@ -58,7 +58,7 @@ namespace OpcUaNodeSet
 		//- ModulInterface ----------------------------------------------------
 
 	  private:
-		OpcUaClientProvider* client_;
+		OpcUaClient* client_;
 
 		ModulMainWindow* modulMainWindow_;
 		MonitorItemWindow* monitorItemWindow_;

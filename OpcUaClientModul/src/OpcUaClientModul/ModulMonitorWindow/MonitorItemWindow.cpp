@@ -20,7 +20,7 @@
 namespace OpcUaClientModul
 {
 
-	MonitorItemWindow::MonitorItemWindow(OpcUaClientProvider* client)
+	MonitorItemWindow::MonitorItemWindow(OpcUaClient* client)
 	: QMainWindow()
 	, client_(client)
 	, rowItems_()

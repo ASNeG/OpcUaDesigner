@@ -18,14 +18,13 @@
 #ifndef __OpcUaClientModul_ModulMainWindow_h__
 #define __OpcUaClientModul_ModulMainWindow_h__
 
-
 #include <QMainWindow>
 #include <QString>
 #include <QDockWidget>
 #include <QStatusBar>
 
-#include "OpcUaClientModul/Tools/OpcUaClientProvider.h"
 #include "OpcUaClientModul/Base/BaseNode.h"
+#include "OpcUaClientModul/Base/OpcUaClient.h"
 #include "OpcUaClientModul/ModulMainWidgets/AttributeWidget.h"
 #include "OpcUaClientModul/ModulMainWidgets/ConnectionInfoWidget.h"
 #include "OpcUaClientModul/ModulMainWidgets/TreeNodeWidget.h"
@@ -38,7 +37,7 @@ namespace OpcUaClientModul
 		Q_OBJECT
 
 	  public:
-		ModulMainWindow(QMainWindow* parentMainWindow, OpcUaClientProvider* client);
+		ModulMainWindow(QMainWindow* parentMainWindow, OpcUaClient* client);
 		virtual ~ModulMainWindow();
 
 		bool create(void);
@@ -57,7 +56,7 @@ namespace OpcUaClientModul
 	  private:
 		std::string modulName_;
 
-		OpcUaClientProvider* client_;
+		OpcUaClient* client_;
 
 		QMainWindow* parentMainWindow_;
 		TreeNodeWidget* treeNodeWidget_;

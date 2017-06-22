@@ -19,7 +19,7 @@
 
 namespace OpcUaClientModul
 {
-	ModulMainWindow::ModulMainWindow(QMainWindow* parentMainWindow, OpcUaClientProvider* client)
+	ModulMainWindow::ModulMainWindow(QMainWindow* parentMainWindow, OpcUaClient* client)
 	: QMainWindow()
 	, modulName_("")
 	, parentMainWindow_(parentMainWindow)
