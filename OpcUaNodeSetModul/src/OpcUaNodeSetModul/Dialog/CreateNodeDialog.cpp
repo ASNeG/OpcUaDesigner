@@ -126,6 +126,7 @@ namespace OpcUaNodeSet
 		//
 		if (parentNodeClassType == NodeClassType_ObjectType) {
 			nodeClassList_ << "ObjectType";
+			nodeClassType_ = NodeClassType_ObjectType;
 
 			if (parentNodeId.namespaceIndex() != 0) {
 				nodeClassList_ << "Object" << "Variable" << "Method";
@@ -138,6 +139,7 @@ namespace OpcUaNodeSet
 		//
 		if (parentNodeClassType == NodeClassType_VariableType) {
 			nodeClassList_ << "VariableType";
+			nodeClassType_ = NodeClassType_VariableType;
 
 			if (parentNodeId.namespaceIndex() != 0) {
 				nodeClassList_ << "Object" << "Variable" << "Method";
@@ -150,6 +152,7 @@ namespace OpcUaNodeSet
 		//
 		if (parentNodeClassType == NodeClassType_DataType) {
 			nodeClassList_ << "DataType";
+			nodeClassType_ = NodeClassType_DataType;
 
 			if (parentNodeId.namespaceIndex() != 0) {
 				nodeClassList_ << "Object" << "Variable" << "Method";
@@ -162,9 +165,11 @@ namespace OpcUaNodeSet
 		//
 		if (parentNodeClassType == NodeClassType_ReferenceType) {
 			nodeClassList_ << "ReferenceType";
+			nodeClassType_ = NodeClassType_ReferenceType;
 			return;
 		}
 
+		nodeClassType_ = NodeClassType_Object;
 		nodeClassList_ << "Object" << "Variable" << "Method";
 	}
 
