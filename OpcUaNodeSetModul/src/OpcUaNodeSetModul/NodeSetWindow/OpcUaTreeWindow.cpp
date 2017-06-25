@@ -386,6 +386,7 @@ namespace OpcUaNodeSet
 	    OpcUaNodeId dataType;
 	    baseNode->getDataType(dataType);
 
+#if 0
 	    // handle BaseDataType
 	    if (ima.isDataType(baseNode)) {
 	        createNewDataType(nodeInfo);
@@ -415,6 +416,7 @@ namespace OpcUaNodeSet
 	    	createNewObjectType(nodeInfo);
 	    	return;
 	    }
+#endif
 
 	    CreateNodeDialog createNodeDialog(dataModel_, baseNode);
 	    createNodeDialog.exec();
