@@ -436,13 +436,56 @@ namespace OpcUaNodeSet
 	{
 		if (!isValid) return;
 
-		if (nodeClassType == NodeClassType_Object) {
-			createAttributes("Object");
-			stackedWidget_->setCurrentIndex(1);
-		}
-		else {
-			createAttributes("Variable");
-			stackedWidget_->setCurrentIndex(2);
+		switch (nodeClassType)
+		{
+			case NodeClassType_Object:
+			{
+				createAttributes("Object");
+				stackedWidget_->setCurrentIndex(1);
+				break;
+			}
+			case NodeClassType_Variable:
+			{
+				createAttributes("Variable");
+				stackedWidget_->setCurrentIndex(2);
+				break;
+			}
+			case NodeClassType_Method:
+			{
+				createAttributes("Method");
+				stackedWidget_->setCurrentIndex(0);
+				break;
+			}
+			case NodeClassType_ObjectType:
+			{
+				createAttributes("ObjectType");
+				stackedWidget_->setCurrentIndex(0);
+				break;
+			}
+			case NodeClassType_VariableType:
+			{
+				createAttributes("VariableType");
+				stackedWidget_->setCurrentIndex(0);
+				break;
+			}
+			case NodeClassType_ReferenceType:
+			{
+				createAttributes("ReferenceType");
+				stackedWidget_->setCurrentIndex(0);
+				break;
+			}
+			case NodeClassType_DataType:
+			{
+				createAttributes("DataType");
+				stackedWidget_->setCurrentIndex(0);
+				break;
+			}
+			default:
+			{
+				createAttributes("Variable");
+				stackedWidget_->setCurrentIndex(2);
+				break;
+			}
 		}
 
 		nodeIdWidget_->setValue(nodeId_);
