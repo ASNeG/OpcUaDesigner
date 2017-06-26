@@ -391,6 +391,11 @@ namespace OpcUaNodeSet
 	    bool isEventProperty = ima.isEventProperty(parentNodeId);
 	    if (isEventProperty) return;
 
+	    // methods may not have children
+	    NodeClassType parentNodeClassType;
+	    nodeInfo->baseNode_->getNodeClass(parentNodeClassType);
+	    if (parentNodeClassType == NodeClassType_Method) return;
+
 		// create modul config value
 		QVariant v;
 		v.setValue((void*)nodeInfo);
