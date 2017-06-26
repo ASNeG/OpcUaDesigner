@@ -510,6 +510,7 @@ namespace OpcUaNodeSet
 		nodeIdWidget_->setValue(nodeId_);
 		displayNameWidget_->setValue(displayName_);
 		browseNameWidget_->setValue(browseName_);
+		referenceTypeWidget_->setValue(referenceTypeNodeId_);
 
 		isValid_ = checkValue();
 		controlButton();
