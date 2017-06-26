@@ -48,6 +48,18 @@ namespace OpcUaNodeSet
 		vBoxLayout->addStretch();
 		vBoxLayout->setMargin(0);
 		setLayout(vBoxLayout);
+
+		//
+		// actions
+		//
+		connect(
+			namespaceWidget_, SIGNAL(textChanged(const QString&)),
+			this, SLOT(onCurrentIndexChangedNamespaceWidget(const QString&))
+		);
+		connect(
+			browseNameWidget_, SIGNAL(textChanged(const QString&)),
+			this, SLOT(onTextChanged(const QString&))
+		);
 	}
 
 	BrowseNameWidget::~BrowseNameWidget(void)
@@ -97,6 +109,11 @@ namespace OpcUaNodeSet
 		if (!checkOn_) return;
 		isValid_ = checkValue();
 		styleValue();
+
+		// set value
+		if (isValid_) {
+			browseName_.set(browseNameWidget_->text().toStdString(), namespaceWidget_->currentIndex());
+		}
 		emit valueChanged(browseName_, isValid_);
 	}
 
@@ -106,6 +123,11 @@ namespace OpcUaNodeSet
 		if (!checkOn_) return;
 		isValid_ = checkValue();
 		styleValue();
+
+		// set value
+		if (isValid_) {
+			browseName_.set(browseNameWidget_->text().toStdString(), namespaceWidget_->currentIndex());
+		}
 		emit valueChanged(browseName_, isValid_);
 	}
 
