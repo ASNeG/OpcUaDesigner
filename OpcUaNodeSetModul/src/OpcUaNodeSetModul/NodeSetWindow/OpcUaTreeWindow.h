@@ -85,7 +85,6 @@ namespace OpcUaNodeSet
 	    // private function
 	    //
 	    std::string displayName(const std::string& prefix);
-	    void createNewReferences(NodeInfo* nodeInfo);
 
 		void addNode(
 			InformationModel::SPtr& informationModel,
