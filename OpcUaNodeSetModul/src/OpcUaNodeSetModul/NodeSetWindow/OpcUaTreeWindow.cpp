@@ -513,6 +513,22 @@ namespace OpcUaNodeSet
     	    	}
     			break;
     		}
+    		case NodeClassType_ObjectType:
+    		{
+    			bool success = imm.addObjectTypeNode(
+    				parentNodeId,
+    				nodeId,
+    				displayName,
+    				browseName
+    			);
+       	    	if (!success) {
+        			QMessageBox msgBox;
+        			msgBox.setText("create object type error");
+        			msgBox.exec();
+        			return;
+        	    }
+    			break;
+    		}
     		default:
     		{
     			std::string nodeClassTypeStr = NodeClass::toString(nodeClassType);
