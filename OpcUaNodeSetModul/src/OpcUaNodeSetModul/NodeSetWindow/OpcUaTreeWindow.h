@@ -86,7 +86,6 @@ namespace OpcUaNodeSet
 	    //
 	    std::string displayName(const std::string& prefix);
 	    void createNewDataType(NodeInfo* nodeInfo);
-	    void createNewObjectType(NodeInfo* nodeInfo);
 	    void createNewVariableType(NodeInfo* nodeInfo);
 	    void createNewReferences(NodeInfo* nodeInfo);
 

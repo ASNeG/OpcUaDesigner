@@ -660,63 +660,6 @@ namespace OpcUaNodeSet
     }
 
     void
-    OpcUaTreeWindow::createNewObjectType(NodeInfo* parentNodeInfo)
-    {
-    	//
-    	// find new data type name
-    	//
-    	std::string objectTypeName = displayName("ObjectType");
-    	OpcUaNodeId nodeId(objectTypeName, 1);
-    	OpcUaQualifiedName browseName(objectTypeName, 1);
-    	OpcUaLocalizedText displayName("en", objectTypeName);
-    	OpcUaLocalizedText description("en", "");
-
-    	//
-    	// create object type node
-    	//
-       	ObjectTypeNodeClass::SPtr objectTypeNodeClass = constructSPtr<ObjectTypeNodeClass>();
-       	objectTypeNodeClass->setNodeId(nodeId);
-       	objectTypeNodeClass->setBrowseName(browseName);
-       	objectTypeNodeClass->setDisplayName(displayName);
-       	objectTypeNodeClass->setDescription(description);
-       	objectTypeNodeClass->setWriteMask(0);
-       	objectTypeNodeClass->setUserWriteMask(0);
-
-    	bool isAbstract = true;
-    	objectTypeNodeClass->setIsAbstract(isAbstract);
-
-        //
-        // insert data type node into information model
-        //
-        OpcUaNodeId parentNodeId;
-        parentNodeInfo->baseNode_->getNodeId(parentNodeId);
-        objectTypeNodeClass->referenceItemMap().add(ReferenceType_HasSubtype, false, parentNodeId);
-        parentNodeInfo->baseNode_->referenceItemMap().add(ReferenceType_HasSubtype, true, nodeId);
-        dataModel_->informationModel()->insert(objectTypeNodeClass);
-
-        //
-        // added new item
-        //
-		NodeInfo* nodeInfo = new NodeInfo();
-		nodeInfo->baseNode_ = objectTypeNodeClass;
-		nodeInfo->informationModel_ = dataModel_->informationModel();
-		QVariant v;
-		v.setValue(nodeInfo);
-
-		QTreeWidgetItem* item = new QTreeWidgetItem();
-		item->setText(0, displayName.text().value().c_str());
-		item->setData(0, Qt::UserRole, v);
-		item->setIcon(0, QIcon(":images/ObjectType.png"));
-		actItem_->addChild(item);
-
-		//
-		// activate new item
-		//
-		opcUaTree_->setCurrentItem(item);
-		actItem_ = item;
-    }
-
-    void
     OpcUaTreeWindow::createNewVariableType(NodeInfo* parentNodeInfo)
     {
        	//
