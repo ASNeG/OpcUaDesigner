@@ -387,7 +387,9 @@ namespace OpcUaNodeSet
 	    if (it != newActionBlackList_.end()) return;
 
 	    // event values may not have children
-	    // FIXME: todo
+	    InformationModelAccess ima(dataModel_->informationModel());
+	    bool isEventProperty = ima.isEventProperty(parentNodeId);
+	    if (isEventProperty) return;
 
 		// create modul config value
 		QVariant v;
