@@ -472,40 +472,56 @@ namespace OpcUaNodeSet
 	    InformationModelManager imm(dataModel_->informationModel());
     	AddNodeRule addNodeRule;
     	addNodeRule.displayPath(nodeId);
-	    if (nodeClassType == NodeClassType_Object) {
-	    	bool success = imm.addObjectNode(
-	    		addNodeRule,
-	    		parentNodeId,
-	    		nodeId,
-	    		displayName,
-	    		browseName,
-	    		referenceType,
-	    		objectType
-	    	);
-	    	if (!success) {
-				QMessageBox msgBox;
-				msgBox.setText("create object instance error");
-				msgBox.exec();
-				return;
-	    	}
-	    }
-	    else {
-	    	bool success = imm.addVariableNode(
-	    		addNodeRule,
-	    		parentNodeId,
-	    		nodeId,
-	    		displayName,
-	    		browseName,
-	    		referenceType,
-	    		variableType
-	    	);
-	    	if (!success) {
-				QMessageBox msgBox;
-				msgBox.setText("create variable instance error");
-				msgBox.exec();
-				return;
-	    	}
-	    }
+
+    	switch (nodeClassType)
+    	{
+    		case NodeClassType_Object:
+    		{
+    		  	bool success = imm.addObjectNode(
+    			    addNodeRule,
+    			    parentNodeId,
+    			    nodeId,
+    			    displayName,
+    			    browseName,
+    			    referenceType,
+    			    objectType
+    			);
+    			if (!success) {
+    				QMessageBox msgBox;
+    				msgBox.setText("create object instance error");
+    				msgBox.exec();
+    				return;
+    			}
+    			break;
+    		}
+    		case NodeClassType_Variable:
+    		{
+    	    	bool success = imm.addVariableNode(
+    	    		addNodeRule,
+    	    		parentNodeId,
+    	    		nodeId,
+    	    		displayName,
+    	    		browseName,
+    	    		referenceType,
+    	    		variableType
+    	    	);
+    	    	if (!success) {
+    				QMessageBox msgBox;
+    				msgBox.setText("create variable instance error");
+    				msgBox.exec();
+    				return;
+    	    	}
+    			break;
+    		}
+    		default:
+    		{
+    			std::string nodeClassTypeStr = NodeClass::toString(nodeClassType);
+    			QMessageBox msgBox;
+    			msgBox.setText(QString("create new node error, because node class %1 error").arg(nodeClassTypeStr.c_str()));
+    			msgBox.exec();
+    			return;
+    		}
+    	}
 
 	    // added new node to tree view
 	    BaseNodeClass::SPtr newBaseNode = dataModel_->informationModel()->find(nodeId);
