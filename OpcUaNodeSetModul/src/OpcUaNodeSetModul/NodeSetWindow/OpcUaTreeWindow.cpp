@@ -59,7 +59,16 @@ namespace OpcUaNodeSet
 		// create new black list
 		//
 		newActionBlackList_.insert(OpcUaNodeId(OpcUaId_RootFolder));
-
+		newActionBlackList_.insert(OpcUaNodeId(OpcUaId_TypesFolder));
+		newActionBlackList_.insert(OpcUaNodeId(OpcUaId_ViewsFolder));
+		newActionBlackList_.insert(OpcUaNodeId(OpcUaId_Server));
+		newActionBlackList_.insert(OpcUaNodeId(OpcUaId_ObjectTypesFolder));
+		newActionBlackList_.insert(OpcUaNodeId(OpcUaId_VariableTypesFolder));
+		newActionBlackList_.insert(OpcUaNodeId(OpcUaId_DataTypesFolder));
+		newActionBlackList_.insert(OpcUaNodeId(OpcUaId_ReferenceTypesFolder));
+		newActionBlackList_.insert(OpcUaNodeId(OpcUaId_EventTypesFolder));
+		newActionBlackList_.insert(OpcUaNodeId(OpcUaId_XmlSchema_TypeSystem));
+		newActionBlackList_.insert(OpcUaNodeId(OpcUaId_OPCBinarySchema_TypeSystem));
 
 		//
 		// create toolbar menu
