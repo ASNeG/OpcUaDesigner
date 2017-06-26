@@ -603,63 +603,6 @@ namespace OpcUaNodeSet
     }
 
     void
-    OpcUaTreeWindow::createNewDataType(NodeInfo* parentNodeInfo)
-    {
-    	//
-    	// find new data type name
-    	//
-    	std::string dataTypeName = displayName("DataType");
-    	OpcUaNodeId nodeId(dataTypeName, 1);
-    	OpcUaQualifiedName browseName(dataTypeName, 1);
-    	OpcUaLocalizedText displayName("en", dataTypeName);
-    	OpcUaLocalizedText description("en", "");
-
-    	//
-    	// create object type node
-    	//
-       	DataTypeNodeClass::SPtr dataTypeNodeClass = constructSPtr<DataTypeNodeClass>();
-       	dataTypeNodeClass->setNodeId(nodeId);
-       	dataTypeNodeClass->setBrowseName(browseName);
-       	dataTypeNodeClass->setDisplayName(displayName);
-       	dataTypeNodeClass->setDescription(description);
-    	dataTypeNodeClass->setWriteMask(0);
-    	dataTypeNodeClass->setUserWriteMask(0);
-
-    	bool isAbstract = true;
-        dataTypeNodeClass->setIsAbstract(isAbstract);
-
-        //
-        // insert data type node into information model
-        //
-        OpcUaNodeId parentNodeId;
-        parentNodeInfo->baseNode_->getNodeId(parentNodeId);
-        dataTypeNodeClass->referenceItemMap().add(ReferenceType_HasSubtype, false, parentNodeId);
-        parentNodeInfo->baseNode_->referenceItemMap().add(ReferenceType_HasSubtype, true, nodeId);
-        dataModel_->informationModel()->insert(dataTypeNodeClass);
-
-        //
-        // added new item
-        //
-		NodeInfo* nodeInfo = new NodeInfo();
-		nodeInfo->baseNode_ = dataTypeNodeClass;
-		nodeInfo->informationModel_ = dataModel_->informationModel();
-		QVariant v;
-		v.setValue(nodeInfo);
-
-		QTreeWidgetItem* item = new QTreeWidgetItem();
-		item->setText(0, displayName.text().value().c_str());
-		item->setData(0, Qt::UserRole, v);
-		item->setIcon(0, QIcon(":images/DataType.png"));
-		actItem_->addChild(item);
-
-		//
-		// activate new item
-		//
-		opcUaTree_->setCurrentItem(item);
-		actItem_ = item;
-    }
-
-    void
     OpcUaTreeWindow::createNewReferences(NodeInfo* parentNodeInfo)
     {
        	//
