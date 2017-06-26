@@ -94,6 +94,7 @@ namespace OpcUaNodeSet
         OpcUaNodeId nodeId_;
         OpcUaLocalizedText displayName_;
         OpcUaQualifiedName browseName_;
+        OpcUaNodeId referenceTypeNodeId_;
 
         //
         // widgets

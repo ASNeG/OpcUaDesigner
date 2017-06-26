@@ -26,6 +26,7 @@
 #include <QLineEdit>
 #include <QFrame>
 
+#include "OpcUaStackCore/BuildInTypes/OpcUaIdentifier.h"
 #include "OpcUaNodeSetModul/Dialog/CreateNodeDialog.h"
 #include "OpcUaNodeSetModul/Dialog/SelectObjectTypeDialog.h"
 #include "OpcUaNodeSetModul/Dialog/SelectVariableTypeDialog.h"
@@ -46,6 +47,7 @@ namespace OpcUaNodeSet
 	, isValid_(false)
 	, isOk_(false)
 	, nodeClassList_()
+	, referenceTypeNodeId_(OpcUaId_Organizes)
 	{
 		createNodeClassList();
 		createLayout();
@@ -127,6 +129,7 @@ namespace OpcUaNodeSet
 		if (parentNodeClassType == NodeClassType_ObjectType) {
 			nodeClassList_ << "ObjectType";
 			nodeClassType_ = NodeClassType_ObjectType;
+			referenceTypeNodeId_ = OpcUaId_HasSubtype;
 
 			if (parentNodeId.namespaceIndex() != 0) {
 				nodeClassList_ << "Object" << "Variable" << "Method";
@@ -140,6 +143,7 @@ namespace OpcUaNodeSet
 		if (parentNodeClassType == NodeClassType_VariableType) {
 			nodeClassList_ << "VariableType";
 			nodeClassType_ = NodeClassType_VariableType;
+			referenceTypeNodeId_ = OpcUaId_HasSubtype;
 
 			if (parentNodeId.namespaceIndex() != 0) {
 				nodeClassList_ << "Object" << "Variable" << "Method";
@@ -153,6 +157,7 @@ namespace OpcUaNodeSet
 		if (parentNodeClassType == NodeClassType_DataType) {
 			nodeClassList_ << "DataType";
 			nodeClassType_ = NodeClassType_DataType;
+			referenceTypeNodeId_ = OpcUaId_HasSubtype;
 
 			if (parentNodeId.namespaceIndex() != 0) {
 				nodeClassList_ << "Object" << "Variable" << "Method";
@@ -166,11 +171,13 @@ namespace OpcUaNodeSet
 		if (parentNodeClassType == NodeClassType_ReferenceType) {
 			nodeClassList_ << "ReferenceType";
 			nodeClassType_ = NodeClassType_ReferenceType;
+			referenceTypeNodeId_ = OpcUaId_HasSubtype;
 			return;
 		}
 
 		nodeClassType_ = NodeClassType_Object;
 		nodeClassList_ << "Object" << "Variable" << "Method";
+		referenceTypeNodeId_ = OpcUaId_Organizes;
 	}
 
 	void
@@ -225,10 +232,9 @@ namespace OpcUaNodeSet
 		QLabel* referenceTypeLabel = new QLabel("Parent Ref");
 		baseInfoLayout->addWidget(referenceTypeLabel, 4, 0);
 
-		OpcUaNodeId referenceTypeNodeId(35);
 		referenceTypeWidget_ = new ReferenceTypeWidget();
 		referenceTypeWidget_->setValue(dataModel_->informationModel());
-		referenceTypeWidget_->setValue(referenceTypeNodeId);
+		referenceTypeWidget_->setValue(referenceTypeNodeId_);
 		baseInfoLayout->addWidget(referenceTypeWidget_, 4, 1);
 		browseNameWidget_->setValue(dataModel_->nodeSetNamespace());
 
@@ -447,48 +453,56 @@ namespace OpcUaNodeSet
 			{
 				createAttributes("Object");
 				stackedWidget_->setCurrentIndex(1);
+				referenceTypeNodeId_.set(OpcUaId_Organizes);
 				break;
 			}
 			case NodeClassType_Variable:
 			{
 				createAttributes("Variable");
 				stackedWidget_->setCurrentIndex(2);
+				referenceTypeNodeId_.set(OpcUaId_Organizes);
 				break;
 			}
 			case NodeClassType_Method:
 			{
 				createAttributes("Method");
 				stackedWidget_->setCurrentIndex(0);
+				referenceTypeNodeId_.set(OpcUaId_Organizes);
 				break;
 			}
 			case NodeClassType_ObjectType:
 			{
 				createAttributes("ObjectType");
 				stackedWidget_->setCurrentIndex(0);
+				referenceTypeNodeId_.set(OpcUaId_HasSubtype);
 				break;
 			}
 			case NodeClassType_VariableType:
 			{
 				createAttributes("VariableType");
 				stackedWidget_->setCurrentIndex(0);
+				referenceTypeNodeId_.set(OpcUaId_HasSubtype);
 				break;
 			}
 			case NodeClassType_ReferenceType:
 			{
 				createAttributes("ReferenceType");
 				stackedWidget_->setCurrentIndex(0);
+				referenceTypeNodeId_.set(OpcUaId_HasSubtype);
 				break;
 			}
 			case NodeClassType_DataType:
 			{
 				createAttributes("DataType");
 				stackedWidget_->setCurrentIndex(0);
+				referenceTypeNodeId_.set(OpcUaId_HasSubtype);
 				break;
 			}
 			default:
 			{
 				createAttributes("Variable");
 				stackedWidget_->setCurrentIndex(2);
+				referenceTypeNodeId_.set(OpcUaId_Organizes);
 				break;
 			}
 		}
