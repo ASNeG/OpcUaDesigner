@@ -20,6 +20,8 @@
 
 #include <QWidget>
 
+#include <set>
+
 #include "OpcUaStackServer/AddressSpaceModel/BaseNodeClass.h"
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
 #include "OpcUaNodeSetModul/Model/DataModel.h"
@@ -96,6 +98,7 @@ namespace OpcUaNodeSet
 		void removeNode(QTreeWidgetItem* item);
 
 		DataModel* dataModel_;
+		std::set<OpcUaNodeId> newActionBlackList_;
 
 		QToolBar* tableToolBar_;
 		QAction* manageNamespaceAction_;

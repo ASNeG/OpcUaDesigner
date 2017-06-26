@@ -51,8 +51,15 @@ namespace OpcUaNodeSet
 	, rootItem_(NULL)
 	, actItem_(NULL)
 	, dataModel_(NULL)
+	, newActionBlackList_()
 	{
 		QVBoxLayout* layout_ = new QVBoxLayout();
+
+		//
+		// create new black list
+		//
+		newActionBlackList_.insert(OpcUaNodeId(OpcUaId_RootFolder));
+
 
 		//
 		// create toolbar menu
@@ -363,6 +370,13 @@ namespace OpcUaNodeSet
     	if (nodeInfo->baseNode_.get() == NULL) return;
     	if (nodeInfo->nodeSetNamespace_.globalNamespaceVec().size() <= 1) return;
 
+    	// check new action black list
+    	OpcUaNodeId parentNodeId;
+    	nodeInfo->baseNode_->getNodeId(parentNodeId);
+	    std::set<OpcUaNodeId>::iterator it;
+	    it = newActionBlackList_.find(parentNodeId);
+	    if (it != newActionBlackList_.end()) return;
+
 		// create modul config value
 		QVariant v;
 		v.setValue((void*)nodeInfo);
@@ -381,6 +395,10 @@ namespace OpcUaNodeSet
 	    QVariant v1 = actItem_->data(0, Qt::UserRole);
 	    NodeInfo* nodeInfo = v1.value<NodeInfo*>();
 	    BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+
+	    // get parent node id
+	    OpcUaNodeId parentNodeId;
+	    baseNode->getNodeId(parentNodeId);
 
 	    InformationModelAccess ima(nodeInfo->informationModel_);
 	    OpcUaNodeId dataType;
@@ -425,7 +443,6 @@ namespace OpcUaNodeSet
 	    }
 
 	    // get information from dialog class
-	    OpcUaNodeId parentNodeId;
 	    NodeClassType nodeClassType;
 	    OpcUaNodeId nodeId;
 	    OpcUaLocalizedText displayName;
@@ -434,7 +451,6 @@ namespace OpcUaNodeSet
 	    OpcUaNodeId objectType;
 	    OpcUaNodeId variableType;
 
-	    baseNode->getNodeId(parentNodeId);
 	    createNodeDialog.getNodeClass(nodeClassType);
 	    createNodeDialog.getNodeId(nodeId);
 	    createNodeDialog.getDisplayName(displayName);
