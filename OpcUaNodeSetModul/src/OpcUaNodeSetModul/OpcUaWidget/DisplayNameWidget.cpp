@@ -136,6 +136,14 @@ namespace OpcUaNodeSet
 		if (!checkOn_) return;
 		isValid_ = checkValue();
 		styleValue();
+
+		// set value
+		if (isValid_) {
+			displayName_.set(
+				localeWidget_->text().toStdString(),
+				textWidget_->text().toStdString()
+			);
+		}
 		emit valueChanged(displayName_, isValid_);
 	}
 
@@ -145,6 +153,14 @@ namespace OpcUaNodeSet
 		if (!checkOn_) return;
 		isValid_ = checkValue();
 		styleValue();
+
+		// set value
+		if (isValid_) {
+			displayName_.set(
+				localeWidget_->text().toStdString(),
+				textWidget_->text().toStdString()
+			);
+		}
 		emit valueChanged(displayName_, isValid_);
 	}
 
