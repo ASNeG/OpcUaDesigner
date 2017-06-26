@@ -529,6 +529,22 @@ namespace OpcUaNodeSet
         	    }
     			break;
     		}
+    		case NodeClassType_VariableType:
+    		{
+    			bool success = imm.addVariableTypeNode(
+    				parentNodeId,
+    				nodeId,
+    				displayName,
+    				browseName
+    			);
+       	    	if (!success) {
+        			QMessageBox msgBox;
+        			msgBox.setText("create variable type error");
+        			msgBox.exec();
+        			return;
+        	    }
+    			break;
+    		}
     		default:
     		{
     			std::string nodeClassTypeStr = NodeClass::toString(nodeClassType);
