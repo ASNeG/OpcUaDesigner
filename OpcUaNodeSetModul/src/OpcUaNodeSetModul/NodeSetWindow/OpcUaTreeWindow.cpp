@@ -481,6 +481,22 @@ namespace OpcUaNodeSet
     	    	}
     			break;
     		}
+    		case NodeClassType_Method:
+    		{
+    	    	bool success = imm.addMethodNode(
+    	    		parentNodeId,
+    	    		nodeId,
+    	    		displayName,
+    	    		browseName
+    	    	);
+    	    	if (!success) {
+    				QMessageBox msgBox;
+    				msgBox.setText("create method instance error");
+    				msgBox.exec();
+    				return;
+    	    	}
+    			break;
+    		}
     		case NodeClassType_ObjectType:
     		{
     			bool success = imm.addObjectTypeNode(
