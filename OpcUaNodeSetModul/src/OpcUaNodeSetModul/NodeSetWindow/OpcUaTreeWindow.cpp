@@ -529,6 +529,22 @@ namespace OpcUaNodeSet
         	    }
     			break;
     		}
+    		case NodeClassType_ReferenceType:
+    		{
+    			bool success = imm.addReferenceTypeNode(
+    				parentNodeId,
+    				nodeId,
+    				displayName,
+    				browseName
+    			);
+       	    	if (!success) {
+        			QMessageBox msgBox;
+        			msgBox.setText("create reference type error");
+        			msgBox.exec();
+        			return;
+        	    }
+    			break;
+    		}
     		default:
     		{
     			std::string nodeClassTypeStr = NodeClass::toString(nodeClassType);
