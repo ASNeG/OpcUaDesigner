@@ -676,66 +676,6 @@ namespace OpcUaNodeSet
     }
 
     void
-    OpcUaTreeWindow::createNewVariableType(NodeInfo* parentNodeInfo)
-    {
-       	//
-        // find new data type name
-        //
-        std::string variableTypeName = displayName("VariableType");
-        OpcUaNodeId nodeId(variableTypeName, 1);
-        OpcUaQualifiedName browseName(variableTypeName, 1);
-        OpcUaLocalizedText displayName("en", variableTypeName);
-        OpcUaLocalizedText description("en", "");
-
-        //
-        // create variable type node
-        //
-        VariableTypeNodeClass::SPtr variableTypeNodeClass = constructSPtr<VariableTypeNodeClass>();
-        variableTypeNodeClass->setNodeId(nodeId);
-        variableTypeNodeClass->setBrowseName(browseName);
-        variableTypeNodeClass->setDisplayName(displayName);
-        variableTypeNodeClass->setDescription(description);
-        variableTypeNodeClass->setWriteMask(0);
-        variableTypeNodeClass->setUserWriteMask(0);
-
-        bool isAbstract = true;
-        variableTypeNodeClass->setIsAbstract(isAbstract);
-        OpcUaNodeId dataType(OpcUaId_Double);
-        variableTypeNodeClass->setDataType(dataType);
-        //variableTypeNodeClass->setValueRank();
-
-        //
-        // insert data type node into information model
-        //
-        OpcUaNodeId parentNodeId;
-        parentNodeInfo->baseNode_->getNodeId(parentNodeId);
-        variableTypeNodeClass->referenceItemMap().add(ReferenceType_HasSubtype, false, parentNodeId);
-        parentNodeInfo->baseNode_->referenceItemMap().add(ReferenceType_HasSubtype, true, nodeId);
-        dataModel_->informationModel()->insert(variableTypeNodeClass);
-
-        //
-        // added new item
-        //
-    	NodeInfo* nodeInfo = new NodeInfo();
-    	nodeInfo->baseNode_ = variableTypeNodeClass;
-    	nodeInfo->informationModel_ = dataModel_->informationModel();
-    	QVariant v;
-    	v.setValue(nodeInfo);
-
-    	QTreeWidgetItem* item = new QTreeWidgetItem();
-    	item->setText(0, displayName.text().value().c_str());
-    	item->setData(0, Qt::UserRole, v);
-    	item->setIcon(0, QIcon(":images/ValueType.png"));
-    	actItem_->addChild(item);
-
-    	//
-    	// activate new item
-    	//
-    	opcUaTree_->setCurrentItem(item);
-    	actItem_ = item;
-    }
-
-    void
     OpcUaTreeWindow::createNewReferences(NodeInfo* parentNodeInfo)
     {
        	//
