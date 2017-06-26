@@ -614,7 +614,20 @@ namespace OpcUaNodeSet
     void
     OpcUaTreeWindow::onDeleteAction(void)
     {
-    	// FIXME: todo
+	    // get node information
+	    QVariant v = actItem_->data(0, Qt::UserRole);
+	    NodeInfo* nodeInfo = v.value<NodeInfo*>();
+	    BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+
+	    // get parent node id
+	    OpcUaNodeId parentNodeId;
+	    baseNode->getNodeId(parentNodeId);
+
+	    // remove node from opc ua information model
+	    InformationModelManager imm(dataModel_->informationModel());
+	    imm.delNode(parentNodeId);
+
+	    removeNode(actItem_);
     }
 
     // ------------------------------------------------------------------------
