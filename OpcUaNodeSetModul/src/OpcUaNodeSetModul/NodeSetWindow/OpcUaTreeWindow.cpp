@@ -413,38 +413,6 @@ namespace OpcUaNodeSet
 	    OpcUaNodeId dataType;
 	    baseNode->getDataType(dataType);
 
-#if 0
-	    // handle BaseDataType
-	    if (ima.isDataType(baseNode)) {
-	        createNewDataType(nodeInfo);
-	    	return;
-	    }
-
-	    // handle BaseObjectType
-	    if (ima.isObjectType(baseNode)) {
-	        createNewObjectType(nodeInfo);
-	    	return;
-	    }
-
-	    // handle BaseVariableType
-	    if (ima.isVariableType(baseNode)) {
-	        createNewVariableType(nodeInfo);
-	    	return;
-	    }
-
-	    // handle References
-	    if (ima.isReferences(baseNode)) {
-	        createNewReferences(nodeInfo);
-	    	return;
-	    }
-
-	    // handle BaseEventType
-	    if (ima.isBaseEventType(baseNode)) {
-	    	createNewObjectType(nodeInfo);
-	    	return;
-	    }
-#endif
-
 	    CreateNodeDialog createNodeDialog(dataModel_, baseNode);
 	    createNodeDialog.exec();
 	    if (!createNodeDialog.isOk()) {
