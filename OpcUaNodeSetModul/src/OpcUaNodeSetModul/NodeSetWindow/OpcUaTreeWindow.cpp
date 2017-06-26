@@ -386,6 +386,9 @@ namespace OpcUaNodeSet
 	    it = newActionBlackList_.find(parentNodeId);
 	    if (it != newActionBlackList_.end()) return;
 
+	    // event values may not have children
+	    // FIXME: todo
+
 		// create modul config value
 		QVariant v;
 		v.setValue((void*)nodeInfo);

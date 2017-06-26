@@ -27,10 +27,13 @@
 #include <QFrame>
 
 #include "OpcUaStackCore/BuildInTypes/OpcUaIdentifier.h"
+#include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/Dialog/CreateNodeDialog.h"
 #include "OpcUaNodeSetModul/Dialog/SelectObjectTypeDialog.h"
 #include "OpcUaNodeSetModul/Dialog/SelectVariableTypeDialog.h"
 #include "OpcUaNodeSetModul/Dialog/SelectReferenceTypeDialog.h"
+
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -127,12 +130,21 @@ namespace OpcUaNodeSet
 		// check whether object type is allowed
 		//
 		if (parentNodeClassType == NodeClassType_ObjectType) {
+
+			InformationModelAccess ima(dataModel_->informationModel());
+			bool eventType = ima.isBaseEventType(parentNodeId);
+
 			nodeClassList_ << "ObjectType";
 			nodeClassType_ = NodeClassType_ObjectType;
 			referenceTypeNodeId_ = OpcUaId_HasSubtype;
 
 			if (parentNodeId.namespaceIndex() != 0) {
-				nodeClassList_ << "Object" << "Variable" << "Method";
+				if (eventType) {
+					nodeClassList_ << "Variable";
+				}
+				else {
+					nodeClassList_ << "Object" << "Variable" << "Method";
+				}
 			}
 			return;
 		}
@@ -447,7 +459,6 @@ namespace OpcUaNodeSet
 		NodeClassType parentNodeClassType;
 		baseNode_->getNodeClass(parentNodeClassType);
 
-
 		switch (nodeClassType)
 		{
 			case NodeClassType_Object:
@@ -467,8 +478,18 @@ namespace OpcUaNodeSet
 			{
 				createAttributes("Variable");
 				stackedWidget_->setCurrentIndex(2);
-				if (parentNodeClassType == NodeClassType_ObjectType ||
-					parentNodeClassType == NodeClassType_VariableType) {
+				if (parentNodeClassType == NodeClassType_ObjectType) {
+					InformationModelAccess ima(dataModel_->informationModel());
+					bool eventType = ima.isBaseEventType(baseNode_);
+
+					if (eventType) {
+						referenceTypeNodeId_.set(OpcUaId_HasProperty);
+					}
+					else {
+						referenceTypeNodeId_.set(OpcUaId_HasComponent);
+					}
+				}
+				else if (parentNodeClassType == NodeClassType_VariableType) {
 					referenceTypeNodeId_.set(OpcUaId_HasComponent);
 				}
 				else {
@@ -530,6 +551,11 @@ namespace OpcUaNodeSet
 		displayNameWidget_->setValue(displayName_);
 		browseNameWidget_->setValue(browseName_);
 		referenceTypeWidget_->setValue(referenceTypeNodeId_);
+
+		if (referenceTypeNodeId_ == OpcUaNodeId(OpcUaId_HasProperty)) {
+			OpcUaNodeId variableType(OpcUaId_PropertyType);
+			variableTypeWidget_->setValue(variableType);
+		}
 
 		isValid_ = checkValue();
 		controlButton();
