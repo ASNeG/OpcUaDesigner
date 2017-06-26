@@ -158,10 +158,6 @@ namespace OpcUaNodeSet
 			nodeClassList_ << "DataType";
 			nodeClassType_ = NodeClassType_DataType;
 			referenceTypeNodeId_ = OpcUaId_HasSubtype;
-
-			if (parentNodeId.namespaceIndex() != 0) {
-				nodeClassList_ << "Object" << "Variable" << "Method";
-			}
 			return;
 		}
 
