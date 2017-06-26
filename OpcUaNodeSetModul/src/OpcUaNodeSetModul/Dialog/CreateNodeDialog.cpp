@@ -447,27 +447,50 @@ namespace OpcUaNodeSet
 	{
 		if (!isValid) return;
 
+		// get parent node class type
+		NodeClassType parentNodeClassType;
+		baseNode_->getNodeClass(parentNodeClassType);
+
+
 		switch (nodeClassType)
 		{
 			case NodeClassType_Object:
 			{
 				createAttributes("Object");
 				stackedWidget_->setCurrentIndex(1);
-				referenceTypeNodeId_.set(OpcUaId_Organizes);
+				if (parentNodeClassType == NodeClassType_ObjectType ||
+					parentNodeClassType == NodeClassType_VariableType) {
+					referenceTypeNodeId_.set(OpcUaId_HasComponent);
+				}
+				else {
+					referenceTypeNodeId_.set(OpcUaId_Organizes);
+				}
 				break;
 			}
 			case NodeClassType_Variable:
 			{
 				createAttributes("Variable");
 				stackedWidget_->setCurrentIndex(2);
-				referenceTypeNodeId_.set(OpcUaId_Organizes);
+				if (parentNodeClassType == NodeClassType_ObjectType ||
+					parentNodeClassType == NodeClassType_VariableType) {
+					referenceTypeNodeId_.set(OpcUaId_HasComponent);
+				}
+				else {
+					referenceTypeNodeId_.set(OpcUaId_Organizes);
+				}
 				break;
 			}
 			case NodeClassType_Method:
 			{
 				createAttributes("Method");
 				stackedWidget_->setCurrentIndex(0);
-				referenceTypeNodeId_.set(OpcUaId_Organizes);
+				if (parentNodeClassType == NodeClassType_ObjectType ||
+					parentNodeClassType == NodeClassType_VariableType) {
+					referenceTypeNodeId_.set(OpcUaId_HasComponent);
+				}
+				else {
+					referenceTypeNodeId_.set(OpcUaId_Organizes);
+				}
 				break;
 			}
 			case NodeClassType_ObjectType:
