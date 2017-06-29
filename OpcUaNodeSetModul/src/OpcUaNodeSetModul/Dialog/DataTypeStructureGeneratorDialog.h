@@ -34,7 +34,7 @@ namespace OpcUaNodeSet
 		Q_OBJECT
 
 	  public:
-		DataTypeStructureGeneratorDialog(DataModel* dataModel);
+		DataTypeStructureGeneratorDialog(DataModel* dataModel, BaseNodeClass::SPtr& nodeClass);
 		virtual ~DataTypeStructureGeneratorDialog(void);
 
 	  public slots:
@@ -53,13 +53,14 @@ namespace OpcUaNodeSet
     	void enableDataTypeStructureGeneratorButton(void);
 
         DataModel* dataModel_;
+        BaseNodeClass::SPtr nodeClass_;
 
         //
-         // widgets
-         //
-         QPushButton* saveButton_;
-         QListWidget* in_;
-         QListWidget* out_;
+        // widgets
+        //
+        QPushButton* generatorButton_;
+        QListWidget* in_;
+        QListWidget* out_;
 
 	};
 

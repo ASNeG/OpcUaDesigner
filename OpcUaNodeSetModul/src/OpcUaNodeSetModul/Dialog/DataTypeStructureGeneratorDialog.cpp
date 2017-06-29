@@ -30,25 +30,29 @@ namespace OpcUaNodeSet
 {
 
 
-	DataTypeStructureGeneratorDialog::DataTypeStructureGeneratorDialog(DataModel* dataModel)
+	DataTypeStructureGeneratorDialog::DataTypeStructureGeneratorDialog(
+		DataModel* dataModel,
+		BaseNodeClass::SPtr& nodeClass
+	)
 	: QDialog()
 	, dataModel_(dataModel)
+	, nodeClass_(nodeClass)
 	{
-		this->setWindowTitle(QString("DataTypeStructureGenerator NodeSet Dialog"));
+		this->setWindowTitle(QString("Data Type Structure Code Generator Dialog"));
 
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
 
 		//
-		// namespace selection layout
+		// type selection layout
 		//
-		QHBoxLayout* namespaceSelectionLayout = new QHBoxLayout();
+		QHBoxLayout* typeSelectionLayout = new QHBoxLayout();
 
-		QVBoxLayout* namespaceSelectionOutLayout = new QVBoxLayout();
-		namespaceSelectionOutLayout->addWidget(new QLabel("All available namespaces"));
+		QVBoxLayout* typeSelectionOutLayout = new QVBoxLayout();
+		typeSelectionOutLayout->addWidget(new QLabel("All available structure types"));
 		out_ = new QListWidget();
 		out_->setSelectionMode(QAbstractItemView::MultiSelection);
-		namespaceSelectionOutLayout->addWidget(out_);
-		namespaceSelectionLayout->addLayout(namespaceSelectionOutLayout);
+		typeSelectionOutLayout->addWidget(out_);
+		typeSelectionLayout->addLayout(typeSelectionOutLayout);
 
 		QVBoxLayout* selectionButtonLayout = new QVBoxLayout();
 		QPushButton* right = new QPushButton();
@@ -57,16 +61,16 @@ namespace OpcUaNodeSet
 		QPushButton* left = new QPushButton();
 		left->setIcon(QIcon(":images/Left.png"));
 		selectionButtonLayout->addWidget(left);
-		namespaceSelectionLayout->addLayout(selectionButtonLayout);
+		typeSelectionLayout->addLayout(selectionButtonLayout);
 
 		QVBoxLayout* typeSelectionInLayout = new QVBoxLayout();
-		typeSelectionInLayout->addWidget(new QLabel("All namespaces to export"));
+		typeSelectionInLayout->addWidget(new QLabel("All structure types to export"));
 		in_ = new QListWidget();
 		in_->setSelectionMode(QAbstractItemView::MultiSelection);
 		typeSelectionInLayout->addWidget(in_);
-		namespaceSelectionLayout->addLayout(typeSelectionInLayout);
+		typeSelectionLayout->addLayout(typeSelectionInLayout);
 
-		vBoxLayout->addLayout(namespaceSelectionLayout);
+		vBoxLayout->addLayout(typeSelectionLayout);
 
 		//
 		// dialog action button
@@ -74,9 +78,9 @@ namespace OpcUaNodeSet
 		QHBoxLayout* actionButtonLayout = new QHBoxLayout();
 		QPushButton* exitButton = new QPushButton("Exit");
 		actionButtonLayout->addWidget(exitButton);
-		saveButton_ = new QPushButton("Save");
-		saveButton_->setEnabled(false);
-		actionButtonLayout->addWidget(saveButton_);
+		generatorButton_ = new QPushButton("Generator");
+		generatorButton_->setEnabled(false);
+		actionButtonLayout->addWidget(generatorButton_);
 		vBoxLayout->addLayout(actionButtonLayout);
 
 		//
@@ -95,7 +99,7 @@ namespace OpcUaNodeSet
 			this, SLOT(onExitAction())
 		);
 		connect(
-			saveButton_, SIGNAL(clicked()),
+			generatorButton_, SIGNAL(clicked()),
 			this, SLOT(onDataTypeStructureGeneratorAction())
 		);
 
@@ -158,37 +162,7 @@ namespace OpcUaNodeSet
     void
     DataTypeStructureGeneratorDialog::onDataTypeStructureGeneratorAction(void)
     {
-		// get node set file name
-		std::string docs = "NodeSet (*.NodeSet.xml)";
-		QString fileName = QFileDialog::getSaveFileName(
-			NULL, tr("Set DataTypeStructureGenerator NodeSet File"), QDir::homePath(), QString(docs.c_str())
-		);
-		if (fileName.isNull()) {
-			return;
-		}
-
-		if (!fileName.endsWith(".NodeSet.xml")) {
-			fileName.append(".NodeSet.xml");
-		}
-
-		NamespaceVec namespaceVec;
-		for (int idx=0; idx<in_->count(); idx++) {
-			std::string name = in_->item(idx)->text().toStdString();
-			namespaceVec.push_back(name);
-		}
-
-		// save empty node set
-		if (!dataModel_->writeNodeSet(fileName.toStdString(), namespaceVec)) {
-			QMessageBox msgBox;
-			msgBox.setText(QString("cannot write node set file %1").arg(fileName));
-			msgBox.exec();
-			return;
-		}
-
-		QMessageBox::information(this,
-			tr("export nodeset success"),
-			tr("write nodeset file %1 done").arg(fileName)
-		);
+		// FIXME: todo
     }
 
 	// ------------------------------------------------------------------------
@@ -201,23 +175,17 @@ namespace OpcUaNodeSet
 	void
 	DataTypeStructureGeneratorDialog::fillList(void)
 	{
-		NamespaceVec::iterator it;
-		NamespaceVec namespaceVec = dataModel_->nodeSetNamespace().globalNamespaceVec();
-
-		for (it = namespaceVec.begin(); it != namespaceVec.end(); it++) {
-			QListWidgetItem* item = new QListWidgetItem((*it).c_str());
-			out_->addItem(item);
-		}
+		// FIXME: todo
 	}
 
 	void
 	DataTypeStructureGeneratorDialog::enableDataTypeStructureGeneratorButton(void)
 	{
 		if (in_->count() > 0) {
-			saveButton_->setEnabled(true);
+			generatorButton_->setEnabled(true);
 		}
 		else {
-			saveButton_->setEnabled(false);
+			generatorButton_->setEnabled(false);
 		}
 	}
 
