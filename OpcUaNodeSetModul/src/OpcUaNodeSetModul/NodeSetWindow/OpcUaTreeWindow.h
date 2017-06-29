@@ -65,6 +65,7 @@ namespace OpcUaNodeSet
 	    void onCustomContextMenuRequested(const QPoint& pos);
 	    void onNewAction(void);
 	    void onDeleteAction(void);
+	    void onCodeGeneratorAction(void);
 
 	  signals:
 	    void nodeChanged(NodeInfo* nodeInfo);
@@ -80,6 +81,7 @@ namespace OpcUaNodeSet
 	    //
 	    void createNewMenu(QMenu& menu, NodeInfo* nodeInfo);
 	    void createDeleteMenu(QMenu& menu, NodeInfo* nodeInfo);
+	    void createCodeGeneratorMenu(QMenu& menu, NodeInfo* nodeInfo);
 
 	    //
 	    // private function

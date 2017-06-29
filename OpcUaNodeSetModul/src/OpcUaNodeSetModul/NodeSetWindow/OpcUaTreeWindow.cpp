@@ -368,6 +368,7 @@ namespace OpcUaNodeSet
 	    // create menu
 	    createNewMenu(menu, nodeInfo);
 	    createDeleteMenu(menu, nodeInfo);
+	    createCodeGeneratorMenu(menu, nodeInfo);
 
 	    // show menu
 	    menu.exec(opcUaTree_->viewport()->mapToGlobal(pos));
@@ -628,6 +629,40 @@ namespace OpcUaNodeSet
 	    imm.delNode(parentNodeId);
 
 	    removeNode(actItem_);
+    }
+
+    void
+    OpcUaTreeWindow::createCodeGeneratorMenu(QMenu& menu, NodeInfo* nodeInfo)
+    {
+    	if (nodeInfo->baseNode_.get() == NULL) return;
+
+    	OpcUaNodeId nodeId;
+    	nodeInfo->baseNode_->getNodeId(nodeId);
+
+		// create modul config value
+		QVariant v;
+		v.setValue((void*)nodeInfo);
+
+		QAction* action = new QAction("Code Generator", this);
+		action->setIcon(QIcon(":images/Function.png"));
+		action->setData(v);
+		menu.addAction(action);
+		connect(action, SIGNAL(triggered()), this, SLOT(onCodeGeneratorAction()));
+    }
+
+    void
+    OpcUaTreeWindow::onCodeGeneratorAction(void)
+    {
+	    // get node information
+	    QVariant v = actItem_->data(0, Qt::UserRole);
+	    NodeInfo* nodeInfo = v.value<NodeInfo*>();
+	    BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+
+	    // get parent node id
+	    OpcUaNodeId parentNodeId;
+	    baseNode->getNodeId(parentNodeId);
+
+	    // FIXME: todo
     }
 
     // ------------------------------------------------------------------------
