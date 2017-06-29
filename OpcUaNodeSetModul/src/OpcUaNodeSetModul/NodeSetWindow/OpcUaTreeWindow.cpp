@@ -27,6 +27,7 @@
 #include "OpcUaNodeSetModul/Dialog/ImportDialog.h"
 #include "OpcUaNodeSetModul/Dialog/ExportDialog.h"
 #include "OpcUaNodeSetModul/Dialog/CreateNodeDialog.h"
+#include "OpcUaNodeSetModul/Dialog/DataTypeStructureGeneratorDialog.h"
 
 #include <QString>
 #include <QWidget>
@@ -679,7 +680,8 @@ namespace OpcUaNodeSet
     	//
     	InformationModelAccess ima(dataModel_->informationModel());
     	if (ima.isDataTypeStructure(nodeInfo->baseNode_)) {
-    		// FIXME: todo
+    	    DataTypeStructureGeneratorDialog dataTypeStructureGeneratorDialog(dataModel_, baseNode);
+    	    dataTypeStructureGeneratorDialog.exec();
     	}
 
     }
