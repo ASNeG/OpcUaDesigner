@@ -639,6 +639,18 @@ namespace OpcUaNodeSet
     	OpcUaNodeId nodeId;
     	nodeInfo->baseNode_->getNodeId(nodeId);
 
+    	bool canGenerateSourceCode = false;
+
+    	//
+    	// the node could be a data type
+    	//
+    	InformationModelAccess ima(dataModel_->informationModel());
+    	if (ima.isDataTypeStructure(nodeInfo->baseNode_)) {
+    		canGenerateSourceCode = true;
+    	}
+
+    	if (!canGenerateSourceCode) return;
+
 		// create modul config value
 		QVariant v;
 		v.setValue((void*)nodeInfo);
@@ -662,7 +674,14 @@ namespace OpcUaNodeSet
 	    OpcUaNodeId parentNodeId;
 	    baseNode->getNodeId(parentNodeId);
 
-	    // FIXME: todo
+    	//
+    	// the node could be a data type
+    	//
+    	InformationModelAccess ima(dataModel_->informationModel());
+    	if (ima.isDataTypeStructure(nodeInfo->baseNode_)) {
+    		// FIXME: todo
+    	}
+
     }
 
     // ------------------------------------------------------------------------
