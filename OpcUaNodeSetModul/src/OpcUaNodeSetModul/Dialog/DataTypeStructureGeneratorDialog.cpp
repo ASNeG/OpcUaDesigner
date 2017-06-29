@@ -16,6 +16,7 @@
  */
 
 
+#include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/Dialog/DataTypeStructureGeneratorDialog.h"
 
 #include <QVBoxLayout>
@@ -25,6 +26,8 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QMessageBox>
+
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -175,7 +178,29 @@ namespace OpcUaNodeSet
 	void
 	DataTypeStructureGeneratorDialog::fillList(void)
 	{
-		// FIXME: todo
+		BaseNodeClass::SPtr baseNodeClass = nodeClass_;
+		InformationModelAccess ima(dataModel_->informationModel());
+		OpcUaNodeId nodeId;
+		OpcUaLocalizedText displayName;
+
+		do
+		{
+			baseNodeClass->getNodeId(nodeId);
+			baseNodeClass->getDisplayName(displayName);
+
+			if (nodeId == OpcUaNodeId(22)) return;
+
+			QListWidgetItem* item = new QListWidgetItem(displayName.text().value().c_str());
+			out_->addItem(item);
+
+			BaseNodeClass::SPtr subTypeNodeClass;
+			if (ima.getSubType(baseNodeClass, subTypeNodeClass)) {
+				baseNodeClass = subTypeNodeClass;
+			}
+			else {
+				return;
+			}
+		} while (true);
 	}
 
 	void

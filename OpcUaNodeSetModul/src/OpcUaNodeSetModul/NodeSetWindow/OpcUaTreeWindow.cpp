@@ -647,6 +647,9 @@ namespace OpcUaNodeSet
     	//
     	InformationModelAccess ima(dataModel_->informationModel());
     	if (ima.isDataTypeStructure(nodeInfo->baseNode_)) {
+
+    		if (nodeId == OpcUaNodeId(22)) return;
+
     		canGenerateSourceCode = true;
     	}
 
