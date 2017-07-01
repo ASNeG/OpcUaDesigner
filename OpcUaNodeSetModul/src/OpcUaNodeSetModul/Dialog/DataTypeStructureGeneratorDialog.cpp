@@ -16,7 +16,8 @@
  */
 
 
-#include "OpcUaStackCore/ComplexDataTypes/ComplexDataCodeGenerator.h"
+#include "OpcUaStackCore/DataType/DataTypeGenerator.h"
+#include "OpcUaStackServer/AddressSpaceModel/DataTypeNodeClass.h"
 #include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/Dialog/DataTypeStructureGeneratorDialog.h"
 
@@ -202,6 +203,21 @@ namespace OpcUaNodeSet
 					return;
 				}
 
+			    //
+			    // get data type definition from node class
+			    //
+				DataTypeNodeClass::SPtr dataTypeNodeClass = boost::static_pointer_cast<DataTypeNodeClass>(baseNodeClass);
+				Object::SPtr object = dataTypeNodeClass->dataTypeDefinition();
+				if (object.get() == nullptr) {
+					QMessageBox::information(this,
+						tr("generate data type error"),
+						tr("no definition for datatype %1 found").arg(displayName.text().value().c_str())
+					);
+					return;
+				}
+				DataTypeDefinition::SPtr dataTypeDefinition;
+				dataTypeDefinition = boost::static_pointer_cast<DataTypeDefinition>(object);
+
 				//
 				// base class or derived class
 				//
@@ -211,25 +227,19 @@ namespace OpcUaNodeSet
 			    subTypeNodeClass->getNodeId(nodeId);
 
 			    bool baseType = false;
-			    if (subTypeNodeId == OpcUaNodeId(22)) baseType = true;
-
-			    //
-			    // get complex data type from node class
-			    //
-			    ComplexDataType complexDataType;
+			    if (subTypeNodeId == OpcUaNodeId(22)) {
+			    	baseType = true;
+			    }
 
 			    //
 				// create source code
 			    //
-				// FIXME: todo
-
-
-#if 0
-			    bool generate(ComplexDataType& complexDataType);
-			    bool generate(ComplexDataType& complexDataType, ComplexDataType& complexDataTypeSuperType);
-			    std::string& contentHeader(void);
-			    std::string& contentSource(void);
-#endif
+				if (baseType) {
+					;
+				}
+				else {
+					;
+				}
 
 				QMessageBox::information(this,
 					tr("generate data type success"),
