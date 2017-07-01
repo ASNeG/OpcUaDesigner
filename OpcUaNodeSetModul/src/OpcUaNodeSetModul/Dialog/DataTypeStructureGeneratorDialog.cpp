@@ -16,6 +16,7 @@
  */
 
 
+#include "OpcUaStackCore/ComplexDataTypes/ComplexDataCodeGenerator.h"
 #include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/Dialog/DataTypeStructureGeneratorDialog.h"
 
@@ -27,6 +28,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
+using namespace OpcUaStackCore;
 using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
@@ -177,7 +179,9 @@ namespace OpcUaNodeSet
 
 			if (nodeId == OpcUaNodeId(22)) return;
 
+			//
 			// use only selected types
+			//
 			bool found = false;
 			for (uint32_t idx = 0; idx < in_->count(); idx++) {
 				QListWidgetItem* item = in_->item(idx);
@@ -188,7 +192,9 @@ namespace OpcUaNodeSet
 			}
 
 			if (found) {
+				//
 				// get directory to save generated source code
+				//
 				QString directory = QFileDialog::getExistingDirectory(
 					NULL, tr("Set Export NodeSet File"), QDir::homePath(), QFileDialog::ShowDirsOnly
 				);
@@ -196,8 +202,34 @@ namespace OpcUaNodeSet
 					return;
 				}
 
+				//
+				// base class or derived class
+				//
+				BaseNodeClass::SPtr subTypeNodeClass;
+			    ima.getSubType(baseNodeClass, subTypeNodeClass);
+			    OpcUaNodeId subTypeNodeId;
+			    subTypeNodeClass->getNodeId(nodeId);
+
+			    bool baseType = false;
+			    if (subTypeNodeId == OpcUaNodeId(22)) baseType = true;
+
+			    //
+			    // get complex data type from node class
+			    //
+			    ComplexDataType complexDataType;
+
+			    //
 				// create source code
+			    //
 				// FIXME: todo
+
+
+#if 0
+			    bool generate(ComplexDataType& complexDataType);
+			    bool generate(ComplexDataType& complexDataType, ComplexDataType& complexDataTypeSuperType);
+			    std::string& contentHeader(void);
+			    std::string& contentSource(void);
+#endif
 
 				QMessageBox::information(this,
 					tr("generate data type success"),
