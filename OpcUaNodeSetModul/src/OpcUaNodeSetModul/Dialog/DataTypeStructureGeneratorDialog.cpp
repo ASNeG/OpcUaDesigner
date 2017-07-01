@@ -261,17 +261,18 @@ namespace OpcUaNodeSet
 			    		tr("generate data type error"),
 			    		tr("create data type %1 error").arg(displayName.text().value().c_str())
 			    	);
-
-			    	// FIXME: todo
-			    	std::cout << dataTypeGenerator.headerFileContent() << std::endl;
-			    	std::cout << "===================================" << std::endl;
-			    	std::cout << dataTypeGenerator.sourceFileContent() << std::endl;
 			    }
 			    else {
 			    	QMessageBox::information(this,
 			    		tr("generate data type success"),
 			    		tr("create data type %1").arg(displayName.text().value().c_str())
 			    	);
+
+
+			    	// FIXME: todo
+			    	std::cout << dataTypeGenerator.headerFileContent() << std::endl;
+			    	std::cout << "===================================" << std::endl;
+			    	std::cout << dataTypeGenerator.sourceFileContent() << std::endl;
 			    }
 			}
 
