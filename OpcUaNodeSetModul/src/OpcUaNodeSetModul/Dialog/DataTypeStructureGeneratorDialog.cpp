@@ -165,7 +165,55 @@ namespace OpcUaNodeSet
     void
     DataTypeStructureGeneratorDialog::onDataTypeStructureGeneratorAction(void)
     {
-		// FIXME: todo
+		BaseNodeClass::SPtr baseNodeClass = nodeClass_;
+		InformationModelAccess ima(dataModel_->informationModel());
+		OpcUaNodeId nodeId;
+		OpcUaLocalizedText displayName;
+
+		do
+		{
+			baseNodeClass->getNodeId(nodeId);
+			baseNodeClass->getDisplayName(displayName);
+
+			if (nodeId == OpcUaNodeId(22)) return;
+
+			// use only selected types
+			bool found = false;
+			for (uint32_t idx = 0; idx < in_->count(); idx++) {
+				QListWidgetItem* item = in_->item(idx);
+
+				if (item->text().toStdString() == displayName.text().value()) {
+					found = true;
+				}
+			}
+
+			if (found) {
+				// get directory to save generated source code
+				QString directory = QFileDialog::getExistingDirectory(
+					NULL, tr("Set Export NodeSet File"), QDir::homePath(), QFileDialog::ShowDirsOnly
+				);
+				if (directory.isNull()) {
+					return;
+				}
+
+				// create source code
+				// FIXME: todo
+
+				QMessageBox::information(this,
+					tr("generate data type success"),
+					tr("create data type %1").arg(displayName.text().value().c_str())
+				);
+			}
+
+			BaseNodeClass::SPtr subTypeNodeClass;
+			if (ima.getSubType(baseNodeClass, subTypeNodeClass)) {
+				baseNodeClass = subTypeNodeClass;
+			}
+			else {
+				return;
+			}
+		} while (true);
+
     }
 
 	// ------------------------------------------------------------------------
