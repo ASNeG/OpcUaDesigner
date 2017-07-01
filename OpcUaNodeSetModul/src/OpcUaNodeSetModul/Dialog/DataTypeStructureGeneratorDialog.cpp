@@ -193,6 +193,8 @@ namespace OpcUaNodeSet
 			}
 
 			if (found) {
+				DataTypeGenerator dataTypeGenerator;
+
 				//
 				// get directory to save generated source code
 				//
@@ -217,6 +219,7 @@ namespace OpcUaNodeSet
 				}
 				DataTypeDefinition::SPtr dataTypeDefinition;
 				dataTypeDefinition = boost::static_pointer_cast<DataTypeDefinition>(object);
+				dataTypeGenerator.dataTypeDefinition(dataTypeDefinition);
 
 				//
 				// base class or derived class
@@ -226,20 +229,34 @@ namespace OpcUaNodeSet
 			    OpcUaNodeId subTypeNodeId;
 			    subTypeNodeClass->getNodeId(nodeId);
 
-			    bool baseType = false;
-			    if (subTypeNodeId == OpcUaNodeId(22)) {
-			    	baseType = true;
+			    if (subTypeNodeId != OpcUaNodeId(22)) {
+				    //
+				    // get data type definition from node class
+				    //
+					DataTypeNodeClass::SPtr dataTypeNodeClass = boost::static_pointer_cast<DataTypeNodeClass>(subTypeNodeClass);
+					Object::SPtr object = dataTypeNodeClass->dataTypeDefinition();
+					if (object.get() == nullptr) {
+						OpcUaLocalizedText displayName;
+						subTypeNodeClass->getDisplayName(displayName);
+
+						QMessageBox::information(this,
+							tr("generate data type error"),
+							tr("no definition for base datatype %1 found").arg(displayName.text().value().c_str())
+						);
+						return;
+					}
+					DataTypeDefinition::SPtr dataTypeDefinition;
+					dataTypeDefinition = boost::static_pointer_cast<DataTypeDefinition>(object);
+					dataTypeGenerator.superTypeDataTypeDefinition(dataTypeDefinition);
 			    }
 
 			    //
 				// create source code
 			    //
-				if (baseType) {
-					;
-				}
-				else {
-					;
-				}
+
+				//void projectNamespace(const std::string& projectName);
+				//void projectDirectory(const std::string& projectDirectory);
+			    // bool generate(void);
 
 				QMessageBox::information(this,
 					tr("generate data type success"),
