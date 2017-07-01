@@ -227,7 +227,7 @@ namespace OpcUaNodeSet
 				BaseNodeClass::SPtr subTypeNodeClass;
 			    ima.getSubType(baseNodeClass, subTypeNodeClass);
 			    OpcUaNodeId subTypeNodeId;
-			    subTypeNodeClass->getNodeId(nodeId);
+			    subTypeNodeClass->getNodeId(subTypeNodeId);
 
 			    if (subTypeNodeId != OpcUaNodeId(22)) {
 				    //
