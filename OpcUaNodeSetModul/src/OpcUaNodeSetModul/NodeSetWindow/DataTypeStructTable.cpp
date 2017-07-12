@@ -23,8 +23,8 @@
 #include <QLabel>
 
 #include "OpcUaStackCore/BuildInTypes/OpcUaIdentifier.h"
+#include "OpcUaStackCore/DataType/DataTypeDefinition.h"
 #include "OpcUaStackServer/AddressSpaceModel/DataTypeNodeClass.h"
-#include "OpcUaStackServer/NodeSet/DataTypeDefinition.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/DataTypeStructTable.h"
 
 using namespace OpcUaStackCore;

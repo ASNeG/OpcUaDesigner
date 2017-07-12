@@ -20,7 +20,7 @@
 
 #include <QWidget>
 
-#include "OpcUaStackServer/NodeSet/DataTypeDefinition.h"
+#include "OpcUaStackCore/DataType/DataTypeDefinition.h"
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
 
 using namespace OpcUaStackServer;

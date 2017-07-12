@@ -20,8 +20,8 @@
 #include <QLineEdit>
 #include <QStackedWidget>
 
+#include "OpcUaStackCore/DataType/DataTypeDefinition.h"
 #include "OpcUaStackServer/AddressSpaceModel/DataTypeNodeClass.h"
-#include "OpcUaStackServer/NodeSet/DataTypeDefinition.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeDataTypeTab.h"
 
 using namespace OpcUaStackServer;

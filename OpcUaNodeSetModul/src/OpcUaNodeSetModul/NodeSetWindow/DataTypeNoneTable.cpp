@@ -18,8 +18,8 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
+#include "OpcUaStackCore/DataType/DataTypeDefinition.h"
 #include "OpcUaStackServer/AddressSpaceModel/DataTypeNodeClass.h"
-#include "OpcUaStackServer/NodeSet/DataTypeDefinition.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/DataTypeNoneTable.h"
 
 using namespace OpcUaStackServer;
