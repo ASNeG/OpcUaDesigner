@@ -55,7 +55,10 @@ namespace OpcUaNodeSet
 	  private:
 		InformationModel::SPtr informationModel_;
 		NodeSetNamespace nodeSetNamespace_;
+
+		// this variable contains a list of visible namespaces
 		VisibleNamespaceSet notVisibleNamespaceSet_;
+
 		uint16_t actNamespaceIndex_;
 	};
 
