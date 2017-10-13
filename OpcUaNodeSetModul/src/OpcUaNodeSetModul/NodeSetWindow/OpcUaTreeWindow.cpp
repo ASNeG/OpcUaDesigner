@@ -29,6 +29,8 @@
 #include "OpcUaNodeSetModul/Dialog/CreateNodeDialog.h"
 #include "OpcUaNodeSetModul/Dialog/DataTypeStructureGeneratorDialog.h"
 
+#include "OpcUaStackServer/NodeSet/NodeSetNamespace.h"
+
 #include <QString>
 #include <QWidget>
 #include <QHeaderView>
@@ -222,8 +224,10 @@ namespace OpcUaNodeSet
 		OpcUaLocalizedText displayName;
 		baseNode->getDisplayName(displayName);
 
+		NodeSetNamespace::logGlobalNamespaceIndex();
 		// create tree item
 		NodeInfo* nodeInfo = new NodeInfo();
+		NodeSetNamespace::logGlobalNamespaceIndex();
 		nodeInfo->baseNode_ = baseNode;
 		nodeInfo->informationModel_ = informationModel;
 		QVariant v;

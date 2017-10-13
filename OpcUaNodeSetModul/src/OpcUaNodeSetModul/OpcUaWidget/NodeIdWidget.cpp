@@ -164,7 +164,9 @@ namespace OpcUaNodeSet
 		// set namespace
 		if (nodeSetNamespace_ != NULL) {
 			namespaceWidget_->clear();
+			std::cout << "::::" << std::endl;
 			for (uint32_t idx = 0; idx < nodeSetNamespace_->globalNamespaceVec().size(); idx++) {
+				std::cout << nodeSetNamespace_->globalNamespaceVec()[idx].c_str() << std::endl;
 				namespaceWidget_->addItem(nodeSetNamespace_->globalNamespaceVec()[idx].c_str());
 			}
 			namespaceWidget_->setCurrentIndex(nodeId_.namespaceIndex());

@@ -37,6 +37,7 @@ namespace OpcUaNodeSet
 	, dataModel_(dataModel)
 	, actValue_("")
 	{
+		// find biggest used namesapce index
 		InformationModelMap::iterator it;
 		for (it = dataModel_->informationModel()->informationModelMap().begin();
 			 it != dataModel_->informationModel()->informationModelMap().end();
@@ -205,7 +206,9 @@ namespace OpcUaNodeSet
        	}
        	else {
        		actValue_ = newItem->text().toStdString();
-       		if (newItem->row() > maxNamespaceIndex_) deleteRowAction_->setEnabled(true);
+       		if (newItem->row() > maxNamespaceIndex_) {
+       			deleteRowAction_->setEnabled(true);
+       		}
        		else deleteRowAction_->setEnabled(false);
        	}
     }
