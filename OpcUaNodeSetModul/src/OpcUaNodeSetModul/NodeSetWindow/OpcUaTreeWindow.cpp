@@ -224,10 +224,8 @@ namespace OpcUaNodeSet
 		OpcUaLocalizedText displayName;
 		baseNode->getDisplayName(displayName);
 
-		NodeSetNamespace::logGlobalNamespaceIndex();
 		// create tree item
 		NodeInfo* nodeInfo = new NodeInfo();
-		NodeSetNamespace::logGlobalNamespaceIndex();
 		nodeInfo->baseNode_ = baseNode;
 		nodeInfo->informationModel_ = informationModel;
 		QVariant v;

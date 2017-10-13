@@ -53,8 +53,8 @@ namespace OpcUaNodeSet
 		// actions
 		//
 		connect(
-			namespaceWidget_, SIGNAL(textChanged(const QString&)),
-			this, SLOT(onCurrentIndexChangedNamespaceWidget(const QString&))
+			namespaceWidget_, SIGNAL(currentIndexChanged(int)),
+			this, SLOT(onCurrentIndexChangedNamespaceWidget(int))
 		);
 		connect(
 			browseNameWidget_, SIGNAL(textChanged(const QString&)),
