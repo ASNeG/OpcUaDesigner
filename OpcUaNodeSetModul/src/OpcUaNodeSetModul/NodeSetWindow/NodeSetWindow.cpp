@@ -35,6 +35,8 @@ namespace OpcUaNodeSet
 	, projectFile_("")
 	, parentMainWindow_(parentMainWindow)
 	, libraryConfig_(NULL)
+	, opcUaTreeWindow_(nullptr)
+	, opcUaAttributeWindow_(nullptr)
 	{
 	}
 
@@ -158,6 +160,7 @@ namespace OpcUaNodeSet
 		namespaceVec.erase(namespaceVec.begin());
 
 		// save empty node set
+		NodeSetNamespace::logGlobalNamespaceIndex();
 		if (!dataModel_.writeNodeSet(projectFile_, namespaceVec)) {
 			QMessageBox msgBox;
 			msgBox.setText(QString("cannot write node set file %1").arg(projectFile_.c_str()));
