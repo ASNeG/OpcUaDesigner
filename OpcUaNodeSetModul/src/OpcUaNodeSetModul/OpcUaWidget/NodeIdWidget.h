@@ -45,6 +45,7 @@ namespace OpcUaNodeSet
 		void setValue(OpcUaNodeId& nodeId);
 		void getValue(OpcUaNodeId& nodeId);
 		bool isValid(void);
+		void enabled(bool enabled);
 
 	  signals:
 	    void valueChanged(OpcUaNodeId& nodeId, bool isValid);

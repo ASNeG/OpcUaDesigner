@@ -37,6 +37,7 @@ namespace OpcUaNodeSet
 		virtual ~DescriptionWidget(void);
 
 		void nodeChange(NodeInfo* nodeInfo);
+		void enabled(bool enabled);
 
 	  private:
 		QLineEdit* localeWidget_;

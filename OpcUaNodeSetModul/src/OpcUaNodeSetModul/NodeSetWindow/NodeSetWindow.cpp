@@ -87,6 +87,9 @@ namespace OpcUaNodeSet
 		projectName_ = projectName;
 		projectFile_ = projectFile;
 
+		Log(Debug, "project new")
+			.parameter("ProjectFile", projectFile_);
+
 		// create window
 		if (!createWindow()) {
 			return false;
@@ -121,6 +124,9 @@ namespace OpcUaNodeSet
     {
 		projectName_ = projectName;
 		projectFile_ = projectFile;
+
+		Log(Debug, "project open")
+			.parameter("ProjectFile", projectFile_);
 
 		// create window
 		if (!createWindow()) {
@@ -160,7 +166,8 @@ namespace OpcUaNodeSet
 		namespaceVec.erase(namespaceVec.begin());
 
 		// save empty node set
-		NodeSetNamespace::logGlobalNamespaceIndex();
+		Log(Debug, "project save")
+			.parameter("ProjectFile", projectFile_);
 		if (!dataModel_.writeNodeSet(projectFile_, namespaceVec)) {
 			QMessageBox msgBox;
 			msgBox.setText(QString("cannot write node set file %1").arg(projectFile_.c_str()));
@@ -175,6 +182,9 @@ namespace OpcUaNodeSet
 	NodeSetWindow::projectSaveAs(uint32_t handle, const std::string& projectFile)
 	{
 		projectFile_ = projectFile;
+
+		Log(Debug, "project save as")
+			.parameter("ProjectFile", projectFile_);
 
 		// create namespace vector
 		NodeSetNamespace nodeSetNamespace;

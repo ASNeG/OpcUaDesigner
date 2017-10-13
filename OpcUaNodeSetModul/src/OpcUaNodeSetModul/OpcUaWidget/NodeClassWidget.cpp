@@ -93,6 +93,12 @@ namespace OpcUaNodeSet
 		return isValid_;
 	}
 
+	void
+	NodeClassWidget::enabled(bool enabled)
+	{
+		nodeClassWidget_->setEnabled(enabled);
+	}
+
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	//

@@ -122,6 +122,14 @@ namespace OpcUaNodeSet
 	}
 
 	void
+	NodeIdWidget::enabled(bool enabled)
+	{
+		typeWidget_->setEnabled(enabled);
+		nodeIdWidget_->setEnabled(enabled);
+		namespaceWidget_->setEnabled(enabled);
+	}
+
+	void
 	NodeIdWidget::showValue(void)
 	{
 		switch (nodeId_.nodeIdType())

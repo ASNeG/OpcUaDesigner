@@ -96,6 +96,13 @@ namespace OpcUaNodeSet
 		return isValid_;
 	}
 
+	void
+	BrowseNameWidget::enabled(bool enabled)
+	{
+		browseNameWidget_->setEnabled(enabled);
+		namespaceWidget_->setEnabled(enabled);
+	}
+
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	//

@@ -87,6 +87,13 @@ namespace OpcUaNodeSet
 		return isValid_;
 	}
 
+	void
+	DisplayNameWidget::enabled(bool enabled)
+	{
+		localeWidget_->setEnabled(enabled);
+		textWidget_->setEnabled(enabled);
+	}
+
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	//

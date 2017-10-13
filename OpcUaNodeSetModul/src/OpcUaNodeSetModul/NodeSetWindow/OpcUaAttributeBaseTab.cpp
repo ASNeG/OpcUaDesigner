@@ -142,29 +142,41 @@ namespace OpcUaNodeSet
 	void
 	OpcUaAttributeBaseTab::nodeChange(NodeInfo* nodeInfo)
 	{
+		bool enabled = true;
+
 		OpcUaNodeId nodeId;
 		nodeInfo->baseNode_->getNodeId(nodeId);
+		if (nodeId.namespaceIndex() == 0) {
+			enabled = false;
+		}
 		nodeIdWidget_->setValue(nodeInfo->nodeSetNamespace_);
 		nodeIdWidget_->setValue(nodeId);
+		nodeIdWidget_->enabled(enabled);
 
 		NodeClassType nodeClassType;
 		nodeInfo->baseNode_->getNodeClass(nodeClassType);
 		nodeClassWidget_->setValue(nodeClassType);
+		nodeClassWidget_->enabled(enabled);
 
 		OpcUaQualifiedName browseName;
 		nodeInfo->baseNode_->getBrowseName(browseName);
 		browseNameWidget_->setValue(nodeInfo->nodeSetNamespace_);
 		browseNameWidget_->setValue(browseName);
+		browseNameWidget_->enabled(enabled);
 
 		OpcUaLocalizedText displayName;
 		nodeInfo->baseNode_->getDisplayName(displayName);
 		displayNameWidget_->setValue(displayName);
+		displayNameWidget_->enabled(enabled);
 
 		descriptionWidget_->nodeChange(nodeInfo);
+		descriptionWidget_->enabled(enabled);
 
 		setWriteMask(nodeInfo);
+		writeMaskLineEdit_->setEnabled(enabled);
 
 		setUserWriteMask(nodeInfo);
+		userWriteMaskLineEdit_->setEnabled(enabled);
 	}
 
 	void

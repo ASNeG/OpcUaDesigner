@@ -63,6 +63,13 @@ namespace OpcUaNodeSet
 		textWidget_->setText(QString(description.text().value().c_str()));
 	}
 
+	void
+	DescriptionWidget::enabled(bool enabled)
+	{
+		localeWidget_->setEnabled(enabled);
+		textWidget_->setEnabled(enabled);
+	}
+
 }
 
 

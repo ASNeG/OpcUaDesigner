@@ -45,6 +45,7 @@ namespace OpcUaNodeSet
 		void setValue(OpcUaQualifiedName& browseName);
 		void getValue(OpcUaQualifiedName& browseName);
 		bool isValid(void);
+		void enabled(bool enabled);
 
 	  signals:
         void valueChanged(OpcUaQualifiedName& browseName, bool isValid);
