@@ -26,6 +26,7 @@
 #include "OpcUaNodeSetModul/OpcUaWidget/BrowseNameWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/DisplayNameWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/DescriptionWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/WriteMaskWidget.h"
 
 class QLineEdit;
 class QToolBar;
@@ -57,7 +58,6 @@ namespace OpcUaNodeSet
 	    void update(void);
 
 	  private:
-		void setWriteMask(NodeInfo* nodeInfo);
 		void setUserWriteMask(NodeInfo* nodeInfo);
 
 	    //
@@ -75,7 +75,7 @@ namespace OpcUaNodeSet
 		BrowseNameWidget* browseNameWidget_;
 		DisplayNameWidget* displayNameWidget_;
 		DescriptionWidget* descriptionWidget_;
-		QLineEdit* writeMaskLineEdit_;
+		WriteMaskWidget* writeMaskWidget_;
 		QLineEdit* userWriteMaskLineEdit_;
 	};
 

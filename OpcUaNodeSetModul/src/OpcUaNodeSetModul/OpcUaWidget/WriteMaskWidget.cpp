@@ -28,7 +28,7 @@ namespace OpcUaNodeSet
 	WriteMaskWidget::WriteMaskWidget(QWidget* parent)
 	: QWidget()
 	, checkOn_(true)
-	, isValid_()
+	, isValid_(true)
 	{
 		// widgets
 		textWidget_ = new QLineEdit();
@@ -57,7 +57,7 @@ namespace OpcUaNodeSet
 	bool
 	WriteMaskWidget::isValid(void)
 	{
-		return true;
+		return isValid_;
 	}
 
 	void
@@ -87,6 +87,7 @@ namespace OpcUaNodeSet
 	WriteMaskWidget::checkValue(void)
 	{
 		textWidget_->text().toInt(&isValid_);
+		return isValid_;
 	}
 
 	void

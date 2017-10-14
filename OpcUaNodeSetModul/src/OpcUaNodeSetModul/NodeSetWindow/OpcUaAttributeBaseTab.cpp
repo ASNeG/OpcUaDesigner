@@ -116,11 +116,10 @@ namespace OpcUaNodeSet
 		QLabel* writeMaskLabel = new QLabel("WriteMask");
 		gridLayout->addWidget(writeMaskLabel, 5, 0);
 
-		writeMaskLineEdit_ = new QLineEdit();
-		writeMaskLineEdit_->setFixedWidth(400);
+		writeMaskWidget_ = new WriteMaskWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(writeMaskLineEdit_);
+		hBoxLayout->addWidget(writeMaskWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 5, 1);
@@ -153,6 +152,7 @@ namespace OpcUaNodeSet
 		connect(browseNameWidget_, SIGNAL(update()), this, SLOT(update()));
 		connect(displayNameWidget_, SIGNAL(update()), this, SLOT(update()));
 		connect(descriptionWidget_, SIGNAL(update()), this, SLOT(update()));
+		connect(writeMaskWidget_, SIGNAL(update()), this, SLOT(update()));
 	}
 
 	OpcUaAttributeBaseTab::~OpcUaAttributeBaseTab(void)
@@ -194,8 +194,8 @@ namespace OpcUaNodeSet
 		descriptionWidget_->nodeChange(nodeInfo);
 		descriptionWidget_->enabled(enabled);
 
-		setWriteMask(nodeInfo);
-		writeMaskLineEdit_->setEnabled(enabled);
+		writeMaskWidget_->nodeChange(nodeInfo);
+		writeMaskWidget_->enabled(enabled);
 
 		setUserWriteMask(nodeInfo);
 		userWriteMaskLineEdit_->setEnabled(enabled);
@@ -255,25 +255,13 @@ namespace OpcUaNodeSet
     	if (!browseNameWidget_->isValid()) orderOkAction_->setEnabled(false);
     	if (!displayNameWidget_->isValid()) orderOkAction_->setEnabled(false);
     	if (!descriptionWidget_->isValid()) orderOkAction_->setEnabled(false);
+    	if (!writeMaskWidget_->isValid()) orderOkAction_->setEnabled(false);
     }
 
 
 	//
 	// ...
 	//
-	void
-	OpcUaAttributeBaseTab::setWriteMask(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullWriteMask()) {
-			writeMaskLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaUInt32 writeMask;
-			baseNode->getUserWriteMask(writeMask);
-			writeMaskLineEdit_->setText(QString("%1").arg((uint32_t)writeMask));
-		}
-	}
 
 	void
 	OpcUaAttributeBaseTab::setUserWriteMask(NodeInfo* nodeInfo)
