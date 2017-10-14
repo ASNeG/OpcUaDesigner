@@ -282,7 +282,7 @@ namespace OpcUaNodeSet
     	baseNode->getWriteMask(writeMask);
 
     	OpcUaUInt32 newWriteMask;
-    	writeMaskWidget_->getValue(writeMask);
+    	writeMaskWidget_->getValue(newWriteMask);
 
     	if (writeMask != newWriteMask) {
     		baseNode->setWriteMask(newWriteMask);
@@ -293,7 +293,7 @@ namespace OpcUaNodeSet
     	baseNode->getUserWriteMaskSync(userWriteMask);
 
     	OpcUaUInt32 newUserWriteMask;
-    	userWriteMaskWidget_->getValue(userWriteMask);
+    	userWriteMaskWidget_->getValue(newUserWriteMask);
 
     	if (userWriteMask != newUserWriteMask) {
     		baseNode->setUserWriteMask(newUserWriteMask);

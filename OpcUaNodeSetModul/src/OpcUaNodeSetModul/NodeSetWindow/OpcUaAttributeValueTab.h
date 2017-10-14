@@ -44,20 +44,16 @@ namespace OpcUaNodeSet
 		void setDataType(NodeInfo* nodeInfo);
 		void setHistorizing(NodeInfo* nodeInfo);
 		void setMinimumSamplingInterval(NodeInfo* nodeInfo);
-		void setUserWriteMask(NodeInfo* nodeInfo);
 		void setValue(NodeInfo* nodeInfo);
 		void setValueRank(NodeInfo* nodeInfo);
-		void setWriteMask(NodeInfo* nodeInfo);
 
 		QLineEdit* accessLevelLineEdit_;
 		QLineEdit* arrayDimensionsLineEdit_;
 		QLineEdit* dataTypeLineEdit_;
 		QLineEdit* historizingLineEdit_;
 		QLineEdit* minimumSamplingIntervalLineEdit_;
-		QLineEdit* userWriteMaskLineEdit_;
 		QLineEdit* valueLineEdit_;
 		QLineEdit* valueRankLineEdit_;
-		QLineEdit* writeMaskLineEdit_;
 	};
 
 }

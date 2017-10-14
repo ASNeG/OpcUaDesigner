@@ -106,23 +106,9 @@ namespace OpcUaNodeSet
 		gridLayout->addLayout(hBoxLayout, 4, 1);
 
 
-		// UserWriteMask
-		QLabel* userWriteMaskLabel = new QLabel("UserWriteMask");
-		gridLayout->addWidget(userWriteMaskLabel, 5, 0);
-
-		userWriteMaskLineEdit_ = new QLineEdit();
-		userWriteMaskLineEdit_->setFixedWidth(300);
-
-		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(userWriteMaskLineEdit_);
-		hBoxLayout->addStretch();
-
-		gridLayout->addLayout(hBoxLayout, 5, 1);
-
-
 		// Value
 		QLabel* valueLabel = new QLabel("Value");
-		gridLayout->addWidget(valueLabel, 6, 0);
+		gridLayout->addWidget(valueLabel, 5, 0);
 
 		valueLineEdit_ = new QLineEdit();
 		valueLineEdit_->setFixedWidth(300);
@@ -131,12 +117,12 @@ namespace OpcUaNodeSet
 		hBoxLayout->addWidget(valueLineEdit_);
 		hBoxLayout->addStretch();
 
-		gridLayout->addLayout(hBoxLayout, 6, 1);
+		gridLayout->addLayout(hBoxLayout, 5, 1);
 
 
 		// ValueRank
 		QLabel* valueRankLabel = new QLabel("ValueRank");
-		gridLayout->addWidget(valueRankLabel, 7, 0);
+		gridLayout->addWidget(valueRankLabel, 6, 0);
 
 		valueRankLineEdit_ = new QLineEdit();
 		valueRankLineEdit_->setFixedWidth(300);
@@ -145,23 +131,7 @@ namespace OpcUaNodeSet
 		hBoxLayout->addWidget(valueRankLineEdit_);
 		hBoxLayout->addStretch();
 
-		gridLayout->addLayout(hBoxLayout, 7, 1);
-
-
-		// WriteMask
-		QLabel* writeMaskLabel = new QLabel("WriteMask");
-		gridLayout->addWidget(writeMaskLabel, 8, 0);
-
-		writeMaskLineEdit_ = new QLineEdit();
-		writeMaskLineEdit_->setFixedWidth(300);
-
-		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(writeMaskLineEdit_);
-		hBoxLayout->addStretch();
-
-		gridLayout->addLayout(hBoxLayout, 8, 1);
-
-
+		gridLayout->addLayout(hBoxLayout, 6, 1);
 
 		vBoxLayout->addLayout(gridLayout);
 		vBoxLayout->addStretch();
@@ -181,10 +151,8 @@ namespace OpcUaNodeSet
 		setDataType(nodeInfo);
 		setHistorizing(nodeInfo);
 		setMinimumSamplingInterval(nodeInfo);
-		setUserWriteMask(nodeInfo);
 		setValue(nodeInfo);
 		setValueRank(nodeInfo);
-		setWriteMask(nodeInfo);
 	}
 
 	void
@@ -275,20 +243,6 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaAttributeValueTab::setUserWriteMask(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullUserWriteMask()) {
-			userWriteMaskLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaUInt32 userWriteMask;
-			baseNode->getUserWriteMask(userWriteMask);
-			userWriteMaskLineEdit_->setText(QString("%1").arg((uint32_t)userWriteMask));
-		}
-	}
-
-	void
 	OpcUaAttributeValueTab::setValue(NodeInfo* nodeInfo)
 	{
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
@@ -315,20 +269,6 @@ namespace OpcUaNodeSet
 			OpcUaInt32 valueRank;
 			baseNode->getValueRank(valueRank);
 			valueRankLineEdit_->setText(QString("%1").arg((int32_t)valueRank));
-		}
-	}
-
-	void
-	OpcUaAttributeValueTab::setWriteMask(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullWriteMask()) {
-			writeMaskLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaUInt32 writeMask;
-			baseNode->getWriteMask(writeMask);
-			writeMaskLineEdit_->setText(QString("%1").arg((uint32_t)writeMask));
 		}
 	}
 
