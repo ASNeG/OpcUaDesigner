@@ -199,6 +199,9 @@ namespace OpcUaNodeSet
 
 		setUserWriteMask(nodeInfo);
 		userWriteMaskLineEdit_->setEnabled(enabled);
+
+		orderOkAction_->setEnabled(false);
+		orderDeleteAction_->setEnabled(false);
 	}
 
 	// ------------------------------------------------------------------------
