@@ -129,11 +129,10 @@ namespace OpcUaNodeSet
 		QLabel* userWriteMaskLabel = new QLabel("UserWriteMask");
 		gridLayout->addWidget(userWriteMaskLabel, 6, 0);
 
-		userWriteMaskLineEdit_ = new QLineEdit();
-		userWriteMaskLineEdit_->setFixedWidth(400);
+		userWriteMaskWidget_ = new UserWriteMaskWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(userWriteMaskLineEdit_);
+		hBoxLayout->addWidget(userWriteMaskWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 6, 1);
@@ -153,6 +152,7 @@ namespace OpcUaNodeSet
 		connect(displayNameWidget_, SIGNAL(update()), this, SLOT(update()));
 		connect(descriptionWidget_, SIGNAL(update()), this, SLOT(update()));
 		connect(writeMaskWidget_, SIGNAL(update()), this, SLOT(update()));
+		connect(userWriteMaskWidget_, SIGNAL(update()), this, SLOT(update()));
 	}
 
 	OpcUaAttributeBaseTab::~OpcUaAttributeBaseTab(void)
@@ -197,8 +197,8 @@ namespace OpcUaNodeSet
 		writeMaskWidget_->nodeChange(nodeInfo);
 		writeMaskWidget_->enabled(enabled);
 
-		setUserWriteMask(nodeInfo);
-		userWriteMaskLineEdit_->setEnabled(enabled);
+		userWriteMaskWidget_->nodeChange(nodeInfo);
+		userWriteMaskWidget_->enabled(enabled);
 
 		orderOkAction_->setEnabled(false);
 		orderDeleteAction_->setEnabled(false);
@@ -259,27 +259,8 @@ namespace OpcUaNodeSet
     	if (!displayNameWidget_->isValid()) orderOkAction_->setEnabled(false);
     	if (!descriptionWidget_->isValid()) orderOkAction_->setEnabled(false);
     	if (!writeMaskWidget_->isValid()) orderOkAction_->setEnabled(false);
+    	if (!userWriteMaskWidget_->isValid()) orderOkAction_->setEnabled(false);
     }
-
-
-	//
-	// ...
-	//
-
-	void
-	OpcUaAttributeBaseTab::setUserWriteMask(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullUserWriteMask()) {
-			userWriteMaskLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaUInt32 userWriteMask;
-			baseNode->getUserWriteMask(userWriteMask);
-			userWriteMaskLineEdit_->setText(QString("%1").arg((uint32_t)userWriteMask));
-		}
-	}
-
 
 }
 
