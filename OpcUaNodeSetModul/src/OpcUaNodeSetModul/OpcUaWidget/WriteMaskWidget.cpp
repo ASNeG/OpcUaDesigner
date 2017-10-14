@@ -83,6 +83,13 @@ namespace OpcUaNodeSet
 		textWidget_->setEnabled(enabled);
 	}
 
+	void
+	WriteMaskWidget::getValue(OpcUaUInt32& writeMask)
+	{
+		bool rc;
+		writeMask = textWidget_->text().toInt(&rc);
+	}
+
 	bool
 	WriteMaskWidget::checkValue(void)
 	{

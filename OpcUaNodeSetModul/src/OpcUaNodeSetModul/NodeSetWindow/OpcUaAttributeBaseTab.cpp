@@ -228,8 +228,79 @@ namespace OpcUaNodeSet
     void
 	OpcUaAttributeBaseTab::onOrderOkAction(void)
     {
-    	std::cout << "onOrderOkAction" << std::endl;
-    	// FIXME: todo
+    	InformationModel::SPtr informationModel_ = nodeInfo_->informationModel_;
+    	BaseNodeClass::SPtr baseNode = nodeInfo_->baseNode_;
+
+    	// check node id
+    	OpcUaNodeId nodeId;
+    	baseNode->getNodeId(nodeId);
+
+    	OpcUaNodeId newNodeId;
+    	nodeIdWidget_->getValue(newNodeId);
+
+    	if (nodeId != newNodeId) {
+    		informationModel_->remove(nodeId);
+    		baseNode->setNodeId(newNodeId);
+    		informationModel_->insert(baseNode);
+    	}
+
+    	// check display name
+    	OpcUaLocalizedText displayName;
+    	baseNode->getDisplayNameSync(displayName);
+
+    	OpcUaLocalizedText newDisplayName;
+    	displayNameWidget_->getValue(newDisplayName);
+
+    	if (displayName != newDisplayName) {
+    		baseNode->setDisplayNameSync(newDisplayName);
+    	}
+
+    	// check browse name
+    	OpcUaQualifiedName browseName;
+    	baseNode->getBrowseName(browseName);
+
+    	OpcUaQualifiedName newBrowseName;
+    	browseNameWidget_->getValue(newBrowseName);
+
+    	if (browseName != newBrowseName) {
+    		baseNode->setBrowseNameSync(newBrowseName);
+    	}
+
+    	// check description
+    	OpcUaLocalizedText description;
+    	baseNode->getDescription(description);
+
+    	OpcUaLocalizedText newDescription;
+    	descriptionWidget_->getValue(newDescription);
+
+    	if (description != newDescription) {
+    		baseNode->setDescription(newDescription);
+    	}
+
+    	// check write mask
+    	OpcUaUInt32 writeMask;
+    	baseNode->getWriteMask(writeMask);
+
+    	OpcUaUInt32 newWriteMask;
+    	writeMaskWidget_->getValue(writeMask);
+
+    	if (writeMask != newWriteMask) {
+    		baseNode->setWriteMask(newWriteMask);
+    	}
+
+    	// check user write mask
+    	OpcUaUInt32 userWriteMask;
+    	baseNode->getUserWriteMaskSync(userWriteMask);
+
+    	OpcUaUInt32 newUserWriteMask;
+    	userWriteMaskWidget_->getValue(userWriteMask);
+
+    	if (userWriteMask != newUserWriteMask) {
+    		baseNode->setUserWriteMask(newUserWriteMask);
+    	}
+
+    	orderOkAction_->setEnabled(false);
+    	orderDeleteAction_->setEnabled(false);
     }
 
     void

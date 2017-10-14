@@ -39,6 +39,7 @@ namespace OpcUaNodeSet
 		bool isValid(void);
 		void nodeChange(NodeInfo* nodeInfo);
 		void enabled(bool enabled);
+		void getValue(OpcUaLocalizedText& description);
 
 	signals:
 	  void valueChanged(OpcUaLocalizedText& description, bool isValid);

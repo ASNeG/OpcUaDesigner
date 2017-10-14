@@ -92,6 +92,12 @@ namespace OpcUaNodeSet
 	}
 
 	void
+	DescriptionWidget::getValue(OpcUaLocalizedText& description)
+	{
+		description.set(localeWidget_->text().toStdString(), textWidget_->text().toStdString());
+	}
+
+	void
 	DescriptionWidget::onTextChangedLocaleWidget(const QString& text)
 	{
 		if (!checkOn_) return;

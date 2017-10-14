@@ -39,6 +39,7 @@ namespace OpcUaNodeSet
 		bool isValid(void);
 		void nodeChange(NodeInfo* nodeInfo);
 		void enabled(bool enabled);
+		void getValue(OpcUaUInt32& userWriteMask);
 
 	signals:
 	  void valueChanged(OpcUaUInt32& writeMask, bool isValid);
