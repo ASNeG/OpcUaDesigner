@@ -50,37 +50,9 @@ namespace OpcUaNodeSet
 		gridLayout->addLayout(hBoxLayout, 0, 1);
 
 
-		// ArrayDimensions
-		QLabel* arrayDimensionsLabel = new QLabel("ArrayDimensions");
-		gridLayout->addWidget(arrayDimensionsLabel, 1, 0);
-
-		arrayDimensionsLineEdit_ = new QLineEdit();
-		arrayDimensionsLineEdit_->setFixedWidth(300);
-
-		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(arrayDimensionsLineEdit_);
-		hBoxLayout->addStretch();
-
-		gridLayout->addLayout(hBoxLayout, 1, 1);
-
-
-		// DataType
-		QLabel* dataTypeLabel = new QLabel("DataType");
-		gridLayout->addWidget(dataTypeLabel, 2, 0);
-
-		dataTypeLineEdit_ = new QLineEdit();
-		dataTypeLineEdit_->setFixedWidth(300);
-
-		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(dataTypeLineEdit_);
-		hBoxLayout->addStretch();
-
-		gridLayout->addLayout(hBoxLayout, 2, 1);
-
-
 		// Historizing
 		QLabel* historizingLabel = new QLabel("Historizing");
-		gridLayout->addWidget(historizingLabel, 3, 0);
+		gridLayout->addWidget(historizingLabel, 1, 0);
 
 		historizingLineEdit_ = new QLineEdit();
 		historizingLineEdit_->setFixedWidth(300);
@@ -89,12 +61,12 @@ namespace OpcUaNodeSet
 		hBoxLayout->addWidget(historizingLineEdit_);
 		hBoxLayout->addStretch();
 
-		gridLayout->addLayout(hBoxLayout, 3, 1);
+		gridLayout->addLayout(hBoxLayout, 1, 1);
 
 
 		// MinimumSamplingInterval
 		QLabel* minimumSamplingIntervalLabel = new QLabel("MinimumSamplingInterval");
-		gridLayout->addWidget(minimumSamplingIntervalLabel, 4, 0);
+		gridLayout->addWidget(minimumSamplingIntervalLabel, 2, 0);
 
 		minimumSamplingIntervalLineEdit_ = new QLineEdit();
 		minimumSamplingIntervalLineEdit_->setFixedWidth(300);
@@ -103,26 +75,40 @@ namespace OpcUaNodeSet
 		hBoxLayout->addWidget(minimumSamplingIntervalLineEdit_);
 		hBoxLayout->addStretch();
 
-		gridLayout->addLayout(hBoxLayout, 4, 1);
+		gridLayout->addLayout(hBoxLayout, 2, 1);
 
+		// ArrayDimensions
+		QLabel* arrayDimensionsLabel = new QLabel("ArrayDimensions");
+		gridLayout->addWidget(arrayDimensionsLabel, 3, 0);
 
-		// Value
-		QLabel* valueLabel = new QLabel("Value");
-		gridLayout->addWidget(valueLabel, 5, 0);
-
-		valueLineEdit_ = new QLineEdit();
-		valueLineEdit_->setFixedWidth(300);
+		arrayDimensionsLineEdit_ = new QLineEdit();
+		arrayDimensionsLineEdit_->setFixedWidth(300);
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(valueLineEdit_);
+		hBoxLayout->addWidget(arrayDimensionsLineEdit_);
 		hBoxLayout->addStretch();
 
-		gridLayout->addLayout(hBoxLayout, 5, 1);
+		gridLayout->addLayout(hBoxLayout, 3, 1);
+
+
+		// DataType
+		QLabel* dataTypeLabel = new QLabel("DataType");
+		gridLayout->addWidget(dataTypeLabel, 4, 0);
+
+		dataTypeLineEdit_ = new QLineEdit();
+		dataTypeLineEdit_->setFixedWidth(300);
+
+		hBoxLayout = new QHBoxLayout();
+		hBoxLayout->addWidget(dataTypeLineEdit_);
+		hBoxLayout->addStretch();
+
+		gridLayout->addLayout(hBoxLayout, 4, 1);
+
 
 
 		// ValueRank
 		QLabel* valueRankLabel = new QLabel("ValueRank");
-		gridLayout->addWidget(valueRankLabel, 6, 0);
+		gridLayout->addWidget(valueRankLabel, 5, 0);
 
 		valueRankLineEdit_ = new QLineEdit();
 		valueRankLineEdit_->setFixedWidth(300);
@@ -131,7 +117,22 @@ namespace OpcUaNodeSet
 		hBoxLayout->addWidget(valueRankLineEdit_);
 		hBoxLayout->addStretch();
 
+		gridLayout->addLayout(hBoxLayout, 5, 1);
+
+
+		// Value
+		QLabel* valueLabel = new QLabel("Value");
+		gridLayout->addWidget(valueLabel, 6, 0);
+
+		valueLineEdit_ = new QLineEdit();
+		valueLineEdit_->setFixedWidth(300);
+
+		hBoxLayout = new QHBoxLayout();
+		hBoxLayout->addWidget(valueLineEdit_);
+		hBoxLayout->addStretch();
+
 		gridLayout->addLayout(hBoxLayout, 6, 1);
+
 
 		vBoxLayout->addLayout(gridLayout);
 		vBoxLayout->addStretch();
