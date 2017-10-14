@@ -55,6 +55,8 @@
 	  <file>images/ZoomOut.png</file>
 	  <file>images/Eye.png</file>
 	  <file>images/Tree.png</file>
+	  <file>images/OrderOk.png</file>
+	  <file>images/OrderDelete.png</file>
     </qresource>
 
 </RCC>

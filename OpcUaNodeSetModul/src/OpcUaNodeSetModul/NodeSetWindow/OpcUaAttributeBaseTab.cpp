@@ -23,6 +23,7 @@
 
 #include <QLabel>
 #include <QLineEdit>
+#include <QPushButton>
 
 namespace OpcUaNodeSet
 {
@@ -34,7 +35,6 @@ namespace OpcUaNodeSet
 		QHBoxLayout* hBoxLayout;
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
 		QGridLayout* gridLayout = new QGridLayout();
-
 
 		// NodeId
 		QLabel* nodeIdLabel = new QLabel("NodeId");
@@ -130,6 +130,7 @@ namespace OpcUaNodeSet
 
 
 		vBoxLayout->addLayout(gridLayout);
+
 		vBoxLayout->addStretch();
 
 		setLayout(vBoxLayout);
