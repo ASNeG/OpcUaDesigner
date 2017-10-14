@@ -28,6 +28,7 @@
 #include "OpcUaNodeSetModul/OpcUaWidget/DescriptionWidget.h"
 
 class QLineEdit;
+class QToolBar;
 
 namespace OpcUaNodeSet
 {
@@ -43,9 +44,25 @@ namespace OpcUaNodeSet
 
 		void nodeChange(NodeInfo* nodeInfo);
 
+	  public slots:
+	    //
+	    // toolbar menu
+	    //
+	    void onOrderOkAction(void);
+	    void onOrderDeletection(void);
+
 	  private:
 		void setWriteMask(NodeInfo* nodeInfo);
 		void setUserWriteMask(NodeInfo* nodeInfo);
+
+	    //
+	    // toolbar menu
+	    //
+	    void createToolBarActions(void);
+
+		QToolBar* tableToolBar_;
+		QAction* orderOkAction_;
+		QAction* orderDeleteAction_;
 
 		NodeIdWidget* nodeIdWidget_;
 		NodeClassWidget* nodeClassWidget_;

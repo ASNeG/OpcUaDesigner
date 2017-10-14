@@ -24,6 +24,8 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QToolBar>
+#include <QMenu>
 
 namespace OpcUaNodeSet
 {
@@ -35,6 +37,13 @@ namespace OpcUaNodeSet
 		QHBoxLayout* hBoxLayout;
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
 		QGridLayout* gridLayout = new QGridLayout();
+
+		// create toolbar menu
+		createToolBarActions();
+		tableToolBar_ = new QToolBar();
+		tableToolBar_->addAction(orderOkAction_);
+		tableToolBar_->addAction(orderDeleteAction_);
+		vBoxLayout->addWidget(tableToolBar_);
 
 		// NodeId
 		QLabel* nodeIdLabel = new QLabel("NodeId");
@@ -180,6 +189,43 @@ namespace OpcUaNodeSet
 		userWriteMaskLineEdit_->setEnabled(enabled);
 	}
 
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// Toolbar
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	void
+	OpcUaAttributeBaseTab::createToolBarActions(void)
+	{
+		orderOkAction_ = new QAction("Apply tab input", this);
+		orderOkAction_->setIcon(QIcon(":images/OrderOk.png"));
+		orderOkAction_->setEnabled(false);
+		connect(orderOkAction_, SIGNAL(triggered()), this, SLOT(onOrderOkAction()));
+
+		orderDeleteAction_ = new QAction("Cancel tab input", this);
+		orderDeleteAction_->setIcon(QIcon(":images/OrderDelete.png"));
+		orderDeleteAction_->setEnabled(false);
+		connect(orderDeleteAction_, SIGNAL(triggered()), this, SLOT(onOrderDeleteAction()));
+	}
+
+    void
+	OpcUaAttributeBaseTab::onOrderOkAction(void)
+    {
+    	// FIXME: todo
+    }
+
+    void
+	OpcUaAttributeBaseTab::onOrderDeletection(void)
+    {
+    	// FIXME: todo
+    }
+
+
+	//
+	// ...
+	//
 	void
 	OpcUaAttributeBaseTab::setWriteMask(NodeInfo* nodeInfo)
 	{
@@ -207,6 +253,7 @@ namespace OpcUaNodeSet
 			userWriteMaskLineEdit_->setText(QString("%1").arg((uint32_t)userWriteMask));
 		}
 	}
+
 
 }
 
