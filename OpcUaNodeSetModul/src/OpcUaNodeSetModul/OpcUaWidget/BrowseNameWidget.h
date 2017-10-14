@@ -49,6 +49,7 @@ namespace OpcUaNodeSet
 
 	  signals:
         void valueChanged(OpcUaQualifiedName& browseName, bool isValid);
+        void update(void);
 
       private slots:
 		void onCurrentIndexChangedNamespaceWidget(int index);

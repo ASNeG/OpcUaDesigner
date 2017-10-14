@@ -81,7 +81,7 @@ namespace OpcUaNodeSet
 		checkOn_ = true;
 		isValid_ = checkValue();
 		styleValue();
-		emit valueChanged(browseName_, isValid_);
+		//emit valueChanged(browseName_, isValid_);
 	}
 
 	void
@@ -122,6 +122,7 @@ namespace OpcUaNodeSet
 			browseName_.set(browseNameWidget_->text().toStdString(), namespaceWidget_->currentIndex());
 		}
 		emit valueChanged(browseName_, isValid_);
+		emit update();
 	}
 
 	void
@@ -136,6 +137,7 @@ namespace OpcUaNodeSet
 			browseName_.set(browseNameWidget_->text().toStdString(), namespaceWidget_->currentIndex());
 		}
 		emit valueChanged(browseName_, isValid_);
+		emit update();
 	}
 
 	// ------------------------------------------------------------------------

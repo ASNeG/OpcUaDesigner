@@ -49,6 +49,7 @@ namespace OpcUaNodeSet
 
 	  signals:
 	    void valueChanged(OpcUaNodeId& nodeId, bool isValid);
+	    void update(void);
 
 	  private slots:
 	    void onCurrentIndexChangedTypeWidget(int index);

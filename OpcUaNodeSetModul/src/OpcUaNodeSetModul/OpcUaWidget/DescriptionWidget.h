@@ -36,10 +36,20 @@ namespace OpcUaNodeSet
 		DescriptionWidget(QWidget* parent = 0);
 		virtual ~DescriptionWidget(void);
 
+		bool isValid(void);
 		void nodeChange(NodeInfo* nodeInfo);
 		void enabled(bool enabled);
 
+	signals:
+	  void valueChanged(OpcUaLocalizedText& description, bool isValid);
+      void update(void);
+
+	private slots:
+		void onTextChangedLocaleWidget(const QString& text);
+		void onTextChangedTextWidget(const QString& text);
+
 	  private:
+		bool checkOn_;
 		QLineEdit* localeWidget_;
 		QLineEdit* textWidget_;
 	};

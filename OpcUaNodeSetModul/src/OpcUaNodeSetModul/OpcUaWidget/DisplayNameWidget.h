@@ -45,6 +45,7 @@ namespace OpcUaNodeSet
 
 	  signals:
 		void valueChanged(OpcUaLocalizedText& displayName, bool isValid);
+		void update(void);
 
 	  private slots:
 		void onTextChangedLocale(const QString& text);

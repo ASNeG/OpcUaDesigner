@@ -49,7 +49,12 @@ namespace OpcUaNodeSet
 	    // toolbar menu
 	    //
 	    void onOrderOkAction(void);
-	    void onOrderDeletection(void);
+	    void onOrderDeleteAction(void);
+
+	    //
+	    // widgets
+	    //
+	    void update(void);
 
 	  private:
 		void setWriteMask(NodeInfo* nodeInfo);
@@ -64,6 +69,7 @@ namespace OpcUaNodeSet
 		QAction* orderOkAction_;
 		QAction* orderDeleteAction_;
 
+		NodeInfo* nodeInfo_;
 		NodeIdWidget* nodeIdWidget_;
 		NodeClassWidget* nodeClassWidget_;
 		BrowseNameWidget* browseNameWidget_;

@@ -27,6 +27,7 @@ namespace OpcUaNodeSet
 
 	DescriptionWidget::DescriptionWidget(QWidget* parent)
 	: QWidget()
+	, checkOn_(true)
 	{
 		// widgets
 		localeWidget_ = new QLineEdit();
@@ -41,11 +42,29 @@ namespace OpcUaNodeSet
 		hBoxLayout->addWidget(textWidget_);
 		hBoxLayout->setMargin(0);
 
+		//
+		// actions
+		//
+		connect(
+			localeWidget_, SIGNAL(textChanged(const QString&)),
+			this, SLOT(onTextChangedLocaleWidget(const QString&))
+		);
+		connect(
+			textWidget_, SIGNAL(textChanged(const QString&)),
+			this, SLOT(onTextChangedTextWidget(const QString&))
+		);
+
 		setLayout(hBoxLayout);
 	}
 
 	DescriptionWidget::~DescriptionWidget(void)
 	{
+	}
+
+	bool
+	DescriptionWidget::isValid(void)
+	{
+		return true;
 	}
 
 	void
@@ -57,10 +76,12 @@ namespace OpcUaNodeSet
 			textWidget_->setText(QString(""));
 		}
 
+		checkOn_ = false;
 		OpcUaLocalizedText description;
 		baseNode->getDescription(description);
 		localeWidget_->setText(QString(description.locale().value().c_str()));
 		textWidget_->setText(QString(description.text().value().c_str()));
+		checkOn_ = true;
 	}
 
 	void
@@ -68,6 +89,28 @@ namespace OpcUaNodeSet
 	{
 		localeWidget_->setEnabled(enabled);
 		textWidget_->setEnabled(enabled);
+	}
+
+	void
+	DescriptionWidget::onTextChangedLocaleWidget(const QString& text)
+	{
+		if (!checkOn_) return;
+
+		OpcUaLocalizedText description;
+		description.set(localeWidget_->text().toStdString(), textWidget_->text().toStdString());
+		emit valueChanged(description, true);
+	    emit update();
+	}
+
+	void
+	DescriptionWidget::onTextChangedTextWidget(const QString& text)
+	{
+		if (!checkOn_) return;
+
+		OpcUaLocalizedText description;
+		description.set(localeWidget_->text().toStdString(), textWidget_->text().toStdString());
+		emit valueChanged(description, true);
+	    emit update();
 	}
 
 }

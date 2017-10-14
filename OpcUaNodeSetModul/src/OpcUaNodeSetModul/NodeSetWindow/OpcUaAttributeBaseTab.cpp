@@ -33,6 +33,7 @@ namespace OpcUaNodeSet
 
 	OpcUaAttributeBaseTab::OpcUaAttributeBaseTab(QWidget* parent)
 	: QWidget()
+	, nodeInfo_(nullptr)
 	{
 		QHBoxLayout* hBoxLayout;
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
@@ -45,27 +46,28 @@ namespace OpcUaNodeSet
 		tableToolBar_->addAction(orderDeleteAction_);
 		vBoxLayout->addWidget(tableToolBar_);
 
-		// NodeId
-		QLabel* nodeIdLabel = new QLabel("NodeId");
-		gridLayout->addWidget(nodeIdLabel, 0, 0);
-
-		nodeIdWidget_ = new NodeIdWidget();
-
-		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(nodeIdWidget_);
-		hBoxLayout->addStretch();
-
-		gridLayout->addLayout(hBoxLayout, 0, 1);
-
 
 		// NodeClass
 		QLabel* nodeClassLabel = new QLabel("NodeClass");
-		gridLayout->addWidget(nodeClassLabel, 1, 0);
+		gridLayout->addWidget(nodeClassLabel, 0, 0);
 
 		nodeClassWidget_ = new NodeClassWidget();
 
 		hBoxLayout = new QHBoxLayout();
 		hBoxLayout->addWidget(nodeClassWidget_);
+		hBoxLayout->addStretch();
+
+		gridLayout->addLayout(hBoxLayout, 0, 1);
+
+
+		// NodeId
+		QLabel* nodeIdLabel = new QLabel("NodeId");
+		gridLayout->addWidget(nodeIdLabel, 1, 0);
+
+		nodeIdWidget_ = new NodeIdWidget();
+
+		hBoxLayout = new QHBoxLayout();
+		hBoxLayout->addWidget(nodeIdWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 1, 1);
@@ -143,6 +145,14 @@ namespace OpcUaNodeSet
 		vBoxLayout->addStretch();
 
 		setLayout(vBoxLayout);
+
+		//
+		// actions
+		//
+		connect(nodeIdWidget_, SIGNAL(update()), this, SLOT(update()));
+		connect(browseNameWidget_, SIGNAL(update()), this, SLOT(update()));
+		connect(displayNameWidget_, SIGNAL(update()), this, SLOT(update()));
+		connect(descriptionWidget_, SIGNAL(update()), this, SLOT(update()));
 	}
 
 	OpcUaAttributeBaseTab::~OpcUaAttributeBaseTab(void)
@@ -154,6 +164,13 @@ namespace OpcUaNodeSet
 	{
 		bool enabled = true;
 
+		nodeInfo_ = nodeInfo;
+
+		NodeClassType nodeClassType;
+		nodeInfo->baseNode_->getNodeClass(nodeClassType);
+		nodeClassWidget_->setValue(nodeClassType);
+		nodeClassWidget_->enabled(false);
+
 		OpcUaNodeId nodeId;
 		nodeInfo->baseNode_->getNodeId(nodeId);
 		if (nodeId.namespaceIndex() == 0) {
@@ -162,11 +179,6 @@ namespace OpcUaNodeSet
 		nodeIdWidget_->setValue(nodeInfo->nodeSetNamespace_);
 		nodeIdWidget_->setValue(nodeId);
 		nodeIdWidget_->enabled(enabled);
-
-		NodeClassType nodeClassType;
-		nodeInfo->baseNode_->getNodeClass(nodeClassType);
-		nodeClassWidget_->setValue(nodeClassType);
-		nodeClassWidget_->enabled(enabled);
 
 		OpcUaQualifiedName browseName;
 		nodeInfo->baseNode_->getBrowseName(browseName);
@@ -213,13 +225,36 @@ namespace OpcUaNodeSet
     void
 	OpcUaAttributeBaseTab::onOrderOkAction(void)
     {
+    	std::cout << "onOrderOkAction" << std::endl;
     	// FIXME: todo
     }
 
     void
-	OpcUaAttributeBaseTab::onOrderDeletection(void)
+	OpcUaAttributeBaseTab::onOrderDeleteAction(void)
     {
-    	// FIXME: todo
+    	nodeChange(nodeInfo_);
+
+    	orderOkAction_->setEnabled(false);
+    	orderDeleteAction_->setEnabled(false);
+    }
+
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+    //
+    // widget actions
+    //
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+    void
+	OpcUaAttributeBaseTab::update(void)
+    {
+    	orderOkAction_->setEnabled(true);
+    	orderDeleteAction_->setEnabled(true);
+
+    	if (!nodeIdWidget_->isValid()) orderOkAction_->setEnabled(false);
+    	if (!browseNameWidget_->isValid()) orderOkAction_->setEnabled(false);
+    	if (!displayNameWidget_->isValid()) orderOkAction_->setEnabled(false);
+    	if (!descriptionWidget_->isValid()) orderOkAction_->setEnabled(false);
     }
 
 

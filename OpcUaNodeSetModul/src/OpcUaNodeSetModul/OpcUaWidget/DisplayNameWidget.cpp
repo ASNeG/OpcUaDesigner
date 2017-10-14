@@ -72,7 +72,7 @@ namespace OpcUaNodeSet
 		checkOn_ = true;
 		isValid_ = checkValue();
 		styleValue();
-		emit valueChanged(displayName_, isValid_);
+		//emit valueChanged(displayName_, isValid_);
 	}
 
 	void
@@ -152,6 +152,7 @@ namespace OpcUaNodeSet
 			);
 		}
 		emit valueChanged(displayName_, isValid_);
+		emit update();
 	}
 
 	void
@@ -169,6 +170,7 @@ namespace OpcUaNodeSet
 			);
 		}
 		emit valueChanged(displayName_, isValid_);
+		emit update();
 	}
 
 
