@@ -48,6 +48,7 @@ namespace OpcUaNodeSet
 
 		void dataModel(DataModel* dataModel);
 		bool show(void);
+		void updateTab(void);
 
 	  public slots:
 	    void onCurrentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previos);

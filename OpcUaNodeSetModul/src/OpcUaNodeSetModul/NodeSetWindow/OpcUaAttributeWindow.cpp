@@ -55,6 +55,26 @@ namespace OpcUaNodeSet
 			opcUaAttributeTab_, SIGNAL(currentChanged(int)),
 			this, SLOT(onCurrendChanged(int))
 		);
+		connect(
+			tabSpecial_, SIGNAL(updateTab()),
+			this, SLOT(onUpdateTab())
+		);
+		connect(
+			tabParent_, SIGNAL(updateTab()),
+			this, SLOT(onUpdateTab())
+		);
+		connect(
+			tabChild_, SIGNAL(updateTab()),
+			this, SLOT(onUpdateTab())
+		);
+		connect(
+			tabRef_, SIGNAL(updateTab()),
+			this, SLOT(onUpdateTab())
+		);
+		connect(
+			tabBase_, SIGNAL(updateTab()),
+			this, SLOT(onUpdateTab())
+		);
 	}
 
 	OpcUaAttributeWindow::~OpcUaAttributeWindow(void)
@@ -64,6 +84,12 @@ namespace OpcUaNodeSet
 		delete tabParent_;
 		delete tabChild_;
 		delete tabRef_;
+	}
+
+	void
+	OpcUaAttributeWindow::onUpdateTab(void)
+	{
+		emit updateTab();
 	}
 
 	void

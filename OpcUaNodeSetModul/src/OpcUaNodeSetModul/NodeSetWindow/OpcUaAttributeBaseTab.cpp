@@ -301,6 +301,8 @@ namespace OpcUaNodeSet
 
     	orderOkAction_->setEnabled(false);
     	orderDeleteAction_->setEnabled(false);
+
+    	emit updateTab();
     }
 
     void

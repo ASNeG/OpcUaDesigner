@@ -56,6 +56,9 @@ namespace OpcUaNodeSet
 
 		void libraryConfig(LibraryConfig* libraryConfig);
 
+	  public slots:
+		void onUpdateTab(void);
+
 	  private:
 		bool createWindow(void);
 

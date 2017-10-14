@@ -46,6 +46,9 @@ namespace OpcUaNodeSet
 
 		void nodeChange(NodeInfo* nodeInfo);
 
+	  signals:
+	    void updateTab(void);
+
 	  public slots:
 	    //
 	    // toolbar menu

@@ -50,6 +50,12 @@ namespace OpcUaNodeSet
 		event->ignore();
 	}
 
+	void
+	NodeSetWindow::onUpdateTab(void)
+	{
+		opcUaTreeWindow_->updateTab();
+	}
+
 	bool
 	NodeSetWindow::createWindow(void)
 	{
@@ -76,6 +82,10 @@ namespace OpcUaNodeSet
 		connect(
 			opcUaTreeWindow_, SIGNAL(nodeChanged(NodeInfo*)),
 			opcUaAttributeWindow_, SLOT(onNodeChanged(NodeInfo*))
+		);
+		connect(
+		    opcUaAttributeWindow_, SIGNAL(updateTab()),
+			this, SLOT(onUpdateTab())
 		);
 
 		return true;

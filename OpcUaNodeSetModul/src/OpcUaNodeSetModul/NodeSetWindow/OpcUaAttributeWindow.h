@@ -43,7 +43,11 @@ namespace OpcUaNodeSet
 		OpcUaAttributeWindow(QWidget* parent = 0);
 		virtual ~OpcUaAttributeWindow(void);
 
+	  signals:
+	    void updateTab(void);
+
 	  public slots:
+	    void onUpdateTab(void);
 		void onNodeChanged(NodeInfo* nodeInfo);
 		void onCurrendChanged(int index);
 

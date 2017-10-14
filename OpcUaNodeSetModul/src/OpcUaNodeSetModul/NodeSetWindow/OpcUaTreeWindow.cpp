@@ -290,10 +290,25 @@ namespace OpcUaNodeSet
 	}
 
 	void
+	OpcUaTreeWindow::updateTab(void)
+	{
+	    // get node information
+	    QVariant v = actItem_->data(0, Qt::UserRole);
+	    NodeInfo* nodeInfo = v.value<NodeInfo*>();
+
+	    OpcUaLocalizedText displayName;
+	    BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
+	    baseNode->getDisplayName(displayName);
+
+	    actItem_->setText(0, QString(displayName.text().toStdString().c_str()));
+	}
+
+	void
 	OpcUaTreeWindow::onCurrentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previos)
 	{
 		if (current == NULL) return;
 
+		actItem_ = current;
 		QVariant v = current->data(0, Qt::UserRole);
 		NodeInfo* nodeInfo = v.value<NodeInfo*>();
 		emit nodeChanged(nodeInfo);
