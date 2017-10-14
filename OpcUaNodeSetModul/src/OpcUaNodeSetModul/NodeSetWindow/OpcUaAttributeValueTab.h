@@ -21,8 +21,10 @@
 #include <QWidget>
 
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/AccessLevelWidget.h"
 
 class QLineEdit;
+class QToolBar;
 
 namespace OpcUaNodeSet
 {
@@ -38,8 +40,31 @@ namespace OpcUaNodeSet
 
 		void nodeChange(NodeInfo* nodeInfo);
 
+	  signals:
+	    void updateTab(void);
+
+		public slots:
+		  //
+		  // toolbar menu
+		  //
+		  void onOrderOkAction(void);
+		  void onOrderDeleteAction(void);
+
+		  //
+		  // widgets
+		  //
+		  void update(void);
+
 	  private:
-		void setAccessLevel(NodeInfo* nodeInfo);
+	    //
+	    // toolbar menu
+	    //
+	    void createToolBarActions(void);
+
+		QToolBar* tableToolBar_;
+		QAction* orderOkAction_;
+		QAction* orderDeleteAction_;
+
 		void setArrayDimensions(NodeInfo* nodeInfo);
 		void setDataType(NodeInfo* nodeInfo);
 		void setHistorizing(NodeInfo* nodeInfo);
@@ -47,7 +72,8 @@ namespace OpcUaNodeSet
 		void setValue(NodeInfo* nodeInfo);
 		void setValueRank(NodeInfo* nodeInfo);
 
-		QLineEdit* accessLevelLineEdit_;
+		NodeInfo* nodeInfo_;
+		AccessLevelWidget* accessLevelWidget_;
 		QLineEdit* arrayDimensionsLineEdit_;
 		QLineEdit* dataTypeLineEdit_;
 		QLineEdit* historizingLineEdit_;

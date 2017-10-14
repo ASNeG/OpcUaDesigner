@@ -18,6 +18,8 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
+#include <QToolBar>
+#include <QMenu>
 
 #include "OpcUaStackCore/BuildInTypes/OpcUaIdentifier.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeValueTab.h"
@@ -27,7 +29,6 @@ using namespace OpcUaStackCore;
 namespace OpcUaNodeSet
 {
 
-
 	OpcUaAttributeValueTab::OpcUaAttributeValueTab(QWidget* parent)
 	: QWidget()
 	{
@@ -36,15 +37,22 @@ namespace OpcUaNodeSet
 		QGridLayout* gridLayout = new QGridLayout();
 
 
+		// create toolbar menu
+		createToolBarActions();
+		tableToolBar_ = new QToolBar();
+		tableToolBar_->addAction(orderOkAction_);
+		tableToolBar_->addAction(orderDeleteAction_);
+		vBoxLayout->addWidget(tableToolBar_);
+
+
 		// AccessLevel
 		QLabel* accessLevelLabel = new QLabel("AccessLevel");
 		gridLayout->addWidget(accessLevelLabel, 0, 0);
 
-		accessLevelLineEdit_ = new QLineEdit();
-		accessLevelLineEdit_->setFixedWidth(300);
+		accessLevelWidget_ = new AccessLevelWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(accessLevelLineEdit_);
+		hBoxLayout->addWidget(accessLevelWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 0, 1);
@@ -138,6 +146,11 @@ namespace OpcUaNodeSet
 		vBoxLayout->addStretch();
 
 		setLayout(vBoxLayout);
+
+		//
+		// actions
+		//
+		connect(accessLevelWidget_, SIGNAL(update()), this, SLOT(update()));
 	}
 
 	OpcUaAttributeValueTab::~OpcUaAttributeValueTab(void)
@@ -147,27 +160,15 @@ namespace OpcUaNodeSet
 	void
 	OpcUaAttributeValueTab::nodeChange(NodeInfo* nodeInfo)
 	{
-		setAccessLevel(nodeInfo);
+		nodeInfo_ = nodeInfo;
+
+		accessLevelWidget_->nodeChange(nodeInfo);
 		setArrayDimensions(nodeInfo);
 		setDataType(nodeInfo);
 		setHistorizing(nodeInfo);
 		setMinimumSamplingInterval(nodeInfo);
 		setValue(nodeInfo);
 		setValueRank(nodeInfo);
-	}
-
-	void
-	OpcUaAttributeValueTab::setAccessLevel(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullAccessLevel()) {
-			accessLevelLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaByte accessLevel;
-			baseNode->getAccessLevel(accessLevel);
-			accessLevelLineEdit_->setText(QString("%1").arg((uint32_t)accessLevel));
-		}
 	}
 
 	void
@@ -272,6 +273,146 @@ namespace OpcUaNodeSet
 			valueRankLineEdit_->setText(QString("%1").arg((int32_t)valueRank));
 		}
 	}
+
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// Toolbar
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	void
+	OpcUaAttributeValueTab::createToolBarActions(void)
+	{
+		orderOkAction_ = new QAction("Apply tab input", this);
+		orderOkAction_->setIcon(QIcon(":images/OrderOk.png"));
+		orderOkAction_->setEnabled(false);
+		connect(orderOkAction_, SIGNAL(triggered()), this, SLOT(onOrderOkAction()));
+
+		orderDeleteAction_ = new QAction("Cancel tab input", this);
+		orderDeleteAction_->setIcon(QIcon(":images/OrderDelete.png"));
+		orderDeleteAction_->setEnabled(false);
+		connect(orderDeleteAction_, SIGNAL(triggered()), this, SLOT(onOrderDeleteAction()));
+	}
+
+    void
+	OpcUaAttributeValueTab::onOrderOkAction(void)
+    {
+    	InformationModel::SPtr informationModel_ = nodeInfo_->informationModel_;
+    	BaseNodeClass::SPtr baseNode = nodeInfo_->baseNode_;
+
+       	// check access level
+        OpcUaByte accessLevel;
+        baseNode->getAccessLevelSync(accessLevel);
+
+        OpcUaByte newAccessLevel;
+        accessLevelWidget_->getValue(newAccessLevel);
+
+        if (accessLevel != newAccessLevel) {
+        	baseNode->setAccessLevel(newAccessLevel);
+        }
+
+#if 0
+    	// check node id
+    	OpcUaNodeId nodeId;
+    	baseNode->getNodeId(nodeId);
+
+    	OpcUaNodeId newNodeId;
+    	nodeIdWidget_->getValue(newNodeId);
+
+    	if (nodeId != newNodeId) {
+    		informationModel_->remove(nodeId);
+    		baseNode->setNodeId(newNodeId);
+    		informationModel_->insert(baseNode);
+    	}
+
+    	// check display name
+    	OpcUaLocalizedText displayName;
+    	baseNode->getDisplayNameSync(displayName);
+
+    	OpcUaLocalizedText newDisplayName;
+    	displayNameWidget_->getValue(newDisplayName);
+
+    	if (displayName != newDisplayName) {
+    		baseNode->setDisplayNameSync(newDisplayName);
+    	}
+
+    	// check browse name
+    	OpcUaQualifiedName browseName;
+    	baseNode->getBrowseName(browseName);
+
+    	OpcUaQualifiedName newBrowseName;
+    	browseNameWidget_->getValue(newBrowseName);
+
+    	if (browseName != newBrowseName) {
+    		baseNode->setBrowseNameSync(newBrowseName);
+    	}
+
+    	// check description
+    	OpcUaLocalizedText description;
+    	baseNode->getDescription(description);
+
+    	OpcUaLocalizedText newDescription;
+    	descriptionWidget_->getValue(newDescription);
+
+    	if (description != newDescription) {
+    		baseNode->setDescription(newDescription);
+    	}
+
+    	// check write mask
+    	OpcUaUInt32 writeMask;
+    	baseNode->getWriteMask(writeMask);
+
+    	OpcUaUInt32 newWriteMask;
+    	writeMaskWidget_->getValue(newWriteMask);
+
+    	if (writeMask != newWriteMask) {
+    		baseNode->setWriteMask(newWriteMask);
+    	}
+
+    	// check user write mask
+    	OpcUaUInt32 userWriteMask;
+    	baseNode->getUserWriteMaskSync(userWriteMask);
+
+    	OpcUaUInt32 newUserWriteMask;
+    	userWriteMaskWidget_->getValue(newUserWriteMask);
+
+    	if (userWriteMask != newUserWriteMask) {
+    		baseNode->setUserWriteMask(newUserWriteMask);
+    	}
+#endif
+
+    	orderOkAction_->setEnabled(false);
+    	orderDeleteAction_->setEnabled(false);
+
+    	emit updateTab();
+    }
+
+    void
+	OpcUaAttributeValueTab::onOrderDeleteAction(void)
+    {
+    	nodeChange(nodeInfo_);
+
+    	orderOkAction_->setEnabled(false);
+    	orderDeleteAction_->setEnabled(false);
+    }
+
+
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+    //
+    // widget actions
+    //
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+    void
+	OpcUaAttributeValueTab::update(void)
+    {
+    	orderOkAction_->setEnabled(true);
+    	orderDeleteAction_->setEnabled(true);
+
+    	if (!accessLevelWidget_->isValid()) orderOkAction_->setEnabled(false);
+    }
 
 }
 
