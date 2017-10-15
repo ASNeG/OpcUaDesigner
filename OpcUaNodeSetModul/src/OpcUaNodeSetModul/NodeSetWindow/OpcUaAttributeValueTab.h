@@ -27,6 +27,7 @@
 #include "OpcUaNodeSetModul/OpcUaWidget/ArrayDimensionsWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/DataTypeWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/ValueRankWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/ValueWidget.h"
 
 class QLineEdit;
 class QToolBar;
@@ -70,10 +71,6 @@ namespace OpcUaNodeSet
 		QAction* orderOkAction_;
 		QAction* orderDeleteAction_;
 
-		void setValueRank(NodeInfo* nodeInfo);
-		void setValue(NodeInfo* nodeInfo);
-
-
 		NodeInfo* nodeInfo_;
 		AccessLevelWidget* accessLevelWidget_;
 		HistorizingWidget* historizingWidget_;
@@ -81,7 +78,7 @@ namespace OpcUaNodeSet
 		ArrayDimensionsWidget* arrayDimensionsWidget_;
 		DataTypeWidget* dataTypeWidget_;
 		ValueRankWidget* valueRankWidget_;
-		QLineEdit* valueLineEdit_;
+		ValueWidget* valueWidget_;
 	};
 
 }

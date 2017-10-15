@@ -127,11 +127,10 @@ namespace OpcUaNodeSet
 		QLabel* valueLabel = new QLabel("Value");
 		gridLayout->addWidget(valueLabel, 6, 0);
 
-		valueLineEdit_ = new QLineEdit();
-		valueLineEdit_->setFixedWidth(300);
+		valueWidget_ = new ValueWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(valueLineEdit_);
+		hBoxLayout->addWidget(valueWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 6, 1);
@@ -151,6 +150,7 @@ namespace OpcUaNodeSet
 		connect(arrayDimensionsWidget_, SIGNAL(update()), this, SLOT(update()));
 		connect(dataTypeWidget_, SIGNAL(update()), this, SLOT(update()));
 		connect(valueRankWidget_, SIGNAL(update()), this, SLOT(update()));
+		connect(valueWidget_, SIGNAL(update()), this, SLOT(update()));
 	}
 
 	OpcUaAttributeValueTab::~OpcUaAttributeValueTab(void)
@@ -187,54 +187,8 @@ namespace OpcUaNodeSet
 	    valueRankWidget_->nodeChange(nodeInfo);
 		valueRankWidget_->enabled(enabled);
 
-		setValue(nodeInfo);
-	}
-
-#if 0
-	void
-	OpcUaAttributeValueTab::setDataType(NodeInfo* nodeInfo)
-	{
-		bool success;
-
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-	   	if (baseNode->isNullDataType()) {
-	   		dataTypeLineEdit_->setText(QString(""));
-	   	}
-	   	else {
-	    	std::string dataTypeString = "";
-
-	    	OpcUaNodeId dataType;
-	    	success = baseNode->getDataType(dataType);
-	    	if (success) {
-
-	    		if (dataType.namespaceIndex() == 0 &&  dataType.nodeIdType() == OpcUaBuildInType_OpcUaUInt32) {
-	    			uint32_t id = dataType.nodeId<uint32_t>();
-	    			dataTypeString = OpcUaIdMap::shortString(id);
-	    		}
-	    		else {
-	    			dataTypeString = dataType.toString();
-	    		}
-	    	}
-
-	    	dataTypeLineEdit_->setText(QString(dataTypeString.c_str()));
-	    }
-	}
-#endif
-
-	void
-	OpcUaAttributeValueTab::setValue(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullValue()) {
-			valueLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaDataValue dataValue;
-			baseNode->getValue(dataValue);
-			std::stringstream ss;
-			dataValue.out(ss);
-			valueLineEdit_->setText(QString(ss.str().c_str()));
-		}
+	    valueWidget_->nodeChange(nodeInfo);
+		valueWidget_->enabled(enabled);
 	}
 
 	// ------------------------------------------------------------------------
@@ -317,6 +271,9 @@ namespace OpcUaNodeSet
     	orderOkAction_->setEnabled(false);
     	orderDeleteAction_->setEnabled(false);
 
+    	// check value
+    	// FIXME: todo
+
     	emit updateTab();
     }
 
@@ -349,6 +306,7 @@ namespace OpcUaNodeSet
     	if (!arrayDimensionsWidget_->isValid()) orderOkAction_->setEnabled(false);
     	if (!dataTypeWidget_->isValid()) orderOkAction_->setEnabled(false);
     	if (!valueRankWidget_->isValid()) orderOkAction_->setEnabled(false);
+    	if (!valueWidget_->isValid()) orderOkAction_->setEnabled(false);
     }
 
 }
