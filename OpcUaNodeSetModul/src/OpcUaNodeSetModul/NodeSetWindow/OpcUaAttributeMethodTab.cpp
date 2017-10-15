@@ -45,11 +45,10 @@ namespace OpcUaNodeSet
 		QLabel* executableLabel = new QLabel("Executable");
 		gridLayout->addWidget(executableLabel, 0, 0);
 
-		executableLineEdit_ = new QLineEdit();
-		executableLineEdit_->setFixedWidth(300);
+		executableWidget_ = new ExecutableWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(executableLineEdit_);
+		hBoxLayout->addWidget(executableWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 0, 1);
@@ -59,11 +58,10 @@ namespace OpcUaNodeSet
 		QLabel* userExecutableLabel = new QLabel("UserExecutable");
 		gridLayout->addWidget(userExecutableLabel, 1, 0);
 
-		userExecutableLineEdit_ = new QLineEdit();
-		userExecutableLineEdit_->setFixedWidth(300);
+		userExecutableWidget_ = new UserExecutableWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(userExecutableLineEdit_);
+		hBoxLayout->addWidget(userExecutableWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 1, 1);
@@ -77,8 +75,8 @@ namespace OpcUaNodeSet
 		//
 		// actions
 		//
-		//connect(executableWidget_, SIGNAL(update()), this, SLOT(update()));
-		//connect(userExecutableWidget_, SIGNAL(update()), this, SLOT(update()));
+		connect(executableWidget_, SIGNAL(update()), this, SLOT(update()));
+		connect(userExecutableWidget_, SIGNAL(update()), this, SLOT(update()));
 	}
 
 	OpcUaAttributeMethodTab::~OpcUaAttributeMethodTab(void)
@@ -88,10 +86,6 @@ namespace OpcUaNodeSet
 	void
 	OpcUaAttributeMethodTab::nodeChange(NodeInfo* nodeInfo)
 	{
-		setExecutable(nodeInfo);
-		setUserExecutable(nodeInfo);
-
-#if 0
 		bool enabled = true;
 		nodeInfo_ = nodeInfo;
 
@@ -106,35 +100,6 @@ namespace OpcUaNodeSet
 
 		userExecutableWidget_->nodeChange(nodeInfo);
 		userExecutableWidget_->enabled(enabled);
-#endif
-	}
-
-	void
-	OpcUaAttributeMethodTab::setExecutable(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullExecutable()) {
-			executableLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaBoolean executableLineEdit;
-			baseNode->getExecutable(executableLineEdit);
-			executableLineEdit_->setText(executableLineEdit == 1 ? QString("True") : QString("False"));
-		}
-	}
-
-	void
-	OpcUaAttributeMethodTab::setUserExecutable(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullUserExecutable()) {
-			userExecutableLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaBoolean userExecutableLineEdit;
-			baseNode->getUserExecutable(userExecutableLineEdit);
-			userExecutableLineEdit_->setText(userExecutableLineEdit == 1 ? QString("True") : QString("False"));
-		}
 	}
 
 	// ------------------------------------------------------------------------
@@ -161,7 +126,6 @@ namespace OpcUaNodeSet
     void
 	OpcUaAttributeMethodTab::onOrderOkAction(void)
     {
-#if 0
     	InformationModel::SPtr informationModel_ = nodeInfo_->informationModel_;
     	BaseNodeClass::SPtr baseNode = nodeInfo_->baseNode_;
 
@@ -186,7 +150,6 @@ namespace OpcUaNodeSet
         if (userExecutable != newUserExecutable) {
         	baseNode->setExecutable(newUserExecutable);
         }
-#endif
 
     	orderOkAction_->setEnabled(false);
     	orderDeleteAction_->setEnabled(false);
@@ -217,10 +180,8 @@ namespace OpcUaNodeSet
     	orderOkAction_->setEnabled(true);
     	orderDeleteAction_->setEnabled(true);
 
-#if 0
     	if (!executableWidget_->isValid()) orderOkAction_->setEnabled(false);
     	if (!userExecutableWidget_->isValid()) orderOkAction_->setEnabled(false);
-#endif
     }
 
 

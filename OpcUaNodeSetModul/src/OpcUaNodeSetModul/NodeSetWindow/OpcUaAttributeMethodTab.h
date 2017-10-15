@@ -21,6 +21,8 @@
 #include <QWidget>
 
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/ExecutableWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/UserExecutableWidget.h"
 
 class QLineEdit;
 class QToolBar;
@@ -65,12 +67,9 @@ namespace OpcUaNodeSet
 		QAction* orderOkAction_;
 		QAction* orderDeleteAction_;
 
-		void setExecutable(NodeInfo* nodeInfo);
-		void setUserExecutable(NodeInfo* nodeInfo);
-
 		NodeInfo* nodeInfo_;
-		QLineEdit* executableLineEdit_;
-		QLineEdit* userExecutableLineEdit_;
+		ExecutableWidget* executableWidget_;
+		UserExecutableWidget* userExecutableWidget_;
 	};
 
 }
