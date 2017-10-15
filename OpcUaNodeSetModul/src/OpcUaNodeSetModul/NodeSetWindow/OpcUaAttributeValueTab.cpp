@@ -75,11 +75,10 @@ namespace OpcUaNodeSet
 		QLabel* minimumSamplingIntervalLabel = new QLabel("MinimumSamplingInterval");
 		gridLayout->addWidget(minimumSamplingIntervalLabel, 2, 0);
 
-		minimumSamplingIntervalLineEdit_ = new QLineEdit();
-		minimumSamplingIntervalLineEdit_->setFixedWidth(300);
+		minimumSamplingIntervalWidget_ = new MinimumSamplingIntervalWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(minimumSamplingIntervalLineEdit_);
+		hBoxLayout->addWidget(minimumSamplingIntervalWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 2, 1);
@@ -151,6 +150,7 @@ namespace OpcUaNodeSet
 		//
 		connect(accessLevelWidget_, SIGNAL(update()), this, SLOT(update()));
 		connect(historizingWidget_, SIGNAL(update()), this, SLOT(update()));
+		connect(minimumSamplingIntervalWidget_, SIGNAL(update()), this, SLOT(update()));
 	}
 
 	OpcUaAttributeValueTab::~OpcUaAttributeValueTab(void)
@@ -175,7 +175,8 @@ namespace OpcUaNodeSet
 		historizingWidget_->nodeChange(nodeInfo);
 		historizingWidget_->enabled(enabled);
 
-		setMinimumSamplingInterval(nodeInfo);
+		minimumSamplingIntervalWidget_->nodeChange(nodeInfo);
+		minimumSamplingIntervalWidget_->enabled(enabled);
 
 		setArrayDimensions(nodeInfo);
 		setDataType(nodeInfo);
@@ -226,20 +227,6 @@ namespace OpcUaNodeSet
 
 	    	dataTypeLineEdit_->setText(QString(dataTypeString.c_str()));
 	    }
-	}
-
-	void
-	OpcUaAttributeValueTab::setMinimumSamplingInterval(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullMinimumSamplingInterval()) {
-			minimumSamplingIntervalLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaDouble minimumSamplingInterval;
-			baseNode->getMinimumSamplingInterval(minimumSamplingInterval);
-			minimumSamplingIntervalLineEdit_->setText(QString("%1").arg((double)minimumSamplingInterval));
-		}
 	}
 
 	void
@@ -319,6 +306,17 @@ namespace OpcUaNodeSet
 
         if (historizing != newHistorizing) {
         	baseNode->setHistorizing(newHistorizing);
+        }
+
+       	// check minimum sampling interval
+        OpcUaDouble minimumSamplingInterval;
+        baseNode->getMinimumSamplingIntervalSync(minimumSamplingInterval);
+
+        OpcUaDouble newMinimumSamplingInterval;
+        minimumSamplingIntervalWidget_->getValue(newMinimumSamplingInterval);
+
+        if (minimumSamplingInterval != newMinimumSamplingInterval) {
+        	baseNode->setMinimumSamplingInterval(newMinimumSamplingInterval);
         }
 
 #if 0
@@ -422,6 +420,7 @@ namespace OpcUaNodeSet
 
     	if (!accessLevelWidget_->isValid()) orderOkAction_->setEnabled(false);
     	if (!historizingWidget_->isValid()) orderOkAction_->setEnabled(false);
+    	if (!minimumSamplingIntervalWidget_->isValid()) orderOkAction_->setEnabled(false);
     }
 
 }
