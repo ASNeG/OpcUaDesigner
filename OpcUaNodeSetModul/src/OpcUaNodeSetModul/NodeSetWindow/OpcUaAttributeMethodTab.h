@@ -41,13 +41,9 @@ namespace OpcUaNodeSet
 	  private:
 		void setExecutable(NodeInfo* nodeInfo);
 		void setUserExecutable(NodeInfo* nodeInfo);
-		void setUserWriteMask(NodeInfo* nodeInfo);
-		void setWriteMask(NodeInfo* nodeInfo);
 
 		QLineEdit* executableLineEdit_;
 		QLineEdit* userExecutableLineEdit_;
-		QLineEdit* userWriteMaskLineEdit_;
-		QLineEdit* writeMaskLineEdit_;
 	};
 
 }

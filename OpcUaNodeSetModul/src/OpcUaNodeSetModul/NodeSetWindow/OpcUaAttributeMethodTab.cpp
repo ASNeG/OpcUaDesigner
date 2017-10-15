@@ -61,34 +61,6 @@ namespace OpcUaNodeSet
 		gridLayout->addLayout(hBoxLayout, 1, 1);
 
 
-		// UserWriteMask
-		QLabel* userWriteMaskLabel = new QLabel("UserWriteMask");
-		gridLayout->addWidget(userWriteMaskLabel, 2, 0);
-
-		userWriteMaskLineEdit_ = new QLineEdit();
-		userWriteMaskLineEdit_->setFixedWidth(300);
-
-		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(userWriteMaskLineEdit_);
-		hBoxLayout->addStretch();
-
-		gridLayout->addLayout(hBoxLayout, 2, 1);
-
-
-		// WriteMask
-		QLabel* writeMaskLabel = new QLabel("WriteMask");
-		gridLayout->addWidget(writeMaskLabel, 3, 0);
-
-		writeMaskLineEdit_ = new QLineEdit();
-		writeMaskLineEdit_->setFixedWidth(300);
-
-		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(writeMaskLineEdit_);
-		hBoxLayout->addStretch();
-
-		gridLayout->addLayout(hBoxLayout, 3, 1);
-
-
 		vBoxLayout->addLayout(gridLayout);
 		vBoxLayout->addStretch();
 
@@ -104,8 +76,6 @@ namespace OpcUaNodeSet
 	{
 		setExecutable(nodeInfo);
 		setUserExecutable(nodeInfo);
-		setUserWriteMask(nodeInfo);
-		setWriteMask(nodeInfo);
 	}
 
 	void
@@ -133,34 +103,6 @@ namespace OpcUaNodeSet
 			OpcUaBoolean userExecutableLineEdit;
 			baseNode->getUserExecutable(userExecutableLineEdit);
 			userExecutableLineEdit_->setText(userExecutableLineEdit == 1 ? QString("True") : QString("False"));
-		}
-	}
-
-	void
-	OpcUaAttributeMethodTab::setUserWriteMask(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullUserWriteMask()) {
-			userWriteMaskLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaUInt32 userWriteMask;
-			baseNode->getUserWriteMask(userWriteMask);
-			userWriteMaskLineEdit_->setText(QString("%1").arg((uint32_t)userWriteMask));
-		}
-	}
-
-	void
-	OpcUaAttributeMethodTab::setWriteMask(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullWriteMask()) {
-			writeMaskLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaUInt32 writeMask;
-			baseNode->getWriteMask(writeMask);
-			writeMaskLineEdit_->setText(QString("%1").arg((uint32_t)writeMask));
 		}
 	}
 
