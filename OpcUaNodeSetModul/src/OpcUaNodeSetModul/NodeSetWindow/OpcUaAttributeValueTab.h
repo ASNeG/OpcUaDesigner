@@ -49,17 +49,17 @@ namespace OpcUaNodeSet
 	  signals:
 	    void updateTab(void);
 
-		public slots:
-		  //
-		  // toolbar menu
-		  //
-		  void onOrderOkAction(void);
-		  void onOrderDeleteAction(void);
+	  public slots:
+		//
+		// toolbar menu
+		//
+		void onOrderOkAction(void);
+		void onOrderDeleteAction(void);
 
-		  //
-		  // widgets
-		  //
-		  void update(void);
+		//
+		// widgets
+		//
+		void update(void);
 
 	  private:
 	    //

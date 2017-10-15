@@ -21,12 +21,14 @@
 #include <QWidget>
 
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/IsAbstractWidget.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/DataTypeNoneTable.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/DataTypeEnumTable.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/DataTypeStructTable.h"
 
 class QLineEdit;
 class QStackedWidget;
+class QToolBar;
 
 namespace OpcUaNodeSet
 {
@@ -42,16 +44,37 @@ namespace OpcUaNodeSet
 
 		void nodeChange(NodeInfo* nodeInfo);
 
+	  signals:
+	    void updateTab(void);
+
+	  public slots:
+		//
+		// toolbar menu
+		//
+		void onOrderOkAction(void);
+		void onOrderDeleteAction(void);
+
+		//
+		// widgets
+		//
+		void update(void);
+
 	  private:
-		void setIsAbstract(NodeInfo* nodeInfo);
-		void setUserWriteMask(NodeInfo* nodeInfo);
-		void setWriteMask(NodeInfo* nodeInfo);
+	    //
+	    // toolbar menu
+	    //
+	    void createToolBarActions(void);
+
+		QToolBar* tableToolBar_;
+		QAction* orderOkAction_;
+		QAction* orderDeleteAction_;
+
+
+
 		void setDefinition(NodeInfo* nodeInfo);
 
-		QLineEdit* isAbstractLineEdit_;
-		QLineEdit* userWriteMaskLineEdit_;
-		QLineEdit* writeMaskLineEdit_;
-
+		NodeInfo* nodeInfo_;
+		IsAbstractWidget* isAbstractWidget_;
 		QStackedWidget* definitionWidget_;
 		DataTypeNoneTable* noneDefinitionWidget_;
 		DataTypeEnumTable* enumDefinitionWidget_;
