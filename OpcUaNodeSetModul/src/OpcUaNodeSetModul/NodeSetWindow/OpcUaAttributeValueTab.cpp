@@ -100,11 +100,10 @@ namespace OpcUaNodeSet
 		QLabel* dataTypeLabel = new QLabel("DataType");
 		gridLayout->addWidget(dataTypeLabel, 4, 0);
 
-		dataTypeLineEdit_ = new QLineEdit();
-		dataTypeLineEdit_->setFixedWidth(300);
+		dataTypeWidget_ = new DataTypeWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(dataTypeLineEdit_);
+		hBoxLayout->addWidget(dataTypeWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 4, 1);
@@ -151,6 +150,7 @@ namespace OpcUaNodeSet
 		connect(historizingWidget_, SIGNAL(update()), this, SLOT(update()));
 		connect(minimumSamplingIntervalWidget_, SIGNAL(update()), this, SLOT(update()));
 		connect(arrayDimensionsWidget_, SIGNAL(update()), this, SLOT(update()));
+		connect(dataTypeWidget_, SIGNAL(update()), this, SLOT(update()));
 	}
 
 	OpcUaAttributeValueTab::~OpcUaAttributeValueTab(void)
@@ -181,11 +181,14 @@ namespace OpcUaNodeSet
 	    arrayDimensionsWidget_->nodeChange(nodeInfo);
 		arrayDimensionsWidget_->enabled(enabled);
 
-		setDataType(nodeInfo);
+	    dataTypeWidget_->nodeChange(nodeInfo);
+		dataTypeWidget_->enabled(enabled);
+
 		setValue(nodeInfo);
 		setValueRank(nodeInfo);
 	}
 
+#if 0
 	void
 	OpcUaAttributeValueTab::setDataType(NodeInfo* nodeInfo)
 	{
@@ -214,6 +217,7 @@ namespace OpcUaNodeSet
 	    	dataTypeLineEdit_->setText(QString(dataTypeString.c_str()));
 	    }
 	}
+#endif
 
 	void
 	OpcUaAttributeValueTab::setValue(NodeInfo* nodeInfo)
@@ -306,6 +310,9 @@ namespace OpcUaNodeSet
         }
 
         // check array dimensions
+        // FIXME: todo
+
+        // check data type
         // FIXME: todo
 
 #if 0
@@ -411,6 +418,7 @@ namespace OpcUaNodeSet
     	if (!historizingWidget_->isValid()) orderOkAction_->setEnabled(false);
     	if (!minimumSamplingIntervalWidget_->isValid()) orderOkAction_->setEnabled(false);
     	if (!arrayDimensionsWidget_->isValid()) orderOkAction_->setEnabled(false);
+    	if (!dataTypeWidget_->isValid()) orderOkAction_->setEnabled(false);
     }
 
 }

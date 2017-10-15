@@ -22,6 +22,8 @@
 
 #include "OpcUaStackServer/InformationModel/InformationModel.h"
 
+#include "OpcUaNodeSetModul/Base/NodeInfo.h"
+
 class QLineEdit;
 class QPushButton;
 
@@ -39,6 +41,8 @@ namespace OpcUaNodeSet
 		DataTypeWidget(QWidget* parent = 0);
 		virtual ~DataTypeWidget(void);
 
+		void nodeChange(NodeInfo* nodeInfo);
+		void enabled(bool enabled);
 		void setValue(InformationModel::SPtr& informationModel);
 		void setValue(OpcUaNodeId& dataType);
 		void getValue(OpcUaNodeId& dataType);
@@ -46,6 +50,7 @@ namespace OpcUaNodeSet
 
 	  signals:
 		void valueChanged(OpcUaNodeId& dataType, bool isValid);
+		void update(void);
 		void selectDataType(void);
 
 	  private slots:

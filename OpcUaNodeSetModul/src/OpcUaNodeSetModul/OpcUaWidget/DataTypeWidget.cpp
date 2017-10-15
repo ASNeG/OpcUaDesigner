@@ -39,7 +39,7 @@ namespace OpcUaNodeSet
 	{
 		// widgets
 		textWidget_ = new QLineEdit();
-		textWidget_->setFixedWidth(360-5);
+		textWidget_->setFixedWidth(365);
 
 		buttonWidget_ = new QPushButton();
 		buttonWidget_->setIcon(QIcon(":/images/Tree.png"));
@@ -68,6 +68,24 @@ namespace OpcUaNodeSet
 
 	DataTypeWidget::~DataTypeWidget(void)
 	{
+	}
+
+	void
+	DataTypeWidget::nodeChange(NodeInfo* nodeInfo)
+	{
+		setValue(nodeInfo->informationModel_);
+
+		// get data type
+		OpcUaNodeId dataTypeNodeId;
+		nodeInfo->baseNode_->getDataTypeSync(dataTypeNodeId);
+		setValue(dataTypeNodeId);
+	}
+
+	void
+	DataTypeWidget::enabled(bool enabled)
+	{
+		textWidget_->setEnabled(enabled);
+		buttonWidget_->setEnabled(enabled);
 	}
 
 	void
@@ -218,6 +236,7 @@ namespace OpcUaNodeSet
 		isValid_ = checkValue();
 		styleValue();
 		emit valueChanged(dataType_, isValid_);
+		emit update();
 	}
 
 	void

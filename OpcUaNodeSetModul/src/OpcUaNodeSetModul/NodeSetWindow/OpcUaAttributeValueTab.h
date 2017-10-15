@@ -25,6 +25,7 @@
 #include "OpcUaNodeSetModul/OpcUaWidget/HistorizingWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/MinimumSamplingIntervalWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/ArrayDimensionsWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/DataTypeWidget.h"
 
 class QLineEdit;
 class QToolBar;
@@ -68,8 +69,6 @@ namespace OpcUaNodeSet
 		QAction* orderOkAction_;
 		QAction* orderDeleteAction_;
 
-		void setHistorizing(NodeInfo* nodeInfo);
-		void setDataType(NodeInfo* nodeInfo);
 		void setValueRank(NodeInfo* nodeInfo);
 		void setValue(NodeInfo* nodeInfo);
 
@@ -79,7 +78,7 @@ namespace OpcUaNodeSet
 		HistorizingWidget* historizingWidget_;
 		MinimumSamplingIntervalWidget* minimumSamplingIntervalWidget_;
 		ArrayDimensionsWidget* arrayDimensionsWidget_;
-		QLineEdit* dataTypeLineEdit_;
+		DataTypeWidget* dataTypeWidget_;
 		QLineEdit* valueRankLineEdit_;
 		QLineEdit* valueLineEdit_;
 	};
