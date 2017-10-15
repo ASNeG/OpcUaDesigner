@@ -45,11 +45,10 @@ namespace OpcUaNodeSet
 		QLabel* accessLevelLabel = new QLabel("EventNotifier");
 		gridLayout->addWidget(accessLevelLabel, 0, 0);
 
-		eventNotifierLineEdit_ = new QLineEdit();
-		eventNotifierLineEdit_->setFixedWidth(300);
+		eventNotifierWidget_ = new EventNotifierWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(eventNotifierLineEdit_);
+		hBoxLayout->addWidget(eventNotifierWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 0, 1);
@@ -63,7 +62,7 @@ namespace OpcUaNodeSet
 		//
 		// actions
 		//
-		//connect(eventNotifierWidget_, SIGNAL(update()), this, SLOT(update()));
+		connect(eventNotifierWidget_, SIGNAL(update()), this, SLOT(update()));
 	}
 
 	OpcUaAttributeObjectTab::~OpcUaAttributeObjectTab(void)
@@ -73,9 +72,6 @@ namespace OpcUaNodeSet
 	void
 	OpcUaAttributeObjectTab::nodeChange(NodeInfo* nodeInfo)
 	{
-		setEventNotifier(nodeInfo);
-
-#if 0
 		bool enabled = true;
 		nodeInfo_ = nodeInfo;
 
@@ -87,21 +83,6 @@ namespace OpcUaNodeSet
 
 		eventNotifierWidget_->nodeChange(nodeInfo);
 		eventNotifierWidget_->enabled(enabled);
-#endif
-	}
-
-	void
-	OpcUaAttributeObjectTab::setEventNotifier(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullEventNotifier()) {
-			eventNotifierLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaByte eventNotifier;
-			baseNode->getEventNotifier(eventNotifier);
-			eventNotifierLineEdit_->setText(QString("%1").arg((uint32_t)eventNotifier));
-		}
 	}
 
 	// ------------------------------------------------------------------------
@@ -131,18 +112,16 @@ namespace OpcUaNodeSet
     	InformationModel::SPtr informationModel_ = nodeInfo_->informationModel_;
     	BaseNodeClass::SPtr baseNode = nodeInfo_->baseNode_;
 
-#if 0
        	// check event notifier
         OpcUaByte eventNotifier;
         baseNode->getEventNotifierSync(eventNotifier);
 
-        OpcUaByte newAccessLevel;
+        OpcUaByte newEventNotifier;
         eventNotifierWidget_->getValue(newEventNotifier);
 
         if (eventNotifier != newEventNotifier) {
         	baseNode->setEventNotifier(newEventNotifier);
         }
-#endif
 
     	orderOkAction_->setEnabled(false);
     	orderDeleteAction_->setEnabled(false);
@@ -176,7 +155,7 @@ namespace OpcUaNodeSet
     	orderOkAction_->setEnabled(true);
     	orderDeleteAction_->setEnabled(true);
 
-    	//if (!eventNotifierWidget_->isValid()) orderOkAction_->setEnabled(false);
+    	if (!eventNotifierWidget_->isValid()) orderOkAction_->setEnabled(false);
     }
 
 }

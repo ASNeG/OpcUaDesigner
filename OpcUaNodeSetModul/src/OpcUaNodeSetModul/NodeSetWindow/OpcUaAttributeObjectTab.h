@@ -21,6 +21,7 @@
 #include <QWidget>
 
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/EventNotifierWidget.h"
 
 class QLineEdit;
 class QToolBar;
@@ -67,7 +68,7 @@ namespace OpcUaNodeSet
 		QAction* orderDeleteAction_;
 
 		NodeInfo* nodeInfo_;
-		QLineEdit* eventNotifierLineEdit_;
+		EventNotifierWidget* eventNotifierWidget_;
 	};
 
 }
