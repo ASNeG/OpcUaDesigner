@@ -175,9 +175,10 @@ namespace OpcUaNodeSet
 		historizingWidget_->nodeChange(nodeInfo);
 		historizingWidget_->enabled(enabled);
 
+		setMinimumSamplingInterval(nodeInfo);
+
 		setArrayDimensions(nodeInfo);
 		setDataType(nodeInfo);
-		setMinimumSamplingInterval(nodeInfo);
 		setValue(nodeInfo);
 		setValueRank(nodeInfo);
 	}
