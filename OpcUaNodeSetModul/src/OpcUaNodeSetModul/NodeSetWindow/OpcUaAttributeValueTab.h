@@ -22,6 +22,7 @@
 
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/AccessLevelWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/HistorizingWidget.h"
 
 class QLineEdit;
 class QToolBar;
@@ -75,7 +76,7 @@ namespace OpcUaNodeSet
 
 		NodeInfo* nodeInfo_;
 		AccessLevelWidget* accessLevelWidget_;
-		QLineEdit* historizingLineEdit_;
+		HistorizingWidget* historizingWidget_;
 		QLineEdit* minimumSamplingIntervalLineEdit_;
 		QLineEdit* arrayDimensionsLineEdit_;
 		QLineEdit* dataTypeLineEdit_;

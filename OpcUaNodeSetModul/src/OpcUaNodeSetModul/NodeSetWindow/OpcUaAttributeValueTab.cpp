@@ -62,11 +62,10 @@ namespace OpcUaNodeSet
 		QLabel* historizingLabel = new QLabel("Historizing");
 		gridLayout->addWidget(historizingLabel, 1, 0);
 
-		historizingLineEdit_ = new QLineEdit();
-		historizingLineEdit_->setFixedWidth(300);
+		historizingWidget_ = new HistorizingWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(historizingLineEdit_);
+		hBoxLayout->addWidget(historizingWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 1, 1);
@@ -151,6 +150,7 @@ namespace OpcUaNodeSet
 		// actions
 		//
 		connect(accessLevelWidget_, SIGNAL(update()), this, SLOT(update()));
+		connect(historizingWidget_, SIGNAL(update()), this, SLOT(update()));
 	}
 
 	OpcUaAttributeValueTab::~OpcUaAttributeValueTab(void)
@@ -172,9 +172,11 @@ namespace OpcUaNodeSet
 		accessLevelWidget_->nodeChange(nodeInfo);
 		accessLevelWidget_->enabled(enabled);
 
+		historizingWidget_->nodeChange(nodeInfo);
+		historizingWidget_->enabled(enabled);
+
 		setArrayDimensions(nodeInfo);
 		setDataType(nodeInfo);
-		setHistorizing(nodeInfo);
 		setMinimumSamplingInterval(nodeInfo);
 		setValue(nodeInfo);
 		setValueRank(nodeInfo);
@@ -223,20 +225,6 @@ namespace OpcUaNodeSet
 
 	    	dataTypeLineEdit_->setText(QString(dataTypeString.c_str()));
 	    }
-	}
-
-	void
-	OpcUaAttributeValueTab::setHistorizing(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullHistorizing()) {
-			historizingLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaBoolean historizing;
-			baseNode->getHistorizing(historizing);
-			historizingLineEdit_->setText(historizing == 1 ? QString("True") : QString("False"));
-		}
 	}
 
 	void
@@ -319,6 +307,17 @@ namespace OpcUaNodeSet
 
         if (accessLevel != newAccessLevel) {
         	baseNode->setAccessLevel(newAccessLevel);
+        }
+
+       	// check historizing
+        OpcUaBoolean historizing;
+        baseNode->getHistorizingSync(historizing);
+
+        OpcUaBoolean newHistorizing;
+        historizingWidget_->getValue(newHistorizing);
+
+        if (historizing != newHistorizing) {
+        	baseNode->setHistorizing(newHistorizing);
         }
 
 #if 0
@@ -421,6 +420,7 @@ namespace OpcUaNodeSet
     	orderDeleteAction_->setEnabled(true);
 
     	if (!accessLevelWidget_->isValid()) orderOkAction_->setEnabled(false);
+    	if (!historizingWidget_->isValid()) orderOkAction_->setEnabled(false);
     }
 
 }
