@@ -66,20 +66,21 @@ namespace OpcUaNodeSet
 		QAction* orderDeleteAction_;
 
 		void setArrayDimensions(NodeInfo* nodeInfo);
-		void setDataType(NodeInfo* nodeInfo);
 		void setHistorizing(NodeInfo* nodeInfo);
 		void setMinimumSamplingInterval(NodeInfo* nodeInfo);
-		void setValue(NodeInfo* nodeInfo);
+		void setDataType(NodeInfo* nodeInfo);
 		void setValueRank(NodeInfo* nodeInfo);
+		void setValue(NodeInfo* nodeInfo);
+
 
 		NodeInfo* nodeInfo_;
 		AccessLevelWidget* accessLevelWidget_;
-		QLineEdit* arrayDimensionsLineEdit_;
-		QLineEdit* dataTypeLineEdit_;
 		QLineEdit* historizingLineEdit_;
 		QLineEdit* minimumSamplingIntervalLineEdit_;
-		QLineEdit* valueLineEdit_;
+		QLineEdit* arrayDimensionsLineEdit_;
+		QLineEdit* dataTypeLineEdit_;
 		QLineEdit* valueRankLineEdit_;
+		QLineEdit* valueLineEdit_;
 	};
 
 }

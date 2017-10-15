@@ -160,9 +160,18 @@ namespace OpcUaNodeSet
 	void
 	OpcUaAttributeValueTab::nodeChange(NodeInfo* nodeInfo)
 	{
+		bool enabled = true;
 		nodeInfo_ = nodeInfo;
 
+		OpcUaNodeId nodeId;
+		nodeInfo->baseNode_->getNodeId(nodeId);
+		if (nodeId.namespaceIndex() == 0) {
+			enabled = false;
+		}
+
 		accessLevelWidget_->nodeChange(nodeInfo);
+		accessLevelWidget_->enabled(enabled);
+
 		setArrayDimensions(nodeInfo);
 		setDataType(nodeInfo);
 		setHistorizing(nodeInfo);
