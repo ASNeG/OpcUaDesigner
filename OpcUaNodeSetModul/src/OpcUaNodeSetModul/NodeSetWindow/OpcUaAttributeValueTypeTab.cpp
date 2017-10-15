@@ -18,6 +18,8 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
+#include <QToolBar>
+#include <QMenu>
 
 #include "OpcUaStackCore/BuildInTypes/OpcUaIdentifier.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeValueTypeTab.h"
@@ -27,7 +29,6 @@ using namespace OpcUaStackCore;
 namespace OpcUaNodeSet
 {
 
-
 	OpcUaAttributeValueTypeTab::OpcUaAttributeValueTypeTab(QWidget* parent)
 	: QWidget()
 	{
@@ -36,57 +37,60 @@ namespace OpcUaNodeSet
 		QGridLayout* gridLayout = new QGridLayout();
 
 
-		// ArrayDimensions
-		QLabel* arrayDimensionsLabel = new QLabel("ArrayDimensions");
-		gridLayout->addWidget(arrayDimensionsLabel, 0, 0);
+		// create toolbar menu
+		createToolBarActions();
+		tableToolBar_ = new QToolBar();
+		tableToolBar_->addAction(orderOkAction_);
+		tableToolBar_->addAction(orderDeleteAction_);
+		vBoxLayout->addWidget(tableToolBar_);
 
-		arrayDimensionsLineEdit_ = new QLineEdit();
-		arrayDimensionsLineEdit_->setFixedWidth(300);
+		// IsAbstract
+		QLabel* isAbstractLabel = new QLabel("IsAbstract");
+		gridLayout->addWidget(isAbstractLabel, 0, 0);
+
+		isAbstractWidget_ = new IsAbstractWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(arrayDimensionsLineEdit_);
+		hBoxLayout->addWidget(isAbstractWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 0, 1);
 
+		// ArrayDimensions
+		QLabel* arrayDimensionsLabel = new QLabel("ArrayDimensions");
+		gridLayout->addWidget(arrayDimensionsLabel, 1, 0);
 
-		// DataType
-		QLabel* dataTypeLabel = new QLabel("DataType");
-		gridLayout->addWidget(dataTypeLabel, 1, 0);
-
-		dataTypeLineEdit_ = new QLineEdit();
-		dataTypeLineEdit_->setFixedWidth(300);
+		arrayDimensionsWidget_ = new ArrayDimensionsWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(dataTypeLineEdit_);
+		hBoxLayout->addWidget(arrayDimensionsWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 1, 1);
 
 
-		// IsAbstract
-		QLabel* isAbstractLabel = new QLabel("IsAbstract");
-		gridLayout->addWidget(isAbstractLabel, 2, 0);
+		// DataType
+		QLabel* dataTypeLabel = new QLabel("DataType");
+		gridLayout->addWidget(dataTypeLabel, 2, 0);
 
-		isAbstractLineEdit_ = new QLineEdit();
-		isAbstractLineEdit_->setFixedWidth(300);
+		dataTypeWidget_ = new DataTypeWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(isAbstractLineEdit_);
+		hBoxLayout->addWidget(dataTypeWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 2, 1);
 
 
-		// UserWriteMask
-		QLabel* userWriteMaskLabel = new QLabel("UserWriteMask");
-		gridLayout->addWidget(userWriteMaskLabel, 3, 0);
 
-		userWriteMaskLineEdit_ = new QLineEdit();
-		userWriteMaskLineEdit_->setFixedWidth(300);
+		// ValueRank
+		QLabel* valueRankLabel = new QLabel("ValueRank");
+		gridLayout->addWidget(valueRankLabel, 3, 0);
+
+		valueRankWidget_ = new ValueRankWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(userWriteMaskLineEdit_);
+		hBoxLayout->addWidget(valueRankWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 3, 1);
@@ -96,48 +100,28 @@ namespace OpcUaNodeSet
 		QLabel* valueLabel = new QLabel("Value");
 		gridLayout->addWidget(valueLabel, 4, 0);
 
-		valueLineEdit_ = new QLineEdit();
-		valueLineEdit_->setFixedWidth(300);
+		valueWidget_ = new ValueWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(valueLineEdit_);
+		hBoxLayout->addWidget(valueWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 4, 1);
-
-
-		// ValueRank
-		QLabel* valueRankLabel = new QLabel("ValueRank");
-		gridLayout->addWidget(valueRankLabel, 5, 0);
-
-		valueRankLineEdit_ = new QLineEdit();
-		valueRankLineEdit_->setFixedWidth(300);
-
-		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(valueRankLineEdit_);
-		hBoxLayout->addStretch();
-
-		gridLayout->addLayout(hBoxLayout, 5, 1);
-
-
-		// WriteMask
-		QLabel* writeMaskLabel = new QLabel("WriteMask");
-		gridLayout->addWidget(writeMaskLabel, 6, 0);
-
-		writeMaskLineEdit_ = new QLineEdit();
-		writeMaskLineEdit_->setFixedWidth(300);
-
-		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(writeMaskLineEdit_);
-		hBoxLayout->addStretch();
-
-		gridLayout->addLayout(hBoxLayout, 6, 1);
 
 
 		vBoxLayout->addLayout(gridLayout);
 		vBoxLayout->addStretch();
 
 		setLayout(vBoxLayout);
+
+		//
+		// actions
+		//
+		connect(isAbstractWidget_, SIGNAL(update()), this, SLOT(update()));
+		connect(arrayDimensionsWidget_, SIGNAL(update()), this, SLOT(update()));
+		connect(dataTypeWidget_, SIGNAL(update()), this, SLOT(update()));
+		connect(valueRankWidget_, SIGNAL(update()), this, SLOT(update()));
+		connect(valueWidget_, SIGNAL(update()), this, SLOT(update()));
 	}
 
 	OpcUaAttributeValueTypeTab::~OpcUaAttributeValueTypeTab(void)
@@ -147,131 +131,124 @@ namespace OpcUaNodeSet
 	void
 	OpcUaAttributeValueTypeTab::nodeChange(NodeInfo* nodeInfo)
 	{
-		setArrayDimensions(nodeInfo);
-		setDataType(nodeInfo);
-		setIsAbstract(nodeInfo);
-		setUserWriteMask(nodeInfo);
-		setValue(nodeInfo);
-		setValueRank(nodeInfo);
-		setWriteMask(nodeInfo);
+		bool enabled = true;
+		nodeInfo_ = nodeInfo;
+
+		OpcUaNodeId nodeId;
+		nodeInfo->baseNode_->getNodeId(nodeId);
+		if (nodeId.namespaceIndex() == 0) {
+			enabled = false;
+		}
+
+	    isAbstractWidget_->nodeChange(nodeInfo);
+		isAbstractWidget_->enabled(enabled);
+
+	    arrayDimensionsWidget_->nodeChange(nodeInfo);
+		arrayDimensionsWidget_->enabled(enabled);
+
+	    dataTypeWidget_->nodeChange(nodeInfo);
+		dataTypeWidget_->enabled(enabled);
+
+	    valueRankWidget_->nodeChange(nodeInfo);
+		valueRankWidget_->enabled(enabled);
+
+	    valueWidget_->nodeChange(nodeInfo);
+		valueWidget_->enabled(enabled);
 	}
 
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// Toolbar
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 	void
-	OpcUaAttributeValueTypeTab::setArrayDimensions(NodeInfo* nodeInfo)
+	OpcUaAttributeValueTypeTab::createToolBarActions(void)
 	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullArrayDimensions()) {
-			arrayDimensionsLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaUInt32Array arrayDimensions;
-			baseNode->getArrayDimensions(arrayDimensions);
-			std::stringstream ss;
-			arrayDimensions.out(ss);
-			arrayDimensionsLineEdit_->setText(QString(ss.str().c_str()));
-		}
+		orderOkAction_ = new QAction("Apply tab input", this);
+		orderOkAction_->setIcon(QIcon(":images/OrderOk.png"));
+		orderOkAction_->setEnabled(false);
+		connect(orderOkAction_, SIGNAL(triggered()), this, SLOT(onOrderOkAction()));
+
+		orderDeleteAction_ = new QAction("Cancel tab input", this);
+		orderDeleteAction_->setIcon(QIcon(":images/OrderDelete.png"));
+		orderDeleteAction_->setEnabled(false);
+		connect(orderDeleteAction_, SIGNAL(triggered()), this, SLOT(onOrderDeleteAction()));
 	}
 
-	void
-	OpcUaAttributeValueTypeTab::setDataType(NodeInfo* nodeInfo)
-	{
-		bool success;
+    void
+	OpcUaAttributeValueTypeTab::onOrderOkAction(void)
+    {
+    	InformationModel::SPtr informationModel_ = nodeInfo_->informationModel_;
+    	BaseNodeClass::SPtr baseNode = nodeInfo_->baseNode_;
 
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-	   	if (baseNode->isNullDataType()) {
-	   		dataTypeLineEdit_->setText(QString(""));
-	   	}
-	   	else {
-	    	std::string dataTypeString = "";
+       	// check isAbstract
+        OpcUaBoolean isAbstract;
+        baseNode->getIsAbstractSync(isAbstract);
 
-	    	OpcUaNodeId dataType;
-	    	success = baseNode->getDataType(dataType);
-	    	if (success) {
+        OpcUaBoolean newIsAbstract;
+        isAbstractWidget_->getValue(newIsAbstract);
 
-	    		if (dataType.namespaceIndex() == 0 &&  dataType.nodeIdType() == OpcUaBuildInType_OpcUaUInt32) {
-	    			uint32_t id = dataType.nodeId<uint32_t>();
-	    			dataTypeString = OpcUaIdMap::shortString(id);
-	    		}
-	    		else {
-	    			dataTypeString = dataType.toString();
-	    		}
-	    	}
+        if (isAbstract != newIsAbstract) {
+        	baseNode->setIsAbstract(newIsAbstract);
+        }
 
-	    	dataTypeLineEdit_->setText(QString(dataTypeString.c_str()));
-	    }
-	}
+        // check array dimensions
+        // FIXME: todo
 
-	void
-	OpcUaAttributeValueTypeTab::setIsAbstract(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullIsAbstract()) {
-			isAbstractLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaBoolean isAbstract;
-			baseNode->getIsAbstract(isAbstract);
-			isAbstractLineEdit_->setText(isAbstract == 1 ? QString("True") : QString("False"));
-		}
-	}
+        // check data type
+        // FIXME: todo
 
-	void
-	OpcUaAttributeValueTypeTab::setUserWriteMask(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullUserWriteMask()) {
-			userWriteMaskLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaUInt32 userWriteMask;
-			baseNode->getUserWriteMask(userWriteMask);
-			userWriteMaskLineEdit_->setText(QString("%1").arg((uint32_t)userWriteMask));
-		}
-	}
+      	// check value rank
+        OpcUaInt32 valueRank;
+        baseNode->getValueRankSync(valueRank);
 
-	void
-	OpcUaAttributeValueTypeTab::setValue(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullValue()) {
-			valueLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaDataValue dataValue;
-			baseNode->getValue(dataValue);
-			std::stringstream ss;
-			dataValue.out(ss);
-			valueLineEdit_->setText(QString(ss.str().c_str()));
-		}
-	}
+        OpcUaInt32 newValueRank;
+        valueRankWidget_->getValue(newValueRank);
 
-	void
-	OpcUaAttributeValueTypeTab::setValueRank(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullValueRank()) {
-			valueRankLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaInt32 valueRank;
-			baseNode->getValueRank(valueRank);
-			valueRankLineEdit_->setText(QString("%1").arg((int32_t)valueRank));
-		}
-	}
+        if (valueRank != newValueRank) {
+        	baseNode->setValueRank(newValueRank);
+        }
 
-	void
-	OpcUaAttributeValueTypeTab::setWriteMask(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullWriteMask()) {
-			writeMaskLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaUInt32 writeMask;
-			baseNode->getWriteMask(writeMask);
-			writeMaskLineEdit_->setText(QString("%1").arg((uint32_t)writeMask));
-		}
-	}
+    	orderOkAction_->setEnabled(false);
+    	orderDeleteAction_->setEnabled(false);
+
+    	// check value
+    	// FIXME: todo
+
+    	emit updateTab();
+    }
+
+    void
+	OpcUaAttributeValueTypeTab::onOrderDeleteAction(void)
+    {
+    	nodeChange(nodeInfo_);
+
+    	orderOkAction_->setEnabled(false);
+    	orderDeleteAction_->setEnabled(false);
+    }
+
+
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+    //
+    // widget actions
+    //
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+    void
+	OpcUaAttributeValueTypeTab::update(void)
+    {
+    	orderOkAction_->setEnabled(true);
+    	orderDeleteAction_->setEnabled(true);
+
+    	if (!isAbstractWidget_->isValid()) orderOkAction_->setEnabled(false);
+    	if (!arrayDimensionsWidget_->isValid()) orderOkAction_->setEnabled(false);
+    	if (!dataTypeWidget_->isValid()) orderOkAction_->setEnabled(false);
+    	if (!valueRankWidget_->isValid()) orderOkAction_->setEnabled(false);
+    	if (!valueWidget_->isValid()) orderOkAction_->setEnabled(false);
+    }
 
 }
 

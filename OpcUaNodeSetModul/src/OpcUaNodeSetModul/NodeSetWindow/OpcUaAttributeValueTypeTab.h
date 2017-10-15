@@ -21,8 +21,14 @@
 #include <QWidget>
 
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/IsAbstractWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/ArrayDimensionsWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/DataTypeWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/ValueRankWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/ValueWidget.h"
 
 class QLineEdit;
+class QToolBar;
 
 namespace OpcUaNodeSet
 {
@@ -38,22 +44,37 @@ namespace OpcUaNodeSet
 
 		void nodeChange(NodeInfo* nodeInfo);
 
-	  private:
-		void setArrayDimensions(NodeInfo* nodeInfo);
-		void setDataType(NodeInfo* nodeInfo);
-		void setIsAbstract(NodeInfo* nodeInfo);
-		void setUserWriteMask(NodeInfo* nodeInfo);
-		void setValue(NodeInfo* nodeInfo);
-		void setValueRank(NodeInfo* nodeInfo);
-		void setWriteMask(NodeInfo* nodeInfo);
+	  signals:
+	    void updateTab(void);
 
-		QLineEdit* arrayDimensionsLineEdit_;
-		QLineEdit* dataTypeLineEdit_;
-		QLineEdit* isAbstractLineEdit_;
-		QLineEdit* userWriteMaskLineEdit_;
-		QLineEdit* valueLineEdit_;
-		QLineEdit* valueRankLineEdit_;
-		QLineEdit* writeMaskLineEdit_;
+		public slots:
+		  //
+		  // toolbar menu
+		  //
+		  void onOrderOkAction(void);
+		  void onOrderDeleteAction(void);
+
+		  //
+		  // widgets
+		  //
+		  void update(void);
+
+	  private:
+	    //
+	    // toolbar menu
+	    //
+	    void createToolBarActions(void);
+
+		QToolBar* tableToolBar_;
+		QAction* orderOkAction_;
+		QAction* orderDeleteAction_;
+
+		NodeInfo* nodeInfo_;
+		IsAbstractWidget* isAbstractWidget_;
+		ArrayDimensionsWidget* arrayDimensionsWidget_;
+		DataTypeWidget* dataTypeWidget_;
+		ValueRankWidget* valueRankWidget_;
+		ValueWidget* valueWidget_;
 	};
 
 }
