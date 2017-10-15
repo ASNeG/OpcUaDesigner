@@ -18,6 +18,8 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
+#include <QToolBar>
+#include <QMenu>
 
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeMethodTab.h"
 
@@ -32,6 +34,12 @@ namespace OpcUaNodeSet
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
 		QGridLayout* gridLayout = new QGridLayout();
 
+		// create toolbar menu
+		createToolBarActions();
+		tableToolBar_ = new QToolBar();
+		tableToolBar_->addAction(orderOkAction_);
+		tableToolBar_->addAction(orderDeleteAction_);
+		vBoxLayout->addWidget(tableToolBar_);
 
 		// Executable
 		QLabel* executableLabel = new QLabel("Executable");
@@ -65,6 +73,12 @@ namespace OpcUaNodeSet
 		vBoxLayout->addStretch();
 
 		setLayout(vBoxLayout);
+
+		//
+		// actions
+		//
+		//connect(executableWidget_, SIGNAL(update()), this, SLOT(update()));
+		//connect(userExecutableWidget_, SIGNAL(update()), this, SLOT(update()));
 	}
 
 	OpcUaAttributeMethodTab::~OpcUaAttributeMethodTab(void)
@@ -76,6 +90,23 @@ namespace OpcUaNodeSet
 	{
 		setExecutable(nodeInfo);
 		setUserExecutable(nodeInfo);
+
+#if 0
+		bool enabled = true;
+		nodeInfo_ = nodeInfo;
+
+		OpcUaNodeId nodeId;
+		nodeInfo->baseNode_->getNodeId(nodeId);
+		if (nodeId.namespaceIndex() == 0) {
+			enabled = false;
+		}
+
+		executableWidget_->nodeChange(nodeInfo);
+		executableWidget_->enabled(enabled);
+
+		userExecutableWidget_->nodeChange(nodeInfo);
+		userExecutableWidget_->enabled(enabled);
+#endif
 	}
 
 	void
@@ -105,6 +136,93 @@ namespace OpcUaNodeSet
 			userExecutableLineEdit_->setText(userExecutableLineEdit == 1 ? QString("True") : QString("False"));
 		}
 	}
+
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// Toolbar
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	void
+	OpcUaAttributeMethodTab::createToolBarActions(void)
+	{
+		orderOkAction_ = new QAction("Apply tab input", this);
+		orderOkAction_->setIcon(QIcon(":images/OrderOk.png"));
+		orderOkAction_->setEnabled(false);
+		connect(orderOkAction_, SIGNAL(triggered()), this, SLOT(onOrderOkAction()));
+
+		orderDeleteAction_ = new QAction("Cancel tab input", this);
+		orderDeleteAction_->setIcon(QIcon(":images/OrderDelete.png"));
+		orderDeleteAction_->setEnabled(false);
+		connect(orderDeleteAction_, SIGNAL(triggered()), this, SLOT(onOrderDeleteAction()));
+	}
+
+    void
+	OpcUaAttributeMethodTab::onOrderOkAction(void)
+    {
+#if 0
+    	InformationModel::SPtr informationModel_ = nodeInfo_->informationModel_;
+    	BaseNodeClass::SPtr baseNode = nodeInfo_->baseNode_;
+
+       	// check executable
+        OpcUaBoolean executable;
+        baseNode->getExecutableSync(executable);
+
+        OpcUaBoolean newExecutable;
+        executableWidget_->getValue(newExecutable);
+
+        if (executable != newExecutable) {
+        	baseNode->setExecutable(newExecutable);
+        }
+
+      	// check user executable
+        OpcUaBoolean userExecutable;
+        baseNode->getUserExecutableSync(userExecutable);
+
+        OpcUaBoolean newUserExecutable;
+        userExecutableWidget_->getValue(newUserExecutable);
+
+        if (userExecutable != newUserExecutable) {
+        	baseNode->setExecutable(newUserExecutable);
+        }
+#endif
+
+    	orderOkAction_->setEnabled(false);
+    	orderDeleteAction_->setEnabled(false);
+
+    	emit updateTab();
+    }
+
+    void
+	OpcUaAttributeMethodTab::onOrderDeleteAction(void)
+    {
+    	nodeChange(nodeInfo_);
+
+    	orderOkAction_->setEnabled(false);
+    	orderDeleteAction_->setEnabled(false);
+    }
+
+
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+    //
+    // widget actions
+    //
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+    void
+	OpcUaAttributeMethodTab::update(void)
+    {
+    	orderOkAction_->setEnabled(true);
+    	orderDeleteAction_->setEnabled(true);
+
+#if 0
+    	if (!executableWidget_->isValid()) orderOkAction_->setEnabled(false);
+    	if (!userExecutableWidget_->isValid()) orderOkAction_->setEnabled(false);
+#endif
+    }
+
 
 }
 

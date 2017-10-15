@@ -15,62 +15,46 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
-#ifndef __OpcUaNodeSet_OpcUaAttributeMethodTab_h__
-#define __OpcUaNodeSet_OpcUaAttributeMethodTab_h__
-
-#include <QWidget>
+#ifndef __OpcUaNodeSet_ExecutableWidget_h__
+#define __OpcUaNodeSet_ExecutableWidget_h__
 
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
 
-class QLineEdit;
-class QToolBar;
+#include <QWidget>
 
+class QCheckBox;
 
 namespace OpcUaNodeSet
 {
 
-	class OpcUaAttributeMethodTab
+	class ExecutableWidget
 	: public QWidget
 	{
 		Q_OBJECT
 
 	  public:
-		OpcUaAttributeMethodTab(QWidget* parent = 0);
-		virtual ~OpcUaAttributeMethodTab(void);
+		ExecutableWidget(QWidget* parent = 0);
+		virtual ~ExecutableWidget(void);
 
+		bool isValid(void);
 		void nodeChange(NodeInfo* nodeInfo);
+		void enabled(bool enabled);
+		void getValue(OpcUaBoolean& executable);
 
-	  signals:
-		void updateTab(void);
+	signals:
+	  void valueChanged(OpcUaBoolean& executable, bool isValid);
+      void update(void);
 
-	  public slots:
-	  	//
-	    // toolbar menu
-	    //
-		void onOrderOkAction(void);
-		void onOrderDeleteAction(void);
+	private slots:
+	  void onStateChanged(int state);
 
-	    //
-	    // widgets
-	    //
-		void update(void);
+	private:
+	  bool checkValue(void);
+	  void styleValue(void);
 
-	  private:
-		//
-		// toolbar menu
-		//
-		void createToolBarActions(void);
-
-		QToolBar* tableToolBar_;
-		QAction* orderOkAction_;
-		QAction* orderDeleteAction_;
-
-		void setExecutable(NodeInfo* nodeInfo);
-		void setUserExecutable(NodeInfo* nodeInfo);
-
-		NodeInfo* nodeInfo_;
-		QLineEdit* executableLineEdit_;
-		QLineEdit* userExecutableLineEdit_;
+	  QCheckBox* checkboxWidget_;
+	  bool isValid_;
+	  bool checkOn_;
 	};
 
 }
