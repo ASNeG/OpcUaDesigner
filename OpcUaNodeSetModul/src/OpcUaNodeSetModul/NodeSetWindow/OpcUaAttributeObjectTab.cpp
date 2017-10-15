@@ -74,6 +74,20 @@ namespace OpcUaNodeSet
 	OpcUaAttributeObjectTab::nodeChange(NodeInfo* nodeInfo)
 	{
 		setEventNotifier(nodeInfo);
+
+#if 0
+		bool enabled = true;
+		nodeInfo_ = nodeInfo;
+
+		OpcUaNodeId nodeId;
+		nodeInfo->baseNode_->getNodeId(nodeId);
+		if (nodeId.namespaceIndex() == 0) {
+			enabled = false;
+		}
+
+		eventNotifierWidget_->nodeChange(nodeInfo);
+		eventNotifierWidget_->enabled(enabled);
+#endif
 	}
 
 	void
