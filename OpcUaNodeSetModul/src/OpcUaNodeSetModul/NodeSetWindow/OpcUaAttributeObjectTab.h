@@ -23,6 +23,7 @@
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
 
 class QLineEdit;
+class QToolBar;
 
 namespace OpcUaNodeSet
 {
@@ -38,9 +39,34 @@ namespace OpcUaNodeSet
 
 		void nodeChange(NodeInfo* nodeInfo);
 
+	  signals:
+		void updateTab(void);
+
+	  public slots:
+		//
+		// toolbar menu
+		//
+		void onOrderOkAction(void);
+		void onOrderDeleteAction(void);
+
+		//
+		// widgets
+		//
+		void update(void);
+
 	  private:
+		//
+		// toolbar menu
+		//
+		void createToolBarActions(void);
+
 		void setEventNotifier(NodeInfo* nodeInfo);
 
+		QToolBar* tableToolBar_;
+		QAction* orderOkAction_;
+		QAction* orderDeleteAction_;
+
+		NodeInfo* nodeInfo_;
 		QLineEdit* eventNotifierLineEdit_;
 	};
 
