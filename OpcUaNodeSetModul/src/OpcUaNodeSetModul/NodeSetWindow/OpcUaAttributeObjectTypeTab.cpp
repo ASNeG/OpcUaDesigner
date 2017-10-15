@@ -1,4 +1,5 @@
 /*
+ /*
    Copyright 2017 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
@@ -18,6 +19,8 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
+#include <QToolBar>
+#include <QMenu>
 
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeObjectTypeTab.h"
 
@@ -32,53 +35,34 @@ namespace OpcUaNodeSet
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
 		QGridLayout* gridLayout = new QGridLayout();
 
+		// create toolbar menu
+		createToolBarActions();
+		tableToolBar_ = new QToolBar();
+		tableToolBar_->addAction(orderOkAction_);
+		tableToolBar_->addAction(orderDeleteAction_);
+		vBoxLayout->addWidget(tableToolBar_);
 
 		// IsAbstract
 		QLabel* isAbstractLabel = new QLabel("IsAbstract");
 		gridLayout->addWidget(isAbstractLabel, 0, 0);
 
-		isAbstractLineEdit_ = new QLineEdit();
-		isAbstractLineEdit_->setFixedWidth(300);
+		isAbstractWidget_ = new IsAbstractWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(isAbstractLineEdit_);
+		hBoxLayout->addWidget(isAbstractWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 0, 1);
-
-
-		// UserWriteMask
-		QLabel* userWriteMaskLabel = new QLabel("UserWriteMask");
-		gridLayout->addWidget(userWriteMaskLabel, 1, 0);
-
-		userWriteMaskLineEdit_ = new QLineEdit();
-		userWriteMaskLineEdit_->setFixedWidth(300);
-
-		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(userWriteMaskLineEdit_);
-		hBoxLayout->addStretch();
-
-		gridLayout->addLayout(hBoxLayout, 1, 1);
-
-
-		// WriteMask
-		QLabel* writeMaskLabel = new QLabel("WriteMask");
-		gridLayout->addWidget(writeMaskLabel, 2, 0);
-
-		writeMaskLineEdit_ = new QLineEdit();
-		writeMaskLineEdit_->setFixedWidth(300);
-
-		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(writeMaskLineEdit_);
-		hBoxLayout->addStretch();
-
-		gridLayout->addLayout(hBoxLayout, 2, 1);
-
 
 		vBoxLayout->addLayout(gridLayout);
 		vBoxLayout->addStretch();
 
 		setLayout(vBoxLayout);
+
+		//
+		// actions
+		//
+		connect(isAbstractWidget_, SIGNAL(update()), this, SLOT(update()));
 	}
 
 	OpcUaAttributeObjectTypeTab::~OpcUaAttributeObjectTypeTab(void)
@@ -88,52 +72,89 @@ namespace OpcUaNodeSet
 	void
 	OpcUaAttributeObjectTypeTab::nodeChange(NodeInfo* nodeInfo)
 	{
-		setIsAbstract(nodeInfo);
-		setUserWriteMask(nodeInfo);
-		setWriteMask(nodeInfo);
+		bool enabled = true;
+		nodeInfo_ = nodeInfo;
+
+		OpcUaNodeId nodeId;
+		nodeInfo->baseNode_->getNodeId(nodeId);
+		if (nodeId.namespaceIndex() == 0) {
+			enabled = false;
+		}
+
+		isAbstractWidget_->nodeChange(nodeInfo);
+		isAbstractWidget_->enabled(enabled);
 	}
 
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// Toolbar
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 	void
-	OpcUaAttributeObjectTypeTab::setIsAbstract(NodeInfo* nodeInfo)
+	OpcUaAttributeObjectTypeTab::createToolBarActions(void)
 	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullIsAbstract()) {
-			isAbstractLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaBoolean isAbstract;
-			baseNode->getIsAbstract(isAbstract);
-			isAbstractLineEdit_->setText(isAbstract == 1 ? QString("True") : QString("False"));
-		}
+		orderOkAction_ = new QAction("Apply tab input", this);
+		orderOkAction_->setIcon(QIcon(":images/OrderOk.png"));
+		orderOkAction_->setEnabled(false);
+		connect(orderOkAction_, SIGNAL(triggered()), this, SLOT(onOrderOkAction()));
+
+		orderDeleteAction_ = new QAction("Cancel tab input", this);
+		orderDeleteAction_->setIcon(QIcon(":images/OrderDelete.png"));
+		orderDeleteAction_->setEnabled(false);
+		connect(orderDeleteAction_, SIGNAL(triggered()), this, SLOT(onOrderDeleteAction()));
 	}
 
-	void
-	OpcUaAttributeObjectTypeTab::setUserWriteMask(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullUserWriteMask()) {
-			userWriteMaskLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaUInt32 userWriteMask;
-			baseNode->getUserWriteMask(userWriteMask);
-			userWriteMaskLineEdit_->setText(QString("%1").arg((uint32_t)userWriteMask));
-		}
-	}
+    void
+	OpcUaAttributeObjectTypeTab::onOrderOkAction(void)
+    {
+    	InformationModel::SPtr informationModel_ = nodeInfo_->informationModel_;
+    	BaseNodeClass::SPtr baseNode = nodeInfo_->baseNode_;
 
-	void
-	OpcUaAttributeObjectTypeTab::setWriteMask(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullWriteMask()) {
-			writeMaskLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaUInt32 writeMask;
-			baseNode->getWriteMask(writeMask);
-			writeMaskLineEdit_->setText(QString("%1").arg((uint32_t)writeMask));
-		}
-	}
+       	// check isAbstract
+        OpcUaBoolean isAbstract;
+        baseNode->getIsAbstractSync(isAbstract);
+
+        OpcUaBoolean newIsAbstract;
+        isAbstractWidget_->getValue(newIsAbstract);
+
+        if (isAbstract != newIsAbstract) {
+        	baseNode->setIsAbstract(newIsAbstract);
+        }
+
+    	orderOkAction_->setEnabled(false);
+    	orderDeleteAction_->setEnabled(false);
+
+    	emit updateTab();
+    }
+
+    void
+	OpcUaAttributeObjectTypeTab::onOrderDeleteAction(void)
+    {
+    	nodeChange(nodeInfo_);
+
+    	orderOkAction_->setEnabled(false);
+    	orderDeleteAction_->setEnabled(false);
+    }
+
+
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+    //
+    // widget actions
+    //
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+    void
+	OpcUaAttributeObjectTypeTab::update(void)
+    {
+    	orderOkAction_->setEnabled(true);
+    	orderDeleteAction_->setEnabled(true);
+
+    	if (!isAbstractWidget_->isValid()) orderOkAction_->setEnabled(false);
+    }
+
 
 }
 

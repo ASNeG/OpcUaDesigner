@@ -21,8 +21,10 @@
 #include <QWidget>
 
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/IsAbstractWidget.h"
 
 class QLineEdit;
+class QToolBar;
 
 namespace OpcUaNodeSet
 {
@@ -38,14 +40,33 @@ namespace OpcUaNodeSet
 
 		void nodeChange(NodeInfo* nodeInfo);
 
-	  private:
-		void setIsAbstract(NodeInfo* nodeInfo);
-		void setUserWriteMask(NodeInfo* nodeInfo);
-		void setWriteMask(NodeInfo* nodeInfo);
+	  signals:
+		void updateTab(void);
 
-		QLineEdit* isAbstractLineEdit_;
-		QLineEdit* userWriteMaskLineEdit_;
-		QLineEdit* writeMaskLineEdit_;
+	  public slots:
+	  	//
+	    // toolbar menu
+	    //
+		void onOrderOkAction(void);
+		void onOrderDeleteAction(void);
+
+	    //
+	    // widgets
+	    //
+		void update(void);
+
+	  private:
+		//
+		// toolbar menu
+		//
+		void createToolBarActions(void);
+
+		QToolBar* tableToolBar_;
+		QAction* orderOkAction_;
+		QAction* orderDeleteAction_;
+
+		NodeInfo* nodeInfo_;
+		IsAbstractWidget* isAbstractWidget_;
 	};
 
 }
