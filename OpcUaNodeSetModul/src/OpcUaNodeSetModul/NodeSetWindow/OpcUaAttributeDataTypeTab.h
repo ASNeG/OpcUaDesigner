@@ -71,7 +71,7 @@ namespace OpcUaNodeSet
 
 
 
-		void setDefinition(NodeInfo* nodeInfo);
+		void setDefinition(NodeInfo* nodeInfo, bool enabled);
 
 		NodeInfo* nodeInfo_;
 		IsAbstractWidget* isAbstractWidget_;

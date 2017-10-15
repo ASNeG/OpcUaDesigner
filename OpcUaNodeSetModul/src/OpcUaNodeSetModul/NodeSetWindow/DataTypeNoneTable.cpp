@@ -45,6 +45,12 @@ namespace OpcUaNodeSet
 	{
 	}
 
+	void
+	DataTypeNoneTable::enabled(bool enabled)
+	{
+		// nothing to do
+	}
+
 }
 
 

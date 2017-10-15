@@ -36,6 +36,7 @@ namespace OpcUaNodeSet
 		virtual ~DataTypeNoneTable(void);
 
 		void nodeChange(NodeInfo* nodeInfo);
+		void enabled(bool enabled);
 
 	  private:
 	};

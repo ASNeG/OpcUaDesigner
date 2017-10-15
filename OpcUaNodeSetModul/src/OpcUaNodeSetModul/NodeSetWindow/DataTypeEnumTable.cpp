@@ -83,6 +83,12 @@ namespace OpcUaNodeSet
 	}
 
 	void
+	DataTypeEnumTable::enabled(bool enabled)
+	{
+		enumTable_->setEnabled(enabled);
+	}
+
+	void
 	DataTypeEnumTable::setName(uint32_t row, DataTypeField::SPtr& dataField)
 	{
 		QTableWidgetItem* item;

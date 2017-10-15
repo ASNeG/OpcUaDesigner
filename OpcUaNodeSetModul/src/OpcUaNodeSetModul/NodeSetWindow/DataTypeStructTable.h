@@ -40,6 +40,7 @@ namespace OpcUaNodeSet
 		virtual ~DataTypeStructTable(void);
 
 		void nodeChange(NodeInfo* nodeInfo);
+		void enabled(bool enabled);
 
 	  private:
 		void setName(uint32_t row, DataTypeField::SPtr& dataField);

@@ -104,11 +104,11 @@ namespace OpcUaNodeSet
 		isAbstractWidget_->nodeChange(nodeInfo);
 		isAbstractWidget_->enabled(enabled);
 
-		setDefinition(nodeInfo);
+		setDefinition(nodeInfo, enabled);
 	}
 
 	void
-	OpcUaAttributeDataTypeTab::setDefinition(NodeInfo* nodeInfo)
+	OpcUaAttributeDataTypeTab::setDefinition(NodeInfo* nodeInfo, bool enabled)
 	{
 		// get data type node
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
@@ -118,6 +118,7 @@ namespace OpcUaNodeSet
 		Object::SPtr object = dataTypeNode->dataTypeDefinition();
 		if (object.get() == nullptr) {
 			noneDefinitionWidget_->nodeChange(nodeInfo);
+			noneDefinitionWidget_->enabled(enabled);
 			definitionWidget_->setCurrentIndex(0);
 			return;
 		}
@@ -126,10 +127,12 @@ namespace OpcUaNodeSet
 		DataTypeDefinition::SPtr definition = boost::static_pointer_cast<DataTypeDefinition>(object);
 		if (definition->dataSubType() == Enumeration) {
 			enumDefinitionWidget_->nodeChange(nodeInfo);
+			enumDefinitionWidget_->enabled(enabled);
 			definitionWidget_->setCurrentIndex(1);
 		}
 		else {
 			structDefinitionWidget_->nodeChange(nodeInfo);
+			structDefinitionWidget_->enabled(enabled);
 			definitionWidget_->setCurrentIndex(2);
 		}
 	}

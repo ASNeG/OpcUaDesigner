@@ -91,6 +91,12 @@ namespace OpcUaNodeSet
 	}
 
 	void
+	DataTypeStructTable::enabled(bool enabled)
+	{
+		structTable_->setEnabled(enabled);
+	}
+
+	void
 	DataTypeStructTable::setName(uint32_t row, DataTypeField::SPtr& dataField)
 	{
 		QTableWidgetItem* item;
