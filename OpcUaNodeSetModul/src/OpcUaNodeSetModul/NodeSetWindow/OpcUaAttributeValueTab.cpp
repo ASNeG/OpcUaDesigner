@@ -114,11 +114,10 @@ namespace OpcUaNodeSet
 		QLabel* valueRankLabel = new QLabel("ValueRank");
 		gridLayout->addWidget(valueRankLabel, 5, 0);
 
-		valueRankLineEdit_ = new QLineEdit();
-		valueRankLineEdit_->setFixedWidth(300);
+		valueRankWidget_ = new ValueRankWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(valueRankLineEdit_);
+		hBoxLayout->addWidget(valueRankWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 5, 1);
@@ -151,6 +150,7 @@ namespace OpcUaNodeSet
 		connect(minimumSamplingIntervalWidget_, SIGNAL(update()), this, SLOT(update()));
 		connect(arrayDimensionsWidget_, SIGNAL(update()), this, SLOT(update()));
 		connect(dataTypeWidget_, SIGNAL(update()), this, SLOT(update()));
+		connect(valueRankWidget_, SIGNAL(update()), this, SLOT(update()));
 	}
 
 	OpcUaAttributeValueTab::~OpcUaAttributeValueTab(void)
@@ -184,8 +184,10 @@ namespace OpcUaNodeSet
 	    dataTypeWidget_->nodeChange(nodeInfo);
 		dataTypeWidget_->enabled(enabled);
 
+	    valueRankWidget_->nodeChange(nodeInfo);
+		valueRankWidget_->enabled(enabled);
+
 		setValue(nodeInfo);
-		setValueRank(nodeInfo);
 	}
 
 #if 0
@@ -232,20 +234,6 @@ namespace OpcUaNodeSet
 			std::stringstream ss;
 			dataValue.out(ss);
 			valueLineEdit_->setText(QString(ss.str().c_str()));
-		}
-	}
-
-	void
-	OpcUaAttributeValueTab::setValueRank(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullValueRank()) {
-			valueRankLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaInt32 valueRank;
-			baseNode->getValueRank(valueRank);
-			valueRankLineEdit_->setText(QString("%1").arg((int32_t)valueRank));
 		}
 	}
 
@@ -315,75 +303,16 @@ namespace OpcUaNodeSet
         // check data type
         // FIXME: todo
 
-#if 0
-    	// check node id
-    	OpcUaNodeId nodeId;
-    	baseNode->getNodeId(nodeId);
+      	// check value rank
+        OpcUaInt32 valueRank;
+        baseNode->getValueRankSync(valueRank);
 
-    	OpcUaNodeId newNodeId;
-    	nodeIdWidget_->getValue(newNodeId);
+        OpcUaInt32 newValueRank;
+        valueRankWidget_->getValue(newValueRank);
 
-    	if (nodeId != newNodeId) {
-    		informationModel_->remove(nodeId);
-    		baseNode->setNodeId(newNodeId);
-    		informationModel_->insert(baseNode);
-    	}
-
-    	// check display name
-    	OpcUaLocalizedText displayName;
-    	baseNode->getDisplayNameSync(displayName);
-
-    	OpcUaLocalizedText newDisplayName;
-    	displayNameWidget_->getValue(newDisplayName);
-
-    	if (displayName != newDisplayName) {
-    		baseNode->setDisplayNameSync(newDisplayName);
-    	}
-
-    	// check browse name
-    	OpcUaQualifiedName browseName;
-    	baseNode->getBrowseName(browseName);
-
-    	OpcUaQualifiedName newBrowseName;
-    	browseNameWidget_->getValue(newBrowseName);
-
-    	if (browseName != newBrowseName) {
-    		baseNode->setBrowseNameSync(newBrowseName);
-    	}
-
-    	// check description
-    	OpcUaLocalizedText description;
-    	baseNode->getDescription(description);
-
-    	OpcUaLocalizedText newDescription;
-    	descriptionWidget_->getValue(newDescription);
-
-    	if (description != newDescription) {
-    		baseNode->setDescription(newDescription);
-    	}
-
-    	// check write mask
-    	OpcUaUInt32 writeMask;
-    	baseNode->getWriteMask(writeMask);
-
-    	OpcUaUInt32 newWriteMask;
-    	writeMaskWidget_->getValue(newWriteMask);
-
-    	if (writeMask != newWriteMask) {
-    		baseNode->setWriteMask(newWriteMask);
-    	}
-
-    	// check user write mask
-    	OpcUaUInt32 userWriteMask;
-    	baseNode->getUserWriteMaskSync(userWriteMask);
-
-    	OpcUaUInt32 newUserWriteMask;
-    	userWriteMaskWidget_->getValue(newUserWriteMask);
-
-    	if (userWriteMask != newUserWriteMask) {
-    		baseNode->setUserWriteMask(newUserWriteMask);
-    	}
-#endif
+        if (valueRank != newValueRank) {
+        	baseNode->setValueRank(newValueRank);
+        }
 
     	orderOkAction_->setEnabled(false);
     	orderDeleteAction_->setEnabled(false);
@@ -419,6 +348,7 @@ namespace OpcUaNodeSet
     	if (!minimumSamplingIntervalWidget_->isValid()) orderOkAction_->setEnabled(false);
     	if (!arrayDimensionsWidget_->isValid()) orderOkAction_->setEnabled(false);
     	if (!dataTypeWidget_->isValid()) orderOkAction_->setEnabled(false);
+    	if (!valueRankWidget_->isValid()) orderOkAction_->setEnabled(false);
     }
 
 }

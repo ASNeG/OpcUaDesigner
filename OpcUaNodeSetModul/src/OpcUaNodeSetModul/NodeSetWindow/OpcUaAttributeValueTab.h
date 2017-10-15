@@ -26,6 +26,7 @@
 #include "OpcUaNodeSetModul/OpcUaWidget/MinimumSamplingIntervalWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/ArrayDimensionsWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/DataTypeWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/ValueRankWidget.h"
 
 class QLineEdit;
 class QToolBar;
@@ -79,7 +80,7 @@ namespace OpcUaNodeSet
 		MinimumSamplingIntervalWidget* minimumSamplingIntervalWidget_;
 		ArrayDimensionsWidget* arrayDimensionsWidget_;
 		DataTypeWidget* dataTypeWidget_;
-		QLineEdit* valueRankLineEdit_;
+		ValueRankWidget* valueRankWidget_;
 		QLineEdit* valueLineEdit_;
 	};
 
