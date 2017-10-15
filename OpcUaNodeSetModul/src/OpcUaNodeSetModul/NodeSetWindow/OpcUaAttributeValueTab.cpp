@@ -87,11 +87,10 @@ namespace OpcUaNodeSet
 		QLabel* arrayDimensionsLabel = new QLabel("ArrayDimensions");
 		gridLayout->addWidget(arrayDimensionsLabel, 3, 0);
 
-		arrayDimensionsLineEdit_ = new QLineEdit();
-		arrayDimensionsLineEdit_->setFixedWidth(300);
+		arrayDimensionsWidget_ = new ArrayDimensionsWidget();
 
 		hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(arrayDimensionsLineEdit_);
+		hBoxLayout->addWidget(arrayDimensionsWidget_);
 		hBoxLayout->addStretch();
 
 		gridLayout->addLayout(hBoxLayout, 3, 1);
@@ -151,6 +150,7 @@ namespace OpcUaNodeSet
 		connect(accessLevelWidget_, SIGNAL(update()), this, SLOT(update()));
 		connect(historizingWidget_, SIGNAL(update()), this, SLOT(update()));
 		connect(minimumSamplingIntervalWidget_, SIGNAL(update()), this, SLOT(update()));
+		connect(arrayDimensionsWidget_, SIGNAL(update()), this, SLOT(update()));
 	}
 
 	OpcUaAttributeValueTab::~OpcUaAttributeValueTab(void)
@@ -178,26 +178,12 @@ namespace OpcUaNodeSet
 		minimumSamplingIntervalWidget_->nodeChange(nodeInfo);
 		minimumSamplingIntervalWidget_->enabled(enabled);
 
-		setArrayDimensions(nodeInfo);
+	    arrayDimensionsWidget_->nodeChange(nodeInfo);
+		arrayDimensionsWidget_->enabled(enabled);
+
 		setDataType(nodeInfo);
 		setValue(nodeInfo);
 		setValueRank(nodeInfo);
-	}
-
-	void
-	OpcUaAttributeValueTab::setArrayDimensions(NodeInfo* nodeInfo)
-	{
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullArrayDimensions()) {
-			arrayDimensionsLineEdit_->setText(QString(""));
-		}
-		else {
-			OpcUaUInt32Array arrayDimensions;
-			baseNode->getArrayDimensions(arrayDimensions);
-			std::stringstream ss;
-			arrayDimensions.out(ss);
-			arrayDimensionsLineEdit_->setText(QString(ss.str().c_str()));
-		}
 	}
 
 	void
@@ -319,6 +305,9 @@ namespace OpcUaNodeSet
         	baseNode->setMinimumSamplingInterval(newMinimumSamplingInterval);
         }
 
+        // check array dimensions
+        // FIXME: todo
+
 #if 0
     	// check node id
     	OpcUaNodeId nodeId;
@@ -421,6 +410,7 @@ namespace OpcUaNodeSet
     	if (!accessLevelWidget_->isValid()) orderOkAction_->setEnabled(false);
     	if (!historizingWidget_->isValid()) orderOkAction_->setEnabled(false);
     	if (!minimumSamplingIntervalWidget_->isValid()) orderOkAction_->setEnabled(false);
+    	if (!arrayDimensionsWidget_->isValid()) orderOkAction_->setEnabled(false);
     }
 
 }

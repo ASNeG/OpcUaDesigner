@@ -95,8 +95,8 @@ namespace OpcUaNodeSet
 	bool
 	ArrayDimensionsWidget::checkValue(void)
 	{
-		textWidget_->text().toInt(&isValid_);
-		return isValid_;
+		// FIXME: todo
+		return true;
 	}
 
 	void
