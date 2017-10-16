@@ -59,6 +59,7 @@ namespace OpcUaNodeSet
 	bool
 	NodeSetWindow::createWindow(void)
 	{
+		core_.init();
 		setWindowTitle(QString("OpcUaNodeSet - %1").arg(QString(projectName_.c_str())));
 
 		// create opc ua tree window

@@ -81,11 +81,12 @@ namespace OpcUaNodeSet
 	void
 	ArgumentsWidget::nodeChange(NodeInfo* nodeInfo, BaseNodeClass::SPtr& baseNode)
 	{
+		//
 		// check and get value
+		//
 		if (baseNode.get() == nullptr) {
 			return;
 		}
-
 		if (baseNode->isNullValue()) {
 			return;
 		}
@@ -98,7 +99,15 @@ namespace OpcUaNodeSet
 			return;
 		}
 
-		std::cout << "value exist..." << std::endl;
+		//
+		// integrate arguments into table
+		//
+		if (dataValue.variant()->isNull()) {
+			std::cout << "variant is null..." << std::endl;
+			return;
+		}
+
+		std::cout << "value exist..." << dataValue.variant()->variantType() << std::endl;
 
 		checkOn_ = false;
 		isValid_ = checkValue();

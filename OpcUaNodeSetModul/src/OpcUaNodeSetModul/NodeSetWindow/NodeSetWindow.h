@@ -24,10 +24,13 @@
 #include <map>
 #include <stdint.h>
 
+#include "OpcUaStackCore/Core/Core.h"
 #include "OpcUaNodeSetModul/Base/LibraryConfig.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaTreeWindow.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeWindow.h"
 #include "OpcUaNodeSetModul/Model/DataModel.h"
+
+using namespace OpcUaStackCore;
 
 namespace OpcUaNodeSet
 {
@@ -62,6 +65,7 @@ namespace OpcUaNodeSet
 	  private:
 		bool createWindow(void);
 
+		Core core_;
 		DataModel dataModel_;
 
 		LibraryConfig* libraryConfig_;
