@@ -144,6 +144,7 @@ namespace OpcUaNodeSet
 
 			if (displayName.text().toStdString() == "InputArguments") {
 				baseNode = baseNodeChild;
+				break;
 			}
 		}
 		inArgumentsWidget_->nodeChange(nodeInfo, baseNode);
@@ -170,10 +171,11 @@ namespace OpcUaNodeSet
 
 			if (displayName.text().toStdString() == "OutputArguments") {
 				baseNode = baseNodeChild;
+				break;
 			}
 		}
-		inArgumentsWidget_->nodeChange(nodeInfo, baseNode);
-		inArgumentsWidget_->enabled(enabled);
+		outArgumentsWidget_->nodeChange(nodeInfo, baseNode);
+		outArgumentsWidget_->enabled(enabled);
 	}
 
 	// ------------------------------------------------------------------------

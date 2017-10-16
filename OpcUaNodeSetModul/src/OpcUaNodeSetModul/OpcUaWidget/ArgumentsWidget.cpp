@@ -81,20 +81,27 @@ namespace OpcUaNodeSet
 	void
 	ArgumentsWidget::nodeChange(NodeInfo* nodeInfo, BaseNodeClass::SPtr& arguments)
 	{
-#if 0
+		std::cout << "..." << std::endl;
+
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullArguments()) {
-			textWidget_->setText(QString("0"));
+		if (baseNode->isNullValue()) {
+			std::cout << "value is null..." << std::endl;
+			return;
 		}
 
+		// check value
+		OpcUaDataValue dataValue;
+		if (!baseNode->getValue(dataValue)) {
+			std::cout << "get value error..." << std::endl;
+			return;
+		}
+
+		std::cout << "value exist..." << std::endl;
+
 		checkOn_ = false;
-		OpcUaByte accessLevel;
-		baseNode->getArguments(accessLevel);
-		textWidget_->setText(QString("%1").arg((uint32_t)accessLevel));
 		isValid_ = checkValue();
 		styleValue();
 		checkOn_ = true;
-#endif
 	}
 
 	void
