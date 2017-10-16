@@ -79,20 +79,22 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	ArgumentsWidget::nodeChange(NodeInfo* nodeInfo, BaseNodeClass::SPtr& arguments)
+	ArgumentsWidget::nodeChange(NodeInfo* nodeInfo, BaseNodeClass::SPtr& baseNode)
 	{
-		std::cout << "..." << std::endl;
-
-		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullValue()) {
-			std::cout << "value is null..." << std::endl;
+		// check and get value
+		if (baseNode.get() == nullptr) {
 			return;
 		}
 
-		// check value
+		if (baseNode->isNullValue()) {
+			return;
+		}
+		if (!baseNode->isPartValue()) {
+			return;
+		}
+
 		OpcUaDataValue dataValue;
 		if (!baseNode->getValue(dataValue)) {
-			std::cout << "get value error..." << std::endl;
 			return;
 		}
 

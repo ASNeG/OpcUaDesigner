@@ -39,7 +39,7 @@ namespace OpcUaNodeSet
 		virtual ~ArgumentsWidget(void);
 
 		bool isValid(void);
-		void nodeChange(NodeInfo* nodeInfo, BaseNodeClass::SPtr& arguments);
+		void nodeChange(NodeInfo* nodeInfo, BaseNodeClass::SPtr& baseNode);
 		void enabled(bool enabled);
 		void getValue(OpcUaByte& accessLevel);
 
