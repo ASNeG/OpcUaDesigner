@@ -21,7 +21,10 @@
 #include <QToolBar>
 #include <QMenu>
 
+#include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeMethodTab.h"
+
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -69,12 +72,12 @@ namespace OpcUaNodeSet
 		vBoxLayout->addLayout(gridLayout);
 
 		// input arguments
-		inArguments_ = new ArgumentsWidget("Input Arguments");
-		vBoxLayout->addWidget(inArguments_);
+		inArgumentsWidget_ = new ArgumentsWidget("Input Arguments");
+		vBoxLayout->addWidget(inArgumentsWidget_);
 
 		// output arguments
-		outArguments_ = new ArgumentsWidget("Output Arguments");
-		vBoxLayout->addWidget(outArguments_);
+		outArgumentsWidget_ = new ArgumentsWidget("Output Arguments");
+		vBoxLayout->addWidget(outArgumentsWidget_);
 
 
 		vBoxLayout->addStretch();
@@ -95,6 +98,8 @@ namespace OpcUaNodeSet
 	void
 	OpcUaAttributeMethodTab::nodeChange(NodeInfo* nodeInfo)
 	{
+		BaseNodeClass::Vec childBaseNodeClassVec;
+		BaseNodeClass::SPtr baseNode;
 		bool enabled = true;
 		nodeInfo_ = nodeInfo;
 
@@ -104,11 +109,71 @@ namespace OpcUaNodeSet
 			enabled = false;
 		}
 
+
+		//
+		// update executable
+		//
 		executableWidget_->nodeChange(nodeInfo);
 		executableWidget_->enabled(enabled);
 
+
+		//
+		// update user executable
+		//
 		userExecutableWidget_->nodeChange(nodeInfo);
 		userExecutableWidget_->enabled(enabled);
+
+
+		//
+		// update input arguments
+		//
+		baseNode.reset();
+		childBaseNodeClassVec.clear();
+
+		InformationModelAccess ima1(nodeInfo->informationModel_);
+		ima1.getChildHierarchically(
+			nodeInfo->baseNode_,
+			childBaseNodeClassVec
+		);
+
+		for (uint32_t idx = 0; idx < childBaseNodeClassVec.size(); idx++) {
+			BaseNodeClass::SPtr baseNodeChild = childBaseNodeClassVec[idx];
+
+			OpcUaLocalizedText displayName;
+			baseNodeChild->getDisplayName(displayName);
+
+			if (displayName.text().toStdString() == "InputArguments") {
+				baseNode = baseNodeChild;
+			}
+		}
+		inArgumentsWidget_->nodeChange(nodeInfo, baseNode);
+		inArgumentsWidget_->enabled(enabled);
+
+
+		//
+		// update output arguments
+		//
+		baseNode.reset();
+		childBaseNodeClassVec.clear();
+
+		InformationModelAccess ima2(nodeInfo->informationModel_);
+		ima2.getChildHierarchically(
+			nodeInfo->baseNode_,
+			childBaseNodeClassVec
+		);
+
+		for (uint32_t idx = 0; idx < childBaseNodeClassVec.size(); idx++) {
+			BaseNodeClass::SPtr baseNodeChild = childBaseNodeClassVec[idx];
+
+			OpcUaLocalizedText displayName;
+			baseNodeChild->getDisplayName(displayName);
+
+			if (displayName.text().toStdString() == "OutputArguments") {
+				baseNode = baseNodeChild;
+			}
+		}
+		inArgumentsWidget_->nodeChange(nodeInfo, baseNode);
+		inArgumentsWidget_->enabled(enabled);
 	}
 
 	// ------------------------------------------------------------------------

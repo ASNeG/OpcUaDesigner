@@ -71,8 +71,8 @@ namespace OpcUaNodeSet
 		NodeInfo* nodeInfo_;
 		ExecutableWidget* executableWidget_;
 		UserExecutableWidget* userExecutableWidget_;
-		ArgumentsWidget* inArguments_;
-		ArgumentsWidget* outArguments_;
+		ArgumentsWidget* inArgumentsWidget_;
+		ArgumentsWidget* outArgumentsWidget_;
 	};
 
 }
