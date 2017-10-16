@@ -18,6 +18,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLineEdit>
+#include <QTableWidget>
 
 #include "OpcUaNodeSetModul/OpcUaWidget/ArgumentsWidget.h"
 
@@ -31,23 +32,22 @@ namespace OpcUaNodeSet
 	, isValid_(true)
 	{
 		// widgets
-		textWidget_ = new QLineEdit();
-		textWidget_->setFixedWidth(400);
+		table_ = new QTableWidget(0,4);
 
 		// layout
 		QHBoxLayout* hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(textWidget_);
+		hBoxLayout->addWidget(table_);
 		hBoxLayout->setMargin(0);
+
+		setLayout(hBoxLayout);
 
 		//
 		// actions
 		//
-		connect(
-			textWidget_, SIGNAL(textChanged(const QString&)),
-			this, SLOT(onTextChangedTextWidget(const QString&))
-		);
-
-		setLayout(hBoxLayout);
+		//connect(
+		//	textWidget_, SIGNAL(textChanged(const QString&)),
+		//	this, SLOT(onTextChangedTextWidget(const QString&))
+		//)
 	}
 
 	ArgumentsWidget::~ArgumentsWidget(void)
@@ -63,6 +63,7 @@ namespace OpcUaNodeSet
 	void
 	ArgumentsWidget::nodeChange(NodeInfo* nodeInfo)
 	{
+#if 0
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
 		if (baseNode->isNullArguments()) {
 			textWidget_->setText(QString("0"));
@@ -75,39 +76,45 @@ namespace OpcUaNodeSet
 		isValid_ = checkValue();
 		styleValue();
 		checkOn_ = true;
+#endif
 	}
 
 	void
 	ArgumentsWidget::enabled(bool enabled)
 	{
-		textWidget_->setEnabled(enabled);
+		table_->setEnabled(enabled);
 	}
 
 	void
 	ArgumentsWidget::getValue(OpcUaByte& accessLevel)
 	{
+#if 0
 		bool rc;
 		accessLevel = textWidget_->text().toInt(&rc);
+#endif
 	}
 
 	bool
 	ArgumentsWidget::checkValue(void)
 	{
-		textWidget_->text().toInt(&isValid_);
-		return isValid_;
+		// FIXME: todo
+		return true;
 	}
 
 	void
 	ArgumentsWidget::styleValue(void)
 	{
+#if 0
 		if (isValid_) {
-			textWidget_->setStyleSheet("background-color:none;");
+			table_->setStyleSheet("background-color:none;");
 		}
 		else {
-			textWidget_->setStyleSheet("background-color:red;");
+			table_->setStyleSheet("background-color:red;");
 		}
+#endif
 	}
 
+#if 0
 	void
 	ArgumentsWidget::onTextChangedTextWidget(const QString& text)
 	{
@@ -121,6 +128,7 @@ namespace OpcUaNodeSet
 		emit valueChanged(accessLevel, isValid_);
 	    emit update();
 	}
+#endif
 
 }
 

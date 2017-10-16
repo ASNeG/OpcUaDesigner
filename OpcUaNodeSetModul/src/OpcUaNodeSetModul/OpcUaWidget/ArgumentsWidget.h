@@ -23,6 +23,8 @@
 #include <QWidget>
 
 class QLineEdit;
+class QTableWidget;
+class QTableWidgetItem;
 
 namespace OpcUaNodeSet
 {
@@ -46,13 +48,13 @@ namespace OpcUaNodeSet
       void update(void);
 
 	private slots:
-	  void onTextChangedTextWidget(const QString& text);
+	  //void onTextChangedTextWidget(const QString& text);
 
 	private:
 	  bool checkValue(void);
 	  void styleValue(void);
 
-	  QLineEdit* textWidget_;
+	  QTableWidget* table_;
 	  bool isValid_;
 	  bool checkOn_;
 	};
