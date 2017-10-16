@@ -61,6 +61,7 @@ namespace OpcUaNodeSet
 	  void styleValue(void);
 	  void createTableActions(void);
 	  void writeHeader(void);
+	  void writeTable(OpcUaVariant::SPtr& variant);
 
 	  //
 	  // table action

@@ -15,6 +15,8 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
+#include <sstream>
+
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLabel>
@@ -23,7 +25,11 @@
 #include <QMenu>
 #include <QToolBar>
 
+#include "OpcUaStackCore/BuildInTypes/OpcUaIdentifier.h"
+#include "OpcUaStackCore/StandardDataTypes/Argument.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/ArgumentsWidget.h"
+
+using namespace OpcUaStackCore;
 
 namespace OpcUaNodeSet
 {
@@ -55,6 +61,7 @@ namespace OpcUaNodeSet
 
 		// table widget
 		tableWidget_ = new QTableWidget(0,4);
+		tableWidget_->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 		vBoxLayout->addWidget(tableWidget_);
 
 		setLayout(vBoxLayout);
@@ -114,12 +121,10 @@ namespace OpcUaNodeSet
 			return;
 		}
 
-		std::cout << "value exist..." << dataValue.variant()->arrayLength() << std::endl;
-
-		for (uint32_t idx=0; idx<dataValue.variant()->arrayLength(); idx++) {
-		}
+		OpcUaVariant::SPtr variant = dataValue.variant();
 
 		checkOn_ = false;
+		writeTable(variant);
 		isValid_ = checkValue();
 		styleValue();
 		checkOn_ = true;
@@ -198,6 +203,55 @@ namespace OpcUaNodeSet
 		headerLabels << "Name" << "DataType" << "ValueRank" << "ArrayDimensions" << "Description";
 
 		tableWidget_->setHorizontalHeaderLabels(headerLabels);
+	}
+
+	void
+	ArgumentsWidget::writeTable(OpcUaVariant::SPtr& variant)
+	{
+		std::stringstream ss;
+		QTableWidgetItem* item;
+		//std::cout << "value exist..." << variant->arrayLength() << std::endl;
+
+		for (uint32_t idx=0; idx<variant->arrayLength(); idx++) {
+			OpcUaExtensionObject::SPtr extensionObject = variant->getSPtr<OpcUaExtensionObject>(idx);
+
+			if (extensionObject->typeId().nodeId<OpcUaUInt32>() != OpcUaId_Argument_Encoding_DefaultBinary) {
+				continue;
+			}
+			Argument::SPtr argument = extensionObject->parameter<Argument>();
+
+			tableWidget_->insertRow(tableWidget_->rowCount());
+
+			// name
+			item = new QTableWidgetItem();
+			item->setText(QString(argument->name().toStdString().c_str()));
+			tableWidget_->setItem(idx, 0, item);
+
+			// dataType
+			item = new QTableWidgetItem();
+			item->setText(QString(argument->dataType().toString().c_str()));
+			tableWidget_->setItem(idx, 1, item);
+
+			// value rank
+			ss.str("");
+			ss << argument->valueRank();
+			item = new QTableWidgetItem();
+			item->setText(QString(ss.str().c_str()));
+			tableWidget_->setItem(idx, 2, item);
+
+			// array dimensions
+			ss.str("");
+			argument->arrayDimensions()->out(ss);
+			item = new QTableWidgetItem();
+			item->setText(QString(ss.str().c_str()));
+			tableWidget_->setItem(idx, 3, item);
+
+			// description
+			item = new QTableWidgetItem();
+			item->setText(QString(argument->description().toString().c_str()));
+			tableWidget_->setItem(idx, 4, item);
+		}
+
 	}
 
 	// ------------------------------------------------------------------------
