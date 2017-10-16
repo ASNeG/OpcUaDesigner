@@ -23,6 +23,7 @@
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/ExecutableWidget.h"
 #include "OpcUaNodeSetModul/OpcUaWidget/UserExecutableWidget.h"
+#include "OpcUaNodeSetModul/OpcUaWidget/ArgumentsWidget.h"
 
 class QLineEdit;
 class QToolBar;
@@ -70,6 +71,8 @@ namespace OpcUaNodeSet
 		NodeInfo* nodeInfo_;
 		ExecutableWidget* executableWidget_;
 		UserExecutableWidget* userExecutableWidget_;
+		ArgumentsWidget* inArguments_;
+		ArgumentsWidget* outArguments_;
 	};
 
 }

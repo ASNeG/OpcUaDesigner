@@ -17,6 +17,7 @@
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QLabel>
 #include <QLineEdit>
 #include <QTableWidget>
 
@@ -26,20 +27,26 @@ namespace OpcUaNodeSet
 {
 
 
-	ArgumentsWidget::ArgumentsWidget(QWidget* parent)
+	ArgumentsWidget::ArgumentsWidget(const std::string& title, QWidget* parent)
 	: QWidget()
 	, checkOn_(true)
 	, isValid_(true)
+	, title_(title)
 	{
-		// widgets
-		table_ = new QTableWidget(0,4);
-
 		// layout
-		QHBoxLayout* hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(table_);
-		hBoxLayout->setMargin(0);
+		QVBoxLayout* vBoxLayout = new QVBoxLayout();
+		vBoxLayout->setMargin(0);
 
-		setLayout(hBoxLayout);
+		// title
+		QLabel* titleWidget = new QLabel();
+		titleWidget->setText(QString(title_.c_str()));
+		vBoxLayout->addWidget(titleWidget);
+
+		// table widget
+		tableWidget_ = new QTableWidget(0,4);
+		vBoxLayout->addWidget(tableWidget_);
+
+		setLayout(vBoxLayout);
 
 		//
 		// actions
@@ -61,7 +68,7 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	ArgumentsWidget::nodeChange(NodeInfo* nodeInfo)
+	ArgumentsWidget::nodeChange(NodeInfo* nodeInfo, BaseNodeClass::SPtr& arguments)
 	{
 #if 0
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
@@ -82,7 +89,7 @@ namespace OpcUaNodeSet
 	void
 	ArgumentsWidget::enabled(bool enabled)
 	{
-		table_->setEnabled(enabled);
+		tableWidget_->setEnabled(enabled);
 	}
 
 	void

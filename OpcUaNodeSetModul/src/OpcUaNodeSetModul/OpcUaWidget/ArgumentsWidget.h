@@ -35,11 +35,11 @@ namespace OpcUaNodeSet
 		Q_OBJECT
 
 	  public:
-		ArgumentsWidget(QWidget* parent = 0);
+		ArgumentsWidget(const std::string& title, QWidget* parent = 0);
 		virtual ~ArgumentsWidget(void);
 
 		bool isValid(void);
-		void nodeChange(NodeInfo* nodeInfo);
+		void nodeChange(NodeInfo* nodeInfo, BaseNodeClass::SPtr& arguments);
 		void enabled(bool enabled);
 		void getValue(OpcUaByte& accessLevel);
 
@@ -54,7 +54,8 @@ namespace OpcUaNodeSet
 	  bool checkValue(void);
 	  void styleValue(void);
 
-	  QTableWidget* table_;
+	  std::string title_;
+	  QTableWidget* tableWidget_;
 	  bool isValid_;
 	  bool checkOn_;
 	};

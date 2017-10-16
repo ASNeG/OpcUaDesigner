@@ -66,8 +66,17 @@ namespace OpcUaNodeSet
 
 		gridLayout->addLayout(hBoxLayout, 1, 1);
 
-
 		vBoxLayout->addLayout(gridLayout);
+
+		// input arguments
+		inArguments_ = new ArgumentsWidget("Input Arguments");
+		vBoxLayout->addWidget(inArguments_);
+
+		// output arguments
+		outArguments_ = new ArgumentsWidget("Output Arguments");
+		vBoxLayout->addWidget(outArguments_);
+
+
 		vBoxLayout->addStretch();
 
 		setLayout(vBoxLayout);
