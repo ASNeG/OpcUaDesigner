@@ -251,7 +251,7 @@ namespace OpcUaNodeSet
 			item->setText(QString(argument->description().toString().c_str()));
 			tableWidget_->setItem(idx, 4, item);
 		}
-
+		tableWidget_->resizeColumnsToContents();
 	}
 
 	// ------------------------------------------------------------------------
