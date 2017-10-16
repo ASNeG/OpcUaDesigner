@@ -20,6 +20,8 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QTableWidget>
+#include <QMenu>
+#include <QToolBar>
 
 #include "OpcUaNodeSetModul/OpcUaWidget/ArgumentsWidget.h"
 
@@ -41,6 +43,15 @@ namespace OpcUaNodeSet
 		QLabel* titleWidget = new QLabel();
 		titleWidget->setText(QString(title_.c_str()));
 		vBoxLayout->addWidget(titleWidget);
+
+		//
+		// table tool bar
+		//
+		createTableActions();
+		tableToolBar_ = new QToolBar();
+		tableToolBar_->addAction(addRowAction_);
+		tableToolBar_->addAction(delRowAction_);
+		vBoxLayout->addWidget(tableToolBar_);
 
 		// table widget
 		tableWidget_ = new QTableWidget(0,4);
@@ -136,6 +147,38 @@ namespace OpcUaNodeSet
 	    emit update();
 	}
 #endif
+
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// table actions
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	void
+	ArgumentsWidget::createTableActions(void)
+	{
+		addRowAction_ = new QAction("Add table row", this);
+		addRowAction_->setIcon(QIcon(":images/Add.png"));
+		connect(addRowAction_, SIGNAL(triggered()), this, SLOT(onAddRowAction()));
+
+		delRowAction_ = new QAction("Delelete table row", this);
+		delRowAction_->setIcon(QIcon(":images/Delete.png"));
+		delRowAction_->setDisabled(true);
+		connect(delRowAction_, SIGNAL(triggered()), this, SLOT(onDelRowAction()));
+	}
+
+    void
+	ArgumentsWidget::onAddRowAction(void)
+    {
+    	// FIXME: todo
+    }
+
+    void
+	ArgumentsWidget::onDelRowAction(void)
+    {
+    	// FIXME: todo
+    }
 
 }
 

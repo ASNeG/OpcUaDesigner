@@ -50,9 +50,23 @@ namespace OpcUaNodeSet
 	private slots:
 	  //void onTextChangedTextWidget(const QString& text);
 
+	  //
+  	  // toolbar menu
+      //
+      void onAddRowAction(void);
+      void onDelRowAction(void);
+
 	private:
 	  bool checkValue(void);
 	  void styleValue(void);
+	  void createTableActions(void);
+
+	  //
+	  // table action
+	  //
+	  QToolBar* tableToolBar_;
+	  QAction* addRowAction_;
+	  QAction* delRowAction_;
 
 	  std::string title_;
 	  QTableWidget* tableWidget_;
