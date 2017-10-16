@@ -81,6 +81,8 @@ namespace OpcUaNodeSet
 	void
 	ArgumentsWidget::nodeChange(NodeInfo* nodeInfo, BaseNodeClass::SPtr& baseNode)
 	{
+		writeHeader();
+
 		//
 		// check and get value
 		//
@@ -103,11 +105,19 @@ namespace OpcUaNodeSet
 		// integrate arguments into table
 		//
 		if (dataValue.variant()->isNull()) {
-			std::cout << "variant is null..." << std::endl;
+			return;
+		}
+		if (dataValue.variant()->variantType() != OpcUaBuildInType_OpcUaExtensionObject) {
+			return;
+		}
+		if (!dataValue.variant()->isArray()) {
 			return;
 		}
 
-		std::cout << "value exist..." << dataValue.variant()->variantType() << std::endl;
+		std::cout << "value exist..." << dataValue.variant()->arrayLength() << std::endl;
+
+		for (uint32_t idx=0; idx<dataValue.variant()->arrayLength(); idx++) {
+		}
 
 		checkOn_ = false;
 		isValid_ = checkValue();
@@ -165,6 +175,30 @@ namespace OpcUaNodeSet
 	    emit update();
 	}
 #endif
+
+
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// write table content
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	void
+	ArgumentsWidget::writeHeader(void)
+	{
+		QStringList headerLabels;
+
+		// reset table
+		tableWidget_->setColumnCount(0);
+		tableWidget_->setRowCount(0);
+
+		// create table header
+		tableWidget_->setColumnCount(5);
+		headerLabels << "Name" << "DataType" << "ValueRank" << "ArrayDimensions" << "Description";
+
+		tableWidget_->setHorizontalHeaderLabels(headerLabels);
+	}
 
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------

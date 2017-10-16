@@ -60,6 +60,7 @@ namespace OpcUaNodeSet
 	  bool checkValue(void);
 	  void styleValue(void);
 	  void createTableActions(void);
+	  void writeHeader(void);
 
 	  //
 	  // table action
