@@ -19,6 +19,7 @@
 #include <QDockWidget>
 #include <QCloseEvent>
 #include <QMessageBox>
+#include <QCursor>
 
 #include "OpcUaStackCore/Base/Config.h"
 #include "OpcUaStackCore/Base/Log.h"

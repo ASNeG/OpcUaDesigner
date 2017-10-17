@@ -325,11 +325,13 @@ namespace OpcUaGui
 
 		// open modul window
 		handle_++;
+		this->setCursor(Qt::WaitCursor);
 		bool success = modulConfig->modulLibraryInterface_->projectNew(
 			handle_,
 			applicationName.toStdString(),
 			fileName.toStdString()
 		);
+		this->setCursor(Qt::ArrowCursor);
 		if (!success) {
 			QMessageBox msgBox;
 			msgBox.setText("create new project error");
@@ -401,11 +403,13 @@ namespace OpcUaGui
 
 		// open modul window
 		handle_++;
+		this->setCursor(Qt::WaitCursor);
 		bool success = modulConfig->modulLibraryInterface_->projectOpen(
 			handle_,
 			applicationName.toStdString(),
 			fileName.toStdString()
 		);
+		this->setCursor(Qt::ArrowCursor);
 		if (!success) {
 			QMessageBox msgBox;
 			msgBox.setText("open existing project error");
@@ -447,7 +451,9 @@ namespace OpcUaGui
     	ModulConfig::SPtr modulConfig = nodeInfo->modulConfig();
 
         // save project
+    	this->setCursor(Qt::WaitCursor);
         bool rc = modulConfig->modulLibraryInterface_->projectSave(nodeInfo->handle());
+        this->setCursor(Qt::ArrowCursor);
         if (!rc) {
 			QMessageBox msgBox;
 			msgBox.setText("save project error");
@@ -485,6 +491,7 @@ namespace OpcUaGui
 		applicationName.replace(QString(".%1").arg(fileSuffix), "");
 
         // save project
+		this->setCursor(Qt::WaitCursor);
         bool rc = modulConfig->modulLibraryInterface_->projectSaveAs(nodeInfo->handle(), fileName.toStdString());
         if (!rc) {
 			QMessageBox msgBox;
@@ -492,6 +499,7 @@ namespace OpcUaGui
 			msgBox.exec();
         	return;
         }
+        this->setCursor(Qt::ArrowCursor);
 
 		// update project data
 		ApplicationData::SPtr applicationData = nodeInfo->applicationData();
@@ -548,7 +556,9 @@ namespace OpcUaGui
     	// FIXME: we must save the open application at this point...
 
         // close modul
+    	this->setCursor(Qt::WaitCursor);
         bool rc = modulConfig->modulLibraryInterface_->projectClose(nodeInfo->handle());
+        this->setCursor(Qt::ArrowCursor);
         if (!rc) return;
         nodeInfo->handle(0);
     }
@@ -573,7 +583,9 @@ namespace OpcUaGui
          // FIXME: we must save the open application at this point...
 
          // close modul
+         this->setCursor(Qt::WaitCursor);
          bool rc = modulConfig->modulLibraryInterface_->projectClose(nodeInfo->handle());
+         this->setCursor(Qt::ArrowCursor);
          if (!rc) return;
          nodeInfo->handle(0);
     }
@@ -588,7 +600,9 @@ namespace OpcUaGui
     	ModulConfig::SPtr modulConfig = nodeInfo->modulConfig();
 
         // close modul
+    	this->setCursor(Qt::WaitCursor);
         modulConfig->modulLibraryInterface_->projectClose(nodeInfo->handle());
+        this->setCursor(Qt::ArrowCursor);
 
     	// delete item
         dataModel_->delApplicationData(nodeInfo->applicationData()->applicationName());
@@ -617,11 +631,13 @@ namespace OpcUaGui
 
 		// open modul window
 		handle_++;
+		this->setCursor(Qt::WaitCursor);
 		bool success = modulConfig->modulLibraryInterface_->projectOpen(
 			handle_,
 			nodeInfo->applicationData()->applicationName(),
 			nodeInfo->applicationData()->projectFile()
 		);
+		this->setCursor(Qt::ArrowCursor);
 		if (!success) {
 	   		Log(Error, "onItemDoubleClicked: projectOpen error");
 			return;
