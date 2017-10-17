@@ -221,6 +221,9 @@ namespace OpcUaNodeSet
 			}
 		}
 
+		OpcUaNodeId nodeId;
+		baseNode->getNodeId(nodeId);
+
 		OpcUaLocalizedText displayName;
 		baseNode->getDisplayName(displayName);
 
@@ -236,6 +239,12 @@ namespace OpcUaNodeSet
 		item->setData(0, Qt::UserRole, v);
 		item->setIcon(0, icon);
 
+		if (nodeId.namespaceIndex() != 0) {
+			QFont font;
+			font.setBold(true);
+			item->setFont(0, font);
+		}
+
 		if (parentItem == NULL) {
 			opcUaTree_->addTopLevelItem(item);
 			rootItem_ = item;
@@ -245,8 +254,6 @@ namespace OpcUaNodeSet
 		}
 
 		// read childs of base node
-		OpcUaNodeId nodeId;
-		baseNode->getNodeId(nodeId);
 		BaseNodeClass::Vec baseNodeClassVec;
 		if (!informationModelAccess.getChildHierarchically(baseNode, baseNodeClassVec)) {
 			Log(Error, "hierarchical child access error")
