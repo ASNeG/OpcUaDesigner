@@ -17,7 +17,8 @@
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-#include <QLineEdit>
+#include <QLabel>
+#include <QPushButton>
 
 #include "OpcUaNodeSetModul/OpcUaWidget/ArrayDimensionsWidget.h"
 
@@ -31,20 +32,24 @@ namespace OpcUaNodeSet
 	, isValid_(true)
 	{
 		// widgets
-		textWidget_ = new QLineEdit();
-		textWidget_->setFixedWidth(400);
+		buttonWidget_ = new QPushButton();
+		buttonWidget_->setIcon(QIcon(":/images/Tree.png"));
+
+		labelWidget_ = new QLabel();
+		labelWidget_->setFixedWidth(360-5);
 
 		// layout
 		QHBoxLayout* hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(textWidget_);
+		hBoxLayout->addWidget(buttonWidget_);
+		hBoxLayout->addWidget(labelWidget_);
 		hBoxLayout->setMargin(0);
 
 		//
 		// actions
 		//
 		connect(
-			textWidget_, SIGNAL(textChanged(const QString&)),
-			this, SLOT(onTextChangedTextWidget(const QString&))
+			buttonWidget_, SIGNAL(clicked()),
+			this, SLOT(onClicked())
 		);
 
 		setLayout(hBoxLayout);
@@ -63,17 +68,51 @@ namespace OpcUaNodeSet
 	void
 	ArrayDimensionsWidget::nodeChange(NodeInfo* nodeInfo)
 	{
+		arrayDimensions_.reset();
+
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
 		if (baseNode->isNullArrayDimensions()) {
-			textWidget_->setText(QString(""));
+			labelWidget_->setText(QString("---"));
 		}
 
 		checkOn_ = false;
 		OpcUaUInt32Array arrayDimensions;
 		baseNode->getArrayDimensions(arrayDimensions);
+
+		arrayDimensions_ = constructSPtr<OpcUaUInt32Array>();
+		arrayDimensions.copyTo(*arrayDimensions_);
+
+		if (arrayDimensions.isNull()) {
+			labelWidget_->setText(QString("---"));
+		}
+
 		std::stringstream ss;
 		arrayDimensions.out(ss);
-		textWidget_->setText(QString(ss.str().c_str()));
+		labelWidget_->setText(QString(ss.str().c_str()));
+		isValid_ = checkValue();
+		styleValue();
+		checkOn_ = true;
+	}
+
+	void
+	ArrayDimensionsWidget::nodeChange(OpcUaUInt32Array::SPtr& arrayDimensions)
+	{
+		arrayDimensions_.reset();
+
+		if (arrayDimensions.get() == nullptr) {
+			labelWidget_->setText(QString("---"));
+		}
+
+		arrayDimensions_ = constructSPtr<OpcUaUInt32Array>();
+		arrayDimensions->copyTo(*arrayDimensions_);
+
+		if (arrayDimensions->isNull()) {
+			labelWidget_->setText(QString("---"));
+		}
+
+		std::stringstream ss;
+		arrayDimensions->out(ss);
+		labelWidget_->setText(QString(ss.str().c_str()));
 		isValid_ = checkValue();
 		styleValue();
 		checkOn_ = true;
@@ -82,14 +121,20 @@ namespace OpcUaNodeSet
 	void
 	ArrayDimensionsWidget::enabled(bool enabled)
 	{
-		textWidget_->setEnabled(enabled);
+		buttonWidget_->setEnabled(enabled);
 	}
 
 	void
-	ArrayDimensionsWidget::getValue(OpcUaByte& accessLevel)
+	ArrayDimensionsWidget::getValue(OpcUaUInt32Array::SPtr& arrayDimensions)
 	{
-		bool rc;
-		accessLevel = textWidget_->text().toInt(&rc);
+		arrayDimensions.reset();
+
+		if (arrayDimensions_.get() == nullptr) {
+			return;
+		}
+
+		arrayDimensions = constructSPtr<OpcUaUInt32Array>();
+		arrayDimensions_->copyTo(*arrayDimensions);
 	}
 
 	bool
@@ -103,13 +148,20 @@ namespace OpcUaNodeSet
 	ArrayDimensionsWidget::styleValue(void)
 	{
 		if (isValid_) {
-			textWidget_->setStyleSheet("background-color:none;");
+			labelWidget_->setStyleSheet("background-color:none;");
 		}
 		else {
-			textWidget_->setStyleSheet("background-color:red;");
+			labelWidget_->setStyleSheet("background-color:red;");
 		}
 	}
 
+	void
+	ArrayDimensionsWidget::onClicked(void)
+	{
+		emit selectDimensionArray(arrayDimensions_);
+	}
+
+#if 0
 	void
 	ArrayDimensionsWidget::onTextChangedTextWidget(const QString& text)
 	{
@@ -122,6 +174,7 @@ namespace OpcUaNodeSet
 		emit valueChanged(arrayDimensions, isValid_);
 	    emit update();
 	}
+#endif
 
 }
 

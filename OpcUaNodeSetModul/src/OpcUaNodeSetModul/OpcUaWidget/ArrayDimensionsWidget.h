@@ -22,7 +22,8 @@
 
 #include <QWidget>
 
-class QLineEdit;
+class QLabel;
+class QPushButton;
 
 namespace OpcUaNodeSet
 {
@@ -38,21 +39,26 @@ namespace OpcUaNodeSet
 
 		bool isValid(void);
 		void nodeChange(NodeInfo* nodeInfo);
+		void nodeChange(OpcUaUInt32Array::SPtr& arrayDimensions);
 		void enabled(bool enabled);
-		void getValue(OpcUaByte& accessLevel);
+		void getValue(OpcUaUInt32Array::SPtr& arrayDimensions);
 
 	signals:
 	  void valueChanged(OpcUaUInt32Array& arrayDimensions, bool isValid);
       void update(void);
+      void selectDimensionArray(OpcUaUInt32Array::SPtr& arrayDimensions);
 
 	private slots:
-	  void onTextChangedTextWidget(const QString& text);
+	  void onClicked(void);
 
 	private:
 	  bool checkValue(void);
 	  void styleValue(void);
 
-	  QLineEdit* textWidget_;
+	  QPushButton* buttonWidget_;
+	  QLabel* labelWidget_;
+
+	  OpcUaUInt32Array::SPtr arrayDimensions_;
 	  bool isValid_;
 	  bool checkOn_;
 	};
