@@ -15,6 +15,7 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
+#include <OpcUaNodeSetModul/Dialog/ArrayDimensionsDialog.h>
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
@@ -23,7 +24,6 @@
 
 #include "OpcUaStackCore/BuildInTypes/OpcUaIdentifier.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeValueTab.h"
-#include "OpcUaNodeSetModul/Dialog/ArrayDimensionDialog.h"
 
 using namespace OpcUaStackCore;
 

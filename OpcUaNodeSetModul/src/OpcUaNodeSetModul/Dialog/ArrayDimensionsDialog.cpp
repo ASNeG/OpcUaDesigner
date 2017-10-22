@@ -16,8 +16,7 @@
  */
 
 
-#include "OpcUaNodeSetModul/Dialog/ArrayDimensionDialog.h"
-
+#include <OpcUaNodeSetModul/Dialog/ArrayDimensionsDialog.h>
 #include <iostream>
 #include <sstream>
 #include <QVBoxLayout>
