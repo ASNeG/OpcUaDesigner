@@ -28,7 +28,7 @@
 #include <QToolBar>
 #include <QAction>
 
-namespace BHIMatlabSimulink
+namespace OpcUaNodeSet
 {
 
 
@@ -103,8 +103,9 @@ namespace BHIMatlabSimulink
 	}
 
 	void
-	ArrayDimensionDialog::setArrayDimensionVec(std::vector<std::string>& propertyVec)
+	ArrayDimensionDialog::setArrayDimensions(OpcUaUInt32Array::SPtr& arrayDimensions)
 	{
+#if 0
 		std::vector<std::string>::iterator it;
 		for (it=propertyVec.begin(); it!=propertyVec.end(); it++) {
 	    	QListWidgetItem* item = new QListWidgetItem(QString((*it).c_str()));
@@ -114,15 +115,18 @@ namespace BHIMatlabSimulink
 
 		if (propertyVec.size() > 0) propertyList_->setCurrentRow(0);
 		enableButtons();
+#endif
 	}
 
 	void
-	ArrayDimensionDialog::getArrayDimensionVec(std::vector<std::string>& propertyVec)
+	ArrayDimensionDialog::getArrayDimensions(OpcUaUInt32Array::SPtr& arrayDimensions)
 	{
+#if 0
    		for (uint32_t row=0; row<propertyList_->count(); row++) {
     		QListWidgetItem* item = propertyList_->item(row);
     		propertyVec.push_back(item->text().toStdString());
    		}
+#endif
 	}
 
 	void

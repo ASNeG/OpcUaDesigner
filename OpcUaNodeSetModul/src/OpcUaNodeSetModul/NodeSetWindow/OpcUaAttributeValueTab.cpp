@@ -23,6 +23,7 @@
 
 #include "OpcUaStackCore/BuildInTypes/OpcUaIdentifier.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeValueTab.h"
+#include "OpcUaNodeSetModul/Dialog/ArrayDimensionDialog.h"
 
 using namespace OpcUaStackCore;
 
@@ -144,13 +145,20 @@ namespace OpcUaNodeSet
 		//
 		// actions
 		//
-		connect(accessLevelWidget_, SIGNAL(update()), this, SLOT(update()));
-		connect(historizingWidget_, SIGNAL(update()), this, SLOT(update()));
-		connect(minimumSamplingIntervalWidget_, SIGNAL(update()), this, SLOT(update()));
-		connect(arrayDimensionsWidget_, SIGNAL(update()), this, SLOT(update()));
-		connect(dataTypeWidget_, SIGNAL(update()), this, SLOT(update()));
-		connect(valueRankWidget_, SIGNAL(update()), this, SLOT(update()));
-		connect(valueWidget_, SIGNAL(update()), this, SLOT(update()));
+		connect(accessLevelWidget_, SIGNAL(update()), this, SLOT(onUpdate()));
+		connect(historizingWidget_, SIGNAL(update()), this, SLOT(onUpdate()));
+		connect(minimumSamplingIntervalWidget_, SIGNAL(update()), this, SLOT(onUpdate()));
+		connect(arrayDimensionsWidget_, SIGNAL(update()), this, SLOT(onUpdate()));
+		connect(dataTypeWidget_, SIGNAL(update()), this, SLOT(onUpdate()));
+		connect(valueRankWidget_, SIGNAL(update()), this, SLOT(onUpdate()));
+		connect(valueWidget_, SIGNAL(update()), this, SLOT(onUpdate()));
+
+		connect(
+			arrayDimensionsWidget_,
+			SIGNAL(selectDimensionArray(OpcUaUInt32Array::SPtr&)),
+			this,
+			SLOT(onSelectDimensionArray(OpcUaUInt32Array::SPtr&))
+		);
 	}
 
 	OpcUaAttributeValueTab::~OpcUaAttributeValueTab(void)
@@ -295,7 +303,7 @@ namespace OpcUaNodeSet
     // ------------------------------------------------------------------------
     // ------------------------------------------------------------------------
     void
-	OpcUaAttributeValueTab::update(void)
+	OpcUaAttributeValueTab::onUpdate(void)
     {
     	orderOkAction_->setEnabled(true);
     	orderDeleteAction_->setEnabled(true);
@@ -307,6 +315,14 @@ namespace OpcUaNodeSet
     	if (!dataTypeWidget_->isValid()) orderOkAction_->setEnabled(false);
     	if (!valueRankWidget_->isValid()) orderOkAction_->setEnabled(false);
     	if (!valueWidget_->isValid()) orderOkAction_->setEnabled(false);
+    }
+
+    void
+	OpcUaAttributeValueTab::onSelectDimensionArray(OpcUaUInt32Array::SPtr& arrayDimensions)
+    {
+    	ArrayDimensionDialog dialog;
+    	dialog.exec();
+
     }
 
 }

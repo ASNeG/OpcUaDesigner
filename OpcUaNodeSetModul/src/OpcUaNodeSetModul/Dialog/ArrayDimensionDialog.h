@@ -22,11 +22,15 @@
 #include <QDialog>
 #include <QWidget>
 
+#include "OpcUaStackCore/BuildInTypes/BuildInTypes.h"
+
 class QListWidget;
 class QListWidgetItem;
 class QAction;
 
-namespace BHIMatlabSimulink
+using namespace OpcUaStackCore;
+
+namespace OpcUaNodeSet
 {
 
 	class ArrayDimensionDialog
@@ -39,8 +43,8 @@ namespace BHIMatlabSimulink
 		virtual ~ArrayDimensionDialog(void);
 
 		bool ok(void);
-		void setArrayDimensionVec(std::vector<std::string>& propertyVec);
-		void getArrayDimensionVec(std::vector<std::string>& propertyVec);
+		void setArrayDimensions(OpcUaUInt32Array::SPtr& arrayDimensions);
+		void getArrayDimensions(OpcUaUInt32Array::SPtr& arrayDimensions);
 
 	  public slots:
 	    //

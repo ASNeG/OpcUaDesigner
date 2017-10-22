@@ -59,7 +59,8 @@ namespace OpcUaNodeSet
 		//
 		// widgets
 		//
-		void update(void);
+		void onUpdate(void);
+		void onSelectDimensionArray(OpcUaUInt32Array::SPtr& arrayDimensions);
 
 	  private:
 	    //

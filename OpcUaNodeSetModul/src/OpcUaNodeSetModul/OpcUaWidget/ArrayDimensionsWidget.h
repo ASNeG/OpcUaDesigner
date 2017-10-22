@@ -44,7 +44,7 @@ namespace OpcUaNodeSet
 		void getValue(OpcUaUInt32Array::SPtr& arrayDimensions);
 
 	signals:
-	  void valueChanged(OpcUaUInt32Array& arrayDimensions, bool isValid);
+	  void valueChanged(OpcUaUInt32Array::SPtr& arrayDimensions, bool isValid);
       void update(void);
       void selectDimensionArray(OpcUaUInt32Array::SPtr& arrayDimensions);
 

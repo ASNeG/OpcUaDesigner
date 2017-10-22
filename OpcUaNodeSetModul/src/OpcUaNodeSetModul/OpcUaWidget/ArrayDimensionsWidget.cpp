@@ -73,6 +73,7 @@ namespace OpcUaNodeSet
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
 		if (baseNode->isNullArrayDimensions()) {
 			labelWidget_->setText(QString("---"));
+			return;
 		}
 
 		checkOn_ = false;
@@ -84,6 +85,7 @@ namespace OpcUaNodeSet
 
 		if (arrayDimensions.isNull()) {
 			labelWidget_->setText(QString("---"));
+			return;
 		}
 
 		std::stringstream ss;
@@ -101,6 +103,11 @@ namespace OpcUaNodeSet
 
 		if (arrayDimensions.get() == nullptr) {
 			labelWidget_->setText(QString("---"));
+
+			emit valueChanged(arrayDimensions_, isValid_);
+		    emit update();
+
+			return;
 		}
 
 		arrayDimensions_ = constructSPtr<OpcUaUInt32Array>();
@@ -108,6 +115,11 @@ namespace OpcUaNodeSet
 
 		if (arrayDimensions->isNull()) {
 			labelWidget_->setText(QString("---"));
+
+			emit valueChanged(arrayDimensions_, isValid_);
+		    emit update();
+
+			return;
 		}
 
 		std::stringstream ss;
@@ -116,6 +128,9 @@ namespace OpcUaNodeSet
 		isValid_ = checkValue();
 		styleValue();
 		checkOn_ = true;
+
+		emit valueChanged(arrayDimensions_, isValid_);
+	    emit update();
 	}
 
 	void
