@@ -48,6 +48,9 @@ namespace OpcUaNodeSet
 		void setArrayDimensions(OpcUaUInt32Array::SPtr& arrayDimensions);
 		void getArrayDimensions(OpcUaUInt32Array::SPtr& arrayDimensions);
 
+	  protected:
+	    bool eventFilter(QObject *obj, QEvent *event);
+
 	  public slots:
 	    //
 	  	// toolbar slots
@@ -71,15 +74,15 @@ namespace OpcUaNodeSet
 	  private:
 		void createToolBarActions(void);
 		void enableButtons(void);
-		uint32_t findItem(const std::string& itemName);
 
 		bool ok_;
 
 		std::string actValue_;
 		uint32_t actRow_;
 		QCheckBox* checkboxWidget_;
-        QListWidget* propertyList_;
+        QListWidget* dimensionList_;
         QToolBar* toolBar_;
+        QPushButton* okButton_;
 
         //
         // toolbar actions

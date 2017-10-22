@@ -28,6 +28,7 @@
 #include <QToolBar>
 #include <QAction>
 #include <QLabel>
+#include <QEvent>
 
 namespace OpcUaNodeSet
 {
@@ -57,8 +58,8 @@ namespace OpcUaNodeSet
 		//
 		// property list
 		//
-		propertyList_ = new QListWidget();
-		vBoxLayout->addWidget(propertyList_);
+		dimensionList_ = new QListWidget();
+		vBoxLayout->addWidget(dimensionList_);
 
 		//
 		// control action buttons
@@ -77,8 +78,8 @@ namespace OpcUaNodeSet
 		QHBoxLayout* actionButtonLayout = new QHBoxLayout();
 		QPushButton* cancelButton = new QPushButton("Cancel");
 		actionButtonLayout->addWidget(cancelButton);
-		QPushButton* okButton = new QPushButton("Ok");
-		actionButtonLayout->addWidget(okButton);
+		okButton_ = new QPushButton("Ok");
+		actionButtonLayout->addWidget(okButton_);
 		vBoxLayout->addLayout(actionButtonLayout);
 
 		//
@@ -89,11 +90,11 @@ namespace OpcUaNodeSet
 			this, SLOT(onStateChanged(int))
 		);
 		connect(
-			propertyList_, SIGNAL(itemActivated(QListWidgetItem*)),
+			dimensionList_, SIGNAL(itemActivated(QListWidgetItem*)),
 		    this, SLOT(onItemActivatedAction(QListWidgetItem*))
 		);
 		connect(
-			propertyList_, SIGNAL(currentTextChanged(const QString&)),
+			dimensionList_, SIGNAL(currentTextChanged(const QString&)),
 		    this, SLOT(onCurrentTextChanged(const QString&))
 		);
 		connect(
@@ -101,9 +102,11 @@ namespace OpcUaNodeSet
 		    this, SLOT(onCancelAction())
 		);
 		connect(
-			okButton, SIGNAL(clicked()),
+			okButton_, SIGNAL(clicked()),
 		    this, SLOT(onOkAction())
 		);
+
+		//dimensionList_->installEventFilter(this);
 
 		setLayout(vBoxLayout);
 	}
@@ -122,33 +125,44 @@ namespace OpcUaNodeSet
 	ArrayDimensionDialog::setArrayDimensions(OpcUaUInt32Array::SPtr& arrayDimensions)
 	{
 		if (arrayDimensions.get() == nullptr || arrayDimensions->isNull()) {
-			checkboxWidget_->setCheckState(Qt::Unchecked);
-			propertyList_->setVisible(false);
+			checkboxWidget_->setCheckState(Qt::Checked);
+			dimensionList_->setVisible(false);
 			toolBar_->setVisible(false);
+			return;
 		}
 
-#if 0
-		std::vector<std::string>::iterator it;
-		for (it=propertyVec.begin(); it!=propertyVec.end(); it++) {
-	    	QListWidgetItem* item = new QListWidgetItem(QString((*it).c_str()));
-	    	propertyList_->addItem(item);
-	    	propertyList_->setCurrentItem(item);
+		uint32_t size = arrayDimensions->size();
+		for (uint32_t idx=0; idx<size; idx++) {
+			OpcUaUInt32 arrayDimension;
+			arrayDimensions->get(idx, arrayDimension);
+
+			QListWidgetItem* item = new QListWidgetItem(QString("%1").arg(arrayDimension));
+			dimensionList_->addItem(item);
+			dimensionList_->setCurrentItem(item);
 		}
 
-		if (propertyVec.size() > 0) propertyList_->setCurrentRow(0);
+		if (size > 0) dimensionList_->setCurrentRow(0);
 		enableButtons();
-#endif
 	}
 
 	void
 	ArrayDimensionDialog::getArrayDimensions(OpcUaUInt32Array::SPtr& arrayDimensions)
 	{
-#if 0
-   		for (uint32_t row=0; row<propertyList_->count(); row++) {
-    		QListWidgetItem* item = propertyList_->item(row);
-    		propertyVec.push_back(item->text().toStdString());
+		arrayDimensions = constructSPtr<OpcUaUInt32Array>();
+		if (checkboxWidget_->isChecked()) {
+			arrayDimensions->setNull();
+			return;
+		}
+
+		if (dimensionList_->count() != 0) {
+			arrayDimensions->resize(dimensionList_->count());
+		}
+   		for (uint32_t row=0; row<dimensionList_->count(); row++) {
+    		QListWidgetItem* item = dimensionList_->item(row);
+
+    		OpcUaUInt32 value = item->text().toUInt();
+    		arrayDimensions->set(row, value);
    		}
-#endif
 	}
 
 	void
@@ -177,14 +191,14 @@ namespace OpcUaNodeSet
 	void
 	ArrayDimensionDialog::enableButtons(void)
 	{
-		if (propertyList_->count() == 0) {
+		if (dimensionList_->count() == 0) {
 		    delAction_->setEnabled(false);
 		    upAction_->setEnabled(false);
 		    downAction_->setEnabled(false);
 		    return;
 		}
 
-		if (propertyList_->count() == 1) {
+		if (dimensionList_->count() == 1) {
 		    delAction_->setEnabled(true);
 		    upAction_->setEnabled(false);
 		    downAction_->setEnabled(false);
@@ -192,69 +206,61 @@ namespace OpcUaNodeSet
 		}
 
 		delAction_->setEnabled(true);
-		if (propertyList_->currentRow() == 0) {
+		if (dimensionList_->currentRow() == 0) {
 			upAction_->setEnabled(false);
 			downAction_->setEnabled(true);
 			return;
 		}
 
-		if (propertyList_->currentRow() == (propertyList_->count()-1)) {
+		if (dimensionList_->currentRow() == (dimensionList_->count()-1)) {
 			upAction_->setEnabled(true);
 			downAction_->setEnabled(false);
 			return;
 		}
 		upAction_->setEnabled(true);
 		downAction_->setEnabled(true);
-
 	}
 
-	uint32_t
-	ArrayDimensionDialog::findItem(const std::string& itemName)
+	bool
+	ArrayDimensionDialog::eventFilter(QObject *obj, QEvent *event)
 	{
-		uint32_t count = 0;
-   		for (uint32_t row=0; row<propertyList_->count(); row++) {
-    		QListWidgetItem* item = propertyList_->item(row);
-    		if (item->text().toStdString() == itemName) count++;
-   		}
-   		return count;
+#if 0
+		if (obj == dimensionList_ && event->type() == QEvent::KeyRelease ) {
+	    	okButton_->setEnabled(true);
+	   		for (uint32_t row=0; row<dimensionList_->count(); row++) {
+	    		QListWidgetItem* item = dimensionList_->item(row);
+
+	    		bool ok = true;
+	    		item->text().toUInt(&ok);
+	    		if (!ok) {
+	    			std::cout << "not ok " << item->text().toStdString() << std::endl;
+	    			okButton_->setEnabled(false);
+	    			item->setBackground(Qt::red);
+	    		}
+	    		else {
+	    			std::cout << "ok " << item->text().toStdString() << std::endl;
+	    			item->setBackground(Qt::white);
+	    		}
+	   		}
+		}
+#endif
+		return QObject::eventFilter(obj, event);
 	}
 
     void
     ArrayDimensionDialog::onAddAction(void)
     {
-    	// create new property name
-    	std::string itemName;
-    	uint32_t idx = 1;
-    	do {
-    		std::stringstream ss;
-    		ss << "ArrayDimension " << idx;
-
-    		bool found = false;
-    		for (uint32_t row=0; row<propertyList_->count(); row++) {
-    			QListWidgetItem* item = propertyList_->item(row);
-    			if (item->text().toStdString() == ss.str()) {
-    				found = true;
-    				break;
-    			}
-    		}
-
-    		idx++;
-    		if (found) continue;
-    		itemName = ss.str();
-    		break;
-    	} while (true);
-
     	// insert new property to list widget
-    	QListWidgetItem* item = new QListWidgetItem(QString(itemName.c_str()));
-    	propertyList_->addItem(item);
-    	propertyList_->setCurrentItem(item);
+    	QListWidgetItem* item = new QListWidgetItem(QString("1"));
+    	dimensionList_->addItem(item);
+    	dimensionList_->setCurrentItem(item);
     	enableButtons();
     }
 
     void
     ArrayDimensionDialog::onDelAction(void)
     {
-    	QListWidgetItem* item = propertyList_->currentItem();
+    	QListWidgetItem* item = dimensionList_->currentItem();
     	if (item != NULL) delete item;
     	enableButtons();
     }
@@ -262,9 +268,9 @@ namespace OpcUaNodeSet
     void
     ArrayDimensionDialog::onUpAction(void)
     {
-    	int actRow = propertyList_->currentRow();
-    	QListWidgetItem* actItem = propertyList_->item(actRow);
-    	QListWidgetItem* upItem = propertyList_->item(actRow-1);
+    	int actRow = dimensionList_->currentRow();
+    	QListWidgetItem* actItem = dimensionList_->item(actRow);
+    	QListWidgetItem* upItem = dimensionList_->item(actRow-1);
 
     	QString actName = actItem->text();
     	QString upName = upItem->text();
@@ -272,16 +278,16 @@ namespace OpcUaNodeSet
     	actItem->setText(upName);
     	upItem->setText(actName);
 
-    	propertyList_->setCurrentRow(actRow-1);
+    	dimensionList_->setCurrentRow(actRow-1);
     	enableButtons();
     }
 
 	void
 	ArrayDimensionDialog::onDownAction(void)
 	{
-    	int actRow = propertyList_->currentRow();
-    	QListWidgetItem* actItem = propertyList_->item(actRow);
-    	QListWidgetItem* downItem = propertyList_->item(actRow+1);
+    	int actRow = dimensionList_->currentRow();
+    	QListWidgetItem* actItem = dimensionList_->item(actRow);
+    	QListWidgetItem* downItem = dimensionList_->item(actRow+1);
 
     	QString actName = actItem->text();
     	QString downName = downItem->text();
@@ -289,20 +295,25 @@ namespace OpcUaNodeSet
     	actItem->setText(downName);
     	downItem->setText(actName);
 
-    	propertyList_->setCurrentRow(actRow+1);
+    	dimensionList_->setCurrentRow(actRow+1);
     	enableButtons();
 	}
 
     void
     ArrayDimensionDialog::onCancelAction(void)
     {
-    	propertyList_->clear();
+    	dimensionList_->clear();
     	close();
     }
 
     void
     ArrayDimensionDialog::onOkAction(void)
     {
+    	onCurrentTextChanged(QString("..."));
+    	if (!okButton_->isEnabled()) {
+    		return;
+    	}
+
     	ok_ = true;
     	close();
     }
@@ -311,21 +322,28 @@ namespace OpcUaNodeSet
     ArrayDimensionDialog::onItemActivatedAction(QListWidgetItem* item)
     {
     	actValue_ = item->text().toStdString();
-    	actRow_ = propertyList_->currentRow();
-    	propertyList_->openPersistentEditor (item);
+    	actRow_ = dimensionList_->currentRow();
+    	dimensionList_->openPersistentEditor (item);
     	enableButtons();
     }
 
     void
     ArrayDimensionDialog::onCurrentTextChanged(const QString& text)
     {
-     	if (propertyList_->count() <= actRow_) return;
+    	okButton_->setEnabled(true);
+   		for (uint32_t row=0; row<dimensionList_->count(); row++) {
+    		QListWidgetItem* item = dimensionList_->item(row);
 
-     	QListWidgetItem* item = propertyList_->item(actRow_);
-     	if (findItem(item->text().toStdString()) > 1) {
-     		propertyList_->setCurrentItem(item);
-     		item->setText(QString(actValue_.c_str()));
-     	}
+    		bool ok = true;
+    		item->text().toUInt(&ok);
+    		if (!ok) {
+    			okButton_->setEnabled(false);
+    			item->setBackground(Qt::red);
+    		}
+    		else {
+    			item->setBackground(Qt::white);
+    		}
+   		}
 
      	enableButtons();
      }
@@ -334,11 +352,12 @@ namespace OpcUaNodeSet
 	ArrayDimensionDialog::onStateChanged(int stateCheckBox)
 	{
 		if (stateCheckBox == Qt::Checked) {
-		    propertyList_->setVisible(false);
+		    dimensionList_->setVisible(false);
 		    toolBar_->setVisible(false);
+		    okButton_->setEnabled(true);
 		}
 		else {
-		    propertyList_->setVisible(true);
+		    dimensionList_->setVisible(true);
 		    toolBar_->setVisible(true);
 		}
 	}

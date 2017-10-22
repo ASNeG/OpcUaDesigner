@@ -260,7 +260,15 @@ namespace OpcUaNodeSet
         }
 
         // check array dimensions
-        // FIXME: todo
+        OpcUaUInt32Array dimensionsArray;
+        baseNode->getArrayDimensions(dimensionsArray);
+
+        OpcUaUInt32Array::SPtr newDimensionsArray = constructSPtr<OpcUaUInt32Array>();
+        arrayDimensionsWidget_->getValue(newDimensionsArray);
+
+        if (dimensionsArray != *newDimensionsArray) {
+        	baseNode->setArrayDimensions(*newDimensionsArray);
+        }
 
         // check data type
         // FIXME: todo
@@ -324,6 +332,11 @@ namespace OpcUaNodeSet
     	dialog.setArrayDimensions(arrayDimensions);
     	dialog.exec();
 
+    	if (dialog.ok()) {
+    		OpcUaUInt32Array::SPtr ad = constructSPtr<OpcUaUInt32Array>();
+    		dialog.getArrayDimensions(ad);
+    		arrayDimensionsWidget_->nodeChange(ad);
+    	}
     }
 
 }
