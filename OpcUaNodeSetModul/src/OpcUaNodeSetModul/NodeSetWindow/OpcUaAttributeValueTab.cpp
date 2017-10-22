@@ -321,6 +321,7 @@ namespace OpcUaNodeSet
 	OpcUaAttributeValueTab::onSelectDimensionArray(OpcUaUInt32Array::SPtr& arrayDimensions)
     {
     	ArrayDimensionDialog dialog;
+    	dialog.setArrayDimensions(arrayDimensions);
     	dialog.exec();
 
     }

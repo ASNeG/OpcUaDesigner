@@ -24,9 +24,11 @@
 
 #include "OpcUaStackCore/BuildInTypes/BuildInTypes.h"
 
+class QCheckBox;
 class QListWidget;
 class QListWidgetItem;
 class QAction;
+class QToolBar;
 
 using namespace OpcUaStackCore;
 
@@ -62,6 +64,7 @@ namespace OpcUaNodeSet
 	    void onOkAction(void);
 	    void onItemActivatedAction(QListWidgetItem* item);
 	    void onCurrentTextChanged(const QString& text);
+	    void onStateChanged(int stateCheckBox);
 
       //signals:
 
@@ -74,7 +77,9 @@ namespace OpcUaNodeSet
 
 		std::string actValue_;
 		uint32_t actRow_;
+		QCheckBox* checkboxWidget_;
         QListWidget* propertyList_;
+        QToolBar* toolBar_;
 
         //
         // toolbar actions

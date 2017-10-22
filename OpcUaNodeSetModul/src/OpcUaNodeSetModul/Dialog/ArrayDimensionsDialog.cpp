@@ -24,8 +24,10 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QPushButton>
+#include <QCheckBox>
 #include <QToolBar>
 #include <QAction>
+#include <QLabel>
 
 namespace OpcUaNodeSet
 {
@@ -42,6 +44,17 @@ namespace OpcUaNodeSet
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
 
 		//
+		// is null check box
+		//
+		QHBoxLayout* isNullLayout = new QHBoxLayout();
+		QLabel* checkBoxLabel = new QLabel(QString("IsNull"));
+		isNullLayout->addWidget(checkBoxLabel);
+		checkboxWidget_ = new QCheckBox();
+		isNullLayout->addWidget(checkboxWidget_);
+
+		vBoxLayout->addLayout(isNullLayout);
+
+		//
 		// property list
 		//
 		propertyList_ = new QListWidget();
@@ -51,12 +64,12 @@ namespace OpcUaNodeSet
 		// control action buttons
 		//
 		createToolBarActions();
-		QToolBar* toolBar = new QToolBar();
-		toolBar->addAction(addAction_);
-		toolBar->addAction(delAction_);
-		toolBar->addAction(downAction_);
-		toolBar->addAction(upAction_);
-		vBoxLayout->addWidget(toolBar);
+		toolBar_ = new QToolBar();
+		toolBar_->addAction(addAction_);
+		toolBar_->addAction(delAction_);
+		toolBar_->addAction(downAction_);
+		toolBar_->addAction(upAction_);
+		vBoxLayout->addWidget(toolBar_);
 
 		//
 		// dialog action button
@@ -71,6 +84,10 @@ namespace OpcUaNodeSet
 		//
 		// connection
 		//
+		connect(
+			checkboxWidget_, SIGNAL(stateChanged(int)),
+			this, SLOT(onStateChanged(int))
+		);
 		connect(
 			propertyList_, SIGNAL(itemActivated(QListWidgetItem*)),
 		    this, SLOT(onItemActivatedAction(QListWidgetItem*))
@@ -104,6 +121,12 @@ namespace OpcUaNodeSet
 	void
 	ArrayDimensionDialog::setArrayDimensions(OpcUaUInt32Array::SPtr& arrayDimensions)
 	{
+		if (arrayDimensions.get() == nullptr || arrayDimensions->isNull()) {
+			checkboxWidget_->setCheckState(Qt::Unchecked);
+			propertyList_->setVisible(false);
+			toolBar_->setVisible(false);
+		}
+
 #if 0
 		std::vector<std::string>::iterator it;
 		for (it=propertyVec.begin(); it!=propertyVec.end(); it++) {
@@ -306,6 +329,19 @@ namespace OpcUaNodeSet
 
      	enableButtons();
      }
+
+	void
+	ArrayDimensionDialog::onStateChanged(int stateCheckBox)
+	{
+		if (stateCheckBox == Qt::Checked) {
+		    propertyList_->setVisible(false);
+		    toolBar_->setVisible(false);
+		}
+		else {
+		    propertyList_->setVisible(true);
+		    toolBar_->setVisible(true);
+		}
+	}
 
 }
 
