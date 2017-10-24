@@ -113,7 +113,7 @@ namespace OpcUaNodeSet
 		arrayDimensions_ = constructSPtr<OpcUaUInt32Array>();
 		arrayDimensions->copyTo(*arrayDimensions_);
 
-		if (arrayDimensions->isNull()) {
+		if (arrayDimensions_->isNull()) {
 			labelWidget_->setText(QString("---"));
 
 			emit valueChanged(arrayDimensions_, isValid_);

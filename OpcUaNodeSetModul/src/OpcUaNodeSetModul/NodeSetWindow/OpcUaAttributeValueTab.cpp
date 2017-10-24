@@ -267,6 +267,8 @@ namespace OpcUaNodeSet
         arrayDimensionsWidget_->getValue(newDimensionsArray);
 
         if (dimensionsArray != *newDimensionsArray) {
+        	std::cout << "update" << std::endl;
+        	newDimensionsArray->out(std::cout); std::cout << std::endl;
         	baseNode->setArrayDimensions(*newDimensionsArray);
         }
 
