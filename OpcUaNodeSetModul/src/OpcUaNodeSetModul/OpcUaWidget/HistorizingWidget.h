@@ -19,6 +19,7 @@
 #define __OpcUaNodeSet_HistorizingWidget_h__
 
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
+#include "OpcUaNodeSetModul/OpcUaTypeWidget/OpcUaBooleanWidget.h"
 
 #include <QWidget>
 
@@ -28,7 +29,7 @@ namespace OpcUaNodeSet
 {
 
 	class HistorizingWidget
-	: public QWidget
+	: public OpcUaBooleanWidget
 	{
 		Q_OBJECT
 
@@ -36,25 +37,7 @@ namespace OpcUaNodeSet
 		HistorizingWidget(QWidget* parent = 0);
 		virtual ~HistorizingWidget(void);
 
-		bool isValid(void);
 		void nodeChange(NodeInfo* nodeInfo);
-		void enabled(bool enabled);
-		void getValue(OpcUaBoolean& historizing);
-
-	signals:
-	  void valueChanged(OpcUaBoolean& historizing, bool isValid);
-      void update(void);
-
-	private slots:
-	  void onStateChanged(int state);
-
-	private:
-	  bool checkValue(void);
-	  void styleValue(void);
-
-	  QCheckBox* checkboxWidget_;
-	  bool isValid_;
-	  bool checkOn_;
 	};
 
 }

@@ -43,6 +43,8 @@ namespace OpcUaNodeSet
 		void enabled(bool enabled);
 		void setValue(OpcUaBoolean& value);
 		void getValue(OpcUaBoolean& value);
+		void acceptValue(void);
+		void resetValue(void);
 
 	signals:
       void update(void);

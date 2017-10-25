@@ -68,6 +68,8 @@ namespace OpcUaNodeSet
 	void
 	OpcUaBooleanWidget::setValue(OpcUaBoolean& value)
 	{
+		value_ = value;
+
 		checkOn_ = false;
 		if (value == true) checkboxWidget_->setCheckState(Qt::Checked);
 		else checkboxWidget_->setCheckState(Qt::Unchecked);
@@ -82,6 +84,18 @@ namespace OpcUaNodeSet
 		Qt::CheckState state = checkboxWidget_->checkState();
 		if (state == Qt::Checked) value = true;
 		else value = false;
+	}
+
+	void
+	OpcUaBooleanWidget::acceptValue(void)
+	{
+		getValue(value_);
+	}
+
+	void
+	OpcUaBooleanWidget::resetValue(void)
+	{
+		setValue(value_);
 	}
 
 	bool
