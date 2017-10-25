@@ -19,7 +19,7 @@
 #include <QVBoxLayout>
 #include <QLineEdit>
 
-#include "OpcUaNodeSetModul/OpcUaWidget/UserWriteMaskWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/UserWriteMaskWidget.h"
 
 namespace OpcUaNodeSet
 {

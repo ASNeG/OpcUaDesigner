@@ -22,13 +22,13 @@
 #include <QWidget>
 #include <QCloseEvent>
 #include <QStringList>
-#include "OpcUaNodeSetModul/OpcUaWidget/NodeClassWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/NodeIdWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/BrowseNameWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/ReferenceTypeWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/DisplayNameWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/ObjectTypeWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/VariableTypeWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/NodeClassWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/NodeIdWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/BrowseNameWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/ReferenceTypeWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/DisplayNameWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/ObjectTypeWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/VariableTypeWidget.h"
 #include "OpcUaNodeSetModul/Model/DataModel.h"
 
 class QComboBox;

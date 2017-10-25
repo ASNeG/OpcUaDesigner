@@ -21,13 +21,13 @@
 #include <QWidget>
 
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/NodeIdWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/NodeClassWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/BrowseNameWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/DisplayNameWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/DescriptionWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/WriteMaskWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/UserWriteMaskWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/NodeIdWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/NodeClassWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/BrowseNameWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/DisplayNameWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/DescriptionWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/WriteMaskWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/UserWriteMaskWidget.h"
 
 class QLineEdit;
 class QToolBar;

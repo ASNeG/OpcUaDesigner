@@ -19,7 +19,7 @@
 #include <QVBoxLayout>
 #include <QLineEdit>
 
-#include "OpcUaNodeSetModul/OpcUaWidget/EventNotifierWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/EventNotifierWidget.h"
 
 namespace OpcUaNodeSet
 {

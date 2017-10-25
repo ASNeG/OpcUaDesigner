@@ -21,7 +21,7 @@
 #include <QStringList>
 #include <QString>
 
-#include "OpcUaNodeSetModul/OpcUaWidget/NodeClassWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/NodeClassWidget.h"
 
 namespace OpcUaNodeSet
 {

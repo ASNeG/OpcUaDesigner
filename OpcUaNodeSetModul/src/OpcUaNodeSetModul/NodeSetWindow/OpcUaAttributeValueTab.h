@@ -21,13 +21,13 @@
 #include <QWidget>
 
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/AccessLevelWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/HistorizingWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/MinimumSamplingIntervalWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/ArrayDimensionsWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/DataTypeWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/ValueRankWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/ValueWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/AccessLevelWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/HistorizingWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/MinimumSamplingIntervalWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/ArrayDimensionsWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/DataTypeWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/ValueRankWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/ValueWidget.h"
 
 class QLineEdit;
 class QToolBar;

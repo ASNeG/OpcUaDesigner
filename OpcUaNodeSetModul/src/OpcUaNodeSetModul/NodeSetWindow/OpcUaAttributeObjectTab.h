@@ -21,7 +21,7 @@
 #include <QWidget>
 
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/EventNotifierWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/EventNotifierWidget.h"
 
 class QLineEdit;
 class QToolBar;

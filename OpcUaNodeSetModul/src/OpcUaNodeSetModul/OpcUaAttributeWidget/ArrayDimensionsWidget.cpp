@@ -20,7 +20,7 @@
 #include <QLabel>
 #include <QPushButton>
 
-#include "OpcUaNodeSetModul/OpcUaWidget/ArrayDimensionsWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/ArrayDimensionsWidget.h"
 
 namespace OpcUaNodeSet
 {

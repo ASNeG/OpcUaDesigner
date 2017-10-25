@@ -21,11 +21,11 @@
 #include <QWidget>
 
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/IsAbstractWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/ArrayDimensionsWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/DataTypeWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/ValueRankWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/ValueWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/IsAbstractWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/ArrayDimensionsWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/DataTypeWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/ValueRankWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/ValueWidget.h"
 
 class QLineEdit;
 class QToolBar;

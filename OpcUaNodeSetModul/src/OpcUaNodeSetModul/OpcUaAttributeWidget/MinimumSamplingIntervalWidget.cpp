@@ -19,7 +19,7 @@
 #include <QVBoxLayout>
 #include <QLineEdit>
 
-#include "OpcUaNodeSetModul/OpcUaWidget/MinimumSamplingIntervalWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/MinimumSamplingIntervalWidget.h"
 
 namespace OpcUaNodeSet
 {

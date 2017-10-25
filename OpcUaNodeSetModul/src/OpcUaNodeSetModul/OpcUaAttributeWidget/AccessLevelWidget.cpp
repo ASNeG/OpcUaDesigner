@@ -19,7 +19,7 @@
 #include <QVBoxLayout>
 #include <QLineEdit>
 
-#include "OpcUaNodeSetModul/OpcUaWidget/AccessLevelWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/AccessLevelWidget.h"
 
 namespace OpcUaNodeSet
 {

@@ -19,7 +19,7 @@
 #include <QVBoxLayout>
 #include <QCheckBox>
 
-#include "OpcUaNodeSetModul/OpcUaWidget/IsAbstractWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/IsAbstractWidget.h"
 
 namespace OpcUaNodeSet
 {

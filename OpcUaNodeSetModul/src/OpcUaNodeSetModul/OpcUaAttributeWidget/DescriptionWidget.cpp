@@ -19,7 +19,7 @@
 #include <QVBoxLayout>
 #include <QLineEdit>
 
-#include "OpcUaNodeSetModul/OpcUaWidget/DescriptionWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/DescriptionWidget.h"
 
 namespace OpcUaNodeSet
 {

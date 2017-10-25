@@ -21,7 +21,7 @@
 #include <QWidget>
 
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/IsAbstractWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/IsAbstractWidget.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/DataTypeNoneTable.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/DataTypeEnumTable.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/DataTypeStructTable.h"

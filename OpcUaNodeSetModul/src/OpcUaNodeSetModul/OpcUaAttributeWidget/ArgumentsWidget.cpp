@@ -27,7 +27,7 @@
 
 #include "OpcUaStackCore/BuildInTypes/OpcUaIdentifier.h"
 #include "OpcUaStackCore/StandardDataTypes/Argument.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/ArgumentsWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/ArgumentsWidget.h"
 
 using namespace OpcUaStackCore;
 

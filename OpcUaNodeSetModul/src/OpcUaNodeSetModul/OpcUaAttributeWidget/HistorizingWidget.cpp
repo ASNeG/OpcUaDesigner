@@ -19,7 +19,7 @@
 #include <QVBoxLayout>
 #include <QCheckBox>
 
-#include "OpcUaNodeSetModul/OpcUaWidget/HistorizingWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/HistorizingWidget.h"
 
 namespace OpcUaNodeSet
 {

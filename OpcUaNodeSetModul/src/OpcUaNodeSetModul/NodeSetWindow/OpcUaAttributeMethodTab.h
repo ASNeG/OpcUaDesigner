@@ -21,9 +21,9 @@
 #include <QWidget>
 
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/ExecutableWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/UserExecutableWidget.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/ArgumentsWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/ExecutableWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/UserExecutableWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/ArgumentsWidget.h"
 
 class QLineEdit;
 class QToolBar;

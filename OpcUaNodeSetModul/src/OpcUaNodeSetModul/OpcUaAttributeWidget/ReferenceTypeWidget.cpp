@@ -22,7 +22,7 @@
 #include <QIcon>
 
 #include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
-#include "OpcUaNodeSetModul/OpcUaWidget/ReferenceTypeWidget.h"
+#include "OpcUaNodeSetModul/OpcUaAttributeWidget/ReferenceTypeWidget.h"
 
 using namespace OpcUaStackServer;
 
