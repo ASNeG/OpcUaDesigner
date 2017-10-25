@@ -42,8 +42,9 @@ namespace OpcUaNodeSet
 		virtual ~OpcUaNodeIdWidget(void);
 
 		void rootNodeId(OpcUaNodeId& rootNodeId);
-		void enabled(bool enabled);
 		void informationModel(InformationModel::SPtr& informationModel);
+
+		void enabled(bool enabled);
 		void setValue(OpcUaNodeId& nodeId);
 		void getOldValue(OpcUaNodeId& nodeId);
 		void getNewValue(OpcUaNodeId& nodeId);
