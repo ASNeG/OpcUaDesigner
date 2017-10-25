@@ -41,6 +41,7 @@ namespace OpcUaNodeSet
 		OpcUaNodeIdWidget(QWidget* parent = 0);
 		virtual ~OpcUaNodeIdWidget(void);
 
+		void rootNodeId(OpcUaNodeId& rootNodeId);
 		void enabled(bool enabled);
 		void informationModel(InformationModel::SPtr& informationModel);
 		void setValue(OpcUaNodeId& nodeId);

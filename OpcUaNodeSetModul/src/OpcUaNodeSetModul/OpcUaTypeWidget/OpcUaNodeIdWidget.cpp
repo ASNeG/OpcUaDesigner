@@ -73,6 +73,12 @@ namespace OpcUaNodeSet
 	}
 
 	void
+	OpcUaNodeIdWidget::rootNodeId(OpcUaNodeId& rootNodeId)
+	{
+		rootNodeId_ = rootNodeId;
+	}
+
+	void
 	OpcUaNodeIdWidget::enabled(bool enabled)
 	{
 		textWidget_->setEnabled(enabled);
