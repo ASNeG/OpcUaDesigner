@@ -19,11 +19,10 @@
 #include <QVBoxLayout>
 #include <QCheckBox>
 
-#include "OpcUaNodeSetModul/OpcUaWidget/OpcUaBooleanWidget.h"
+#include "OpcUaNodeSetModul/OpcUaTypeWidget/OpcUaBooleanWidget.h"
 
 namespace OpcUaNodeSet
 {
-
 
 	OpcUaBooleanWidget::OpcUaBooleanWidget(QWidget* parent)
 	: QWidget()
