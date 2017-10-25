@@ -34,6 +34,7 @@ namespace OpcUaNodeSet
 	: QWidget()
 	, informationModel_()
 	, nodeId_()
+	, newNodeId_(0,0)
 	, rootNodeId_(24)
 	, isValid_(false)
 	, checkOn_(true)
@@ -88,18 +89,38 @@ namespace OpcUaNodeSet
 	OpcUaNodeIdWidget::setValue(OpcUaNodeId& nodeId)
 	{
 		nodeId_ = nodeId;
+		newNodeId_ = nodeId;
+
+		// get display name from nodeid
+		OpcUaLocalizedText displayName;
+		if (!getDisplayNameFromNodeId(nodeId, displayName)) {
+			isValid_ = false;
+			displayName.set("", nodeId.toString());
+		}
+		else {
+			isValid_ = true;
+		}
 
 		checkOn_ = false;
-		showValue();
+		std::string locale;
+		std::string text;
+		displayName.get(locale, text);
+		textWidget_->setText(QString(text.c_str()));
 		checkOn_ = true;
-		isValid_ = checkValue();
+
 		styleValue();
 	}
 
 	void
-	OpcUaNodeIdWidget::getValue(OpcUaNodeId& nodeId)
+	OpcUaNodeIdWidget::getOldValue(OpcUaNodeId& nodeId)
 	{
 		nodeId = nodeId_;
+	}
+
+	void
+	OpcUaNodeIdWidget::getNewValue(OpcUaNodeId& nodeId)
+	{
+		nodeId = newNodeId_;
 	}
 
 	bool
@@ -111,7 +132,7 @@ namespace OpcUaNodeSet
 	void
 	OpcUaNodeIdWidget::acceptValue(void)
 	{
-		getValue(nodeId_);
+		nodeId_ = newNodeId_;
 	}
 
 
@@ -119,104 +140,6 @@ namespace OpcUaNodeSet
 	OpcUaNodeIdWidget::resetValue(void)
 	{
 		setValue(nodeId_);
-	}
-
-	// ------------------------------------------------------------------------
-	// ------------------------------------------------------------------------
-	//
-	// private functions
-	//
-	// ------------------------------------------------------------------------
-	// ------------------------------------------------------------------------
-	void
-	OpcUaNodeIdWidget::showValue(void)
-	{
-		if (informationModel_.get() == NULL) {
-			textWidget_->setText(QString(""));
-			return;
-		}
-
-		BaseNodeClass::SPtr baseNode = informationModel_->find(nodeId_);
-		if (baseNode.get() == NULL) {
-			textWidget_->setText(QString(""));
-			return;
-		}
-
-		OpcUaLocalizedText displayName;
-		baseNode->getDisplayName(displayName);
-
-		std::string locale;
-		std::string text;
-		displayName.get(locale, text);
-		textWidget_->setText(QString(text.c_str()));
-	}
-
-	bool
-	OpcUaNodeIdWidget::checkValue(void)
-	{
-		if (informationModel_.get() == NULL) {
-			return false;
-		}
-
-		BaseNodeClass::SPtr baseNode = informationModel_->find(nodeId_);
-		if (baseNode.get() == NULL) {
-			return false;
-		}
-
-		if (textWidget_->text().isEmpty()) {
-			return false;
-		}
-
-		return true;
-	}
-
-	void
-	OpcUaNodeIdWidget::findNodeId(const std::string& displayName, OpcUaNodeId& rootNodeId)
-	{
-		if (informationModel_.get() == NULL) {
-			return;
-		}
-
-		BaseNodeClass::SPtr baseNode = informationModel_->find(rootNodeId);
-		if (baseNode.get() == NULL) {
-			return;
-		}
-
-
-		OpcUaLocalizedText tmpDisplayName;
-		baseNode->getDisplayName(tmpDisplayName);
-
-		std::string locale;
-		std::string text;
-		tmpDisplayName.get(locale, text);
-		if (text == displayName) {
-			nodeId_ = rootNodeId;
-			return;
-		}
-
-		// search children elements
-		BaseNodeClass::Vec::iterator it;
-		BaseNodeClass::Vec childBaseNodeClassVec;
-		InformationModelAccess ima(informationModel_);
-		ima.getChildHierarchically(baseNode, childBaseNodeClassVec);
-		for (it = childBaseNodeClassVec.begin(); it != childBaseNodeClassVec.end(); it++) {
-			BaseNodeClass::SPtr child = *it;
-
-			OpcUaNodeId childNodeId;
-			child->getNodeId(childNodeId);
-			findNodeId(displayName, childNodeId);
-		}
-	}
-
-	void
-	OpcUaNodeIdWidget::styleValue(void)
-	{
-		if (isValid_) {
-			textWidget_->setStyleSheet("background-color:none;");
-		}
-		else {
-			textWidget_->setStyleSheet("background-color:red;");
-		}
 	}
 
 	// ------------------------------------------------------------------------
@@ -232,12 +155,19 @@ namespace OpcUaNodeSet
 		if (!checkOn_) return;
 
 		// find node id from text
-		nodeId_.set(0);
-		findNodeId(text.toStdString(), rootNodeId_);
+		OpcUaNodeId nodeId = rootNodeId_;
+		if (!getNodeIdFromDisplayName(text.toStdString(), nodeId)) {
+			isValid_ = false;
+		}
+		else {
+			isValid_ = true;
+			newNodeId_ = nodeId;
+		}
 
-		isValid_ = checkValue();
 		styleValue();
-		emit update();
+		if (nodeId_ != newNodeId_) {
+			emit update();
+		}
 	}
 
 	void
@@ -246,6 +176,80 @@ namespace OpcUaNodeSet
 		emit selectDataType();
 	}
 
+
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//
+	// private functions
+	//
+	// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	void
+	OpcUaNodeIdWidget::styleValue(void)
+	{
+		if (isValid_) {
+			textWidget_->setStyleSheet("background-color:none;");
+		}
+		else {
+			textWidget_->setStyleSheet("background-color:red;");
+		}
+	}
+
+	bool
+	OpcUaNodeIdWidget::getNodeIdFromDisplayName(const std::string& displayName, OpcUaNodeId& rootNodeId)
+	{
+		if (informationModel_.get() == NULL) {
+			return false;
+		}
+
+		BaseNodeClass::SPtr baseNode = informationModel_->find(rootNodeId);
+		if (baseNode.get() == NULL) {
+			return false;
+		}
+
+		OpcUaLocalizedText tmpDisplayName;
+		baseNode->getDisplayName(tmpDisplayName);
+
+		std::string locale;
+		std::string text;
+		tmpDisplayName.get(locale, text);
+		if (text == displayName) {
+			nodeId_ = rootNodeId;
+			return true;
+		}
+
+		// search children elements
+		BaseNodeClass::Vec::iterator it;
+		BaseNodeClass::Vec childBaseNodeClassVec;
+		InformationModelAccess ima(informationModel_);
+		ima.getChildHierarchically(baseNode, childBaseNodeClassVec);
+		for (it = childBaseNodeClassVec.begin(); it != childBaseNodeClassVec.end(); it++) {
+			BaseNodeClass::SPtr child = *it;
+
+			OpcUaNodeId childNodeId;
+			child->getNodeId(childNodeId);
+			if (getNodeIdFromDisplayName(displayName, childNodeId)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	bool
+	OpcUaNodeIdWidget::getDisplayNameFromNodeId(OpcUaNodeId& nodeId, OpcUaLocalizedText& displayName)
+	{
+		if (informationModel_.get() == NULL) {
+			return false;
+		}
+
+		BaseNodeClass::SPtr baseNode = informationModel_->find(nodeId_);
+		if (baseNode.get() == NULL) {
+			return false;
+		}
+
+		return baseNode->getDisplayName(displayName);
+	}
 
 }
 

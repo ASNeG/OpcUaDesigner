@@ -44,7 +44,8 @@ namespace OpcUaNodeSet
 		void enabled(bool enabled);
 		void informationModel(InformationModel::SPtr& informationModel);
 		void setValue(OpcUaNodeId& nodeId);
-		void getValue(OpcUaNodeId& nodeId);
+		void getOldValue(OpcUaNodeId& nodeId);
+		void getNewValue(OpcUaNodeId& nodeId);
 		bool isValid(void);
 		void acceptValue(void);
 		void resetValue(void);
@@ -61,10 +62,12 @@ namespace OpcUaNodeSet
 		void showValue(void);
 		bool checkValue(void);
 		void styleValue(void);
-		void findNodeId(const std::string& displayName, OpcUaNodeId& typeNode);
+		bool getNodeIdFromDisplayName(const std::string& displayName, OpcUaNodeId& nodeId);
+		bool getDisplayNameFromNodeId(OpcUaNodeId& nodeId, OpcUaLocalizedText& displayName);
 
 		InformationModel::SPtr informationModel_;
 		OpcUaNodeId nodeId_;
+		OpcUaNodeId newNodeId_;
 		OpcUaNodeId rootNodeId_;
 		bool isValid_;
 		bool checkOn_;
