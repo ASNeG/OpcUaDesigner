@@ -64,22 +64,14 @@ namespace OpcUaNodeSet
 	void
 	DataTypeWidget::onSelectDataType(void)
 	{
-		//SelectDataTypeDialog dialog();
-		//dialog.exec();
+		SelectDataTypeDialog dialog(nodeInfo_->informationModel_);
+		dialog.exec();
 
+		if (!dialog.itemSelected()) return;
 
+		OpcUaNodeId dataType = dialog.dataType();
+		setValue(dataType);
 	}
-
-#if 0
-    	dialog.setArrayDimensions(arrayDimensions);
-    	dialog.exec();
-
-    	if (dialog.ok()) {
-    		OpcUaUInt32Array::SPtr ad = constructSPtr<OpcUaUInt32Array>();
-    		dialog.getArrayDimensions(ad);
-    		arrayDimensionsWidget_->nodeChange(ad);
-    	}
-#endif
 
 }
 

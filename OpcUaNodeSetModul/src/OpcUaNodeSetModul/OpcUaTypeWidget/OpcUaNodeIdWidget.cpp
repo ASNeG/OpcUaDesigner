@@ -96,7 +96,7 @@ namespace OpcUaNodeSet
 	void
 	OpcUaNodeIdWidget::setValue(OpcUaNodeId& nodeId)
 	{
-		if (nodeId_ == newNodeId_) return;
+		if (nodeId == newNodeId_) return;
 
 		nodeId_ = nodeId;
 		newNodeId_ = nodeId;
