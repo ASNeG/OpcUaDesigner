@@ -33,9 +33,9 @@ namespace OpcUaNodeSet
 {
 
 
-	SelectDataTypeDialog::SelectDataTypeDialog(DataModel* dataModel)
+	SelectDataTypeDialog::SelectDataTypeDialog(InformationModel::SPtr& informationModel)
 	: QDialog()
-	, dataModel_(dataModel)
+	, informationModel_(informationModel)
 	, dataType_(24)
 	{
 		this->setWindowTitle(QString("Select Data Type Dialog"));
@@ -108,8 +108,8 @@ namespace OpcUaNodeSet
 	SelectDataTypeDialog::showModel(void)
 	{
 		OpcUaNodeId dataType(24);
-		BaseNodeClass::SPtr baseNode = dataModel_->informationModel()->find(dataType);
-		addNode(dataModel_->informationModel(), NULL, baseNode);
+		BaseNodeClass::SPtr baseNode = informationModel_->find(dataType);
+		addNode(informationModel_, NULL, baseNode);
 
 		if (rootItem_ == NULL) return;
 		opcUaTree_->expandItem(rootItem_);

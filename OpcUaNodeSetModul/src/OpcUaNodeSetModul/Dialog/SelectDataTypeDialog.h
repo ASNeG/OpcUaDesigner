@@ -20,7 +20,7 @@
 
 #include <QDialog>
 #include <QWidget>
-#include "OpcUaNodeSetModul/Model/DataModel.h"
+#include "OpcUaStackServer/InformationModel/InformationModel.h"
 #include "OpcUaStackServer/AddressSpaceModel/BaseNodeClass.h"
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
 
@@ -38,7 +38,7 @@ namespace OpcUaNodeSet
 		Q_OBJECT
 
 	  public:
-		SelectDataTypeDialog(DataModel* dataModel);
+		SelectDataTypeDialog(InformationModel::SPtr& informationModel);
 		virtual ~SelectDataTypeDialog(void);
 
 		OpcUaNodeId& dataType(void);
@@ -59,7 +59,7 @@ namespace OpcUaNodeSet
         //
         // data model
         //
-        DataModel* dataModel_;
+		InformationModel::SPtr informationModel_;
         OpcUaNodeId dataType_;
 
         //
