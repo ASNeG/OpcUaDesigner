@@ -23,9 +23,7 @@
 #include "OpcUaStackServer/InformationModel/InformationModel.h"
 
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
-
-class QLineEdit;
-class QPushButton;
+#include "OpcUaNodeSetModul/OpcUaTypeWidget/OpcUaNodeIdWidget.h"
 
 using namespace OpcUaStackServer;
 
@@ -33,7 +31,7 @@ namespace OpcUaNodeSet
 {
 
 	class DataTypeWidget
-	: public QWidget
+	: public OpcUaNodeIdWidget
 	{
 		Q_OBJECT
 
@@ -42,34 +40,6 @@ namespace OpcUaNodeSet
 		virtual ~DataTypeWidget(void);
 
 		void nodeChange(NodeInfo* nodeInfo);
-		void enabled(bool enabled);
-		void setValue(InformationModel::SPtr& informationModel);
-		void setValue(OpcUaNodeId& dataType);
-		void getValue(OpcUaNodeId& dataType);
-		bool isValid(void);
-
-	  signals:
-		void valueChanged(OpcUaNodeId& dataType, bool isValid);
-		void update(void);
-		void selectDataType(void);
-
-	  private slots:
-		void onTextChanged(const QString& text);
-		void onClicked(void);
-
-	  private:
-		void showValue(void);
-		bool checkValue(void);
-		void styleValue(void);
-		void findNodeId(const std::string& displayName, OpcUaNodeId& typeNode);
-
-		InformationModel::SPtr informationModel_;
-		OpcUaNodeId dataType_;
-		bool isValid_;
-		bool checkOn_;
-
-		QLineEdit* textWidget_;
-		QPushButton* buttonWidget_;
 	};
 
 }

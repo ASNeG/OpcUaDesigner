@@ -240,7 +240,7 @@ namespace OpcUaNodeSet
        	// check historizing
         if (historizingWidget_->acceptValue()) {
             OpcUaBoolean newHistorizing;
-            historizingWidget_->getOldValue(newHistorizing);
+            historizingWidget_->getNewValue(newHistorizing);
         	baseNode->setHistorizing(newHistorizing);
         }
 
@@ -273,7 +273,11 @@ namespace OpcUaNodeSet
         }
 
         // check data type
-        // FIXME: todo
+        if (dataTypeWidget_->acceptValue()) {
+            OpcUaNodeId newDataType;
+            dataTypeWidget_->getNewValue(newDataType);
+        	baseNode->setDataType(newDataType);
+        }
 
       	// check value rank
         OpcUaInt32 valueRank;

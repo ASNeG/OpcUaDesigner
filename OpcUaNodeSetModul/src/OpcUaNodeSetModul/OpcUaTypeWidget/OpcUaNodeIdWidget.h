@@ -41,7 +41,7 @@ namespace OpcUaNodeSet
 		OpcUaNodeIdWidget(QWidget* parent = 0);
 		virtual ~OpcUaNodeIdWidget(void);
 
-		void rootNodeId(OpcUaNodeId& rootNodeId);
+		void rootNodeId(const OpcUaNodeId& rootNodeId);
 		void informationModel(InformationModel::SPtr& informationModel);
 
 		void enabled(bool enabled);
@@ -49,7 +49,7 @@ namespace OpcUaNodeSet
 		void getOldValue(OpcUaNodeId& nodeId);
 		void getNewValue(OpcUaNodeId& nodeId);
 		bool isValid(void);
-		void acceptValue(void);
+		bool acceptValue(void);
 		void resetValue(void);
 
 	  signals:

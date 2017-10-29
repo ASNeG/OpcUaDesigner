@@ -21,9 +21,11 @@
 #include <QPushButton>
 #include <QIcon>
 
+#include "OpcUaStackCore/BuildInTypes/OpcUaIdentifier.h"
 #include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/OpcUaTypeWidget/OpcUaNodeIdWidget.h"
 
+using namespace OpcUaStackCore;
 using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
@@ -35,7 +37,7 @@ namespace OpcUaNodeSet
 	, informationModel_()
 	, nodeId_()
 	, newNodeId_(0,0)
-	, rootNodeId_(24)
+	, rootNodeId_(OpcUaId_BaseDataType)
 	, isValid_(false)
 	, checkOn_(true)
 	{
@@ -73,7 +75,7 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaNodeIdWidget::rootNodeId(OpcUaNodeId& rootNodeId)
+	OpcUaNodeIdWidget::rootNodeId(const OpcUaNodeId& rootNodeId)
 	{
 		rootNodeId_ = rootNodeId;
 	}
@@ -137,10 +139,12 @@ namespace OpcUaNodeSet
 		return isValid_;
 	}
 
-	void
+	bool
 	OpcUaNodeIdWidget::acceptValue(void)
 	{
+		if (nodeId_ == newNodeId_) return false;
 		nodeId_ = newNodeId_;
+		return false;
 	}
 
 
