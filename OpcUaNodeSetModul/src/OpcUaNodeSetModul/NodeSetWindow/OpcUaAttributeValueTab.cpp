@@ -217,7 +217,7 @@ namespace OpcUaNodeSet
 		orderDeleteAction_ = new QAction("Cancel tab input", this);
 		orderDeleteAction_->setIcon(QIcon(":images/OrderDelete.png"));
 		orderDeleteAction_->setEnabled(false);
-		connect(orderDeleteAction_, SIGNAL(triggered()), this, SLOT(onOrderDeleteAction()));
+		connect(orderDeleteAction_, SIGNAL(triggered()), this, SLOT(onOrderCancelAction()));
 	}
 
     void
@@ -274,9 +274,9 @@ namespace OpcUaNodeSet
 
         // check data type
         if (dataTypeWidget_->acceptValue()) {
-            OpcUaNodeId newDataType;
-            dataTypeWidget_->getNewValue(newDataType);
-        	baseNode->setDataType(newDataType);
+            OpcUaNodeId savedValue;
+            dataTypeWidget_->getSavedValue(savedValue);
+        	baseNode->setDataType(savedValue);
         }
 
       	// check value rank
@@ -300,7 +300,7 @@ namespace OpcUaNodeSet
     }
 
     void
-	OpcUaAttributeValueTab::onOrderDeleteAction(void)
+	OpcUaAttributeValueTab::onOrderCancelAction(void)
     {
     	nodeChange(nodeInfo_);
 

@@ -58,7 +58,7 @@ namespace OpcUaNodeSet
 		// get data type
 		OpcUaNodeId dataTypeNodeId;
 		nodeInfo->baseNode_->getDataTypeSync(dataTypeNodeId);
-		setValue(dataTypeNodeId);
+		setSavedValue(dataTypeNodeId);
 	}
 
 	void
@@ -70,7 +70,7 @@ namespace OpcUaNodeSet
 		if (!dialog.itemSelected()) return;
 
 		OpcUaNodeId dataType = dialog.dataType();
-		setValue(dataType);
+		setDisplayValue(dataType);
 	}
 
 }

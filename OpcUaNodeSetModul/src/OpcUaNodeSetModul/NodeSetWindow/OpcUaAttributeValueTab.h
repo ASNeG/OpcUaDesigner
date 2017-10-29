@@ -54,7 +54,7 @@ namespace OpcUaNodeSet
 		// toolbar menu
 		//
 		void onOrderOkAction(void);
-		void onOrderDeleteAction(void);
+		void onOrderCancelAction(void);
 
 		//
 		// widgets

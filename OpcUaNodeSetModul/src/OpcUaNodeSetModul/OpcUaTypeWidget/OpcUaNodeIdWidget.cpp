@@ -35,8 +35,8 @@ namespace OpcUaNodeSet
 	OpcUaNodeIdWidget::OpcUaNodeIdWidget(QWidget* parent)
 	: QWidget()
 	, informationModel_()
-	, nodeId_()
-	, newNodeId_(0,0)
+	, savedValue_(0,0)
+	, displayValue_(0,0)
 	, rootNodeId_(OpcUaId_BaseDataType)
 	, isValid_(false)
 	, checkOn_(true)
@@ -94,43 +94,48 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaNodeIdWidget::setValue(OpcUaNodeId& nodeId)
+	OpcUaNodeIdWidget::setSavedValue(OpcUaNodeId& savedValue)
 	{
-		if (nodeId == newNodeId_) return;
+		savedValue_ = savedValue;
 
-		nodeId_ = nodeId;
-		newNodeId_ = nodeId;
+		checkOn_ = false;
+		setDisplayValue(savedValue);
+		checkOn_ = true;
+	}
+
+	void
+	OpcUaNodeIdWidget::setDisplayValue(OpcUaNodeId& displayValue)
+	{
+		displayValue_ = displayValue;
 
 		// get display name from nodeid
 		OpcUaLocalizedText displayName;
-		if (!getDisplayNameFromNodeId(nodeId, displayName)) {
+		if (!getDisplayNameFromNodeId(displayValue, displayName)) {
 			isValid_ = false;
-			displayName.set("", nodeId.toString());
+			displayName.set("", displayValue.toString());
 		}
 		else {
 			isValid_ = true;
 		}
 
-		checkOn_ = false;
 		std::string locale;
 		std::string text;
 		displayName.get(locale, text);
 		textWidget_->setText(QString(text.c_str()));
-		checkOn_ = true;
 
 		styleValue();
 	}
 
 	void
-	OpcUaNodeIdWidget::getOldValue(OpcUaNodeId& nodeId)
+	OpcUaNodeIdWidget::getSavedValue(OpcUaNodeId& savedValue)
 	{
-		nodeId = nodeId_;
+		savedValue = savedValue_;
 	}
 
 	void
-	OpcUaNodeIdWidget::getNewValue(OpcUaNodeId& nodeId)
+	OpcUaNodeIdWidget::getDisplayValue(OpcUaNodeId& displayValue)
 	{
-		nodeId = newNodeId_;
+		displayValue = displayValue_;
 	}
 
 	bool
@@ -142,8 +147,10 @@ namespace OpcUaNodeSet
 	bool
 	OpcUaNodeIdWidget::acceptValue(void)
 	{
-		if (nodeId_ == newNodeId_) return false;
-		nodeId_ = newNodeId_;
+		if (savedValue_ != displayValue_) {
+			savedValue_ = displayValue_;
+			return true;
+		}
 		return false;
 	}
 
@@ -151,7 +158,7 @@ namespace OpcUaNodeSet
 	void
 	OpcUaNodeIdWidget::resetValue(void)
 	{
-		setValue(nodeId_);
+		setDisplayValue(savedValue_);
 	}
 
 	// ------------------------------------------------------------------------
@@ -173,11 +180,11 @@ namespace OpcUaNodeSet
 		}
 		else {
 			isValid_ = true;
-			newNodeId_ = nodeId;
+			displayValue_ = nodeId;
 		}
 
 		styleValue();
-		if (nodeId_ != newNodeId_) {
+		if (savedValue_ != displayValue_) {
 			emit update();
 		}
 	}
@@ -226,7 +233,6 @@ namespace OpcUaNodeSet
 		std::string text;
 		tmpDisplayName.get(locale, text);
 		if (text == displayName) {
-			nodeId_ = rootNodeId;
 			return true;
 		}
 
@@ -241,6 +247,7 @@ namespace OpcUaNodeSet
 			OpcUaNodeId childNodeId;
 			child->getNodeId(childNodeId);
 			if (getNodeIdFromDisplayName(displayName, childNodeId)) {
+				rootNodeId = childNodeId;
 				return true;
 			}
 		}
@@ -255,7 +262,7 @@ namespace OpcUaNodeSet
 			return false;
 		}
 
-		BaseNodeClass::SPtr baseNode = informationModel_->find(nodeId_);
+		BaseNodeClass::SPtr baseNode = informationModel_->find(nodeId);
 		if (baseNode.get() == NULL) {
 			return false;
 		}
