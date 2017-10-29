@@ -239,9 +239,9 @@ namespace OpcUaNodeSet
 
        	// check historizing
         if (historizingWidget_->acceptValue()) {
-            OpcUaBoolean newHistorizing;
-            historizingWidget_->getNewValue(newHistorizing);
-        	baseNode->setHistorizing(newHistorizing);
+            OpcUaBoolean savedValue;
+            historizingWidget_->getSavedValue(savedValue);
+        	baseNode->setHistorizing(savedValue);
         }
 
        	// check minimum sampling interval

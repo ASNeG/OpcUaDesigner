@@ -28,8 +28,8 @@ namespace OpcUaNodeSet
 	: QWidget()
 	, checkOn_(true)
 	, isValid_(true)
-	, value_(true)
-	, newValue_(true)
+	, savedValue_(true)
+	, displayValue_(true)
 	{
 		// widgets
 		checkboxWidget_ = new QCheckBox();
@@ -67,43 +67,50 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaBooleanWidget::setValue(OpcUaBoolean& value)
+	OpcUaBooleanWidget::setSavedValue(OpcUaBoolean& savedValue)
 	{
-		value_ = value;
-		newValue_ = value;
+		savedValue_ = savedValue;
 
 		checkOn_ = false;
-		if (value == true) checkboxWidget_->setCheckState(Qt::Checked);
-		else checkboxWidget_->setCheckState(Qt::Unchecked);
-		isValid_ = checkValue();
-		styleValue();
+		setDisplayValue(savedValue);
 		checkOn_ = true;
 	}
 
 	void
-	OpcUaBooleanWidget::getOldValue(OpcUaBoolean& value)
+	OpcUaBooleanWidget::setDisplayValue(OpcUaBoolean& displayValue)
 	{
-		value = value_;
+		displayValue_ = displayValue;
+
+		if (displayValue_ == true) checkboxWidget_->setCheckState(Qt::Checked);
+		else checkboxWidget_->setCheckState(Qt::Unchecked);
 	}
 
 	void
-	OpcUaBooleanWidget::getNewValue(OpcUaBoolean& value)
+	OpcUaBooleanWidget::getSavedValue(OpcUaBoolean& savedValue)
 	{
-		value = newValue_;
+		savedValue = savedValue_;
+	}
+
+	void
+	OpcUaBooleanWidget::getDisplayValue(OpcUaBoolean& displayValue)
+	{
+		displayValue = displayValue_;
 	}
 
 	bool
 	OpcUaBooleanWidget::acceptValue(void)
 	{
-		if (value_ == newValue_) return false;
-		value_ = newValue_;
-		return true;
+		if (savedValue_ != displayValue_) {
+			savedValue_ = displayValue_;
+			return true;
+		}
+		return false;
 	}
 
 	void
 	OpcUaBooleanWidget::resetValue(void)
 	{
-		setValue(value_);
+		setDisplayValue(savedValue_);
 	}
 
 	bool
@@ -127,13 +134,13 @@ namespace OpcUaNodeSet
 		styleValue();
 
 		if (checkboxWidget_->checkState() == Qt::Checked) {
-			newValue_ = true;
+			displayValue_ = true;
 		}
 		else {
-			newValue_ = false;
+			displayValue_ = false;
 		}
 
-		if (value_ != newValue_) {
+		if (savedValue_ != displayValue_) {
 			emit update();
 		}
 	}

@@ -44,7 +44,7 @@ namespace OpcUaNodeSet
 		}
 
 		baseNode->getHistorizing(value);
-		setValue(value);
+		setSavedValue(value);
 	}
 
 }
