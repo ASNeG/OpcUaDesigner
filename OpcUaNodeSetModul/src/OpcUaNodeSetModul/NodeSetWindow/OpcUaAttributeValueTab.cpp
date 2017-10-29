@@ -238,13 +238,9 @@ namespace OpcUaNodeSet
         }
 
        	// check historizing
-        OpcUaBoolean historizing;
-        baseNode->getHistorizingSync(historizing);
-
-        OpcUaBoolean newHistorizing;
-        historizingWidget_->getValue(newHistorizing);
-
-        if (historizing != newHistorizing) {
+        if (historizingWidget_->acceptValue()) {
+            OpcUaBoolean newHistorizing;
+            historizingWidget_->getOldValue(newHistorizing);
         	baseNode->setHistorizing(newHistorizing);
         }
 
@@ -266,10 +262,14 @@ namespace OpcUaNodeSet
         OpcUaUInt32Array::SPtr newDimensionsArray = constructSPtr<OpcUaUInt32Array>();
         arrayDimensionsWidget_->getValue(newDimensionsArray);
 
-        if (dimensionsArray != *newDimensionsArray) {
-        	std::cout << "update" << std::endl;
-        	newDimensionsArray->out(std::cout); std::cout << std::endl;
-        	baseNode->setArrayDimensions(*newDimensionsArray);
+        if (newDimensionsArray.get() != nullptr) {
+        	if (dimensionsArray != *newDimensionsArray) {
+        		newDimensionsArray->out(std::cout); std::cout << std::endl;
+        		baseNode->setArrayDimensions(*newDimensionsArray);
+        	}
+        }
+        else {
+        	baseNode->unsetArrayDimensions();
         }
 
         // check data type

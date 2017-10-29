@@ -42,8 +42,9 @@ namespace OpcUaNodeSet
 		bool isValid(void);
 		void enabled(bool enabled);
 		void setValue(OpcUaBoolean& value);
-		void getValue(OpcUaBoolean& value);
-		void acceptValue(void);
+		void getOldValue(OpcUaBoolean& value);
+		void getNewValue(OpcUaBoolean& value);
+		bool acceptValue(void);
 		void resetValue(void);
 
 	signals:
@@ -57,6 +58,7 @@ namespace OpcUaNodeSet
 	  void styleValue(void);
 
 	  OpcUaBoolean value_;
+	  OpcUaBoolean newValue_;
 	  QCheckBox* checkboxWidget_;
 	  bool isValid_;
 	  bool checkOn_;

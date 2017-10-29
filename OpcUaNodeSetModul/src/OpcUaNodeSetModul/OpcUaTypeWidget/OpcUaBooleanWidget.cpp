@@ -29,6 +29,7 @@ namespace OpcUaNodeSet
 	, checkOn_(true)
 	, isValid_(true)
 	, value_(true)
+	, newValue_(true)
 	{
 		// widgets
 		checkboxWidget_ = new QCheckBox();
@@ -69,6 +70,7 @@ namespace OpcUaNodeSet
 	OpcUaBooleanWidget::setValue(OpcUaBoolean& value)
 	{
 		value_ = value;
+		newValue_ = value;
 
 		checkOn_ = false;
 		if (value == true) checkboxWidget_->setCheckState(Qt::Checked);
@@ -79,17 +81,23 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaBooleanWidget::getValue(OpcUaBoolean& value)
+	OpcUaBooleanWidget::getOldValue(OpcUaBoolean& value)
 	{
-		Qt::CheckState state = checkboxWidget_->checkState();
-		if (state == Qt::Checked) value = true;
-		else value = false;
+		value = value_;
 	}
 
 	void
+	OpcUaBooleanWidget::getNewValue(OpcUaBoolean& value)
+	{
+		value = newValue_;
+	}
+
+	bool
 	OpcUaBooleanWidget::acceptValue(void)
 	{
-		getValue(value_);
+		if (value_ == newValue_) return false;
+		value_ = newValue_;
+		return true;
 	}
 
 	void
@@ -118,10 +126,14 @@ namespace OpcUaNodeSet
 		isValid_ = checkValue();
 		styleValue();
 
-		OpcUaBoolean value;
-		getValue(value);
+		if (checkboxWidget_->checkState() == Qt::Checked) {
+			newValue_ = true;
+		}
+		else {
+			newValue_ = false;
+		}
 
-		if (value_ != value) {
+		if (value_ != newValue_) {
 			emit update();
 		}
 	}
