@@ -37,6 +37,7 @@ namespace OpcUaNodeSet
 	: QDialog()
 	, informationModel_(informationModel)
 	, dataType_(24)
+	, itemSelected_(false)
 	{
 		this->setWindowTitle(QString("Select Data Type Dialog"));
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
@@ -71,6 +72,12 @@ namespace OpcUaNodeSet
 	{
 	}
 
+	bool
+	SelectDataTypeDialog::itemSelected(void)
+	{
+		return itemSelected_;
+	}
+
 	OpcUaNodeId&
 	SelectDataTypeDialog::dataType(void)
 	{
@@ -94,6 +101,8 @@ namespace OpcUaNodeSet
 		NodeInfo* nodeInfo = v.value<NodeInfo*>();
 
 		nodeInfo->baseNode_->getNodeId(dataType_);
+
+		itemSelected_ = true;
 		close();
 	}
 

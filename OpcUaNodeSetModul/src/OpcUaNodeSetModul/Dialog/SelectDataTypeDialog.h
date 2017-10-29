@@ -41,6 +41,7 @@ namespace OpcUaNodeSet
 		SelectDataTypeDialog(InformationModel::SPtr& informationModel);
 		virtual ~SelectDataTypeDialog(void);
 
+		bool itemSelected(void);
 		OpcUaNodeId& dataType(void);
 
 	  public slots:
@@ -59,6 +60,7 @@ namespace OpcUaNodeSet
         //
         // data model
         //
+		bool itemSelected_;
 		InformationModel::SPtr informationModel_;
         OpcUaNodeId dataType_;
 
