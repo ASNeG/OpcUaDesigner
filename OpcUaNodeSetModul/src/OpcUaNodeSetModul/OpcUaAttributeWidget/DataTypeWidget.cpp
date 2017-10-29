@@ -24,6 +24,7 @@
 #include "OpcUaStackCore/BuildInTypes/OpcUaIdentifier.h"
 #include "OpcUaStackServer/InformationModel/InformationModelAccess.h"
 #include "OpcUaNodeSetModul/OpcUaAttributeWidget/DataTypeWidget.h"
+#include "OpcUaNodeSetModul/Dialog/SelectDataTypeDialog.h"
 
 using namespace OpcUaStackCore;
 using namespace OpcUaStackServer;
@@ -34,7 +35,12 @@ namespace OpcUaNodeSet
 
 	DataTypeWidget::DataTypeWidget(QWidget* parent)
 	: OpcUaNodeIdWidget()
+	, nodeInfo_(nullptr)
 	{
+		connect(
+			this, SIGNAL(selectDataType()),
+			this, SLOT(onSelectDataType())
+		);
 	}
 
 	DataTypeWidget::~DataTypeWidget(void)
@@ -44,6 +50,8 @@ namespace OpcUaNodeSet
 	void
 	DataTypeWidget::nodeChange(NodeInfo* nodeInfo)
 	{
+		nodeInfo_ = nodeInfo;
+
 		rootNodeId(OpcUaNodeId(OpcUaId_BaseDataType));
 		informationModel(nodeInfo->informationModel_);
 
@@ -52,6 +60,26 @@ namespace OpcUaNodeSet
 		nodeInfo->baseNode_->getDataTypeSync(dataTypeNodeId);
 		setValue(dataTypeNodeId);
 	}
+
+	void
+	DataTypeWidget::onSelectDataType(void)
+	{
+		//SelectDataTypeDialog dialog();
+		//dialog.exec();
+
+
+	}
+
+#if 0
+    	dialog.setArrayDimensions(arrayDimensions);
+    	dialog.exec();
+
+    	if (dialog.ok()) {
+    		OpcUaUInt32Array::SPtr ad = constructSPtr<OpcUaUInt32Array>();
+    		dialog.getArrayDimensions(ad);
+    		arrayDimensionsWidget_->nodeChange(ad);
+    	}
+#endif
 
 }
 

@@ -40,6 +40,12 @@ namespace OpcUaNodeSet
 		virtual ~DataTypeWidget(void);
 
 		void nodeChange(NodeInfo* nodeInfo);
+
+	  private slots:
+	    void onSelectDataType(void);
+
+	  private:
+	    NodeInfo* nodeInfo_;
 	};
 
 }
