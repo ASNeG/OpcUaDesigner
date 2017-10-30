@@ -39,10 +39,10 @@ namespace OpcUaNodeSet
 		bool isValid(void);
 		void nodeChange(NodeInfo* nodeInfo);
 		void enabled(bool enabled);
+
 		void getValue(OpcUaDataValue& dataValue);
 
 	signals:
-	  void valueChanged(OpcUaDataValue& dataValue, bool isValid);
       void update(void);
 
 	private slots:
@@ -55,6 +55,9 @@ namespace OpcUaNodeSet
 	  QLineEdit* textWidget_;
 	  bool isValid_;
 	  bool checkOn_;
+
+	  OpcUaDataValue savedValue_;
+	  OpcUaDataValue displayValue_;
 	};
 
 }

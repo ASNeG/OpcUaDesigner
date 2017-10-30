@@ -119,7 +119,6 @@ namespace OpcUaNodeSet
 		isValid_ = checkValue();
 		styleValue();
 		// FIXME: todo
-		emit valueChanged(dataValue, isValid_);
 	    emit update();
 	}
 
