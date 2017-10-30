@@ -42,7 +42,6 @@ namespace OpcUaNodeSet
 		void getValue(OpcUaInt32& valueRank);
 
 	signals:
-	  void valueChanged(OpcUaInt32& valueRank, bool isValid);
       void update(void);
 
 	private slots:

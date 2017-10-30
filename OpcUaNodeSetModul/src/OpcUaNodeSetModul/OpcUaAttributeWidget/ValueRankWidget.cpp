@@ -118,7 +118,6 @@ namespace OpcUaNodeSet
 		styleValue();
 		bool rc;
 		valueRank = textWidget_->text().toInt(&rc);
-		emit valueChanged(valueRank, isValid_);
 	    emit update();
 	}
 
