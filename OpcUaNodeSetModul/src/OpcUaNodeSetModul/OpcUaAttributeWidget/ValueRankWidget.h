@@ -36,10 +36,15 @@ namespace OpcUaNodeSet
 		ValueRankWidget(QWidget* parent = 0);
 		virtual ~ValueRankWidget(void);
 
+		void enabled(bool enabled);
 		bool isValid(void);
 		void nodeChange(NodeInfo* nodeInfo);
-		void enabled(bool enabled);
-		void getValue(OpcUaInt32& valueRank);
+		void setSavedValue(OpcUaInt32& savedValue);
+		void setDisplayValue(OpcUaInt32& displayValue);
+		void getSavedValue(OpcUaInt32& savedValue);
+		void getDisplayValue(OpcUaInt32& displayValue);
+		bool acceptValue(void);
+		void resetValue(void);
 
 	signals:
       void update(void);
@@ -54,6 +59,9 @@ namespace OpcUaNodeSet
 	  QLineEdit* textWidget_;
 	  bool isValid_;
 	  bool checkOn_;
+
+	  OpcUaInt32 savedValue_;
+	  OpcUaInt32 displayValue_;
 	};
 
 }

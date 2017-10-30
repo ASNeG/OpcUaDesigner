@@ -29,6 +29,8 @@ namespace OpcUaNodeSet
 	: QWidget()
 	, checkOn_(true)
 	, isValid_(true)
+	, savedValue_(-1)
+	, displayValue_(-1)
 	{
 		// widgets
 		textWidget_ = new QLineEdit();
@@ -84,10 +86,47 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	ValueRankWidget::getValue(OpcUaInt32& valueRank)
+	ValueRankWidget::setSavedValue(OpcUaInt32& savedValue)
 	{
-		bool rc;
-		valueRank = textWidget_->text().toInt(&rc);
+		savedValue_ = savedValue;
+
+		checkOn_ = false;
+		setDisplayValue(savedValue);
+		checkOn_ = true;
+	}
+
+	void
+	ValueRankWidget::setDisplayValue(OpcUaInt32& displayValue)
+	{
+		textWidget_->setText(QString("%1").arg((int32_t)displayValue));
+	}
+
+	void
+	ValueRankWidget::getSavedValue(OpcUaInt32& savedValue)
+	{
+		savedValue = savedValue_;
+	}
+
+	void
+	ValueRankWidget::getDisplayValue(OpcUaInt32& displayValue)
+	{
+		displayValue = displayValue_;
+	}
+
+	bool
+	ValueRankWidget::acceptValue(void)
+	{
+		if (savedValue_ != displayValue_) {
+			savedValue_ = displayValue_;
+			return true;
+		}
+		return false;
+	}
+
+	void
+	ValueRankWidget::resetValue(void)
+	{
+		setDisplayValue(savedValue_);
 	}
 
 	bool
@@ -118,6 +157,9 @@ namespace OpcUaNodeSet
 		styleValue();
 		bool rc;
 		valueRank = textWidget_->text().toInt(&rc);
+		if (rc) {
+			displayValue_ = valueRank;
+		}
 	    emit update();
 	}
 

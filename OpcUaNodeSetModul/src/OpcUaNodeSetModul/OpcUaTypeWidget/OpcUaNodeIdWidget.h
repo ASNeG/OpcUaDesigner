@@ -45,11 +45,11 @@ namespace OpcUaNodeSet
 		void informationModel(InformationModel::SPtr& informationModel);
 
 		void enabled(bool enabled);
+		bool isValid(void);
 		void setSavedValue(OpcUaNodeId& savedValue);
 		void setDisplayValue(OpcUaNodeId& displayValue);
 		void getSavedValue(OpcUaNodeId& savedValue);
 		void getDisplayValue(OpcUaNodeId& displayValue);
-		bool isValid(void);
 		bool acceptValue(void);
 		void resetValue(void);
 

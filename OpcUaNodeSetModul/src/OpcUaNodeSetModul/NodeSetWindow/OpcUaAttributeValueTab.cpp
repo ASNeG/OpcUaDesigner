@@ -280,14 +280,10 @@ namespace OpcUaNodeSet
         }
 
       	// check value rank
-        OpcUaInt32 valueRank;
-        baseNode->getValueRankSync(valueRank);
-
-        OpcUaInt32 newValueRank;
-        valueRankWidget_->getValue(newValueRank);
-
-        if (valueRank != newValueRank) {
-        	baseNode->setValueRank(newValueRank);
+        if (valueRankWidget_->acceptValue()) {
+            OpcUaInt32 savedValue;
+            valueRankWidget_->getSavedValue(savedValue);
+        	baseNode->setValueRank(savedValue);
         }
 
     	orderOkAction_->setEnabled(false);
