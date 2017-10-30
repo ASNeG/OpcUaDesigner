@@ -23,6 +23,7 @@
 #include <QWidget>
 
 class QLineEdit;
+class QComboBox;
 
 namespace OpcUaNodeSet
 {
@@ -51,11 +52,13 @@ namespace OpcUaNodeSet
 
 	private slots:
 	  void onTextChangedTextWidget(const QString& text);
+	  void onCurrentIndexChangedComboboxWidget(int index);
 
 	private:
 	  bool checkValue(void);
 	  void styleValue(void);
 
+	  QComboBox* comboBoxWidget_;
 	  QLineEdit* textWidget_;
 	  bool isValid_;
 	  bool checkOn_;
