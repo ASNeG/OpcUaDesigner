@@ -43,28 +43,24 @@ namespace OpcUaNodeSet
 		for (it = statucCodeVec.begin(); it != statucCodeVec.end(); it++) {
 			statusCodeList_ << QString(it->c_str());
 		}
+		statusCodeList_ << "Error";
 
 		// widgets
 		comboBoxWidget_ = new QComboBox();
 		comboBoxWidget_->addItems(statusCodeList_);
-		comboBoxWidget_->setFixedWidth(190);
-
-		textWidget_ = new QLineEdit();
-		textWidget_->setFixedWidth(195);
-
+		comboBoxWidget_->setFixedWidth(400);
 
 		// layout
 		QHBoxLayout* hBoxLayout = new QHBoxLayout();
 		hBoxLayout->addWidget(comboBoxWidget_);
-		hBoxLayout->addWidget(textWidget_);
 		hBoxLayout->setMargin(0);
 
 		//
 		// actions
 		//
-		connect(
-			textWidget_, SIGNAL(textChanged(const QString&)),
-			this, SLOT(onTextChanged(const QString&))
+		comboBoxWidget_(
+			comboBoxWidget_, SIGNAL(currentIndexChanged(const QString&)),
+			this, SLOT(onCurrentIndexChanged(const QString&))
 		);
 
 		setLayout(hBoxLayout);
@@ -77,7 +73,6 @@ namespace OpcUaNodeSet
 	void
 	OpcUaStatusCodeWidget::enabled(bool enabled)
 	{
-		textWidget_->setEnabled(enabled);
 		comboBoxWidget_->setEnabled(enabled);
 	}
 
@@ -142,22 +137,17 @@ namespace OpcUaNodeSet
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	void
-	OpcUaStatusCodeWidget::onTextChanged(const QString& text)
+	OpcUaStatusCodeWidget::onCurrentIndexChanged(const QString& text)
 	{
 		if (!checkOn_) return;
+
+		displayValue_ = OpcUaStatusCodeMap::statusCode(text.toStdString());
 
 		styleValue();
 		if (savedValue_ != displayValue_) {
 			emit update();
 		}
 	}
-
-	void
-	OpcUaStatusCodeWidget::onClicked(void)
-	{
-		emit selectDataType();
-	}
-
 
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
@@ -169,12 +159,6 @@ namespace OpcUaNodeSet
 	void
 	OpcUaStatusCodeWidget::styleValue(void)
 	{
-		if (isValid_) {
-			textWidget_->setStyleSheet("background-color:none;");
-		}
-		else {
-			textWidget_->setStyleSheet("background-color:red;");
-		}
 	}
 
 }

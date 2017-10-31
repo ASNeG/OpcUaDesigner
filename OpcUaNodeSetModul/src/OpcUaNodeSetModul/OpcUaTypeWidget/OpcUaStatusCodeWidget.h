@@ -55,8 +55,7 @@ namespace OpcUaNodeSet
 		void selectDataType(void);
 
 	  private slots:
-		void onTextChanged(const QString& text);
-		void onClicked(void);
+		void onCurrentIndexChanged(const QString& text);
 
 	  private:
 		bool checkValue(void);
@@ -68,7 +67,6 @@ namespace OpcUaNodeSet
 		bool checkOn_;
 
 		QStringList statusCodeList_;
-		QLineEdit* textWidget_;
 		QComboBox* comboBoxWidget_;
 	};
 
