@@ -19,10 +19,13 @@
 #define __OpcUaNodeSet_OpcUaStatusCodeWidget_h__
 
 #include <QWidget>
+#include <QStringList>
+#include <QString>
 
 #include "OpcUaStackCore/BuildInTypes/OpcUaStatusCode.h"
 
 class QLineEdit;
+class QComboBox;
 class QPushButton;
 
 using namespace OpcUaStackCore;
@@ -65,7 +68,9 @@ namespace OpcUaNodeSet
 		bool isValid_;
 		bool checkOn_;
 
+		QStringList statusCodeList_;
 		QLineEdit* textWidget_;
+		QComboBox* comboBoxWidget_;
 		QPushButton* buttonWidget_;
 	};
 
