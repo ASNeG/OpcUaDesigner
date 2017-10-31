@@ -26,7 +26,6 @@
 
 class QLineEdit;
 class QComboBox;
-class QPushButton;
 
 using namespace OpcUaStackCore;
 
@@ -71,7 +70,6 @@ namespace OpcUaNodeSet
 		QStringList statusCodeList_;
 		QLineEdit* textWidget_;
 		QComboBox* comboBoxWidget_;
-		QPushButton* buttonWidget_;
 	};
 
 }

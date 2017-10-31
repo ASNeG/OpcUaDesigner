@@ -21,7 +21,6 @@
 #include <QVBoxLayout>
 #include <QLineEdit>
 #include <QComboBox>
-#include <QPushButton>
 #include <QIcon>
 
 #include "OpcUaStackCore/BuildInTypes/OpcUaStatusCode.h"
@@ -41,28 +40,21 @@ namespace OpcUaNodeSet
 		std::vector<std::string> statucCodeVec;
 		std::vector<std::string>::iterator it;
 		OpcUaStatusCodeMap::getStatusCodeVec(statucCodeVec);
-		std::cout << "Vec-Size=" << statucCodeVec.size() << std::endl;
 		for (it = statucCodeVec.begin(); it != statucCodeVec.end(); it++) {
-			std::cout << "..." << *it << std::endl;
 			statusCodeList_ << QString(it->c_str());
 		}
 
 		// widgets
-		buttonWidget_ = new QPushButton();
-		buttonWidget_->setIcon(QIcon(":/images/Tree.png"));
-		buttonWidget_->setFixedWidth(30);
-
 		comboBoxWidget_ = new QComboBox();
 		comboBoxWidget_->addItems(statusCodeList_);
-		comboBoxWidget_->setFixedWidth(30);
+		comboBoxWidget_->setFixedWidth(190);
 
 		textWidget_ = new QLineEdit();
-		textWidget_->setFixedWidth(365);
+		textWidget_->setFixedWidth(195);
 
 
 		// layout
 		QHBoxLayout* hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(buttonWidget_);
 		hBoxLayout->addWidget(comboBoxWidget_);
 		hBoxLayout->addWidget(textWidget_);
 		hBoxLayout->setMargin(0);
@@ -73,10 +65,6 @@ namespace OpcUaNodeSet
 		connect(
 			textWidget_, SIGNAL(textChanged(const QString&)),
 			this, SLOT(onTextChanged(const QString&))
-		);
-		connect(
-			buttonWidget_, SIGNAL(clicked()),
-			this, SLOT(onClicked())
 		);
 
 		setLayout(hBoxLayout);
@@ -90,7 +78,7 @@ namespace OpcUaNodeSet
 	OpcUaStatusCodeWidget::enabled(bool enabled)
 	{
 		textWidget_->setEnabled(enabled);
-		buttonWidget_->setEnabled(enabled);
+		comboBoxWidget_->setEnabled(enabled);
 	}
 
 	void
