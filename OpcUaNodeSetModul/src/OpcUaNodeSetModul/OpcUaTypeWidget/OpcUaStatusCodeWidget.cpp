@@ -35,17 +35,18 @@ namespace OpcUaNodeSet
 	, checkOn_(true)
 	{
 		// widgets
-		textWidget_ = new QLineEdit();
-		textWidget_->setFixedWidth(365);
-
 		buttonWidget_ = new QPushButton();
 		buttonWidget_->setIcon(QIcon(":/images/Tree.png"));
 		buttonWidget_->setFixedWidth(30);
 
+		textWidget_ = new QLineEdit();
+		textWidget_->setFixedWidth(365);
+
+
 		// layout
 		QHBoxLayout* hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(textWidget_);
 		hBoxLayout->addWidget(buttonWidget_);
+		hBoxLayout->addWidget(textWidget_);
 		hBoxLayout->setMargin(0);
 
 		//
