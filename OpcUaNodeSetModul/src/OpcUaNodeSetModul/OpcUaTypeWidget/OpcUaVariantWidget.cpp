@@ -17,69 +17,40 @@
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-#include <QCheckBox>
-#include <QDateTimeEdit>
-#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
 #include <QIcon>
 
-#include "OpcUaNodeSetModul/OpcUaTypeWidget/OpcUaDataValueWidget.h"
+#include "OpcUaNodeSetModul/OpcUaTypeWidget/OpcUaVariantWidget.h"
 
 namespace OpcUaNodeSet
 {
 
 
-	OpcUaDataValueWidget::OpcUaDataValueWidget(QWidget* parent)
+	OpcUaVariantWidget::OpcUaVariantWidget(QWidget* parent)
 	: QWidget()
 	, savedValue_()
 	, displayValue_()
 	, isValid_(false)
 	, checkOn_(true)
 	{
-		QLabel* label;
-
-		// --------------------------------------------------------------------
-		// --------------------------------------------------------------------
-		//
 		// widgets
-		//
-		// --------------------------------------------------------------------
-		// --------------------------------------------------------------------
+		textWidget_ = new QLineEdit();
+		textWidget_->setFixedWidth(365);
 
-		// source time
-		QHBoxLayout* sourceTimeLayout = new QHBoxLayout();
-		label = new QLabel(QString("SourceTime"));
-		sourceTimeLayout->addWidget(label);
-
-		sourceTimeExistWidget_ = new QCheckBox();
-		sourceTimeLayout->addWidget(sourceTimeExistWidget_);
-
-		sourceTimeValueWidget_ = new QDateTimeEdit();
-		sourceTimeLayout->addWidget(sourceTimeValueWidget_);
-
-
-		// source time
-		QHBoxLayout* serverTimeLayout = new QHBoxLayout();
-		label = new QLabel(QString("ServerTime"));
-		serverTimeLayout->addWidget(label);
-
-		serverTimeExistWidget_ = new QCheckBox();
-		serverTimeLayout->addWidget(serverTimeExistWidget_);
-
-		serverTimeValueWidget_ = new QDateTimeEdit();
-		serverTimeLayout->addWidget(serverTimeValueWidget_);
-
+		buttonWidget_ = new QPushButton();
+		buttonWidget_->setIcon(QIcon(":/images/Tree.png"));
+		buttonWidget_->setFixedWidth(30);
 
 		// layout
-		QVBoxLayout* vBoxLayout = new QVBoxLayout();
-		vBoxLayout->addLayout(sourceTimeLayout);
-		vBoxLayout->addLayout(serverTimeLayout);
-		vBoxLayout->setMargin(0);
-		setLayout(vBoxLayout);
+		QHBoxLayout* hBoxLayout = new QHBoxLayout();
+		hBoxLayout->addWidget(textWidget_);
+		hBoxLayout->addWidget(buttonWidget_);
+		hBoxLayout->setMargin(0);
 
 		//
 		// actions
 		//
-#if 0
 		connect(
 			textWidget_, SIGNAL(textChanged(const QString&)),
 			this, SLOT(onTextChanged(const QString&))
@@ -88,22 +59,23 @@ namespace OpcUaNodeSet
 			buttonWidget_, SIGNAL(clicked()),
 			this, SLOT(onClicked())
 		);
-#endif
+
+		setLayout(hBoxLayout);
 	}
 
-	OpcUaDataValueWidget::~OpcUaDataValueWidget(void)
+	OpcUaVariantWidget::~OpcUaVariantWidget(void)
 	{
 	}
 
 	void
-	OpcUaDataValueWidget::enabled(bool enabled)
+	OpcUaVariantWidget::enabled(bool enabled)
 	{
-		//textWidget_->setEnabled(enabled);
-		//buttonWidget_->setEnabled(enabled);
+		textWidget_->setEnabled(enabled);
+		buttonWidget_->setEnabled(enabled);
 	}
 
 	void
-	OpcUaDataValueWidget::setSavedValue(OpcUaDataValue& savedValue)
+	OpcUaVariantWidget::setSavedValue(OpcUaVariant& savedValue)
 	{
 		savedValue_ = savedValue;
 
@@ -113,7 +85,7 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaDataValueWidget::setDisplayValue(OpcUaDataValue& displayValue)
+	OpcUaVariantWidget::setDisplayValue(OpcUaVariant& displayValue)
 	{
 		displayValue_ = displayValue;
 
@@ -121,25 +93,25 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaDataValueWidget::getSavedValue(OpcUaDataValue& savedValue)
+	OpcUaVariantWidget::getSavedValue(OpcUaVariant& savedValue)
 	{
 		savedValue = savedValue_;
 	}
 
 	void
-	OpcUaDataValueWidget::getDisplayValue(OpcUaDataValue& displayValue)
+	OpcUaVariantWidget::getDisplayValue(OpcUaVariant& displayValue)
 	{
 		displayValue = displayValue_;
 	}
 
 	bool
-	OpcUaDataValueWidget::isValid(void)
+	OpcUaVariantWidget::isValid(void)
 	{
 		return isValid_;
 	}
 
 	bool
-	OpcUaDataValueWidget::acceptValue(void)
+	OpcUaVariantWidget::acceptValue(void)
 	{
 		if (savedValue_ != displayValue_) {
 			savedValue_ = displayValue_;
@@ -150,7 +122,7 @@ namespace OpcUaNodeSet
 
 
 	void
-	OpcUaDataValueWidget::resetValue(void)
+	OpcUaVariantWidget::resetValue(void)
 	{
 		setDisplayValue(savedValue_);
 	}
@@ -163,7 +135,7 @@ namespace OpcUaNodeSet
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	void
-	OpcUaDataValueWidget::onTextChanged(const QString& text)
+	OpcUaVariantWidget::onTextChanged(const QString& text)
 	{
 		if (!checkOn_) return;
 
@@ -174,7 +146,7 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	OpcUaDataValueWidget::onClicked(void)
+	OpcUaVariantWidget::onClicked(void)
 	{
 		emit selectDataType();
 	}
@@ -188,13 +160,13 @@ namespace OpcUaNodeSet
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	void
-	OpcUaDataValueWidget::styleValue(void)
+	OpcUaVariantWidget::styleValue(void)
 	{
 		if (isValid_) {
-			//textWidget_->setStyleSheet("background-color:none;");
+			textWidget_->setStyleSheet("background-color:none;");
 		}
 		else {
-			//textWidget_->setStyleSheet("background-color:red;");
+			textWidget_->setStyleSheet("background-color:red;");
 		}
 	}
 
