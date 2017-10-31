@@ -30,6 +30,8 @@ using namespace OpcUaStackCore;
 namespace OpcUaNodeSet
 {
 
+	class OpcUaStatusCodeWidget;
+
 	class OpcUaDataValueWidget
 	: public QWidget
 	{
@@ -64,6 +66,8 @@ namespace OpcUaNodeSet
 		OpcUaDataValue displayValue_;
 		bool isValid_;
 		bool checkOn_;
+
+		OpcUaStatusCodeWidget* statusCodeWidget_;
 
 		QCheckBox* sourceTimeExistWidget_;
 		QDateTimeEdit* sourceTimeValueWidget_;

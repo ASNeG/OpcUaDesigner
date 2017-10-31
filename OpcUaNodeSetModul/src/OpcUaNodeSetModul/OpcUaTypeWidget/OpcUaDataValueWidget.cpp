@@ -23,6 +23,7 @@
 #include <QIcon>
 
 #include "OpcUaNodeSetModul/OpcUaTypeWidget/OpcUaDataValueWidget.h"
+#include "OpcUaNodeSetModul/OpcUaTypeWidget/OpcUaStatusCodeWidget.h"
 
 namespace OpcUaNodeSet
 {
@@ -44,6 +45,10 @@ namespace OpcUaNodeSet
 		//
 		// --------------------------------------------------------------------
 		// --------------------------------------------------------------------
+
+		// status code
+		statusCodeWidget_ = new OpcUaStatusCodeWidget();
+
 
 		// source time
 		QHBoxLayout* sourceTimeLayout = new QHBoxLayout();
@@ -71,6 +76,7 @@ namespace OpcUaNodeSet
 
 		// layout
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
+		vBoxLayout->addWidget(statusCodeWidget_);
 		vBoxLayout->addLayout(sourceTimeLayout);
 		vBoxLayout->addLayout(serverTimeLayout);
 		vBoxLayout->setMargin(0);
