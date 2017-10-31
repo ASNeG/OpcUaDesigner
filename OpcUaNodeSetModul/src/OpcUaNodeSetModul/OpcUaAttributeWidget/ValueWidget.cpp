@@ -35,9 +35,9 @@ namespace OpcUaNodeSet
 		textWidget_->setFixedWidth(400);
 
 		// layout
-		QHBoxLayout* hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(textWidget_);
-		hBoxLayout->setMargin(0);
+		QVBoxLayout* vBoxLayout = new QVBoxLayout();
+		vBoxLayout->addWidget(textWidget_);
+		vBoxLayout->setMargin(0);
 
 		//
 		// actions
@@ -47,7 +47,7 @@ namespace OpcUaNodeSet
 			this, SLOT(onTextChangedTextWidget(const QString&))
 		);
 
-		setLayout(hBoxLayout);
+		setLayout(vBoxLayout);
 	}
 
 	ValueWidget::~ValueWidget(void)
