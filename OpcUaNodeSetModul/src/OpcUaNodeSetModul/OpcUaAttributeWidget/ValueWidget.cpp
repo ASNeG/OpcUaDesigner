@@ -26,100 +26,24 @@ namespace OpcUaNodeSet
 
 
 	ValueWidget::ValueWidget(QWidget* parent)
-	: QWidget()
-	, checkOn_(true)
-	, isValid_(true)
+	: OpcUaDataValueWidget()
 	{
-		// widgets
-		textWidget_ = new QLineEdit();
-		textWidget_->setFixedWidth(400);
-
-		// layout
-		QVBoxLayout* vBoxLayout = new QVBoxLayout();
-		vBoxLayout->addWidget(textWidget_);
-		vBoxLayout->setMargin(0);
-
-		//
-		// actions
-		//
-		connect(
-			textWidget_, SIGNAL(textChanged(const QString&)),
-			this, SLOT(onTextChangedTextWidget(const QString&))
-		);
-
-		setLayout(vBoxLayout);
 	}
 
 	ValueWidget::~ValueWidget(void)
 	{
 	}
 
-	bool
-	ValueWidget::isValid(void)
-	{
-		return isValid_;
-	}
-
 	void
 	ValueWidget::nodeChange(NodeInfo* nodeInfo)
 	{
+		OpcUaDataValue dataValue;
+
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		if (baseNode->isNullValue()) {
-			textWidget_->setText(QString(""));
+		if (!baseNode->isNullValue()) {
+			baseNode->getValue(dataValue);
 		}
-
-		checkOn_ = false;
-		OpcUaDataValue dataValue;
-		baseNode->getValue(dataValue);
-		std::stringstream ss;
-		dataValue.out(ss);
-		textWidget_->setText(QString(ss.str().c_str()));
-		isValid_ = checkValue();
-		styleValue();
-		checkOn_ = true;
-	}
-
-	void
-	ValueWidget::enabled(bool enabled)
-	{
-		textWidget_->setEnabled(enabled);
-	}
-
-	void
-	ValueWidget::getValue(OpcUaDataValue& dataValue)
-	{
-		std::string str = textWidget_->text().toStdString();
-		// FIXME: todo
-	}
-
-	bool
-	ValueWidget::checkValue(void)
-	{
-		// FIXME: todo
-		return true;
-	}
-
-	void
-	ValueWidget::styleValue(void)
-	{
-		if (isValid_) {
-			textWidget_->setStyleSheet("background-color:none;");
-		}
-		else {
-			textWidget_->setStyleSheet("background-color:red;");
-		}
-	}
-
-	void
-	ValueWidget::onTextChangedTextWidget(const QString& text)
-	{
-		if (!checkOn_) return;
-
-		OpcUaDataValue dataValue;
-		isValid_ = checkValue();
-		styleValue();
-		// FIXME: todo
-	    emit update();
+		setSavedValue(dataValue);
 	}
 
 }

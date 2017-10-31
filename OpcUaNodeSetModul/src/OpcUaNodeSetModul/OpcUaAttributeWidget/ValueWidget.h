@@ -19,6 +19,7 @@
 #define __OpcUaNodeSet_ValueWidget_h__
 
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
+#include "OpcUaNodeSetModul/OpcUaTypeWidget/OpcUaDataValueWidget.h"
 
 #include <QWidget>
 
@@ -28,7 +29,7 @@ namespace OpcUaNodeSet
 {
 
 	class ValueWidget
-	: public QWidget
+	: public OpcUaDataValueWidget
 	{
 		Q_OBJECT
 
@@ -36,28 +37,7 @@ namespace OpcUaNodeSet
 		ValueWidget(QWidget* parent = 0);
 		virtual ~ValueWidget(void);
 
-		bool isValid(void);
 		void nodeChange(NodeInfo* nodeInfo);
-		void enabled(bool enabled);
-
-		void getValue(OpcUaDataValue& dataValue);
-
-	signals:
-      void update(void);
-
-	private slots:
-	  void onTextChangedTextWidget(const QString& text);
-
-	private:
-	  bool checkValue(void);
-	  void styleValue(void);
-
-	  QLineEdit* textWidget_;
-	  bool isValid_;
-	  bool checkOn_;
-
-	  OpcUaDataValue savedValue_;
-	  OpcUaDataValue displayValue_;
 	};
 
 }

@@ -22,8 +22,8 @@
 
 #include "OpcUaStackCore/BuildInTypes/OpcUaDataValue.h"
 
-class QLineEdit;
-class QPushButton;
+class QCheckBox;
+class QDateTimeEdit;
 
 using namespace OpcUaStackCore;
 
@@ -65,8 +65,13 @@ namespace OpcUaNodeSet
 		bool isValid_;
 		bool checkOn_;
 
-		QLineEdit* textWidget_;
-		QPushButton* buttonWidget_;
+		QCheckBox* sourceTimeExistWidget_;
+		QDateTimeEdit* sourceTimeValueWidget_;
+
+		QCheckBox* serverTimeExistWidget_;
+		QDateTimeEdit* serverTimeValueWidget_;
+
+		QCheckBox* valueExistWidget_;
 	};
 
 }

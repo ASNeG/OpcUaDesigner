@@ -17,8 +17,9 @@
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-#include <QLineEdit>
-#include <QPushButton>
+#include <QCheckBox>
+#include <QDateTimeEdit>
+#include <QLabel>
 #include <QIcon>
 
 #include "OpcUaNodeSetModul/OpcUaTypeWidget/OpcUaDataValueWidget.h"
@@ -34,23 +35,62 @@ namespace OpcUaNodeSet
 	, isValid_(false)
 	, checkOn_(true)
 	{
+		QLabel* label;
+
+		// --------------------------------------------------------------------
+		// --------------------------------------------------------------------
+		//
 		// widgets
+		//
+		// --------------------------------------------------------------------
+		// --------------------------------------------------------------------
+
+
+#if 0
 		textWidget_ = new QLineEdit();
 		textWidget_->setFixedWidth(365);
 
 		buttonWidget_ = new QPushButton();
 		buttonWidget_->setIcon(QIcon(":/images/Tree.png"));
 		buttonWidget_->setFixedWidth(30);
+#endif
+
+
+		// source time
+		QHBoxLayout* sourceTimeLayout = new QHBoxLayout();
+		label = new QLabel(QString("SourceTime"));
+		sourceTimeLayout->addWidget(label);
+
+		sourceTimeExistWidget_ = new QCheckBox();
+		sourceTimeLayout->addWidget(sourceTimeExistWidget_);
+
+		sourceTimeValueWidget_ = new QDateTimeEdit();
+		sourceTimeLayout->addWidget(sourceTimeValueWidget_);
+
+
+		// source time
+		QHBoxLayout* serverTimeLayout = new QHBoxLayout();
+		label = new QLabel(QString("ServerTime"));
+		serverTimeLayout->addWidget(label);
+
+		serverTimeExistWidget_ = new QCheckBox();
+		serverTimeLayout->addWidget(serverTimeExistWidget_);
+
+		serverTimeValueWidget_ = new QDateTimeEdit();
+		serverTimeLayout->addWidget(serverTimeValueWidget_);
+
 
 		// layout
-		QHBoxLayout* hBoxLayout = new QHBoxLayout();
-		hBoxLayout->addWidget(textWidget_);
-		hBoxLayout->addWidget(buttonWidget_);
-		hBoxLayout->setMargin(0);
+		QVBoxLayout* vBoxLayout = new QVBoxLayout();
+		vBoxLayout->addLayout(sourceTimeLayout);
+		vBoxLayout->addLayout(serverTimeLayout);
+		vBoxLayout->setMargin(0);
+		setLayout(vBoxLayout);
 
 		//
 		// actions
 		//
+#if 0
 		connect(
 			textWidget_, SIGNAL(textChanged(const QString&)),
 			this, SLOT(onTextChanged(const QString&))
@@ -59,8 +99,7 @@ namespace OpcUaNodeSet
 			buttonWidget_, SIGNAL(clicked()),
 			this, SLOT(onClicked())
 		);
-
-		setLayout(hBoxLayout);
+#endif
 	}
 
 	OpcUaDataValueWidget::~OpcUaDataValueWidget(void)
@@ -70,8 +109,8 @@ namespace OpcUaNodeSet
 	void
 	OpcUaDataValueWidget::enabled(bool enabled)
 	{
-		textWidget_->setEnabled(enabled);
-		buttonWidget_->setEnabled(enabled);
+		//textWidget_->setEnabled(enabled);
+		//buttonWidget_->setEnabled(enabled);
 	}
 
 	void
@@ -163,10 +202,10 @@ namespace OpcUaNodeSet
 	OpcUaDataValueWidget::styleValue(void)
 	{
 		if (isValid_) {
-			textWidget_->setStyleSheet("background-color:none;");
+			//textWidget_->setStyleSheet("background-color:none;");
 		}
 		else {
-			textWidget_->setStyleSheet("background-color:red;");
+			//textWidget_->setStyleSheet("background-color:red;");
 		}
 	}
 
