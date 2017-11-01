@@ -58,9 +58,9 @@ namespace OpcUaNodeSet
 		//
 		// actions
 		//
-		comboBoxWidget_(
-			comboBoxWidget_, SIGNAL(currentIndexChanged(const QString&)),
-			this, SLOT(onCurrentIndexChanged(const QString&))
+		connect(
+			comboBoxWidget_, SIGNAL(currentTextChanged(const QString&)),
+			this, SLOT(onCurrentTextChanged(const QString&))
 		);
 
 		setLayout(hBoxLayout);
@@ -90,6 +90,10 @@ namespace OpcUaNodeSet
 	OpcUaStatusCodeWidget::setDisplayValue(OpcUaStatusCode& displayValue)
 	{
 		displayValue_ = displayValue;
+
+		std::string statusCodeString = OpcUaStatusCodeMap::shortString(displayValue);
+		if (statusCodeString == "") statusCodeString = "Error";
+		comboBoxWidget_->setCurrentText(QString(statusCodeString.c_str()));
 
 		styleValue();
 	}
@@ -137,12 +141,19 @@ namespace OpcUaNodeSet
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	void
-	OpcUaStatusCodeWidget::onCurrentIndexChanged(const QString& text)
+	OpcUaStatusCodeWidget::onCurrentTextChanged(const QString& text)
 	{
 		if (!checkOn_) return;
 
 		displayValue_ = OpcUaStatusCodeMap::statusCode(text.toStdString());
+		if (displayValue_ == BadStatusCodeUnknown) {
+			isValid_ = false;
+		}
+		else {
+			isValid_ = true;
+		}
 
+		std::cout << "isValid=" << isValid_ << std::endl;
 		styleValue();
 		if (savedValue_ != displayValue_) {
 			emit update();
@@ -159,6 +170,7 @@ namespace OpcUaNodeSet
 	void
 	OpcUaStatusCodeWidget::styleValue(void)
 	{
+		// nothing to do
 	}
 
 }

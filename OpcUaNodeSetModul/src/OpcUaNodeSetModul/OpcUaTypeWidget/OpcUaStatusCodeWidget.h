@@ -52,10 +52,9 @@ namespace OpcUaNodeSet
 
 	  signals:
 		void update(void);
-		void selectDataType(void);
 
 	  private slots:
-		void onCurrentIndexChanged(const QString& text);
+		void onCurrentTextChanged(const QString& text);
 
 	  private:
 		bool checkValue(void);
