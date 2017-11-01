@@ -207,11 +207,15 @@ namespace OpcUaNodeSet
         	baseNode->setValueRank(savedValue);
         }
 
+        // check value
+        if (valueWidget_->acceptValue()) {
+             OpcUaDataValue savedValue;
+             valueWidget_->getSavedValue(savedValue);
+         	baseNode->setValue(savedValue);
+         }
+
     	orderOkAction_->setEnabled(false);
     	orderDeleteAction_->setEnabled(false);
-
-    	// check value
-    	// FIXME: todo
 
     	emit updateTab();
     }

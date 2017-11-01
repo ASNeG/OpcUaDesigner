@@ -85,16 +85,11 @@ namespace OpcUaNodeSet
 		//
 		// actions
 		//
-#if 0
 		connect(
-			textWidget_, SIGNAL(textChanged(const QString&)),
-			this, SLOT(onTextChanged(const QString&))
+			statusCodeWidget_, SIGNAL(update()),
+			this, SLOT(onUpdateStatusCode())
 		);
-		connect(
-			buttonWidget_, SIGNAL(clicked()),
-			this, SLOT(onClicked())
-		);
-#endif
+
 	}
 
 	OpcUaDataValueWidget::~OpcUaDataValueWidget(void)
@@ -104,8 +99,7 @@ namespace OpcUaNodeSet
 	void
 	OpcUaDataValueWidget::enabled(bool enabled)
 	{
-		//textWidget_->setEnabled(enabled);
-		//buttonWidget_->setEnabled(enabled);
+		statusCodeWidget_->setEnabled(enabled);
 	}
 
 	void
@@ -113,9 +107,9 @@ namespace OpcUaNodeSet
 	{
 		savedValue_ = savedValue;
 
-		checkOn_ = false;
-		setDisplayValue(savedValue);
-		checkOn_ = true;
+		OpcUaStatusCode statusCode;
+		statusCode = savedValue_.statusCode();
+		statusCodeWidget_->setSavedValue(statusCode);
 	}
 
 	void
@@ -123,7 +117,9 @@ namespace OpcUaNodeSet
 	{
 		displayValue_ = displayValue;
 
-		styleValue();
+		OpcUaStatusCode statusCode;
+		statusCode = savedValue_.statusCode();
+		statusCodeWidget_->setDisplayValue(statusCode);
 	}
 
 	void
@@ -141,7 +137,8 @@ namespace OpcUaNodeSet
 	bool
 	OpcUaDataValueWidget::isValid(void)
 	{
-		return isValid_;
+		return
+		    statusCodeWidget_->isValid();
 	}
 
 	bool
@@ -149,6 +146,9 @@ namespace OpcUaNodeSet
 	{
 		if (savedValue_ != displayValue_) {
 			savedValue_ = displayValue_;
+
+			statusCodeWidget_->acceptValue();
+
 			return true;
 		}
 		return false;
@@ -158,7 +158,7 @@ namespace OpcUaNodeSet
 	void
 	OpcUaDataValueWidget::resetValue(void)
 	{
-		setDisplayValue(savedValue_);
+		statusCodeWidget_->resetValue();
 	}
 
 	// ------------------------------------------------------------------------
@@ -169,39 +169,13 @@ namespace OpcUaNodeSet
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	void
-	OpcUaDataValueWidget::onTextChanged(const QString& text)
+	OpcUaDataValueWidget::onUpdateStatusCode(void)
 	{
-		if (!checkOn_) return;
+		OpcUaStatusCode statusCode;
+		statusCodeWidget_->getDisplayValue(statusCode);
+		displayValue_.statusCode(statusCode);
 
-		styleValue();
-		if (savedValue_ != displayValue_) {
-			emit update();
-		}
-	}
-
-	void
-	OpcUaDataValueWidget::onClicked(void)
-	{
-		emit selectDataType();
-	}
-
-
-	// ------------------------------------------------------------------------
-	// ------------------------------------------------------------------------
-	//
-	// private functions
-	//
-	// ------------------------------------------------------------------------
-	// ------------------------------------------------------------------------
-	void
-	OpcUaDataValueWidget::styleValue(void)
-	{
-		if (isValid_) {
-			//textWidget_->setStyleSheet("background-color:none;");
-		}
-		else {
-			//textWidget_->setStyleSheet("background-color:red;");
-		}
+		emit update();
 	}
 
 }

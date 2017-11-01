@@ -55,12 +55,10 @@ namespace OpcUaNodeSet
 		void selectDataType(void);
 
 	  private slots:
-		void onTextChanged(const QString& text);
-		void onClicked(void);
+		void onUpdateStatusCode(void);
 
 	  private:
 		bool checkValue(void);
-		void styleValue(void);
 
 		OpcUaDataValue savedValue_;
 		OpcUaDataValue displayValue_;
