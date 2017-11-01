@@ -48,7 +48,7 @@ namespace OpcUaNodeSet
 		// widgets
 		comboBoxWidget_ = new QComboBox();
 		comboBoxWidget_->addItems(statusCodeList_);
-		comboBoxWidget_->setFixedWidth(400);
+		comboBoxWidget_->setFixedWidth(280);
 
 		// layout
 		QHBoxLayout* hBoxLayout = new QHBoxLayout();

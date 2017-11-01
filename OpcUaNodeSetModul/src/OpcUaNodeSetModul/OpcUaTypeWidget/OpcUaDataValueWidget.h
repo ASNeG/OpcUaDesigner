@@ -65,6 +65,7 @@ namespace OpcUaNodeSet
 		bool isValid_;
 		bool checkOn_;
 
+		QCheckBox* statusCodeExistWidget_;
 		OpcUaStatusCodeWidget* statusCodeWidget_;
 
 		QCheckBox* sourceTimeExistWidget_;

@@ -47,12 +47,24 @@ namespace OpcUaNodeSet
 		// --------------------------------------------------------------------
 
 		// status code
+		QHBoxLayout* statusCodeLayout = new QHBoxLayout();
+		label = new QLabel(QString("StatusCode"));
+		label->setFixedWidth(80);
+		statusCodeLayout->addWidget(label);
+
+		statusCodeExistWidget_ = new QCheckBox();
+		statusCodeLayout->addWidget(statusCodeExistWidget_);
+
 		statusCodeWidget_ = new OpcUaStatusCodeWidget();
+		statusCodeLayout->addWidget(statusCodeWidget_);
+
+		statusCodeLayout->addStretch();
 
 
 		// source time
 		QHBoxLayout* sourceTimeLayout = new QHBoxLayout();
 		label = new QLabel(QString("SourceTime"));
+		label->setFixedWidth(80);
 		sourceTimeLayout->addWidget(label);
 
 		sourceTimeExistWidget_ = new QCheckBox();
@@ -61,10 +73,13 @@ namespace OpcUaNodeSet
 		sourceTimeValueWidget_ = new QDateTimeEdit();
 		sourceTimeLayout->addWidget(sourceTimeValueWidget_);
 
+		sourceTimeLayout->addStretch();
+
 
 		// source time
 		QHBoxLayout* serverTimeLayout = new QHBoxLayout();
 		label = new QLabel(QString("ServerTime"));
+		label->setFixedWidth(80);
 		serverTimeLayout->addWidget(label);
 
 		serverTimeExistWidget_ = new QCheckBox();
@@ -73,10 +88,12 @@ namespace OpcUaNodeSet
 		serverTimeValueWidget_ = new QDateTimeEdit();
 		serverTimeLayout->addWidget(serverTimeValueWidget_);
 
+		serverTimeLayout->addStretch();
+
 
 		// layout
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
-		vBoxLayout->addWidget(statusCodeWidget_);
+		vBoxLayout->addLayout(statusCodeLayout);
 		vBoxLayout->addLayout(sourceTimeLayout);
 		vBoxLayout->addLayout(serverTimeLayout);
 		vBoxLayout->setMargin(0);
