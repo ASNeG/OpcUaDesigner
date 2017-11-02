@@ -91,11 +91,24 @@ namespace OpcUaNodeSet
 		serverTimeLayout->addStretch();
 
 
+		// variable
+		QHBoxLayout* variableLayout = new QHBoxLayout();
+		label = new QLabel(QString("Variable"));
+		label->setFixedWidth(80);
+		variableLayout->addWidget(label);
+
+		variableExistWidget_ = new QCheckBox();
+		variableLayout->addWidget(variableExistWidget_);
+
+		variableLayout->addStretch();
+
+
 		// layout
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
 		vBoxLayout->addLayout(statusCodeLayout);
 		vBoxLayout->addLayout(sourceTimeLayout);
 		vBoxLayout->addLayout(serverTimeLayout);
+		vBoxLayout->addLayout(variableLayout);
 		vBoxLayout->setMargin(0);
 		setLayout(vBoxLayout);
 

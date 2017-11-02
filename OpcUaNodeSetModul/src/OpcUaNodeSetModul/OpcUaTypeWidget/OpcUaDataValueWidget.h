@@ -74,7 +74,7 @@ namespace OpcUaNodeSet
 		QCheckBox* serverTimeExistWidget_;
 		QDateTimeEdit* serverTimeValueWidget_;
 
-		QCheckBox* valueExistWidget_;
+		QCheckBox* variableExistWidget_;
 	};
 
 }
