@@ -93,6 +93,7 @@ namespace OpcUaNodeSet
 	void
 	ValueRankWidget::enabled(bool enabled)
 	{
+		comboBoxWidget_->setEnabled(enabled);
 		textWidget_->setEnabled(enabled);
 	}
 

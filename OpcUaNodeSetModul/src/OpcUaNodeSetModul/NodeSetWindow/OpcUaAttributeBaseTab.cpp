@@ -137,7 +137,6 @@ namespace OpcUaNodeSet
 
 		gridLayout->addLayout(hBoxLayout, 6, 1);
 
-
 		vBoxLayout->addLayout(gridLayout);
 
 		vBoxLayout->addStretch();

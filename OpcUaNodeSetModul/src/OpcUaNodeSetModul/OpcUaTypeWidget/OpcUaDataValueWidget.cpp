@@ -129,7 +129,16 @@ namespace OpcUaNodeSet
 	void
 	OpcUaDataValueWidget::enabled(bool enabled)
 	{
+		statusCodeExistWidget_->setEnabled(enabled);
 		statusCodeWidget_->setEnabled(enabled);
+
+		sourceTimeExistWidget_->setEnabled(enabled);
+		sourceTimeValueWidget_->setEnabled(enabled);
+
+		serverTimeExistWidget_->setEnabled(enabled);
+		serverTimeValueWidget_->setEnabled(enabled);
+
+		variableExistWidget_->setEnabled(enabled);
 	}
 
 	void
