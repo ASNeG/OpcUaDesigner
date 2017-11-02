@@ -34,9 +34,10 @@ namespace OpcUaNodeSet
 		// widgets
 		buttonWidget_ = new QPushButton();
 		buttonWidget_->setIcon(QIcon(":/images/Tree.png"));
+		buttonWidget_->setFixedWidth(30);
 
 		labelWidget_ = new QLabel();
-		labelWidget_->setFixedWidth(360-5);
+		labelWidget_->setFixedWidth(365);
 
 		// layout
 		QHBoxLayout* hBoxLayout = new QHBoxLayout();
