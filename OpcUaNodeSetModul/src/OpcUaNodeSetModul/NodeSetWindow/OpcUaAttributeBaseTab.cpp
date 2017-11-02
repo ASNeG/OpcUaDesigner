@@ -49,7 +49,7 @@ namespace OpcUaNodeSet
 
 		// NodeClass
 		QLabel* nodeClassLabel = new QLabel("NodeClass");
-		gridLayout->addWidget(nodeClassLabel, 0, 0);
+		gridLayout->addWidget(nodeClassLabel, 0, 0, Qt::AlignTop);
 
 		nodeClassWidget_ = new NodeClassWidget();
 
@@ -62,7 +62,7 @@ namespace OpcUaNodeSet
 
 		// NodeId
 		QLabel* nodeIdLabel = new QLabel("NodeId");
-		gridLayout->addWidget(nodeIdLabel, 1, 0);
+		gridLayout->addWidget(nodeIdLabel, 1, 0, Qt::AlignTop);
 
 		nodeIdWidget_ = new NodeIdWidget();
 
@@ -75,7 +75,7 @@ namespace OpcUaNodeSet
 
 		// BrowseName
 		QLabel* browseNameLabel = new QLabel("BrowseName");
-		gridLayout->addWidget(browseNameLabel, 2, 0);
+		gridLayout->addWidget(browseNameLabel, 2, 0, Qt::AlignTop);
 
 		browseNameWidget_ = new BrowseNameWidget();
 
@@ -88,7 +88,7 @@ namespace OpcUaNodeSet
 
 		// DisplayName
 		QLabel* displayNameLabel = new QLabel("DisplayName");
-		gridLayout->addWidget(displayNameLabel, 3, 0);
+		gridLayout->addWidget(displayNameLabel, 3, 0, Qt::AlignTop);
 
 		displayNameWidget_ = new DisplayNameWidget();
 
@@ -101,7 +101,7 @@ namespace OpcUaNodeSet
 
 		// Description
 		QLabel* descriptionLabel = new QLabel("Description");
-		gridLayout->addWidget(descriptionLabel, 4, 0);
+		gridLayout->addWidget(descriptionLabel, 4, 0, Qt::AlignTop);
 
 		descriptionWidget_ = new DescriptionWidget();
 
@@ -114,7 +114,7 @@ namespace OpcUaNodeSet
 
 		// WriteMask
 		QLabel* writeMaskLabel = new QLabel("WriteMask");
-		gridLayout->addWidget(writeMaskLabel, 5, 0);
+		gridLayout->addWidget(writeMaskLabel, 5, 0, Qt::AlignTop);
 
 		writeMaskWidget_ = new WriteMaskWidget();
 
@@ -127,7 +127,7 @@ namespace OpcUaNodeSet
 
 		// UserWriteMask
 		QLabel* userWriteMaskLabel = new QLabel("UserWriteMask");
-		gridLayout->addWidget(userWriteMaskLabel, 6, 0);
+		gridLayout->addWidget(userWriteMaskLabel, 6, 0, Qt::AlignTop);
 
 		userWriteMaskWidget_ = new UserWriteMaskWidget();
 

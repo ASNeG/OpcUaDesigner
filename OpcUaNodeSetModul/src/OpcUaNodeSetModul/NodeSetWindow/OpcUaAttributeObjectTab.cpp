@@ -43,7 +43,7 @@ namespace OpcUaNodeSet
 
 		// EventNotifier
 		QLabel* accessLevelLabel = new QLabel("EventNotifier");
-		gridLayout->addWidget(accessLevelLabel, 0, 0);
+		gridLayout->addWidget(accessLevelLabel, 0, 0, Qt::AlignTop);
 
 		eventNotifierWidget_ = new EventNotifierWidget();
 

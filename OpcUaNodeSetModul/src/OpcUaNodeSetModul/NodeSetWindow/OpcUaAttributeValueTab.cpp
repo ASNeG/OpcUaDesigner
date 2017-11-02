@@ -48,7 +48,7 @@ namespace OpcUaNodeSet
 
 		// AccessLevel
 		QLabel* accessLevelLabel = new QLabel("AccessLevel");
-		gridLayout->addWidget(accessLevelLabel, 0, 0);
+		gridLayout->addWidget(accessLevelLabel, 0, 0, Qt::AlignTop);
 
 		accessLevelWidget_ = new AccessLevelWidget();
 
@@ -61,7 +61,7 @@ namespace OpcUaNodeSet
 
 		// Historizing
 		QLabel* historizingLabel = new QLabel("Historizing");
-		gridLayout->addWidget(historizingLabel, 1, 0);
+		gridLayout->addWidget(historizingLabel, 1, 0, Qt::AlignTop);
 
 		historizingWidget_ = new HistorizingWidget();
 
@@ -74,7 +74,7 @@ namespace OpcUaNodeSet
 
 		// MinimumSamplingInterval
 		QLabel* minimumSamplingIntervalLabel = new QLabel("MinimumSamplingInterval");
-		gridLayout->addWidget(minimumSamplingIntervalLabel, 2, 0);
+		gridLayout->addWidget(minimumSamplingIntervalLabel, 2, 0, Qt::AlignTop);
 
 		minimumSamplingIntervalWidget_ = new MinimumSamplingIntervalWidget();
 
@@ -86,7 +86,7 @@ namespace OpcUaNodeSet
 
 		// ArrayDimensions
 		QLabel* arrayDimensionsLabel = new QLabel("ArrayDimensions");
-		gridLayout->addWidget(arrayDimensionsLabel, 3, 0);
+		gridLayout->addWidget(arrayDimensionsLabel, 3, 0, Qt::AlignTop);
 
 		arrayDimensionsWidget_ = new ArrayDimensionsWidget();
 
@@ -99,7 +99,7 @@ namespace OpcUaNodeSet
 
 		// DataType
 		QLabel* dataTypeLabel = new QLabel("DataType");
-		gridLayout->addWidget(dataTypeLabel, 4, 0);
+		gridLayout->addWidget(dataTypeLabel, 4, 0, Qt::AlignTop);
 
 		dataTypeWidget_ = new DataTypeWidget();
 
@@ -113,7 +113,7 @@ namespace OpcUaNodeSet
 
 		// ValueRank
 		QLabel* valueRankLabel = new QLabel("ValueRank");
-		gridLayout->addWidget(valueRankLabel, 5, 0);
+		gridLayout->addWidget(valueRankLabel, 5, 0, Qt::AlignTop);
 
 		valueRankWidget_ = new ValueRankWidget();
 
@@ -126,7 +126,7 @@ namespace OpcUaNodeSet
 
 		// Value
 		QLabel* valueLabel = new QLabel("Value");
-		gridLayout->addWidget(valueLabel, 6, 0);
+		gridLayout->addWidget(valueLabel, 6, 0, Qt::AlignTop);
 
 		valueWidget_ = new ValueWidget();
 

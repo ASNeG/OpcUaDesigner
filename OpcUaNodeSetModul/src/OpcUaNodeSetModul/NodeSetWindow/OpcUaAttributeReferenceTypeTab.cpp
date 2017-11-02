@@ -35,7 +35,7 @@ namespace OpcUaNodeSet
 
 		// InverseName
 		QLabel* inverseNameLabel = new QLabel("InverseName");
-		gridLayout->addWidget(inverseNameLabel, 0, 0);
+		gridLayout->addWidget(inverseNameLabel, 0, 0, Qt::AlignTop);
 
 		inverseNameLineEdit_ = new QLineEdit();
 		inverseNameLineEdit_->setFixedWidth(300);
@@ -49,7 +49,7 @@ namespace OpcUaNodeSet
 
 		// Symmetric
 		QLabel* symmetricLabel = new QLabel("Symmetric");
-		gridLayout->addWidget(symmetricLabel, 1, 0);
+		gridLayout->addWidget(symmetricLabel, 1, 0, Qt::AlignTop);
 
 		symmetricLineEdit_ = new QLineEdit();
 		symmetricLineEdit_->setFixedWidth(300);
@@ -63,7 +63,7 @@ namespace OpcUaNodeSet
 
 		// UserWriteMask
 		QLabel* userWriteMaskLabel = new QLabel("UserWriteMask");
-		gridLayout->addWidget(userWriteMaskLabel, 2, 0);
+		gridLayout->addWidget(userWriteMaskLabel, 2, 0, Qt::AlignTop);
 
 		userWriteMaskLineEdit_ = new QLineEdit();
 		userWriteMaskLineEdit_->setFixedWidth(300);
@@ -77,7 +77,7 @@ namespace OpcUaNodeSet
 
 		// WriteMask
 		QLabel* writeMaskLabel = new QLabel("WriteMask");
-		gridLayout->addWidget(writeMaskLabel, 3, 0);
+		gridLayout->addWidget(writeMaskLabel, 3, 0, Qt::AlignTop);
 
 		writeMaskLineEdit_ = new QLineEdit();
 		writeMaskLineEdit_->setFixedWidth(300);

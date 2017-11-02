@@ -48,7 +48,7 @@ namespace OpcUaNodeSet
 
 		// IsAbstract
 		QLabel* isAbstractLabel = new QLabel("IsAbstract");
-		gridLayout->addWidget(isAbstractLabel, 0, 0);
+		gridLayout->addWidget(isAbstractLabel, 0, 0, Qt::AlignTop);
 
 		isAbstractWidget_ = new IsAbstractWidget();
 

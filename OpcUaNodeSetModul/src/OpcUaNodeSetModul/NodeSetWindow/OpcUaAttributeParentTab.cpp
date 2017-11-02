@@ -38,7 +38,7 @@ namespace OpcUaNodeSet
 
 		// DisplayName
 		QLabel* displayNameLabel = new QLabel("DisplayName");
-		gridLayout->addWidget(displayNameLabel, 1, 0);
+		gridLayout->addWidget(displayNameLabel, 1, 0, Qt::AlignTop);
 
 		displayNameLineEdit_ = new QLineEdit();
 		displayNameLineEdit_->setFixedWidth(300);
@@ -52,7 +52,7 @@ namespace OpcUaNodeSet
 
 		// NodeId
 		QLabel* nodeIdLabel = new QLabel("NodeId");
-		gridLayout->addWidget(nodeIdLabel, 2, 0);
+		gridLayout->addWidget(nodeIdLabel, 2, 0, Qt::AlignTop);
 
 		nodeIdLineEdit_ = new QLineEdit();
 		nodeIdLineEdit_->setFixedWidth(300);
@@ -65,7 +65,7 @@ namespace OpcUaNodeSet
 
 		// BrowseName
 		QLabel* browseNameLabel = new QLabel("BrowseName");
-		gridLayout->addWidget(browseNameLabel, 3, 0);
+		gridLayout->addWidget(browseNameLabel, 3, 0, Qt::AlignTop);
 
 		browseNameLineEdit_ = new QLineEdit();
 		browseNameLineEdit_->setFixedWidth(300);
@@ -79,7 +79,7 @@ namespace OpcUaNodeSet
 
 		// Reference
 		QLabel* referenceLabel = new QLabel("Reference");
-		gridLayout->addWidget(referenceLabel, 4, 0);
+		gridLayout->addWidget(referenceLabel, 4, 0, Qt::AlignTop);
 
 		referenceLineEdit_ = new QLineEdit();
 		referenceLineEdit_->setFixedWidth(300);

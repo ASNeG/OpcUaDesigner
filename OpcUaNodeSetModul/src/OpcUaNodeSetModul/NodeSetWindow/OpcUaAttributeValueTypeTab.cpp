@@ -46,7 +46,7 @@ namespace OpcUaNodeSet
 
 		// IsAbstract
 		QLabel* isAbstractLabel = new QLabel("IsAbstract");
-		gridLayout->addWidget(isAbstractLabel, 0, 0);
+		gridLayout->addWidget(isAbstractLabel, 0, 0, Qt::AlignTop);
 
 		isAbstractWidget_ = new IsAbstractWidget();
 
@@ -58,7 +58,7 @@ namespace OpcUaNodeSet
 
 		// ArrayDimensions
 		QLabel* arrayDimensionsLabel = new QLabel("ArrayDimensions");
-		gridLayout->addWidget(arrayDimensionsLabel, 1, 0);
+		gridLayout->addWidget(arrayDimensionsLabel, 1, 0, Qt::AlignTop);
 
 		arrayDimensionsWidget_ = new ArrayDimensionsWidget();
 
@@ -71,7 +71,7 @@ namespace OpcUaNodeSet
 
 		// DataType
 		QLabel* dataTypeLabel = new QLabel("DataType");
-		gridLayout->addWidget(dataTypeLabel, 2, 0);
+		gridLayout->addWidget(dataTypeLabel, 2, 0, Qt::AlignTop);
 
 		dataTypeWidget_ = new DataTypeWidget();
 
@@ -85,7 +85,7 @@ namespace OpcUaNodeSet
 
 		// ValueRank
 		QLabel* valueRankLabel = new QLabel("ValueRank");
-		gridLayout->addWidget(valueRankLabel, 3, 0);
+		gridLayout->addWidget(valueRankLabel, 3, 0, Qt::AlignTop);
 
 		valueRankWidget_ = new ValueRankWidget();
 
@@ -98,7 +98,7 @@ namespace OpcUaNodeSet
 
 		// Value
 		QLabel* valueLabel = new QLabel("Value");
-		gridLayout->addWidget(valueLabel, 4, 0);
+		gridLayout->addWidget(valueLabel, 4, 0, Qt::AlignTop);
 
 		valueWidget_ = new ValueWidget();
 

@@ -35,7 +35,7 @@ namespace OpcUaNodeSet
 
 		// ContainsNoLoops
 		QLabel* containsNoLoopsLabel = new QLabel("ContainsNoLoops");
-		gridLayout->addWidget(containsNoLoopsLabel, 0, 0);
+		gridLayout->addWidget(containsNoLoopsLabel, 0, 0, Qt::AlignTop);
 
 		containsNoLoopsLineEdit_ = new QLineEdit();
 		containsNoLoopsLineEdit_->setFixedWidth(300);
@@ -49,7 +49,7 @@ namespace OpcUaNodeSet
 
 		// EventNotifier
 		QLabel* eventNotifierLabel = new QLabel("EventNotifier");
-		gridLayout->addWidget(eventNotifierLabel, 1, 0);
+		gridLayout->addWidget(eventNotifierLabel, 1, 0, Qt::AlignTop);
 
 		eventNotifierLineEdit_ = new QLineEdit();
 		eventNotifierLineEdit_->setFixedWidth(300);
@@ -63,7 +63,7 @@ namespace OpcUaNodeSet
 
 		// UserWriteMask
 		QLabel* userWriteMaskLabel = new QLabel("UserWriteMask");
-		gridLayout->addWidget(userWriteMaskLabel, 2, 0);
+		gridLayout->addWidget(userWriteMaskLabel, 2, 0, Qt::AlignTop);
 
 		userWriteMaskLineEdit_ = new QLineEdit();
 		userWriteMaskLineEdit_->setFixedWidth(300);
@@ -77,7 +77,7 @@ namespace OpcUaNodeSet
 
 		// WriteMask
 		QLabel* writeMaskLabel = new QLabel("WriteMask");
-		gridLayout->addWidget(writeMaskLabel, 3, 0);
+		gridLayout->addWidget(writeMaskLabel, 3, 0, Qt::AlignTop);
 
 		writeMaskLineEdit_ = new QLineEdit();
 		writeMaskLineEdit_->setFixedWidth(300);

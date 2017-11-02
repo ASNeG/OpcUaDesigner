@@ -46,7 +46,7 @@ namespace OpcUaNodeSet
 
 		// Executable
 		QLabel* executableLabel = new QLabel("Executable");
-		gridLayout->addWidget(executableLabel, 0, 0);
+		gridLayout->addWidget(executableLabel, 0, 0, Qt::AlignTop);
 
 		executableWidget_ = new ExecutableWidget();
 
@@ -59,7 +59,7 @@ namespace OpcUaNodeSet
 
 		// UserExecutable
 		QLabel* userExecutableLabel = new QLabel("UserExecutable");
-		gridLayout->addWidget(userExecutableLabel, 1, 0);
+		gridLayout->addWidget(userExecutableLabel, 1, 0, Qt::AlignTop);
 
 		userExecutableWidget_ = new UserExecutableWidget();
 
