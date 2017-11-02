@@ -46,6 +46,18 @@ namespace OpcUaNodeSet
 		// --------------------------------------------------------------------
 		// --------------------------------------------------------------------
 
+		// is null
+		QHBoxLayout* isNullLayout = new QHBoxLayout();
+		label = new QLabel(QString("IsNull"));
+		label->setFixedWidth(80);
+		isNullLayout->addWidget(label);
+
+		isNullWidget_ = new QCheckBox();
+		isNullLayout->addWidget(isNullWidget_);
+
+		isNullLayout->addStretch();
+
+
 		// status code
 		QHBoxLayout* statusCodeLayout = new QHBoxLayout();
 		label = new QLabel(QString("StatusCode"));
@@ -102,13 +114,17 @@ namespace OpcUaNodeSet
 
 		variableLayout->addStretch();
 
+		variantWidget_ = new OpcUaVariantWidget();
+
 
 		// layout
 		QVBoxLayout* vBoxLayout = new QVBoxLayout();
+		vBoxLayout->addLayout(isNullLayout);
 		vBoxLayout->addLayout(statusCodeLayout);
 		vBoxLayout->addLayout(sourceTimeLayout);
 		vBoxLayout->addLayout(serverTimeLayout);
 		vBoxLayout->addLayout(variableLayout);
+		vBoxLayout->addWidget(variantWidget_);
 		vBoxLayout->setMargin(0);
 		setLayout(vBoxLayout);
 

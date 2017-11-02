@@ -21,6 +21,7 @@
 #include <QWidget>
 
 #include "OpcUaStackCore/BuildInTypes/OpcUaDataValue.h"
+#include "OpcUaNodeSetModul/OpcUaTypeWidget/OpcUaVariantWidget.h"
 
 class QCheckBox;
 class QDateTimeEdit;
@@ -65,6 +66,8 @@ namespace OpcUaNodeSet
 		bool isValid_;
 		bool checkOn_;
 
+		QCheckBox* isNullWidget_;
+
 		QCheckBox* statusCodeExistWidget_;
 		OpcUaStatusCodeWidget* statusCodeWidget_;
 
@@ -75,6 +78,7 @@ namespace OpcUaNodeSet
 		QDateTimeEdit* serverTimeValueWidget_;
 
 		QCheckBox* variableExistWidget_;
+		OpcUaVariantWidget* variantWidget_;
 	};
 
 }

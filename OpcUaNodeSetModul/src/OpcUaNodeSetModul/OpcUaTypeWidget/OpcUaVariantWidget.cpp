@@ -18,7 +18,6 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLineEdit>
-#include <QPushButton>
 #include <QIcon>
 
 #include "OpcUaNodeSetModul/OpcUaTypeWidget/OpcUaVariantWidget.h"
@@ -36,16 +35,11 @@ namespace OpcUaNodeSet
 	{
 		// widgets
 		textWidget_ = new QLineEdit();
-		textWidget_->setFixedWidth(365);
-
-		buttonWidget_ = new QPushButton();
-		buttonWidget_->setIcon(QIcon(":/images/Tree.png"));
-		buttonWidget_->setFixedWidth(30);
+		textWidget_->setFixedWidth(400);
 
 		// layout
 		QHBoxLayout* hBoxLayout = new QHBoxLayout();
 		hBoxLayout->addWidget(textWidget_);
-		hBoxLayout->addWidget(buttonWidget_);
 		hBoxLayout->setMargin(0);
 
 		//
@@ -54,10 +48,6 @@ namespace OpcUaNodeSet
 		connect(
 			textWidget_, SIGNAL(textChanged(const QString&)),
 			this, SLOT(onTextChanged(const QString&))
-		);
-		connect(
-			buttonWidget_, SIGNAL(clicked()),
-			this, SLOT(onClicked())
 		);
 
 		setLayout(hBoxLayout);
@@ -71,7 +61,6 @@ namespace OpcUaNodeSet
 	OpcUaVariantWidget::enabled(bool enabled)
 	{
 		textWidget_->setEnabled(enabled);
-		buttonWidget_->setEnabled(enabled);
 	}
 
 	void

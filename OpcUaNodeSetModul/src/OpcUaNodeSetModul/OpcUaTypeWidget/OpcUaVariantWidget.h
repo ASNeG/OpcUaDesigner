@@ -23,7 +23,6 @@
 #include "OpcUaStackCore/BuildInTypes/OpcUaVariant.h"
 
 class QLineEdit;
-class QPushButton;
 
 using namespace OpcUaStackCore;
 
@@ -66,7 +65,6 @@ namespace OpcUaNodeSet
 		bool checkOn_;
 
 		QLineEdit* textWidget_;
-		QPushButton* buttonWidget_;
 	};
 
 }
