@@ -1,0 +1,19 @@
+
+Build OpcUaDesigner:
+====================
+
+$ cd OpcUaDesigner
+$ sh build.sh local
+...
+$ cd ../OpcUaNodeSetModul/
+$ sh build.sh local
+$ cd ..
+
+
+Start OpcUaDesigner:
+====================
+$ OpcUaDesigner /home/huebl/install/etc/OpcUaStack/OpcUaDesigner/OpcUaDesigner.xml
+
+- Ueber Toolbar neues OpcUaDesigner Projekt erzeugen
+- Ueber "Project -> New" neues OpcUaNodeSetModul Projekterzeugen
+- OpcUaNodeSetModul durch Doppelklick öffnen 
