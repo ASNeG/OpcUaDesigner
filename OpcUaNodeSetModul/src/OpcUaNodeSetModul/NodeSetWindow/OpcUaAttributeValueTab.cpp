@@ -56,7 +56,7 @@ namespace OpcUaNodeSet
 		hBoxLayout->addWidget(accessLevelWidget_);
 		hBoxLayout->addStretch();
 
-		gridLayout->addLayout(hBoxLayout, 0, 1, Qt::AlignLeft);
+		gridLayout->addLayout(hBoxLayout, 0, 1);
 
 
 		// Historizing
