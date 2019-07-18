@@ -1,3 +1,3 @@
 #!/bin/sh
 
-OpcUaDesigner ${HOME}/install/etc/OpcUaStack/OpcUaDesigner/OpcUaDesigner.xml
+OpcUaDesigner ${HOME}/.ASNeG/etc/OpcUaStack/OpcUaDesigner/OpcUaDesigner.xml

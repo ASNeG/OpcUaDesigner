@@ -8,7 +8,7 @@
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
 CMAKE_GENERATOR_LOCAL=-G"Eclipse CDT4 - Unix Makefiles"
-#OPCUASTACK_INSTALL_PREFIX=${HOME}/.ASNeG
+#OPCUASTACK_INSTALL_PREFIX=${HOME}/install
 
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
@@ -18,7 +18,7 @@ usage()
    echo "build.sh (info | local | deb | rpm | tst | clean)"
    echo ""
    echo "  info  - create version and dependency files"
-   echo "  local - create local build and install in folder ${HOME}/.ASNeG"
+   echo "  local - create local build and install in folder ${HOME}/install"
    echo "  deb   - create deb package"
    echo "  rpm   - create rpm package"
    echo "  tst   - build unit application"
@@ -76,7 +76,7 @@ build_local()
     # build local
     if [ ${BUILD_FIRST} -eq 1 ] ;
     then
-	: ${OPCUASTACK_INSTALL_PREFIX:=${HOME}/.ASNeG}
+	: ${OPCUASTACK_INSTALL_PREFIX:=${HOME}/install}
 	set -x
 	cmake ../src \
 	    -DOPCUASTACK_INSTALL_PREFIX=${OPCUASTACK_INSTALL_PREFIX} \
@@ -92,7 +92,7 @@ build_local()
     fi
 
     # install local
-    make DESTDIR="${HOME}/.ASNeG" install
+    make DESTDIR="${HOME}/install" install
      if [ $? -ne 0 ] ;
     then
         echo "make install error"
@@ -269,11 +269,11 @@ build_tst()
     # build tst
     if [ ${BUILD_FIRST} -eq 1 ] ;
     then
-        : ${OPCUASTACK_INSTALL_PREFIX:=${HOME}/.ASNeG}
+        : ${OPCUASTACK_INSTALL_PREFIX:=${HOME}/install}
         cmake ../tst \
             -DOPCUASTACK_INSTALL_PREFIX=${OPCUASTACK_INSTALL_PREFIX} \
   	    "${CMAKE_GENERATOR_LOCAL}" \
-	    -DOPCUASTACK_INSTALL_PREFIX="${HOME}/.ASNeG"
+	    -DOPCUASTACK_INSTALL_PREFIX="${HOME}/install"
         if [ $? -ne 0 ] ;
         then
             echo "cmake error"
