@@ -64,7 +64,9 @@ namespace OpcUaGui
 	Application::parseConfig(const std::string& configFile)
 	{
 		// create CONFDIR directory
-		Environment::confDir(boost::filesystem::absolute(configFile).parent_path().string());
+		auto configFileName = boost::filesystem::absolute(configFile).string();
+		auto configFilePath = boost::filesystem::path(configFileName).parent_path().string();
+		Environment::confDir(configFilePath);
 		config_->alias("@CONF_DIR@", Environment::confDir());
 
 		// parse configuration file
