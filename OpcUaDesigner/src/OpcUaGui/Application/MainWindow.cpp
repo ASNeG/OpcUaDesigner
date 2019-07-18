@@ -102,6 +102,12 @@ namespace OpcUaGui
 		// load modul configuration
 		modul_->modulDirectory(application_->libraryConfigPath());
 		if (!modul_->startup()) {
+			QMessageBox::critical(
+				this,
+				"OpcUaDesigner - modul configuration error",
+				"application shutdown",
+				QMessageBox::Ok
+			);
 			return false;
 		}
 		modul_->mainWindow(this);
