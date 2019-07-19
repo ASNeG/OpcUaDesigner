@@ -209,7 +209,6 @@ namespace OpcUaGui
 
 		// parse configuration file
 		auto config = Config::instance();
-		config->alias("@CONF_DIR@", Environment::confDir());
 		modulConfig->config_ = config;
 		ConfigXml configXml;
 		if (!configXml.parse(modulConfigFileName, true)) {
