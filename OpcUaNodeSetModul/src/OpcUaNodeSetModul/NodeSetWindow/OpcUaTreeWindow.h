@@ -32,8 +32,6 @@ class QMenu;
 class QToolBar;
 class QAction;
 
-using namespace OpcUaStackServer;
-
 namespace OpcUaNodeSet
 {
 
@@ -90,14 +88,14 @@ namespace OpcUaNodeSet
 	    std::string displayName(const std::string& prefix);
 
 		void addNode(
-			InformationModel::SPtr& informationModel,
+			OpcUaStackServer::InformationModel::SPtr& informationModel,
 			QTreeWidgetItem* parentItem,
-			BaseNodeClass::SPtr& baseNode
+			OpcUaStackServer::BaseNodeClass::SPtr& baseNode
 		);
 		void removeNode(QTreeWidgetItem* item);
 
 		DataModel* dataModel_;
-		std::set<OpcUaNodeId> newActionBlackList_;
+		std::set<OpcUaStackCore::OpcUaNodeId> newActionBlackList_;
 
 		QToolBar* tableToolBar_;
 		QAction* manageNamespaceAction_;

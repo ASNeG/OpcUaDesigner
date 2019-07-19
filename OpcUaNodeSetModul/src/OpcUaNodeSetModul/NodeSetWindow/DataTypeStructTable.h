@@ -1,5 +1,5 @@
 /*
-   Copyright 2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2017-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -23,8 +23,6 @@
 #include "OpcUaStackCore/DataType/DataTypeDefinition.h"
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
 
-using namespace OpcUaStackServer;
-
 class QTableWidget;
 
 namespace OpcUaNodeSet
@@ -43,11 +41,11 @@ namespace OpcUaNodeSet
 		void enabled(bool enabled);
 
 	  private:
-		void setName(uint32_t row, DataTypeField::SPtr& dataField);
-		void setDataType(uint32_t row, DataTypeField::SPtr& dataField);
-		void setValueRank(uint32_t row, DataTypeField::SPtr& dataField);
-		void setDescription(uint32_t row, DataTypeField::SPtr& dataField);
-		void setIsOptional(uint32_t row, DataTypeField::SPtr& dataField);
+		void setName(uint32_t row, OpcUaStackCore::DataTypeField::SPtr& dataField);
+		void setDataType(uint32_t row,  OpcUaStackCore::DataTypeField::SPtr& dataField);
+		void setValueRank(uint32_t row,  OpcUaStackCore::DataTypeField::SPtr& dataField);
+		void setDescription(uint32_t row,  OpcUaStackCore::DataTypeField::SPtr& dataField);
+		void setIsOptional(uint32_t row,  OpcUaStackCore::DataTypeField::SPtr& dataField);
 
 		QTableWidget* structTable_;
 	};

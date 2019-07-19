@@ -1,5 +1,5 @@
 /*
-   Copyright 2016-2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2016-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -23,8 +23,6 @@
 #include <map>
 #include "OpcUaStackCore/Base/Config.h"
 
-using namespace OpcUaStackCore;
-
 namespace OpcUaGui
 {
 	class ApplicationData
@@ -45,8 +43,8 @@ namespace OpcUaGui
 		void modulName(const std::string& modulName);
 		std::string& modulName(void);
 
-		bool encode(Config& config);
-		bool decode(Config& config);
+		bool encode(OpcUaStackCore::Config& config);
+		bool decode(OpcUaStackCore::Config& config);
 
 	  private:
 		std::string applicationName_;

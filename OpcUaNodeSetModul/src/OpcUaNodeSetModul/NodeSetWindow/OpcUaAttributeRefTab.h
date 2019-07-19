@@ -24,8 +24,6 @@
 
 class QTableWidget;
 
-using namespace OpcUaStackServer;
-
 namespace OpcUaNodeSet
 {
 
@@ -41,11 +39,11 @@ namespace OpcUaNodeSet
 		void nodeChange(NodeInfo* nodeInfo);
 
 	  private:
-		void setNodeClass(NodeInfo* nodeInfo, uint32_t row, BaseNodeClass::SPtr baseNode);
-	    void setDisplayName(NodeInfo* nodeInfo, uint32_t row, BaseNodeClass::SPtr baseNode);
-	    void setTypeDefinition(NodeInfo* nodeInfo, uint32_t row, BaseNodeClass::SPtr baseNode);
-	    void setDataType(NodeInfo* nodeInfo, uint32_t row, BaseNodeClass::SPtr baseNode);
-	    void setReference(NodeInfo* nodeInfo, uint32_t row, BaseNodeClass::SPtr baseNode);
+		void setNodeClass(NodeInfo* nodeInfo, uint32_t row, OpcUaStackServer::BaseNodeClass::SPtr baseNode);
+	    void setDisplayName(NodeInfo* nodeInfo, uint32_t row, OpcUaStackServer::BaseNodeClass::SPtr baseNode);
+	    void setTypeDefinition(NodeInfo* nodeInfo, uint32_t row, OpcUaStackServer::BaseNodeClass::SPtr baseNode);
+	    void setDataType(NodeInfo* nodeInfo, uint32_t row, OpcUaStackServer::BaseNodeClass::SPtr baseNode);
+	    void setReference(NodeInfo* nodeInfo, uint32_t row, OpcUaStackServer::BaseNodeClass::SPtr baseNode);
 
 		QTableWidget* opcUaRefTable_;
 	};
