@@ -1,5 +1,5 @@
 /*
-   Copyright 2016-2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2016-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -144,8 +144,7 @@ namespace OpcUaGui
 	{
 		ModulConfig::SPtr modulConfig;
 
-		ModulConfig::Map::iterator it;
-		it = modulConfigMap_.find(modulName);
+		auto it = modulConfigMap_.find(modulName);
 		if (it != modulConfigMap_.end()) {
 			modulConfig = it->second;
 		}
@@ -181,10 +180,10 @@ namespace OpcUaGui
 		try {
 		    boost::filesystem::directory_iterator endIt;
 		    for (boost::filesystem::directory_iterator it(modulDirectory); it != endIt; it++) {
-		    	std::string modulConfigFileName = (*it).path().string();
+		    	auto modulConfigFileName = (*it).path().string();
 
 		    	// parse modul configuration
-		    	ModulConfig::SPtr modulConfig = constructSPtr<ModulConfig>();
+		    	auto modulConfig = constructSPtr<ModulConfig>();
 		    	if (!parseModulConfig(modulConfigFileName, modulConfig)) {
 		    		continue;
 		    	}
@@ -209,9 +208,9 @@ namespace OpcUaGui
 			.parameter("ModulConfigFileName", modulConfigFileName);
 
 		// parse configuration file
-		Config* config = Config::instance();
-		modulConfig->config_ = config;
+		auto config = Config::instance();
 		config->alias("@CONF_DIR@", Environment::confDir());
+		modulConfig->config_ = config;
 		ConfigXml configXml;
 		if (!configXml.parse(modulConfigFileName, true)) {
 			Log(Error, "parse modul config file error")
@@ -251,10 +250,9 @@ namespace OpcUaGui
 	bool
 	Modul::loadModul(void)
 	{
-		ModulConfig::Map::iterator it;
-		for (it = modulConfigMap_.begin(); it != modulConfigMap_.end(); it++) {
-			ModulConfig::SPtr modulConfig = it->second;
-			DynamicLibrary* dynamicLibrary = modulConfig->dynamicLibrary_;
+		for (auto it = modulConfigMap_.begin(); it != modulConfigMap_.end(); it++) {
+			auto modulConfig = it->second;
+			auto dynamicLibrary = modulConfig->dynamicLibrary_;
 
 			Log(Info, "open dynamic library")
 				.parameter("ModulName", modulConfig->modulName_)
@@ -308,8 +306,7 @@ namespace OpcUaGui
 	void
 	Modul::addRootModul(void)
 	{
-		ModulConfig::SPtr modulConfig;
-		modulConfig = constructSPtr<ModulConfig>();
+		auto modulConfig = constructSPtr<ModulConfig>();
 		modulConfig->modulName_ = "Project";
 		modulConfigMap_.insert(std::make_pair("Project", modulConfig));
 	}
@@ -318,25 +315,22 @@ namespace OpcUaGui
 	Modul::addModulChilds(void)
 	{
 		// read all moduls
-		ModulConfig::Map::iterator it1;
-		for (it1 = modulConfigMap_.begin(); it1 != modulConfigMap_.end(); it1++) {
-			ModulConfig::SPtr modulConfig = it1->second;
+		for (auto it1 = modulConfigMap_.begin(); it1 != modulConfigMap_.end(); it1++) {
+			auto modulConfig = it1->second;
 
 			// read all parents names
-			ModulConfig::ModulParents::iterator it2;
-			for (it2 = modulConfig->modulParents_.begin(); it2 != modulConfig->modulParents_.end(); it2++) {
+			for (auto it2 = modulConfig->modulParents_.begin(); it2 != modulConfig->modulParents_.end(); it2++) {
 				std::string modulParent = *it2;
 
 				// find parent object
-				ModulConfig::Map::iterator it3;
-				it3 = modulConfigMap_.find(modulParent);
+				auto it3 = modulConfigMap_.find(modulParent);
 				if (it3 == modulConfigMap_.end()) {
 					Log(Error, "library configuration for dependency modul name not exist")
 						.parameter("ModulName", it1->first)
 						.parameter("DependencyModulName", modulParent);
 					return false;
 				}
-				ModulConfig::SPtr modulConfigParent = it3->second;
+				auto modulConfigParent = it3->second;
 
 				// insert child into parent object
 				modulConfigParent->addChild(it1->first);

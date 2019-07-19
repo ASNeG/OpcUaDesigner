@@ -1,5 +1,5 @@
 /*
-   Copyright 2016 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2016-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -67,10 +67,10 @@ namespace OpcUaGui
 		auto configFileName = boost::filesystem::absolute(configFile).string();
 		auto configFilePath = boost::filesystem::path(configFileName).parent_path().string();
 		Environment::confDir(configFilePath);
-		config_->alias("@CONF_DIR@", Environment::confDir());
 
 		// parse configuration file
 		config_ = Config::instance();
+		config_->alias("@CONF_DIR@", Environment::confDir());
 		ConfigXml configXml;
 		if (!configXml.parse(configFile, true)) {
 			errorString_ = configXml.errorMessage();
