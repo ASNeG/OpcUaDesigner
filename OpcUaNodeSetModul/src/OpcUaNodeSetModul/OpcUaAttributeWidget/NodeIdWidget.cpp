@@ -24,9 +24,10 @@
 
 #include "OpcUaNodeSetModul/OpcUaAttributeWidget/NodeIdWidget.h"
 
+using namespace OpcUaStackServer;
+
 namespace OpcUaNodeSet
 {
-
 
 	NodeIdWidget::NodeIdWidget(QWidget* parent)
 	: QWidget()

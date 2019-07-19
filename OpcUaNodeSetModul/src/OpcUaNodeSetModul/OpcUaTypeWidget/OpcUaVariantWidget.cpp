@@ -22,6 +22,8 @@
 
 #include "OpcUaNodeSetModul/OpcUaTypeWidget/OpcUaVariantWidget.h"
 
+using namespace OpcUaStackCore;
+
 namespace OpcUaNodeSet
 {
 

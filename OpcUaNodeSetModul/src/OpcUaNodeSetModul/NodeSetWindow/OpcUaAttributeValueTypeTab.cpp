@@ -25,6 +25,7 @@
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeValueTypeTab.h"
 
 using namespace OpcUaStackCore;
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {

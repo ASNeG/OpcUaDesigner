@@ -49,9 +49,7 @@ namespace OpcUaGui
 			V_ModulFile
 		} Value;
 
-		ModulLibraryInterface(void)
-		: parentMainWindow_(NULL)
-		{}
+		ModulLibraryInterface(void) {}
 		virtual ~ModulLibraryInterface(void) {}
 
 		void config(Config * config) { config_ = config; }
@@ -81,8 +79,8 @@ namespace OpcUaGui
         void projectUpdateSignal(uint32_t handle);
 
       private:
-        Config* config_;
-        QMainWindow* parentMainWindow_;
+        Config* config_ = nullptr;
+        QMainWindow* parentMainWindow_ = nullptr;
 
 	};
 

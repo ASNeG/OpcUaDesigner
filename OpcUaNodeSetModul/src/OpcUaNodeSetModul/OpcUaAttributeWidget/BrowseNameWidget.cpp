@@ -23,6 +23,8 @@
 
 #include "OpcUaNodeSetModul/OpcUaAttributeWidget/BrowseNameWidget.h"
 
+using namespace OpcUaStackServer;
+
 namespace OpcUaNodeSet
 {
 

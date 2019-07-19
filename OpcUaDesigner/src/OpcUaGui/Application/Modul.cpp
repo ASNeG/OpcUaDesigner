@@ -16,6 +16,7 @@
  */
 
 #include <boost/filesystem.hpp>
+#include <boost/make_shared.hpp>
 #include <iostream>
 
 #include "OpcUaGui/Application/Modul.h"
@@ -183,7 +184,7 @@ namespace OpcUaGui
 		    	auto modulConfigFileName = (*it).path().string();
 
 		    	// parse modul configuration
-		    	auto modulConfig = constructSPtr<ModulConfig>();
+		    	auto modulConfig = boost::make_shared<ModulConfig>();
 		    	if (!parseModulConfig(modulConfigFileName, modulConfig)) {
 		    		continue;
 		    	}

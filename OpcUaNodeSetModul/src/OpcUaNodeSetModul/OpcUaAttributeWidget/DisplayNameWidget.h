@@ -42,7 +42,7 @@ namespace OpcUaNodeSet
 		void enabled(bool enabled);
 
 	  signals:
-		void valueChanged(OpcUaLocalizedText& displayName, bool isValid);
+		void valueChanged(OpcUaStackCore::OpcUaLocalizedText& displayName, bool isValid);
 		void update(void);
 
 	  private slots:

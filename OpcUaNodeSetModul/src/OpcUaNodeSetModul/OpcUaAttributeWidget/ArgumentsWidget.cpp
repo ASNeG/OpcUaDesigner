@@ -29,7 +29,7 @@
 #include "OpcUaStackCore/StandardDataTypes/Argument.h"
 #include "OpcUaNodeSetModul/OpcUaAttributeWidget/ArgumentsWidget.h"
 
-using namespace OpcUaStackCore;
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
