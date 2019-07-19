@@ -27,8 +27,6 @@
 class QTreeWidget;
 class QTreeWidgetItem;
 
-using namespace OpcUaStackServer;
-
 namespace OpcUaNodeSet
 {
 

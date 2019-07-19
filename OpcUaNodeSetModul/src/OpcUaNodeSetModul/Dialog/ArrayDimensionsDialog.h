@@ -30,8 +30,6 @@ class QListWidgetItem;
 class QAction;
 class QToolBar;
 
-using namespace OpcUaStackCore;
-
 namespace OpcUaNodeSet
 {
 
@@ -45,8 +43,8 @@ namespace OpcUaNodeSet
 		virtual ~ArrayDimensionDialog(void);
 
 		bool ok(void);
-		void setArrayDimensions(OpcUaUInt32Array::SPtr& arrayDimensions);
-		void getArrayDimensions(OpcUaUInt32Array::SPtr& arrayDimensions);
+		void setArrayDimensions(OpcUaStackCore::OpcUaUInt32Array::SPtr& arrayDimensions);
+		void getArrayDimensions(OpcUaStackCore::OpcUaUInt32Array::SPtr& arrayDimensions);
 
 	  protected:
 	    bool eventFilter(QObject *obj, QEvent *event);

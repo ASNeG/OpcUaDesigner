@@ -12,7 +12,7 @@ $ cd ..
 
 Start OpcUaDesigner:
 ====================
-$ OpcUaDesigner /home/huebl/install/etc/OpcUaStack/OpcUaDesigner/OpcUaDesigner.xml
+$ OpcUaDesigner /home/huebl/.ASNeG/etc/OpcUaStack/OpcUaDesigner/OpcUaDesigner.xml
 
 - Ueber Toolbar neues OpcUaDesigner Projekt erzeugen
 - Ueber "Project -> New" neues OpcUaNodeSetModul Projekterzeugen

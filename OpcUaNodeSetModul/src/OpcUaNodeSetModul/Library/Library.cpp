@@ -1,5 +1,5 @@
 /*
-   Copyright 2016-2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2016-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -66,8 +66,7 @@ namespace OpcUaNodeSet
 	{
 		std::cout << "library shutdown..." << std::endl;
 
-		NodeSetWindow::Map::iterator it;
-		for (it = mainWindowMap_.begin(); it != mainWindowMap_.end(); it++) {
+		for (auto it = mainWindowMap_.begin(); it != mainWindowMap_.end(); it++) {
 			delete it->second;
 		}
 		mainWindowMap_.clear();
@@ -83,7 +82,7 @@ namespace OpcUaNodeSet
 		}
 
 		// create main window
-		NodeSetWindow* nodeSetWindow = new NodeSetWindow(parentMainWindow());
+		auto nodeSetWindow = new NodeSetWindow(parentMainWindow());
 		nodeSetWindow->libraryConfig(&libraryConfig_);
 
 		if (!nodeSetWindow->projectNew(handle, projectName, projectFile)) {
@@ -110,7 +109,7 @@ namespace OpcUaNodeSet
 		}
 
 		// create main window
-		NodeSetWindow* nodeSetWindow = new NodeSetWindow(parentMainWindow());
+		auto nodeSetWindow = new NodeSetWindow(parentMainWindow());
 		nodeSetWindow->libraryConfig(&libraryConfig_);
 
 		if (!nodeSetWindow->projectOpen(handle, projectName, projectFile)) {
@@ -132,8 +131,7 @@ namespace OpcUaNodeSet
 	Library::projectSave(uint32_t handle)
 	{
 		// find main window
-		NodeSetWindow::Map::iterator it;
-		it = mainWindowMap_.find(handle);
+		auto it = mainWindowMap_.find(handle);
 		if (it == mainWindowMap_.end()) return false;
 		NodeSetWindow* mainWindow = it->second;
 
@@ -145,8 +143,7 @@ namespace OpcUaNodeSet
 	Library::projectSaveAs(uint32_t handle, const std::string& projectFile)
 	{
 		// find main window
-		NodeSetWindow::Map::iterator it;
-		it = mainWindowMap_.find(handle);
+		auto it = mainWindowMap_.find(handle);
 		if (it == mainWindowMap_.end()) return false;
 		NodeSetWindow* mainWindow = it->second;
 
@@ -158,8 +155,7 @@ namespace OpcUaNodeSet
 	Library::projectRename(uint32_t handle, const std::string& projectName)
 	{
 		// find main window
-		NodeSetWindow::Map::iterator it;
-		it = mainWindowMap_.find(handle);
+		auto it = mainWindowMap_.find(handle);
 		if (it == mainWindowMap_.end()) return false;
 		NodeSetWindow* mainWindow = it->second;
 
@@ -182,8 +178,7 @@ namespace OpcUaNodeSet
 	bool
 	Library::projectClose(uint32_t handle)
 	{
-		NodeSetWindow::Map::iterator it;
-		it = mainWindowMap_.find(handle);
+		auto it = mainWindowMap_.find(handle);
 		if (it == mainWindowMap_.end()) return false;
 		NodeSetWindow* mainWindow = it->second;
 

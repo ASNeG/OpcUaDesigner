@@ -1,5 +1,5 @@
 /*
-   Copyright 2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2017-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -24,7 +24,6 @@
 #include "OpcUaStackServer/InformationModel/InformationModel.h"
 #include "OpcUaStackServer/NodeSet/NodeSetNamespace.h"
 
-using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -35,9 +34,9 @@ namespace OpcUaNodeSet
 		NodeInfo(void);
 		~NodeInfo(void);
 
-		BaseNodeClass::SPtr baseNode_;
-		InformationModel::SPtr informationModel_;
-		NodeSetNamespace nodeSetNamespace_;
+		OpcUaStackServer::BaseNodeClass::SPtr baseNode_;
+		OpcUaStackServer::InformationModel::SPtr informationModel_;
+		OpcUaStackServer::NodeSetNamespace nodeSetNamespace_;
 	};
 
 }
