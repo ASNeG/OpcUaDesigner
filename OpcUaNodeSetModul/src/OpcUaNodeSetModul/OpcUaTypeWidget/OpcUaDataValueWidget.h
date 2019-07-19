@@ -1,5 +1,5 @@
 /*
-   Copyright 2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2017-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -26,8 +26,6 @@
 class QCheckBox;
 class QDateTimeEdit;
 
-using namespace OpcUaStackCore;
-
 namespace OpcUaNodeSet
 {
 
@@ -44,10 +42,10 @@ namespace OpcUaNodeSet
 
 		void enabled(bool enabled);
 		bool isValid(void);
-		void setSavedValue(OpcUaDataValue& savedValue);
-		void setDisplayValue(OpcUaDataValue& displayValue);
-		void getSavedValue(OpcUaDataValue& savedValue);
-		void getDisplayValue(OpcUaDataValue& displayValue);
+		void setSavedValue(OpcUaStackCore::OpcUaDataValue& savedValue);
+		void setDisplayValue(OpcUaStackCore::OpcUaDataValue& displayValue);
+		void getSavedValue(OpcUaStackCore::OpcUaDataValue& savedValue);
+		void getDisplayValue(OpcUaStackCore::OpcUaDataValue& displayValue);
 		bool acceptValue(void);
 		void resetValue(void);
 
@@ -61,8 +59,8 @@ namespace OpcUaNodeSet
 	  private:
 		bool checkValue(void);
 
-		OpcUaDataValue savedValue_;
-		OpcUaDataValue displayValue_;
+		OpcUaStackCore::OpcUaDataValue savedValue_;
+		OpcUaStackCore::OpcUaDataValue displayValue_;
 		bool isValid_;
 		bool checkOn_;
 

@@ -1,5 +1,5 @@
 /*
-   Copyright 2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2017-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -24,8 +24,6 @@
 #include <QStringList>
 
 class QComboBox;
-
-using namespace OpcUaStackCore;
 
 namespace OpcUaNodeSet
 {
@@ -61,7 +59,7 @@ namespace OpcUaNodeSet
 		QComboBox* nodeClassWidget_;
 
 		QStringList nodeClassList_;
-		NodeClassType nodeClassType_;
+		OpcUaStackCore::NodeClassType nodeClassType_;
 		bool isValid_;
 		bool checkOn_;
 	};

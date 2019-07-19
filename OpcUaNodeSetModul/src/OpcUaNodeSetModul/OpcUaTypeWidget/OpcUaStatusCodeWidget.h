@@ -1,5 +1,5 @@
 /*
-   Copyright 2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2017-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -27,8 +27,6 @@
 class QLineEdit;
 class QComboBox;
 
-using namespace OpcUaStackCore;
-
 namespace OpcUaNodeSet
 {
 
@@ -43,10 +41,10 @@ namespace OpcUaNodeSet
 
 		void enabled(bool enabled);
 		bool isValid(void);
-		void setSavedValue(OpcUaStatusCode& savedValue);
-		void setDisplayValue(OpcUaStatusCode& displayValue);
-		void getSavedValue(OpcUaStatusCode& savedValue);
-		void getDisplayValue(OpcUaStatusCode& displayValue);
+		void setSavedValue(OpcUaStackCore::OpcUaStatusCode& savedValue);
+		void setDisplayValue(OpcUaStackCore::OpcUaStatusCode& displayValue);
+		void getSavedValue(OpcUaStackCore::OpcUaStatusCode& savedValue);
+		void getDisplayValue(OpcUaStackCore::OpcUaStatusCode& displayValue);
 		bool acceptValue(void);
 		void resetValue(void);
 
@@ -60,8 +58,8 @@ namespace OpcUaNodeSet
 		bool checkValue(void);
 		void styleValue(void);
 
-		OpcUaStatusCode savedValue_;
-		OpcUaStatusCode displayValue_;
+		OpcUaStackCore::OpcUaStatusCode savedValue_;
+		OpcUaStackCore::OpcUaStatusCode displayValue_;
 		bool isValid_;
 		bool checkOn_;
 

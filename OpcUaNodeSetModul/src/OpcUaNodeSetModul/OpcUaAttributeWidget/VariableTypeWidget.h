@@ -1,5 +1,5 @@
 /*
-   Copyright 2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2017-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -25,8 +25,6 @@
 class QLineEdit;
 class QPushButton;
 
-using namespace OpcUaStackServer;
-
 namespace OpcUaNodeSet
 {
 
@@ -39,13 +37,13 @@ namespace OpcUaNodeSet
 		VariableTypeWidget(QWidget* parent = 0);
 		virtual ~VariableTypeWidget(void);
 
-		void setValue(InformationModel::SPtr& informationModel);
-		void setValue(OpcUaNodeId& variableType);
-		void getValue(OpcUaNodeId& variableType);
+		void setValue(OpcUaStackServer::InformationModel::SPtr& informationModel);
+		void setValue(OpcUaStackCore::OpcUaNodeId& variableType);
+		void getValue(OpcUaStackCore::OpcUaNodeId& variableType);
 		bool isValid(void);
 
 	  signals:
-		void valueChanged(OpcUaNodeId& variableType, bool isValid);
+		void valueChanged(OpcUaStackCore::OpcUaNodeId& variableType, bool isValid);
 		void selectVariableType(void);
 
 	  private slots:
@@ -56,10 +54,10 @@ namespace OpcUaNodeSet
 		void showValue(void);
 		bool checkValue(void);
 		void styleValue(void);
-		void findNodeId(const std::string& displayName, OpcUaNodeId& typeNode);
+		void findNodeId(const std::string& displayName, OpcUaStackCore::OpcUaNodeId& typeNode);
 
-		InformationModel::SPtr informationModel_;
-		OpcUaNodeId variableType_;
+		OpcUaStackServer::InformationModel::SPtr informationModel_;
+		OpcUaStackCore::OpcUaNodeId variableType_;
 		bool isValid_;
 		bool checkOn_;
 

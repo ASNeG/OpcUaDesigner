@@ -1,5 +1,5 @@
 /*
-   Copyright 2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2017-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -27,8 +27,6 @@
 class QLineEdit;
 class QPushButton;
 
-using namespace OpcUaStackServer;
-
 namespace OpcUaNodeSet
 {
 
@@ -41,15 +39,15 @@ namespace OpcUaNodeSet
 		OpcUaNodeIdWidget(QWidget* parent = 0);
 		virtual ~OpcUaNodeIdWidget(void);
 
-		void rootNodeId(const OpcUaNodeId& rootNodeId);
-		void informationModel(InformationModel::SPtr& informationModel);
+		void rootNodeId(const OpcUaStackCore::OpcUaNodeId& rootNodeId);
+		void informationModel(OpcUaStackServer::InformationModel::SPtr& informationModel);
 
 		void enabled(bool enabled);
 		bool isValid(void);
-		void setSavedValue(OpcUaNodeId& savedValue);
-		void setDisplayValue(OpcUaNodeId& displayValue);
-		void getSavedValue(OpcUaNodeId& savedValue);
-		void getDisplayValue(OpcUaNodeId& displayValue);
+		void setSavedValue(OpcUaStackCore::OpcUaNodeId& savedValue);
+		void setDisplayValue(OpcUaStackCore::OpcUaNodeId& displayValue);
+		void getSavedValue(OpcUaStackCore::OpcUaNodeId& savedValue);
+		void getDisplayValue(OpcUaStackCore::OpcUaNodeId& displayValue);
 		bool acceptValue(void);
 		void resetValue(void);
 
@@ -68,10 +66,10 @@ namespace OpcUaNodeSet
 		bool getNodeIdFromDisplayName(const std::string& displayName, OpcUaNodeId& nodeId);
 		bool getDisplayNameFromNodeId(OpcUaNodeId& nodeId, OpcUaLocalizedText& displayName);
 
-		InformationModel::SPtr informationModel_;
-		OpcUaNodeId savedValue_;
-		OpcUaNodeId displayValue_;
-		OpcUaNodeId rootNodeId_;
+		OpcUaStackServer::InformationModel::SPtr informationModel_;
+		OpcUaStackCore::OpcUaNodeId savedValue_;
+		OpcUaStackCore::OpcUaNodeId displayValue_;
+		OpcUaStackCore::OpcUaNodeId rootNodeId_;
 		bool isValid_;
 		bool checkOn_;
 

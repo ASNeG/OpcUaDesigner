@@ -1,5 +1,5 @@
 /*
-   Copyright 2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2017-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -24,8 +24,6 @@
 
 class QLineEdit;
 
-using namespace OpcUaStackCore;
-
 namespace OpcUaNodeSet
 {
 
@@ -38,8 +36,8 @@ namespace OpcUaNodeSet
 		DisplayNameWidget(QWidget* parent = 0);
 		virtual ~DisplayNameWidget(void);
 
-		void setValue(OpcUaLocalizedText& displayName);
-		void getValue(OpcUaLocalizedText& displayName);
+		void setValue(OpcUaStackCore::OpcUaLocalizedText& displayName);
+		void getValue(OpcUaStackCore::OpcUaLocalizedText& displayName);
 		bool isValid(void);
 		void enabled(bool enabled);
 
@@ -56,7 +54,7 @@ namespace OpcUaNodeSet
 		bool checkValue(void);
 		void styleValue(void);
 
-		OpcUaLocalizedText displayName_;
+		OpcUaStackCore::OpcUaLocalizedText displayName_;
 		bool isValid_;
 		bool checkOn_;
 

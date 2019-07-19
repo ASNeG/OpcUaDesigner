@@ -1,5 +1,5 @@
 /*
-   Copyright 2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2017-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -26,8 +26,6 @@
 class QLineEdit;
 class QComboBox;
 
-using namespace OpcUaStackServer;
-
 namespace OpcUaNodeSet
 {
 
@@ -40,8 +38,8 @@ namespace OpcUaNodeSet
 		NodeIdWidget(QWidget* parent = 0);
 		virtual ~NodeIdWidget(void);
 
-		void setValue(InformationModel::SPtr& informationModel);
-		void setValue(NodeSetNamespace& nodeSetNamespace);
+		void setValue(OpcUaStackServer::InformationModel::SPtr& informationModel);
+		void setValue(OpcUaStackServer::NodeSetNamespace& nodeSetNamespace);
 		void setValue(OpcUaNodeId& nodeId);
 		void getValue(OpcUaNodeId& nodeId);
 		bool isValid(void);
@@ -61,9 +59,9 @@ namespace OpcUaNodeSet
 		bool checkValue(void);
 		void styleValue(void);
 
-		OpcUaNodeId nodeId_;
-		InformationModel::SPtr informationModel_;
-		NodeSetNamespace* nodeSetNamespace_;
+		OpcUaStackCore::OpcUaNodeId nodeId_;
+		OpcUaStackServer::InformationModel::SPtr informationModel_;
+		OpcUaStackServer::NodeSetNamespace* nodeSetNamespace_;
 		bool isValid_;
 		bool checkOn_;
 

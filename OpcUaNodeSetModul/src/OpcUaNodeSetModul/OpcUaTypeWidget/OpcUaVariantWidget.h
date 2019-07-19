@@ -1,5 +1,5 @@
 /*
-   Copyright 2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2017-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -24,8 +24,6 @@
 
 class QLineEdit;
 
-using namespace OpcUaStackCore;
-
 namespace OpcUaNodeSet
 {
 
@@ -40,10 +38,10 @@ namespace OpcUaNodeSet
 
 		void enabled(bool enabled);
 		bool isValid(void);
-		void setSavedValue(OpcUaVariant& savedValue);
-		void setDisplayValue(OpcUaVariant& displayValue);
-		void getSavedValue(OpcUaVariant& savedValue);
-		void getDisplayValue(OpcUaVariant& displayValue);
+		void setSavedValue(OpcUaStackCore::OpcUaVariant& savedValue);
+		void setDisplayValue(OpcUaStackCore::OpcUaVariant& displayValue);
+		void getSavedValue(OpcUaStackCore::OpcUaVariant& savedValue);
+		void getDisplayValue(OpcUaStackCore::OpcUaVariant& displayValue);
 		bool acceptValue(void);
 		void resetValue(void);
 
@@ -59,8 +57,8 @@ namespace OpcUaNodeSet
 		bool checkValue(void);
 		void styleValue(void);
 
-		OpcUaVariant savedValue_;
-		OpcUaVariant displayValue_;
+		OpcUaStackCore::OpcUaVariant savedValue_;
+		OpcUaStackCore::OpcUaVariant displayValue_;
 		bool isValid_;
 		bool checkOn_;
 

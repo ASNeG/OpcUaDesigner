@@ -26,8 +26,6 @@ class QLineEdit;
 class QTableWidget;
 class QTableWidgetItem;
 
-using namespace OpcUaStackServer;
-
 namespace OpcUaNodeSet
 {
 
@@ -41,7 +39,7 @@ namespace OpcUaNodeSet
 		virtual ~ArgumentsWidget(void);
 
 		bool isValid(void);
-		void nodeChange(NodeInfo* nodeInfo, BaseNodeClass::SPtr& baseNode);
+		void nodeChange(NodeInfo* nodeInfo, OpcUaStackServer::BaseNodeClass::SPtr& baseNode);
 		void enabled(bool enabled);
 		void getValue(OpcUaByte& accessLevel);
 

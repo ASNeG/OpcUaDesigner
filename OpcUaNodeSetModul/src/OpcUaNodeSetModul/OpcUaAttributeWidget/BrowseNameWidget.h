@@ -1,5 +1,5 @@
 /*
-   Copyright 2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2017-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -27,8 +27,6 @@
 class QLineEdit;
 class QComboBox;
 
-using namespace OpcUaStackServer;
-
 namespace OpcUaNodeSet
 {
 
@@ -41,14 +39,14 @@ namespace OpcUaNodeSet
 		BrowseNameWidget(QWidget* parent = 0);
 		virtual ~BrowseNameWidget(void);
 
-		void setValue(NodeSetNamespace& nodeSetNamespace);
-		void setValue(OpcUaQualifiedName& browseName);
-		void getValue(OpcUaQualifiedName& browseName);
+		void setValue(OpcUaStackServer::NodeSetNamespace& nodeSetNamespace);
+		void setValue(OpcUaStackCore::OpcUaQualifiedName& browseName);
+		void getValue(OpcUaStackCore::OpcUaQualifiedName& browseName);
 		bool isValid(void);
 		void enabled(bool enabled);
 
 	  signals:
-        void valueChanged(OpcUaQualifiedName& browseName, bool isValid);
+        void valueChanged(OpcUaStackCore::OpcUaQualifiedName& browseName, bool isValid);
         void update(void);
 
       private slots:
@@ -60,8 +58,8 @@ namespace OpcUaNodeSet
 		bool checkValue(void);
 		void styleValue(void);
 
-		NodeSetNamespace* nodeSetNamespace_;
-		OpcUaQualifiedName browseName_;
+		OpcUaStackServer::NodeSetNamespace* nodeSetNamespace_;
+		OpcUaStackCore::OpcUaQualifiedName browseName_;
 		bool isValid_;
 		bool checkOn_;
 

@@ -1,5 +1,5 @@
 /*
-   Copyright 2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2017-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -23,8 +23,6 @@
 
 #include <QWidget>
 
-using namespace OpcUaStackCore;
-
 class QCheckBox;
 
 namespace OpcUaNodeSet
@@ -41,10 +39,10 @@ namespace OpcUaNodeSet
 
 		bool isValid(void);
 		void enabled(bool enabled);
-		void setSavedValue(OpcUaBoolean& savedValue);
-		void setDisplayValue(OpcUaBoolean& displayValue);
-		void getSavedValue(OpcUaBoolean& savedValue);
-		void getDisplayValue(OpcUaBoolean& displayValue);
+		void setSavedValue(OpcUaStackCore::OpcUaBoolean& savedValue);
+		void setDisplayValue(OpcUaStackCore::OpcUaBoolean& displayValue);
+		void getSavedValue(OpcUaStackCore::OpcUaBoolean& savedValue);
+		void getDisplayValue(OpcUaStackCore::OpcUaBoolean& displayValue);
 		bool acceptValue(void);
 		void resetValue(void);
 
@@ -58,8 +56,8 @@ namespace OpcUaNodeSet
 	  bool checkValue(void);
 	  void styleValue(void);
 
-	  OpcUaBoolean savedValue_;
-	  OpcUaBoolean displayValue_;
+	  OpcUaStackCore::OpcUaBoolean savedValue_;
+	  OpcUaStackCore::OpcUaBoolean displayValue_;
 	  QCheckBox* checkboxWidget_;
 	  bool isValid_;
 	  bool checkOn_;
