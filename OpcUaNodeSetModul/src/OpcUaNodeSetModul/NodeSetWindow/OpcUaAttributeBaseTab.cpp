@@ -167,7 +167,7 @@ namespace OpcUaNodeSet
 
 		nodeInfo_ = nodeInfo;
 
-		NodeClassType nodeClassType;
+		NodeClass::Enum nodeClassType;
 		nodeInfo->baseNode_->getNodeClass(nodeClassType);
 		nodeClassWidget_->setValue(nodeClassType);
 		nodeClassWidget_->enabled(false);

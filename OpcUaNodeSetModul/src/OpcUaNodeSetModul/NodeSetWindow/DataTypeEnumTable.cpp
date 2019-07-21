@@ -1,5 +1,5 @@
 /*
-   Copyright 2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2017-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -22,8 +22,11 @@
 #include <QString>
 #include <QLabel>
 
+#include "OpcUaStackCore/StandardDataTypes/EnumDefinitionExpand.h"
 #include "OpcUaStackServer/AddressSpaceModel/DataTypeNodeClass.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/DataTypeEnumTable.h"
+
+using namespace OpcUaStackServer;
 
 namespace OpcUaNodeSet
 {
@@ -64,19 +67,19 @@ namespace OpcUaNodeSet
 		}
 
 		// get definition from data type node class
-		DataTypeNodeClass::SPtr dataTypeNode = boost::static_pointer_cast<DataTypeNodeClass>(nodeInfo->baseNode_);
-		Object::SPtr definitionObject = dataTypeNode->dataTypeDefinition();
-		DataTypeDefinition::SPtr definition = boost::static_pointer_cast<DataTypeDefinition>(definitionObject);
+		auto dataTypeNode = boost::static_pointer_cast<DataTypeNodeClass>(nodeInfo->baseNode_);
+		auto definitionObject = dataTypeNode->dataTypeDefinition();
+		auto definition = boost::static_pointer_cast<EnumDefinitionExpand>(definitionObject);
 
-		DataTypeField::Vec dataTypeFieldVec = definition->dataFields();
-		for (uint32_t idx = 0; idx < dataTypeFieldVec.size(); idx++) {
-			DataTypeField::SPtr dataField = dataTypeFieldVec[idx];
-
+		auto enumFieldArray = definition->enumFields();
+		for (uint32_t idx = 0; idx < enumFieldArray->size(); idx++) {
+			EnumField::SPtr enumField;
+			enumFieldArray->get(idx, enumField);
 			uint32_t row = enumTable_->rowCount();
 			enumTable_->insertRow(row);
 
-			setName(row, dataField);
-			setValue(row, dataField);
+			setName(row, enumField);
+			setValue(row, enumField);
 		}
 
 		enumTable_->resizeColumnsToContents();
@@ -89,20 +92,20 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	DataTypeEnumTable::setName(uint32_t row, DataTypeField::SPtr& dataField)
+	DataTypeEnumTable::setName(uint32_t row, EnumField::SPtr& enumField)
 	{
 		QTableWidgetItem* item;
 		item = new QTableWidgetItem();
-		item->setText(dataField->name().value().c_str());
+		item->setText(enumField->name().value().c_str());
 		enumTable_->setItem(row, 0, item);
 	}
 
 	void
-	DataTypeEnumTable::setValue(uint32_t row, DataTypeField::SPtr& dataField)
+	DataTypeEnumTable::setValue(uint32_t row, EnumField::SPtr& enumField)
 	{
 		QTableWidgetItem* item;
 		item = new QTableWidgetItem();
-		item->setText(QString("%1").arg(dataField->value()));
+		item->setText(QString("%1").arg(enumField->value()));
 		enumTable_->setItem(row, 1, item);
 	}
 

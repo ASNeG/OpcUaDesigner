@@ -167,6 +167,8 @@ namespace OpcUaNodeSet
     void
     DataTypeStructureGeneratorDialog::onDataTypeStructureGeneratorAction(void)
     {
+// FIXME: huk - rework
+#if 0
 		BaseNodeClass::SPtr baseNodeClass = nodeClass_;
 		InformationModelAccess ima(dataModel_->informationModel());
 		OpcUaNodeId nodeId;
@@ -193,6 +195,7 @@ namespace OpcUaNodeSet
 
 			if (found) {
 				DataTypeGenerator dataTypeGenerator;
+				dataTypeGenerator.informationModel(dataModel_->informationModel());
 
 				//
 				// get directory to save generated source code
@@ -283,6 +286,7 @@ namespace OpcUaNodeSet
 				return;
 			}
 		} while (true);
+#endif
 
     }
 

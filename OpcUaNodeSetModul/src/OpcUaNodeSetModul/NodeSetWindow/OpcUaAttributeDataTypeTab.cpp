@@ -14,6 +14,7 @@
 
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
+#include <cstdlib>
 
 #include <QVBoxLayout>
 #include <QLabel>
@@ -22,7 +23,8 @@
 #include <QToolBar>
 #include <QMenu>
 
-#include "OpcUaStackCore/StandardDataTypes/DataTypeDefinition.h"
+#include "OpcUaStackCore/StandardDataTypes/StructureDefinitionExpand.h"
+#include <OpcUaStackCore/StandardDataTypes/EnumDefinitionExpand.h>
 #include "OpcUaStackServer/AddressSpaceModel/DataTypeNodeClass.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/OpcUaAttributeDataTypeTab.h"
 
@@ -124,16 +126,18 @@ namespace OpcUaNodeSet
 		}
 
 		// cast to definition type
-		DataTypeDefinition::SPtr definition = boost::static_pointer_cast<DataTypeDefinition>(object);
-		if (definition->dataSubType() == Enumeration) {
+		if (dynamic_cast<StructureDefinitionExpand*>(object.get()) != nullptr) {
+			structDefinitionWidget_->nodeChange(nodeInfo);
+			structDefinitionWidget_->enabled(enabled);
+			definitionWidget_->setCurrentIndex(2);
+		}
+		else if (dynamic_cast<EnumDefinitionExpand*>(object.get()) != nullptr) {
 			enumDefinitionWidget_->nodeChange(nodeInfo);
 			enumDefinitionWidget_->enabled(enabled);
 			definitionWidget_->setCurrentIndex(1);
 		}
 		else {
-			structDefinitionWidget_->nodeChange(nodeInfo);
-			structDefinitionWidget_->enabled(enabled);
-			definitionWidget_->setCurrentIndex(2);
+			abort();
 		}
 	}
 

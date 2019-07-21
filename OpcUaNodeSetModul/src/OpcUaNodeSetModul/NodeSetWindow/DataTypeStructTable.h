@@ -20,7 +20,7 @@
 
 #include <QWidget>
 
-#include "OpcUaStackCore/StandardDataTypes/DataTypeDefinition.h"
+#include "OpcUaStackCore/StandardDataTypes/StructureField.h"
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
 
 class QTableWidget;
@@ -41,11 +41,11 @@ namespace OpcUaNodeSet
 		void enabled(bool enabled);
 
 	  private:
-		void setName(uint32_t row, OpcUaStackCore::DataTypeField::SPtr& dataField);
-		void setDataType(uint32_t row,  OpcUaStackCore::DataTypeField::SPtr& dataField);
-		void setValueRank(uint32_t row,  OpcUaStackCore::DataTypeField::SPtr& dataField);
-		void setDescription(uint32_t row,  OpcUaStackCore::DataTypeField::SPtr& dataField);
-		void setIsOptional(uint32_t row,  OpcUaStackCore::DataTypeField::SPtr& dataField);
+		void setName(uint32_t row, OpcUaStackCore::StructureField::SPtr& structureField);
+		void setDataType(uint32_t row,  OpcUaStackCore::StructureField::SPtr& structureField);
+		void setValueRank(uint32_t row,  OpcUaStackCore::StructureField::SPtr& structureField);
+		void setDescription(uint32_t row,  OpcUaStackCore::StructureField::SPtr& structureField);
+		void setIsOptional(uint32_t row,  OpcUaStackCore::StructureField::SPtr& structureField);
 
 		QTableWidget* structTable_;
 	};

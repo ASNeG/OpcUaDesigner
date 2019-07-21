@@ -1,5 +1,5 @@
 /*
-   Copyright 2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2017-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -23,7 +23,7 @@
 #include <QLabel>
 
 #include "OpcUaStackCore/BuildInTypes/OpcUaIdentifier.h"
-#include "OpcUaStackCore/DataType/DataTypeDefinition.h"
+#include "OpcUaStackCore/StandardDataTypes/StructureDefinitionExpand.h"
 #include "OpcUaStackServer/AddressSpaceModel/DataTypeNodeClass.h"
 #include "OpcUaNodeSetModul/NodeSetWindow/DataTypeStructTable.h"
 
@@ -68,23 +68,24 @@ namespace OpcUaNodeSet
 		}
 
 		// get definition from data type node class
-		DataTypeNodeClass::SPtr dataTypeNode = boost::static_pointer_cast<DataTypeNodeClass>(nodeInfo->baseNode_);
-		Object::SPtr definitionObject = dataTypeNode->dataTypeDefinition();
-		DataTypeDefinition::SPtr definition = boost::static_pointer_cast<DataTypeDefinition>(definitionObject);
+		auto dataTypeNode = boost::static_pointer_cast<DataTypeNodeClass>(nodeInfo->baseNode_);
+		auto definitionObject = dataTypeNode->dataTypeDefinition();
+		auto definition = boost::static_pointer_cast<StructureDefinitionExpand>(definitionObject);
 
-		DataTypeField::Vec dataTypeFieldVec = definition->dataFields();
-		for (uint32_t idx = 0; idx < dataTypeFieldVec.size(); idx++) {
+		auto structureFieldArray = definition->fields();
+		for (uint32_t idx = 0; idx < structureFieldArray->size(); idx++) {
 			QTableWidgetItem* item;
-			DataTypeField::SPtr dataField = dataTypeFieldVec[idx];
+			StructureField::SPtr structureField;
+			structureFieldArray->get(idx, structureField);
 
 			uint32_t row = structTable_->rowCount();
 			structTable_->insertRow(row);
 
-			setName(row, dataField);
-			setDataType(row, dataField);
-			setValueRank(row, dataField);
-			setDescription(row, dataField);
-			setIsOptional(row, dataField);
+			setName(row, structureField);
+			setDataType(row, structureField);
+			setValueRank(row, structureField);
+			setDescription(row, structureField);
+			setIsOptional(row, structureField);
 		}
 
 		structTable_->resizeColumnsToContents();
@@ -97,19 +98,19 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	DataTypeStructTable::setName(uint32_t row, DataTypeField::SPtr& dataField)
+	DataTypeStructTable::setName(uint32_t row, StructureField::SPtr& structureField)
 	{
 		QTableWidgetItem* item;
 		item = new QTableWidgetItem();
-		item->setText(dataField->name().value().c_str());
+		item->setText(structureField->name().value().c_str());
 		structTable_->setItem(row, 0, item);
 	}
 
 	void
-	DataTypeStructTable::setDataType(uint32_t row, DataTypeField::SPtr& dataField)
+	DataTypeStructTable::setDataType(uint32_t row, StructureField::SPtr& structureField)
 	{
 		std::string dataTypeString = "";
-    	OpcUaNodeId dataType = dataField->dataType();
+    	OpcUaNodeId dataType = structureField->dataType();
 
     	if (dataType.namespaceIndex() == 0 &&  dataType.nodeIdType() == OpcUaBuildInType_OpcUaUInt32) {
     		uint32_t id = dataType.nodeId<uint32_t>();
@@ -126,9 +127,9 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	DataTypeStructTable::setValueRank(uint32_t row, DataTypeField::SPtr& dataField)
+	DataTypeStructTable::setValueRank(uint32_t row, StructureField::SPtr& structureField)
 	{
-		int32_t valueRank = dataField->valueRank();
+		int32_t valueRank = structureField->valueRank();
 
 		QTableWidgetItem* item;
 		item = new QTableWidgetItem();
@@ -137,20 +138,20 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	DataTypeStructTable::setDescription(uint32_t row, DataTypeField::SPtr& dataField)
+	DataTypeStructTable::setDescription(uint32_t row, StructureField::SPtr& structureField)
 	{
 		QTableWidgetItem* item;
 		item = new QTableWidgetItem();
-		item->setText(dataField->description().text().value().c_str());
+		item->setText(structureField->description().text().value().c_str());
 		structTable_->setItem(row, 3, item);
 	}
 
 	void
-	DataTypeStructTable::setIsOptional(uint32_t row, DataTypeField::SPtr& dataField)
+	DataTypeStructTable::setIsOptional(uint32_t row, StructureField::SPtr& structureField)
 	{
 		QTableWidgetItem* item;
 		item = new QTableWidgetItem();
-		item->setText(dataField->isOptional() == true ? QString("Yes") : QString("No"));
+		item->setText(structureField->isOptional() == true ? QString("Yes") : QString("No"));
 		structTable_->setItem(row, 4, item);
 	}
 

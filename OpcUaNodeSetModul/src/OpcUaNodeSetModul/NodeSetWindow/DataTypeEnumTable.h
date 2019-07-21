@@ -20,7 +20,7 @@
 
 #include <QWidget>
 
-#include "OpcUaStackCore/StandardDataTypes/DataTypeDefinition.h"
+#include "OpcUaStackCore/StandardDataTypes/EnumField.h"
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
 
 using namespace OpcUaStackServer;
@@ -43,8 +43,8 @@ namespace OpcUaNodeSet
 		void enabled(bool enabled);
 
 	  private:
-		void setName(uint32_t row, OpcUaStackCore::DataTypeField::SPtr& dataField);
-		void setValue(uint32_t row, OpcUaStackCore::DataTypeField::SPtr& dataField);
+		void setName(uint32_t row, OpcUaStackCore::EnumField::SPtr& enumField);
+		void setValue(uint32_t row, OpcUaStackCore::EnumField::SPtr& enumField);
 
 		QTableWidget* enumTable_;
 	};
