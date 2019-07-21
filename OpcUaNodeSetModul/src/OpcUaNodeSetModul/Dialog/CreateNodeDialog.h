@@ -1,5 +1,5 @@
 /*
-   Copyright 2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2017-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -49,7 +49,7 @@ namespace OpcUaNodeSet
 		virtual ~CreateNodeDialog(void);
 
 		bool isOk(void);
-		void getNodeClass(NodeClassType& nodeClassType);
+		void getNodeClass(NodeClass::Enum nodeClassType);
 		void getNodeId(OpcUaNodeId& nodeId);
 		void getDisplayName(OpcUaLocalizedText& displayName);
 		void getBrowseName(OpcUaQualifiedName& browseName);
@@ -58,7 +58,7 @@ namespace OpcUaNodeSet
 		void getVariableType(OpcUaNodeId& variableType);
 
 	  public slots:
-	    void onValueChangedClass(NodeClassType& nodeClassType, bool isValid);
+	    void onValueChangedClass(NodeClass::Enum nodeClassType, bool isValid);
 	    void onClickedObjectType(void);
 	    void onClickedVariableType(void);
 	    void onClickedReferenceType(void);
@@ -90,7 +90,7 @@ namespace OpcUaNodeSet
         BaseNodeClass::SPtr baseNode_;
 
         QStringList nodeClassList_;
-        NodeClassType nodeClassType_;
+        NodeClass::Enum nodeClassType_;
         OpcUaNodeId nodeId_;
         OpcUaLocalizedText displayName_;
         OpcUaQualifiedName browseName_;

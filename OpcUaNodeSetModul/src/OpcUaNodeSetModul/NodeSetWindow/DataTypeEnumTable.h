@@ -1,5 +1,5 @@
 /*
-   Copyright 2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2017-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -20,7 +20,7 @@
 
 #include <QWidget>
 
-#include "OpcUaStackCore/DataType/DataTypeDefinition.h"
+#include "OpcUaStackCore/StandardDataTypes/DataTypeDefinition.h"
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
 
 using namespace OpcUaStackServer;
@@ -43,8 +43,8 @@ namespace OpcUaNodeSet
 		void enabled(bool enabled);
 
 	  private:
-		void setName(uint32_t row, DataTypeField::SPtr& dataField);
-		void setValue(uint32_t row, DataTypeField::SPtr& dataField);
+		void setName(uint32_t row, OpcUaStackCore::DataTypeField::SPtr& dataField);
+		void setValue(uint32_t row, OpcUaStackCore::DataTypeField::SPtr& dataField);
 
 		QTableWidget* enumTable_;
 	};

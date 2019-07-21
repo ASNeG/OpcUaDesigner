@@ -1,5 +1,5 @@
 /*
-   Copyright 2016-2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2016-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -15,6 +15,7 @@
    Autor: Kai Huebl (kai@huebl-sgh.de)
  */
 
+#include <boost/make_shared.hpp>
 #include "OpcUaStackCore/Base/Log.h"
 #include "OpcUaStackCore/Base/Config.h"
 #include "OpcUaStackCore/Base/ConfigXml.h"
@@ -52,8 +53,7 @@ namespace OpcUaGui
 	bool
 	DataModel::existApplicationData(const std::string& name)
 	{
-		ApplicationData::Map::iterator it;
-		it = applicationDataMap_.find(name);
+		auto it = applicationDataMap_.find(name);
 		if (it == applicationDataMap_.end()) return false;
 		return true;
 	}
@@ -61,8 +61,7 @@ namespace OpcUaGui
 	bool
 	DataModel::getApplicationData(const std::string& name, ApplicationData::SPtr& applicationData)
 	{
-		ApplicationData::Map::iterator it;
-		it = applicationDataMap_.find(name);
+		auto it = applicationDataMap_.find(name);
 		if (it == applicationDataMap_.end()) return false;
 		applicationData = it->second;
 		return true;
@@ -71,8 +70,7 @@ namespace OpcUaGui
 	bool
 	DataModel::setApplicationData(const std::string& name, ApplicationData::SPtr& applicationData)
 	{
-		ApplicationData::Map::iterator it;
-		it = applicationDataMap_.find(name);
+		auto it = applicationDataMap_.find(name);
 		if (it != applicationDataMap_.end()) return false;
 		applicationDataMap_.insert(std::make_pair(name, applicationData));
 		return true;
@@ -81,8 +79,7 @@ namespace OpcUaGui
 	bool
 	DataModel::delApplicationData(const std::string& name)
 	{
-		ApplicationData::Map::iterator it;
-		it = applicationDataMap_.find(name);
+		auto it = applicationDataMap_.find(name);
 		if (it == applicationDataMap_.end()) return false;
 		applicationDataMap_.erase(it);
 		return true;
@@ -91,8 +88,7 @@ namespace OpcUaGui
 	void
 	DataModel::getApplicationNameVec(std::vector<std::string>& applicationNameVec)
 	{
-		ApplicationData::Map::iterator it;
-		for (it = applicationDataMap_.begin(); it != applicationDataMap_.end(); it++) {
+		for (auto it = applicationDataMap_.begin(); it != applicationDataMap_.end(); it++) {
 			applicationNameVec.push_back(it->first);
 		}
 	}
@@ -130,11 +126,10 @@ namespace OpcUaGui
 			return false;
 		}
 
-		std::vector<Config>::iterator it;
 		std::vector<Config> projectConfigVec;
 		config.getChilds("OpcUaDesigner.Application", projectConfigVec);
-		for (it = projectConfigVec.begin(); it != projectConfigVec.end(); it++) {
-			ApplicationData::SPtr applicationData = constructSPtr<ApplicationData>();
+		for (auto it = projectConfigVec.begin(); it != projectConfigVec.end(); it++) {
+			auto applicationData = boost::make_shared<ApplicationData>();
 			if (!applicationData->decode(*it)) {
 				Log(Error, "decode application file error")
 					.parameter("FileName", fileName_);
@@ -155,9 +150,8 @@ namespace OpcUaGui
 		config.addChild("OpcUaDesigner", tmpConfig);
 
 		// encode project configuration
-		ApplicationData::Map::iterator it;
-		for (it = applicationDataMap_.begin(); it != applicationDataMap_.end(); it++) {
-			ApplicationData::SPtr applicationData = it->second;
+		for (auto it = applicationDataMap_.begin(); it != applicationDataMap_.end(); it++) {
+			auto applicationData = it->second;
 			Config applicationDataConfig;
 
 			 if (!applicationData->encode(applicationDataConfig)) {

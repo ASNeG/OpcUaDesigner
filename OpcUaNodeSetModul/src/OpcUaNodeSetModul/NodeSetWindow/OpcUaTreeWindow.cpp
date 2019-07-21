@@ -1,5 +1,5 @@
 /*
-   Copyright 2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2017-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -149,7 +149,7 @@ namespace OpcUaNodeSet
 		InformationModelAccess informationModelAccess(informationModel);
 		OpcUaNodeId typeNodeId;
 		QIcon icon;
-		NodeClassType nodeClass;
+		NodeClass::Enum nodeClass;
 
 		// get information from base node
 		informationModelAccess.getType(baseNode, typeNodeId);
@@ -157,7 +157,7 @@ namespace OpcUaNodeSet
 
 		switch (nodeClass)
 		{
-			case NodeClassType_Object:
+			case NodeClass::EnumObject:
 			{
 				OpcUaNodeId folderNodeId(OpcUaId_FolderType);
 
@@ -169,7 +169,7 @@ namespace OpcUaNodeSet
 				}
 				break;
 			}
-			case NodeClassType_Variable:
+			case NodeClass::EnumVariable:
 			{
 				OpcUaNodeId propertyNodeId(OpcUaId_PropertyType);
 
@@ -180,32 +180,32 @@ namespace OpcUaNodeSet
 				}
 				break;
 			}
-			case NodeClassType_Method:
+			case NodeClass::EnumMethod:
 			{
 				icon = QIcon(":images/Function.png");
 				break;
 			}
-			case NodeClassType_ObjectType:
+			case NodeClass::EnumObjectType:
 			{
 				icon = QIcon(":images/ObjectType.png");
 				break;
 			}
-			case NodeClassType_VariableType:
+			case NodeClass::EnumVariableType:
 			{
 				icon = QIcon(":images/ValueType.png");
 				break;
 			}
-			case NodeClassType_ReferenceType:
+			case NodeClass::EnumReferenceType:
 			{
 				icon = QIcon(":images/ReferenceType.png");
 				break;
 			}
-			case NodeClassType_DataType:
+			case NodeClass::EnumDataType:
 			{
 				icon = QIcon(":images/DataType.png");
 				break;
 			}
-			case NodeClassType_View:
+			case NodeClass::EnumView:
 			{
 				icon = QIcon(":images/Folder.png");
 				break;
@@ -418,9 +418,9 @@ namespace OpcUaNodeSet
 	    if (isEventProperty) return;
 
 	    // methods may not have children
-	    NodeClassType parentNodeClassType;
+	    NodeClass::Enum parentNodeClassType;
 	    nodeInfo->baseNode_->getNodeClass(parentNodeClassType);
-	    if (parentNodeClassType == NodeClassType_Method) return;
+	    if (parentNodeClassType == NodeClass::EnumMethod) return;
 
 		// create modul config value
 		QVariant v;
@@ -456,7 +456,7 @@ namespace OpcUaNodeSet
 	    }
 
 	    // get information from dialog class
-	    NodeClassType nodeClassType;
+	    NodeClass::Enum nodeClassType;
 	    OpcUaNodeId nodeId;
 	    OpcUaLocalizedText displayName;
 	    OpcUaQualifiedName browseName;
@@ -479,7 +479,7 @@ namespace OpcUaNodeSet
 
     	switch (nodeClassType)
     	{
-    		case NodeClassType_Object:
+    		case NodeClass::EnumObject:
     		{
     		  	bool success = imm.addObjectNode(
     			    addNodeRule,
@@ -498,7 +498,7 @@ namespace OpcUaNodeSet
     			}
     			break;
     		}
-    		case NodeClassType_Variable:
+    		case NodeClass::EnumVariable:
     		{
     	    	bool success = imm.addVariableNode(
     	    		addNodeRule,
@@ -517,7 +517,7 @@ namespace OpcUaNodeSet
     	    	}
     			break;
     		}
-    		case NodeClassType_Method:
+    		case NodeClass::EnumMethod:
     		{
     	    	bool success = imm.addMethodNode(
     	    		parentNodeId,
@@ -533,7 +533,7 @@ namespace OpcUaNodeSet
     	    	}
     			break;
     		}
-    		case NodeClassType_ObjectType:
+    		case NodeClass::EnumObjectType:
     		{
     			bool success = imm.addObjectTypeNode(
     				parentNodeId,
@@ -549,7 +549,7 @@ namespace OpcUaNodeSet
         	    }
     			break;
     		}
-    		case NodeClassType_VariableType:
+    		case NodeClass::EnumVariableType:
     		{
     			bool success = imm.addVariableTypeNode(
     				parentNodeId,
@@ -565,7 +565,7 @@ namespace OpcUaNodeSet
         	    }
     			break;
     		}
-    		case NodeClassType_DataType:
+    		case NodeClass::EnumDataType:
     		{
     			bool success = imm.addDataTypeNode(
     				parentNodeId,
@@ -581,7 +581,7 @@ namespace OpcUaNodeSet
         	    }
     			break;
     		}
-    		case NodeClassType_ReferenceType:
+    		case NodeClass::EnumReferenceType:
     		{
     			bool success = imm.addReferenceTypeNode(
     				parentNodeId,
@@ -599,7 +599,7 @@ namespace OpcUaNodeSet
     		}
     		default:
     		{
-    			std::string nodeClassTypeStr = NodeClass::toString(nodeClassType);
+    			std::string nodeClassTypeStr = NodeClass::enum2Str(nodeClassType);
     			QMessageBox msgBox;
     			msgBox.setText(QString("create new node error, because node class %1 error").arg(nodeClassTypeStr.c_str()));
     			msgBox.exec();

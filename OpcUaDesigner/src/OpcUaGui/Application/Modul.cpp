@@ -57,8 +57,7 @@ namespace OpcUaGui
 	ModulConfig::addChild(const std::string& modulName)
 	{
 		// check if the child modul already exist
-		ModulChilds::iterator it;
-		for (it = modulChilds_.begin(); it != modulChilds_.end(); it++) {
+		for (auto it = modulChilds_.begin(); it != modulChilds_.end(); it++) {
 			if (*it == modulName) return;
 		}
 

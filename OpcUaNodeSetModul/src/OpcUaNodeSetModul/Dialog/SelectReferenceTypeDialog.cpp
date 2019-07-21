@@ -1,5 +1,5 @@
 /*
-   Copyright 2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2017-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -125,17 +125,17 @@ namespace OpcUaNodeSet
 		InformationModelAccess informationModelAccess(informationModel);
 		OpcUaNodeId typeNodeId;
 		QIcon icon;
-		NodeClassType nodeClass;
+		NodeClass::Enum nodeClass;
 
 		// get information from base node
 		informationModelAccess.getType(baseNode, typeNodeId);
 		baseNode->getNodeClass(nodeClass);
 
-		if (nodeClass != NodeClassType_ReferenceType) return;
+		if (nodeClass != NodeClass::EnumReferenceType) return;
 
 		switch (nodeClass)
 		{
-			case NodeClassType_Object:
+			case NodeClass::EnumObject:
 			{
 				OpcUaNodeId folderNodeId(OpcUaId_FolderType);
 
@@ -147,7 +147,7 @@ namespace OpcUaNodeSet
 				}
 				break;
 			}
-			case NodeClassType_Variable:
+			case NodeClass::EnumVariable:
 			{
 				OpcUaNodeId propertyNodeId(OpcUaId_PropertyType);
 
@@ -158,32 +158,32 @@ namespace OpcUaNodeSet
 				}
 				break;
 			}
-			case NodeClassType_Method:
+			case NodeClass::EnumMethod:
 			{
 				icon = QIcon(":images/Function.png");
 				break;
 			}
-			case NodeClassType_ObjectType:
+			case NodeClass::EnumObjectType:
 			{
 				icon = QIcon(":images/ObjectType.png");
 				break;
 			}
-			case NodeClassType_VariableType:
+			case NodeClass::EnumVariableType:
 			{
 				icon = QIcon(":images/ValueType.png");
 				break;
 			}
-			case NodeClassType_DataType:
+			case NodeClass::EnumDataType:
 			{
 				icon = QIcon(":images/DataType.png");
 				break;
 			}
-			case NodeClassType_ReferenceType:
+			case NodeClass::EnumReferenceType:
 			{
 				icon = QIcon(":images/ReferenceType.png");
 				break;
 			}
-			case NodeClassType_View:
+			case NodeClass::EnumView:
 			{
 				icon = QIcon(":images/Folder.png");
 				break;

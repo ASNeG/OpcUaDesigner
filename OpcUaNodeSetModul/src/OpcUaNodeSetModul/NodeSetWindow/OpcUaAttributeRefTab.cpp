@@ -96,9 +96,9 @@ namespace OpcUaNodeSet
 	{
 		QTableWidgetItem* item = new QTableWidgetItem("");
 		if (!baseNode->isNullNodeClass()) {
-			NodeClassType nodeClass;
+			NodeClass::Enum nodeClass;
 			baseNode->getNodeClass(nodeClass);
-			item->setText(QString(NodeClass::toString(nodeClass).c_str()));
+			item->setText(QString(NodeClass::enum2Str(nodeClass).c_str()));
 		}
 		opcUaRefTable_->setItem(row, 0, item);
 	}

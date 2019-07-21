@@ -80,40 +80,40 @@ namespace OpcUaNodeSet
 	OpcUaAttributeSpecialTab::nodeChange(NodeInfo* nodeInfo)
 	{
 		BaseNodeClass::SPtr baseNode = nodeInfo->baseNode_;
-		NodeClassType nodeClass;
+		NodeClass::Enum nodeClass;
 		baseNode->getNodeClass(nodeClass);
 
 		switch (nodeClass)
 		{
-			case NodeClassType_Object:
+			case NodeClass::EnumObject:
 				attributeObjectTab_->nodeChange(nodeInfo);
 				specialAttributeWidget_->setCurrentIndex(0);
 				break;
-			case NodeClassType_Variable:
+			case NodeClass::EnumVariable:
 				attributeValueTab_->nodeChange(nodeInfo);
 				specialAttributeWidget_->setCurrentIndex(1);
 				break;
-			case NodeClassType_VariableType:
+			case NodeClass::EnumVariableType:
 				attributeValueTypeTab_->nodeChange(nodeInfo);
 				specialAttributeWidget_->setCurrentIndex(2);
 				break;
-			case NodeClassType_ObjectType:
+			case NodeClass::EnumObjectType:
 				attributeObjectTypeTab_->nodeChange(nodeInfo);
 				specialAttributeWidget_->setCurrentIndex(3);
 				break;
-			case NodeClassType_ReferenceType:
+			case NodeClass::EnumReferenceType:
 				attributeReferenceTypeTab_->nodeChange(nodeInfo);
 				specialAttributeWidget_->setCurrentIndex(4);
 				break;
-			case NodeClassType_DataType:
+			case NodeClass::EnumDataType:
 				attributeDataTypeTab_->nodeChange(nodeInfo);
 				specialAttributeWidget_->setCurrentIndex(5);
 				break;
-			case NodeClassType_Method:
+			case NodeClass::EnumMethod:
 				attributeMethodTab_->nodeChange(nodeInfo);
 				specialAttributeWidget_->setCurrentIndex(6);
 				break;
-			case NodeClassType_View:
+			case NodeClass::EnumView:
 				attributeViewTab_->nodeChange(nodeInfo);
 				specialAttributeWidget_->setCurrentIndex(7);
 				break;

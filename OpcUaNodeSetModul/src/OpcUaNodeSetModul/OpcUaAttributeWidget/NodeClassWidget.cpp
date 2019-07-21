@@ -1,5 +1,5 @@
 /*
-   Copyright 2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2017-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -37,7 +37,7 @@ namespace OpcUaNodeSet
 		nodeClassList_ << "Object" << "Variable" << "Method" << "ObjectType"
 			<< "VariableType" << "ReferenceType" << "DataType" << "View";
 
-		nodeClassType_ = NodeClass::toNodeClassType(nodeClassList_[0].toStdString());
+		nodeClassType_ = NodeClass::str2Enum(nodeClassList_[0].toStdString());
 
 		createLayout();
 
@@ -45,13 +45,13 @@ namespace OpcUaNodeSet
 
 	NodeClassWidget::NodeClassWidget(QStringList& nodeClassList, QWidget* parent)
 	: QWidget(parent)
-	, nodeClassType_(NodeClassType_Object)
+	, nodeClassType_(NodeClass::EnumObject)
 	, nodeClassList_(nodeClassList)
 	, isValid_(false)
 	, checkOn_(true)
 	{
 		if (nodeClassList_.size() > 0) {
-			nodeClassType_ = NodeClass::toNodeClassType(nodeClassList_[0].toStdString());
+			nodeClassType_ = NodeClass::str2Enum(nodeClassList_[0].toStdString());
 		}
 
 		createLayout();
@@ -71,7 +71,7 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	NodeClassWidget::setValue(NodeClassType nodeClassType)
+	NodeClassWidget::setValue(NodeClass::Enum nodeClassType)
 	{
 		nodeClassType_ = nodeClassType;
 
@@ -82,7 +82,7 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	NodeClassWidget::getValue(NodeClassType& nodeClassType)
+	NodeClassWidget::getValue(NodeClass::Enum& nodeClassType)
 	{
 		nodeClassType = nodeClassType_;
 	}
@@ -109,16 +109,18 @@ namespace OpcUaNodeSet
 	void
 	NodeClassWidget::showValue(void)
 	{
-		nodeClassWidget_->setCurrentText(QString(NodeClass::toString(nodeClassType_).c_str()));
+		nodeClassWidget_->setCurrentText(QString(NodeClass::enum2Str(nodeClassType_).c_str()));
 	}
 
 	bool
 	NodeClassWidget::checkValue(void)
 	{
-		if (nodeClassType_ == NodeClassType_Unspecified) return false;
+		if (nodeClassType_ == NodeClass::EnumUnspecified) {
+			return false;
+		}
 
-		NodeClassType nodeClassType;
-		nodeClassType = NodeClass::toNodeClassType(nodeClassWidget_->currentText().toStdString());
+		NodeClass::Enum nodeClassType;
+		nodeClassType = NodeClass::str2Enum(nodeClassWidget_->currentText().toStdString());
 		return nodeClassType_ == nodeClassType;
 	}
 
@@ -172,7 +174,7 @@ namespace OpcUaNodeSet
 	{
 		if (!checkOn_) return;
 
-		nodeClassType_ = NodeClass::toNodeClassType(nodeClassWidget_->currentText().toStdString());
+		nodeClassType_ = NodeClass::str2Enum(nodeClassWidget_->currentText().toStdString());
 
 		isValid_ = checkValue();
 		styleValue();

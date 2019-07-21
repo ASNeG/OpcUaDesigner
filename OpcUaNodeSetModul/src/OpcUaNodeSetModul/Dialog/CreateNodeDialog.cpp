@@ -1,5 +1,5 @@
 /*
-   Copyright 2017 Kai Huebl (kai@huebl-sgh.de)
+   Copyright 2017-2019 Kai Huebl (kai@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -43,7 +43,7 @@ namespace OpcUaNodeSet
 	: QDialog()
 	, dataModel_(dataModel)
 	, baseNode_(baseNode)
-	, nodeClassType_(NodeClassType_Object)
+	, nodeClassType_(NodeClass::EnumObject)
 	, nodeId_()
 	, displayName_()
 	, browseName_()
@@ -67,7 +67,7 @@ namespace OpcUaNodeSet
 	}
 
 	void
-	CreateNodeDialog::getNodeClass(NodeClassType& nodeClassType)
+	CreateNodeDialog::getNodeClass(NodeClass::Enum nodeClassType)
 	{
 		nodeClassWidget_->getValue(nodeClassType);
 	}
@@ -122,20 +122,20 @@ namespace OpcUaNodeSet
 		// get parent information
 		//
 		OpcUaNodeId parentNodeId;
-		NodeClassType parentNodeClassType;
+		NodeClass::Enum parentNodeClassType;
 		baseNode_->getNodeId(parentNodeId);
 		baseNode_->getNodeClass(parentNodeClassType);
 
 		//
 		// check whether object type is allowed
 		//
-		if (parentNodeClassType == NodeClassType_ObjectType) {
+		if (parentNodeClassType == NodeClass::EnumObjectType) {
 
 			InformationModelAccess ima(dataModel_->informationModel());
 			bool eventType = ima.isBaseEventType(parentNodeId);
 
 			nodeClassList_ << "ObjectType";
-			nodeClassType_ = NodeClassType_ObjectType;
+			nodeClassType_ = NodeClass::EnumObjectType;
 			referenceTypeNodeId_ = OpcUaId_HasSubtype;
 
 			if (parentNodeId.namespaceIndex() != 0) {
@@ -152,9 +152,9 @@ namespace OpcUaNodeSet
 		//
 		// check wether variable type is allowed
 		//
-		if (parentNodeClassType == NodeClassType_VariableType) {
+		if (parentNodeClassType == NodeClass::EnumVariableType) {
 			nodeClassList_ << "VariableType";
-			nodeClassType_ = NodeClassType_VariableType;
+			nodeClassType_ = NodeClass::EnumVariableType;
 			referenceTypeNodeId_ = OpcUaId_HasSubtype;
 
 			if (parentNodeId.namespaceIndex() != 0) {
@@ -166,9 +166,9 @@ namespace OpcUaNodeSet
 		//
 		// check wether data type is allowed
 		//
-		if (parentNodeClassType == NodeClassType_DataType) {
+		if (parentNodeClassType == NodeClass::EnumDataType) {
 			nodeClassList_ << "DataType";
-			nodeClassType_ = NodeClassType_DataType;
+			nodeClassType_ = NodeClass::EnumDataType;
 			referenceTypeNodeId_ = OpcUaId_HasSubtype;
 			return;
 		}
@@ -176,14 +176,14 @@ namespace OpcUaNodeSet
 		//
 		// check wether reference type is allowed
 		//
-		if (parentNodeClassType == NodeClassType_ReferenceType) {
+		if (parentNodeClassType == NodeClass::EnumReferenceType) {
 			nodeClassList_ << "ReferenceType";
-			nodeClassType_ = NodeClassType_ReferenceType;
+			nodeClassType_ = NodeClass::EnumReferenceType;
 			referenceTypeNodeId_ = OpcUaId_HasSubtype;
 			return;
 		}
 
-		nodeClassType_ = NodeClassType_Object;
+		nodeClassType_ = NodeClass::EnumObject;
 		nodeClassList_ << "Object" << "Variable" << "Method";
 		referenceTypeNodeId_ = OpcUaId_Organizes;
 	}
@@ -421,12 +421,12 @@ namespace OpcUaNodeSet
 		if (!browseNameWidget_->isValid()) return false;
 		if (!referenceTypeWidget_->isValid()) return false;
 
-		NodeClassType nodeClassType;
+		NodeClass::Enum nodeClassType;
 		nodeClassWidget_->getValue(nodeClassType);
-		if (nodeClassType == NodeClassType_Object) {
+		if (nodeClassType == NodeClass::EnumObject) {
 			if (!objectTypeWidget_->isValid()) return false;
 		}
-		else if (nodeClassType == NodeClassType_Variable){
+		else if (nodeClassType == NodeClass::EnumVariable){
 			if (!variableTypeWidget_->isValid()) return false;
 		}
 		return true;
@@ -451,22 +451,22 @@ namespace OpcUaNodeSet
 	// ------------------------------------------------------------------------
 	// ------------------------------------------------------------------------
 	void
-	CreateNodeDialog::onValueChangedClass(NodeClassType& nodeClassType, bool isValid)
+	CreateNodeDialog::onValueChangedClass(NodeClass::Enum nodeClassType, bool isValid)
 	{
 		if (!isValid) return;
 
 		// get parent node class type
-		NodeClassType parentNodeClassType;
+		NodeClass::Enum parentNodeClassType;
 		baseNode_->getNodeClass(parentNodeClassType);
 
 		switch (nodeClassType)
 		{
-			case NodeClassType_Object:
+			case NodeClass::EnumObject:
 			{
 				createAttributes("Object");
 				stackedWidget_->setCurrentIndex(1);
-				if (parentNodeClassType == NodeClassType_ObjectType ||
-					parentNodeClassType == NodeClassType_VariableType) {
+				if (parentNodeClassType == NodeClass::EnumObjectType ||
+					parentNodeClassType == NodeClass::EnumVariableType) {
 					referenceTypeNodeId_.set(OpcUaId_HasComponent);
 				}
 				else {
@@ -474,11 +474,11 @@ namespace OpcUaNodeSet
 				}
 				break;
 			}
-			case NodeClassType_Variable:
+			case NodeClass::EnumVariable:
 			{
 				createAttributes("Variable");
 				stackedWidget_->setCurrentIndex(2);
-				if (parentNodeClassType == NodeClassType_ObjectType) {
+				if (parentNodeClassType == NodeClass::EnumObjectType) {
 					InformationModelAccess ima(dataModel_->informationModel());
 					bool eventType = ima.isBaseEventType(baseNode_);
 
@@ -489,7 +489,7 @@ namespace OpcUaNodeSet
 						referenceTypeNodeId_.set(OpcUaId_HasComponent);
 					}
 				}
-				else if (parentNodeClassType == NodeClassType_VariableType) {
+				else if (parentNodeClassType == NodeClass::EnumVariableType) {
 					referenceTypeNodeId_.set(OpcUaId_HasComponent);
 				}
 				else {
@@ -497,12 +497,12 @@ namespace OpcUaNodeSet
 				}
 				break;
 			}
-			case NodeClassType_Method:
+			case NodeClass::EnumMethod:
 			{
 				createAttributes("Method");
 				stackedWidget_->setCurrentIndex(0);
-				if (parentNodeClassType == NodeClassType_ObjectType ||
-					parentNodeClassType == NodeClassType_VariableType) {
+				if (parentNodeClassType == NodeClass::EnumObjectType ||
+					parentNodeClassType == NodeClass::EnumVariable) {
 					referenceTypeNodeId_.set(OpcUaId_HasComponent);
 				}
 				else {
@@ -510,28 +510,28 @@ namespace OpcUaNodeSet
 				}
 				break;
 			}
-			case NodeClassType_ObjectType:
+			case NodeClass::EnumObjectType:
 			{
 				createAttributes("ObjectType");
 				stackedWidget_->setCurrentIndex(0);
 				referenceTypeNodeId_.set(OpcUaId_HasSubtype);
 				break;
 			}
-			case NodeClassType_VariableType:
+			case NodeClass::EnumVariableType:
 			{
 				createAttributes("VariableType");
 				stackedWidget_->setCurrentIndex(0);
 				referenceTypeNodeId_.set(OpcUaId_HasSubtype);
 				break;
 			}
-			case NodeClassType_ReferenceType:
+			case NodeClass::EnumReferenceType:
 			{
 				createAttributes("ReferenceType");
 				stackedWidget_->setCurrentIndex(0);
 				referenceTypeNodeId_.set(OpcUaId_HasSubtype);
 				break;
 			}
-			case NodeClassType_DataType:
+			case NodeClass::EnumDataType:
 			{
 				createAttributes("DataType");
 				stackedWidget_->setCurrentIndex(0);

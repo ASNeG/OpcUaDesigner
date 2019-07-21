@@ -18,6 +18,7 @@
 #ifndef __OpcUaNodeSet_NodeClassWidget_h__
 #define __OpcUaNodeSet_NodeClassWidget_h__
 
+#include "OpcUaStackCore/StandardDataTypes/NodeClass.h"
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
 
 #include <QWidget>
@@ -39,8 +40,8 @@ namespace OpcUaNodeSet
 		virtual ~NodeClassWidget(void);
 
 		void setValue(QStringList& nodeClassList);
-		void setValue(NodeClassType nodeClassType);
-		void getValue(NodeClassType& nodeClassType);
+		void setValue(OpcUaStackCore::NodeClass::Enum nodeClassType);
+		void getValue(OpcUaStackCore::NodeClass::Enum& nodeClassType);
 		bool isValid(void);
 		void enabled(bool enabled);
 
@@ -48,7 +49,7 @@ namespace OpcUaNodeSet
 	    void onCurrentIndexChanged(int index);
 
 	  signals:
-		void valueChanged(NodeClassType& nodeClassType, bool isValid);
+		void valueChanged(OpcUaStackCore::NodeClass::Enum& nodeClassType, bool isValid);
 
 	  private:
 		void createLayout(void);
@@ -59,7 +60,7 @@ namespace OpcUaNodeSet
 		QComboBox* nodeClassWidget_;
 
 		QStringList nodeClassList_;
-		OpcUaStackCore::NodeClassType nodeClassType_;
+		OpcUaStackCore::NodeClass::Enum nodeClassType_;
 		bool isValid_;
 		bool checkOn_;
 	};

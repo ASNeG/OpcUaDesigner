@@ -20,7 +20,7 @@
 
 #include <QWidget>
 
-#include "OpcUaStackCore/DataType/DataTypeDefinition.h"
+#include "OpcUaStackCore/StandardDataTypes/DataTypeDefinition.h"
 #include "OpcUaNodeSetModul/Base/NodeInfo.h"
 
 class QTableWidget;

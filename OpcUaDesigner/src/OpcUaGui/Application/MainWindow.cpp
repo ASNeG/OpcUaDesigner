@@ -218,11 +218,8 @@ namespace OpcUaGui
 	void
 	MainWindow::addModulMenus(void)
 	{
-		Modul::ModulNames::iterator it;
-
-		for (it = modul_->moduleNames().begin(); it != modul_->moduleNames().end(); it++) {
-			QAction* action;
-			action = new QAction(tr((*it).c_str()), this);
+		for (auto it = modul_->moduleNames().begin(); it != modul_->moduleNames().end(); it++) {
+			auto action = new QAction(tr((*it).c_str()), this);
 			//connect(exitApplAction_, SIGNAL(triggered()), this, SLOT(exitApplAction()));
 
 			modulMenu_->addAction(action);
