@@ -1,5 +1,5 @@
 /*
- Copyright 2016-2017 Samuel Huebl (samuel@huebl-sgh.de)
+ Copyright 2016-2019 Samuel Huebl (samuel@huebl-sgh.de)
 
  Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
  Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -32,7 +32,7 @@ namespace OpcUaClientModul
 	, writeMask_((OpcUaUInt32) 0)
 	, userMask_((OpcUaUInt32) 0)
 	, nodeIdType_(OpcUaBuildInType_Unknown)
-	, nodeClass_(NodeClassType_Unspecified)
+	, nodeClass_(NodeClass::EnumUnspecified)
 	{
 	}
 
@@ -107,12 +107,12 @@ namespace OpcUaClientModul
 	}
 
 	void
-	BaseNode::nodeClass(const NodeClassType nodeClass)
+	BaseNode::nodeClass(const NodeClass::Enum nodeClass)
 	{
 		nodeClass_ = nodeClass;
 	}
 
-	NodeClassType
+	NodeClass::Enum
 	BaseNode::nodeClass(void)
 	{
 		return nodeClass_;

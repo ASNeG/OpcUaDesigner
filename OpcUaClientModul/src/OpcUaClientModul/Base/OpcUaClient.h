@@ -13,6 +13,7 @@
    im Rahmen der Lizenz finden Sie in der Lizenz.
 
    Autor: Samuel Huebl (samuel@huebl-sgh.de)
+          Kai Huebl (kai@huebl-sgh.de)
  */
 
 #ifndef __OpcUaClientModul_OpcUaClientProvider_h__
@@ -73,8 +74,6 @@ namespace OpcUaClientModul
 
 		OpcUaStatusCode syncCreateMonitorItem(OpcUaNodeId& nodeId, uint32_t clientHandle, uint32_t& monitoredItemId);
 		OpcUaStatusCode syncDeleteMonitorItem(uint32_t monitoredItemId);
-
-		void dataChangeCallback(OpcUaUInt32 clientHandle, OpcUaDataValue& dataValue);
 
 		void sessionName(std::string& sessionName);
 		std::string sessionName(void);

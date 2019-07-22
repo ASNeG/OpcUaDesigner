@@ -1,5 +1,5 @@
 /*
- Copyright 2016-2017 Samuel Huebl (samuel@huebl-sgh.de)
+ Copyright 2016-2019 Samuel Huebl (samuel@huebl-sgh.de)
 
  Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
  Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -20,6 +20,7 @@
 
 #include <QMetaType>
 
+#include "OpcUaStackCore/StandardDataTypes/NodeClass.h"
 #include "OpcUaStackCore/BuildInTypes/BuildInTypes.h"
 #include "OpcUaStackCore/ServiceSet/ReferenceDescription.h"
 
@@ -46,8 +47,8 @@ namespace OpcUaClientModul
 		void displayName(const OpcUaLocalizedText& displayName);
 		OpcUaLocalizedText& displayName(void);
 
-		void nodeClass(const NodeClassType nodeClass);
-		NodeClassType nodeClass(void);
+		void nodeClass(const NodeClass::Enum nodeClass);
+		NodeClass::Enum nodeClass(void);
 
 		void typeDefinition(const OpcUaExpandedNodeId::SPtr typeDefinition);
 		OpcUaExpandedNodeId::SPtr typeDefinition(void) const;
@@ -68,7 +69,7 @@ namespace OpcUaClientModul
 		OpcUaNodeId nodeId_;
 		OpcUaLocalizedText displayName_;
 		OpcUaQualifiedName browseName_;
-		NodeClassType nodeClass_;
+		NodeClass::Enum nodeClass_;
 		OpcUaBuildInType nodeIdType_;
 		OpcUaExpandedNodeId::SPtr typeDefinition_;
 

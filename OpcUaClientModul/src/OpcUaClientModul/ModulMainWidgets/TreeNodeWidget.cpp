@@ -1,5 +1,5 @@
 /*
- Copyright 2016-2017 Samuel Huebl (samuel@huebl-sgh.de)
+ Copyright 2016-2019 Samuel Huebl (samuel@huebl-sgh.de)
 
  Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
  Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -13,6 +13,7 @@
  im Rahmen der Lizenz finden Sie in der Lizenz.
 
  Autor: Samuel Huebl (samuel@huebl-sgh.de)
+        Kai Huebl (kai@huebl-sgh.de)
  */
 
 #include "OpcUaClientModul/ModulMainWidgets/TreeNodeWidget.h"
@@ -69,7 +70,7 @@ namespace OpcUaClientModul
 		QVariant v;
 		v.setValue(baseNode);
 
-		QIcon icon = createQIcon(NodeClassType_Object, baseNode->typeDefinition());
+		QIcon icon = createQIcon(NodeClass::EnumObject, baseNode->typeDefinition());
 
 		QTreeWidgetItem* item = new QTreeWidgetItem();
 		item->setText(0, displayName.text().value().c_str());
@@ -153,7 +154,7 @@ namespace OpcUaClientModul
 	}
 
 	QIcon
-	TreeNodeWidget::createQIcon(NodeClassType nodeClass, OpcUaExpandedNodeId::SPtr typeExpNodeId)
+	TreeNodeWidget::createQIcon(NodeClass::Enum nodeClass, OpcUaExpandedNodeId::SPtr typeExpNodeId)
 	{
 		QIcon icon;
 
@@ -163,7 +164,7 @@ namespace OpcUaClientModul
 
 		switch (nodeClass)
 		{
-			case NodeClassType_Object:
+			case NodeClass::EnumObject:
 			{
 				OpcUaNodeId folderNodeId(OpcUaId_FolderType);
 
@@ -176,7 +177,7 @@ namespace OpcUaClientModul
 				}
 				break;
 			}
-			case NodeClassType_Variable:
+			case NodeClass::EnumVariable:
 			{
 				OpcUaNodeId propertyNodeId(OpcUaId_PropertyType);
 
@@ -189,32 +190,32 @@ namespace OpcUaClientModul
 				}
 				break;
 			}
-			case NodeClassType_Method:
+			case NodeClass::EnumMethod:
 			{
 				icon = QIcon(":images/Function.png");
 				break;
 			}
-			case NodeClassType_ObjectType:
+			case NodeClass::EnumObjectType:
 			{
 				icon = QIcon(":images/ObjectType.png");
 				break;
 			}
-			case NodeClassType_VariableType:
+			case NodeClass::EnumVariableType:
 			{
 				icon = QIcon(":images/ValueType.png");
 				break;
 			}
-			case NodeClassType_ReferenceType:
+			case NodeClass::EnumReferenceType:
 			{
 				icon = QIcon(":images/ReferenceType.png");
 				break;
 			}
-			case NodeClassType_DataType:
+			case NodeClass::EnumDataType:
 			{
 				icon = QIcon(":images/DataType.png");
 				break;
 			}
-			case NodeClassType_View:
+			case NodeClass::EnumView:
 			{
 				icon = QIcon(":images/Folder.png");
 				break;
@@ -262,7 +263,7 @@ namespace OpcUaClientModul
 			menu.addAction(browseAction);
 		}
 
-		if (baseNode->nodeClass() == NodeClassType_Variable)
+		if (baseNode->nodeClass() == NodeClass::EnumVariable)
 		{
 			QAction* monitorAction = new QAction(QIcon(":images/Value.png"), tr("Monitor"), this);
 			connect(monitorAction, SIGNAL(triggered()), menuHandler, SLOT(handleMenuActionMonitor()));

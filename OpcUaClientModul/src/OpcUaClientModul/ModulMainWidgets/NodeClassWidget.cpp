@@ -1,5 +1,5 @@
 /*
- Copyright 2016-2017 Samuel Huebl (samuel@huebl-sgh.de)
+ Copyright 2016-2010 Samuel Huebl (samuel@huebl-sgh.de)
 
  Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
  Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -12,7 +12,8 @@
  Informationen über die jeweiligen Bedingungen für Genehmigungen und Einschränkungen
  im Rahmen der Lizenz finden Sie in der Lizenz.
 
- Autor: Samuel Huebl (samuel@huebl-sgh.de)
+ Autor: Samuel Huebl (samuel@huebl-sgh.de),
+        Kai Huebl (kai@huebl-sgh.de)
  */
 
 #include "OpcUaClientModul/ModulMainWidgets/NodeClassWidget.h"
@@ -42,8 +43,8 @@ namespace OpcUaClientModul
 	void
 	NodeClassWidget::nodeChange(BaseNode* baseNode)
 	{
-		NodeClassType nodeClass = baseNode->nodeClass();
-		nodeClassWidget_->setText(NodeClass::toString(nodeClass).c_str());
+		NodeClass::Enum nodeClass = baseNode->nodeClass();
+		nodeClassWidget_->setText(NodeClass::enum2Str(nodeClass).c_str());
 	}
 
 } /* namespace OpcUaClientModul */

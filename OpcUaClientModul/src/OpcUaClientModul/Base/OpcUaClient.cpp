@@ -1,5 +1,5 @@
 /*
-   Copyright 2016-2017 Samuel Huebl (samuel@huebl-sgh.de)
+   Copyright 2016-2019 Samuel Huebl (samuel@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -13,6 +13,7 @@
    im Rahmen der Lizenz finden Sie in der Lizenz.
 
    Autor: Samuel Huebl (samuel@huebl-sgh.de)
+          Kai Huebl (kai@huebl-sgh.de)
  */
 
 #include "OpcUaClientModul/Base/OpcUaClient.h"
@@ -107,20 +108,16 @@ namespace OpcUaClientModul
 	OpcUaStatusCode
 	OpcUaClient::syncCreateSubscription(void)
 	{
-		// set data change callback
-		client_.setDataChangeCallback(
-			boost::bind(&OpcUaClient::dataChangeCallback, this, _1, _2)
+		// set data change handler
+		client_.setDataChangeHandler(
+			[this](OpcUaUInt32 clientHandle, OpcUaDataValue& dataValue) {
+				std::cout << "dataChangeCallback " << clientHandle << std::endl;
+				emit signalUpdateMonitoredItem(clientHandle, dataValue);
+			}
 		);
 
 		// create subscription
 		return client_.syncCreateSubscription(subscriptionId_);
-	}
-
-	void
-	OpcUaClient::dataChangeCallback(OpcUaUInt32 clientHandle, OpcUaDataValue& dataValue)
-	{
-		std::cout << "dataChangeCallback " << clientHandle << std::endl;
-		emit signalUpdateMonitoredItem(clientHandle, dataValue);
 	}
 
 	OpcUaStatusCode

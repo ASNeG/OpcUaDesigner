@@ -1,5 +1,5 @@
 /*
- Copyright 2016-2017 Samuel Huebl (samuel@huebl-sgh.de)
+ Copyright 2016-2019 Samuel Huebl (samuel@huebl-sgh.de)
 
  Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
  Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -13,6 +13,7 @@
  im Rahmen der Lizenz finden Sie in der Lizenz.
 
  Autor: Samuel Huebl (samuel@huebl-sgh.de)
+        Kai Huebl (kai@huebl-sgh.de)
  */
 
 #ifndef __OpcUaClientModul_TreeNodeWidget_h__
@@ -29,6 +30,7 @@
 #include <QAction>
 #include <QMenu>
 
+#include "OpcUaStackCore/StandardDataTypes/NodeClass.h"
 #include "OpcUaClientModul/Base/BaseNode.h"
 #include "OpcUaClientModul/Base/OpcUaClient.h"
 #include "OpcUaClientModul/ModulMainWidgets/TreeMenuHandler.h"
@@ -62,7 +64,7 @@ namespace OpcUaClientModul
 	  	void signalCreateNewMonitorItem(BaseNode* baseNode);
 
 	  private:
-		QIcon createQIcon(NodeClassType nodeClass, OpcUaExpandedNodeId::SPtr typeNodeId);
+		QIcon createQIcon(NodeClass::Enum nodeClass, OpcUaExpandedNodeId::SPtr typeNodeId);
 
 		void browseNextElements(QTreeWidgetItem* parentItem);
 		void addNode(QTreeWidgetItem* parentItem, ReferenceDescriptionArray::SPtr& references);
