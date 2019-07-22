@@ -1,5 +1,5 @@
 /*
- Copyright 2016-2017 Samuel Huebl (samuel@huebl-sgh.de)
+ Copyright 2016-2019 Samuel Huebl (samuel@huebl-sgh.de)
 
  Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
  Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -13,9 +13,12 @@
  im Rahmen der Lizenz finden Sie in der Lizenz.
 
  Autor: Samuel Huebl (samuel@huebl-sgh.de)
+        Kai Huebl (kai@huebl-sgh.de)
  */
 
 #include "OpcUaClientModul/ModulMainWidgets/NodeIdWidget.h"
+
+using namespace OpcUaStackCore;
 
 namespace OpcUaClientModul
 {

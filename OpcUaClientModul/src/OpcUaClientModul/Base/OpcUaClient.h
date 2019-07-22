@@ -1,5 +1,5 @@
 /*
-   Copyright 2016-2017 Samuel Huebl (samuel@huebl-sgh.de)
+   Copyright 2016-2019 Samuel Huebl (samuel@huebl-sgh.de)
 
    Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser
    Datei nur in Übereinstimmung mit der Lizenz erlaubt.
@@ -22,8 +22,6 @@
 #include <QWidget>
 
 #include "OpcUaStackClient/ValueBasedInterface/VBIClient.h"
-
-using namespace OpcUaStackClient;
 
 namespace OpcUaClientModul
 {
@@ -66,14 +64,30 @@ namespace OpcUaClientModul
 		bool connectToServer(void);
 		bool disconnectFromServer(void);
 
-		OpcUaStatusCode syncBrowse(OpcUaNodeId::SPtr& nodeId, ReferenceDescriptionArray::SPtr& references);
-		OpcUaStatusCode syncRead(OpcUaNodeId& nodeId, OpcUaDataValue& dataValue, AttributeId attributeId);
-		OpcUaStatusCode syncWrite(OpcUaNodeId& nodeId, OpcUaDataValue&  dataValue);
+		OpcUaStackCore::OpcUaStatusCode syncBrowse(
+			OpcUaStackCore::OpcUaNodeId::SPtr& nodeId,
+			OpcUaStackCore::ReferenceDescriptionArray::SPtr& references
+		);
+		OpcUaStackCore::OpcUaStatusCode syncRead(
+			OpcUaStackCore::OpcUaNodeId& nodeId,
+			OpcUaStackCore::OpcUaDataValue& dataValue,
+			AttributeId attributeId
+		);
+		OpcUaStackCore::OpcUaStatusCode syncWrite(
+			OpcUaStackCore::OpcUaNodeId& nodeId,
+			OpcUaStackCore::OpcUaDataValue&  dataValue
+		);
 
-		OpcUaStatusCode syncCreateSubscription(void);
+		OpcUaStackCore::OpcUaStatusCode syncCreateSubscription(void);
 
-		OpcUaStatusCode syncCreateMonitorItem(OpcUaNodeId& nodeId, uint32_t clientHandle, uint32_t& monitoredItemId);
-		OpcUaStatusCode syncDeleteMonitorItem(uint32_t monitoredItemId);
+		OpcUaStackCore::OpcUaStatusCode syncCreateMonitorItem(
+			OpcUaStackCore::OpcUaNodeId& nodeId,
+			uint32_t clientHandle,
+			uint32_t& monitoredItemId
+		);
+		OpcUaStackCore::OpcUaStatusCode syncDeleteMonitorItem(
+			uint32_t monitoredItemId
+		);
 
 		void sessionName(std::string& sessionName);
 		std::string sessionName(void);
@@ -81,7 +95,10 @@ namespace OpcUaClientModul
 		std::string endpointUrl(void);
 
 	  signals:
-		void signalUpdateMonitoredItem(OpcUaUInt32 clientHandle, OpcUaDataValue& dataValue);
+		void signalUpdateMonitoredItem(
+			OpcUaStackCore::OpcUaUInt32 clientHandle,
+			OpcUaStackCore::OpcUaDataValue& dataValue
+		);
 
 	  private:
 		std::string sessionName_;

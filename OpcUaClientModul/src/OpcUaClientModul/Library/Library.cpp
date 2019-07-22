@@ -17,9 +17,7 @@
 
 #include "OpcUaClientModul/Library/Library.h"
 
-using namespace OpcUaClientModul;
-
-namespace OpcUaNodeSet
+namespace OpcUaClientModul
 {
 
 	Library::Library(void)
@@ -166,7 +164,7 @@ namespace OpcUaNodeSet
 }
 
 extern "C" MYSHAREDLIB_EXPORT void  init(OpcUaGui::ModulLibraryInterface** modulLibraryInterface) {
-    *modulLibraryInterface = new OpcUaNodeSet::Library();
+    *modulLibraryInterface = new OpcUaClientModul::Library();
 }
 
 

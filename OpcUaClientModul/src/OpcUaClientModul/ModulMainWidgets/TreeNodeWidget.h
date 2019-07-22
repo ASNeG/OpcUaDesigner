@@ -35,8 +35,6 @@
 #include "OpcUaClientModul/Base/OpcUaClient.h"
 #include "OpcUaClientModul/ModulMainWidgets/TreeMenuHandler.h"
 
-using namespace OpcUaStackClient;
-
 namespace OpcUaClientModul
 {
 	class TreeNodeWidget

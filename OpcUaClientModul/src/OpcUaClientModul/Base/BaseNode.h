@@ -13,6 +13,7 @@
  im Rahmen der Lizenz finden Sie in der Lizenz.
 
  Autor: Samuel Huebl (samuel@huebl-sgh.de)
+        Kai Huebl (kai@huebl-sgh.de)
  */
 
 #ifndef __OpcUaClientModul_BaseNode_h__
@@ -24,8 +25,6 @@
 #include "OpcUaStackCore/BuildInTypes/BuildInTypes.h"
 #include "OpcUaStackCore/ServiceSet/ReferenceDescription.h"
 
-using namespace OpcUaStackCore;
-
 namespace OpcUaClientModul
 {
 
@@ -33,52 +32,52 @@ namespace OpcUaClientModul
 	{
 	  public:
 		BaseNode();
-		BaseNode(ReferenceDescription::SPtr refDescription);
+		BaseNode(OpcUaStackCore::ReferenceDescription::SPtr refDescription);
 		virtual ~BaseNode();
 
-		void expandedNodeId(const OpcUaExpandedNodeId::SPtr nodeId);
-		void nodeId(OpcUaNodeId& nodeId);
-		OpcUaNodeId& nodeId(void);
-		OpcUaNodeId::SPtr nodeIdSPtr(void);
+		void expandedNodeId(const OpcUaStackCore::OpcUaExpandedNodeId::SPtr nodeId);
+		void nodeId(OpcUaStackCore::OpcUaNodeId& nodeId);
+		OpcUaStackCore::OpcUaNodeId& nodeId(void);
+		OpcUaStackCore::OpcUaNodeId::SPtr nodeIdSPtr(void);
 
-		void browseName(const OpcUaQualifiedName& browseName);
-		OpcUaQualifiedName& browseName(void);
+		void browseName(const OpcUaStackCore::OpcUaQualifiedName& browseName);
+		OpcUaStackCore::OpcUaQualifiedName& browseName(void);
 
-		void displayName(const OpcUaLocalizedText& displayName);
-		OpcUaLocalizedText& displayName(void);
+		void displayName(const OpcUaStackCore::OpcUaLocalizedText& displayName);
+		OpcUaStackCore::OpcUaLocalizedText& displayName(void);
 
-		void nodeClass(const NodeClass::Enum nodeClass);
-		NodeClass::Enum nodeClass(void);
+		void nodeClass(const OpcUaStackCore::NodeClass::Enum nodeClass);
+		OpcUaStackCore::NodeClass::Enum nodeClass(void);
 
-		void typeDefinition(const OpcUaExpandedNodeId::SPtr typeDefinition);
-		OpcUaExpandedNodeId::SPtr typeDefinition(void) const;
+		void typeDefinition(const OpcUaStackCore::OpcUaExpandedNodeId::SPtr typeDefinition);
+		OpcUaStackCore::OpcUaExpandedNodeId::SPtr typeDefinition(void) const;
 
-		void description(OpcUaLocalizedText::SPtr description);
-		OpcUaLocalizedText::SPtr description(void);
+		void description(OpcUaStackCore::OpcUaLocalizedText::SPtr description);
+		OpcUaStackCore::OpcUaLocalizedText::SPtr description(void);
 
-		void writeMask(OpcUaUInt32 writeMask);
-		OpcUaUInt32 writeMask(void);
+		void writeMask(OpcUaStackCore::OpcUaUInt32 writeMask);
+		OpcUaStackCore::OpcUaUInt32 writeMask(void);
 
-		void userWriteMask(OpcUaUInt32 userMask);
-		OpcUaUInt32 userWriteMask(void);
+		void userWriteMask(OpcUaStackCore::OpcUaUInt32 userMask);
+		OpcUaStackCore::OpcUaUInt32 userWriteMask(void);
 
-		void dataValue(OpcUaDataValue::SPtr opcUaDataValue);
-		OpcUaDataValue::SPtr dataValue(void);
+		void dataValue(OpcUaStackCore::OpcUaDataValue::SPtr opcUaDataValue);
+		OpcUaStackCore::OpcUaDataValue::SPtr dataValue(void);
 
 	  private:
-		OpcUaNodeId nodeId_;
-		OpcUaLocalizedText displayName_;
-		OpcUaQualifiedName browseName_;
-		NodeClass::Enum nodeClass_;
-		OpcUaBuildInType nodeIdType_;
-		OpcUaExpandedNodeId::SPtr typeDefinition_;
+		OpcUaStackCore::OpcUaNodeId nodeId_;
+		OpcUaStackCore::OpcUaLocalizedText displayName_;
+		OpcUaStackCore::OpcUaQualifiedName browseName_;
+		OpcUaStackCore::NodeClass::Enum nodeClass_;
+		OpcUaStackCore::OpcUaBuildInType nodeIdType_;
+		OpcUaStackCore::OpcUaExpandedNodeId::SPtr typeDefinition_;
 
-		OpcUaLocalizedText::SPtr description_;
+		OpcUaStackCore::OpcUaLocalizedText::SPtr description_;
 
-		OpcUaUInt32 writeMask_;
-		OpcUaUInt32 userMask_;
+		OpcUaStackCore::OpcUaUInt32 writeMask_;
+		OpcUaStackCore::OpcUaUInt32 userMask_;
 
-		OpcUaDataValue::SPtr opcUaDataValue_;
+		OpcUaStackCore::OpcUaDataValue::SPtr opcUaDataValue_;
 	};
 
 } /* namespace OpcUaClientModul */
