@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['src/ConfigTool.py'],
+    ['src/OpcUaDesigner.py'],
     pathex=[],
     binaries=[],
     datas=[
@@ -24,7 +24,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='ConfigTool',
+    name='OpcUaDesigner',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

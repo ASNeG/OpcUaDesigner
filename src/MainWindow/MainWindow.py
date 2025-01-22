@@ -1,11 +1,11 @@
 import wx
 
 from MainWindow.MainMenu import MainMenu
-from DataModel.DataModel import DataModel
-from ProjectWindow.ProjectWindow import ProjectWindow
-from Util.Object import Object
-from Util.SignalModel import SignalModel
-from Util.ConfigXml import ConfigXml
+#from DataModel.DataModel import DataModel
+#from ProjectWindow.ProjectWindow import ProjectWindow
+#from Util.Object import Object
+#from Util.SignalModel import SignalModel
+#from Util.ConfigXml import ConfigXml
 
 #
 # Main window of the application
