@@ -1,5 +1,3 @@
-Debug
-Release
 ipch
 *.sdf
 *.suo
@@ -8,12 +6,6 @@ ipch
 *.pcap
 *.swn
 *.swo
-core
 *.log
-build
-build_local
-build_deb
-build_src
-build_tst
-build_package
-build_local
+.project
+.pydevproject
